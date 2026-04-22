@@ -1,0 +1,7 @@
+interfacing:
+    billing_meter:
+        base_url: 'http://localhost'
+        path: '/api/billing-meter'
+    order_summary:
+        base_url: 'http://localhost'
+        path: '/api/order-summary'

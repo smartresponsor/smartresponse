@@ -1,0 +1,78 @@
+= Host Docker Infrastructure
+
+This host-level Docker wrapper is intentionally scoped to the `App` runtime environment.
+It provides infrastructure needed by the host application and its connected Symfony bundles.
+
+== Scope
+
+This Docker layer is for host runtime services only:
+
+* PostgreSQL
+* Mailpit
+* Mercure
+
+Application code continues to run from the local host workspace.
+The containers expose infrastructure on localhost so the Symfony host app can use the normal `.env` runtime values.
+
+== Location
+
+Docker assets live under `deploy/docker/` to keep infrastructure concerns out of the project root.
+
+== Start
+
+[source,bash]
+----
+docker compose -f deploy/docker/compose.yaml up -d
+----
+
+== Stop
+
+[source,bash]
+----
+docker compose -f deploy/docker/compose.yaml down
+----
+
+== Stop and remove volumes
+
+[source,bash]
+----
+docker compose -f deploy/docker/compose.yaml down -v
+----
+
+== Default exposed ports
+
+* PostgreSQL: `127.0.0.1:5432`
+* Mailpit SMTP: `127.0.0.1:1025`
+* Mailpit UI: `127.0.0.1:8025`
+* Mercure HTTP: `127.0.0.1:3000`
+
+== Env model
+
+Container values are resolved from `deploy/docker/.env`.
+A ready-to-edit template is included as `deploy/docker/.env.example`.
+
+Copy it locally if needed:
+
+[source,bash]
+----
+cp deploy/docker/.env.example deploy/docker/.env
+----
+
+== Symfony host alignment
+
+The current host `.env` uses:
+
+[source,env]
+----
+DATABASE_URL="postgresql://app:!ChangeMe!@127.0.0.1:5432/app?serverVersion=16&charset=utf8"
+----
+
+So the default Docker PostgreSQL values intentionally match that runtime expectation.
+
+== Recommended next checks
+
+[source,bash]
+----
+php bin/console doctrine:query:sql "SELECT 1"
+php bin/console list index
+----

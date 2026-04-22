@@ -1,0 +1,257 @@
+nelmio_api_doc:
+    documentation:
+        info:
+            title: Universal Host Surface API
+            description: Host-owned universal CRUD, relation, and object meta API.
+            version: 1.0.0
+        components:
+            schemas:
+                Problem:
+                    type: object
+                    properties:
+                        type: { type: string, example: about:blank }
+                        title: { type: string, example: Not Found }
+                        status: { type: integer, example: 404 }
+                        detail: { type: string, example: Resource not found. }
+                        errors:
+                            type: array
+                            items:
+                                type: object
+                                properties:
+                                    field: { type: string, nullable: true }
+                                    message: { type: string }
+                        resourcePath: { type: string, nullable: true, example: product/price }
+                CrudCollectionResponse:
+                    type: object
+                    properties:
+                        resource: { type: string, example: product }
+                        count: { type: integer, example: 1 }
+                        items:
+                            type: array
+                            items: { type: object, additionalProperties: true }
+                CrudItemResponse:
+                    type: object
+                    properties:
+                        resource: { type: string, example: product }
+                        item: { type: object, additionalProperties: true }
+                RelationListResponse:
+                    type: object
+                    properties:
+                        resourcePath: { type: string }
+                        subjectSlug: { type: string }
+                        relationKind: { type: string, example: attachment }
+                        count: { type: integer }
+                        items:
+                            type: array
+                            items: { type: object, additionalProperties: true }
+                VisibilityResponse:
+                    type: object
+                    properties:
+                        resourcePath: { type: string }
+                        slug: { type: string }
+                        transition: { type: string, example: publish }
+                        visibility:
+                            type: object
+                            additionalProperties: true
+            responses:
+                ProblemBadRequest:
+                    description: Bad request.
+                    content:
+                        application/problem+json:
+                            schema: { $ref: '#/components/schemas/Problem' }
+                ProblemForbidden:
+                    description: Forbidden.
+                    content:
+                        application/problem+json:
+                            schema: { $ref: '#/components/schemas/Problem' }
+                ProblemNotFound:
+                    description: Not found.
+                    content:
+                        application/problem+json:
+                            schema: { $ref: '#/components/schemas/Problem' }
+                ProblemValidation:
+                    description: Validation failed.
+                    content:
+                        application/problem+json:
+                            schema: { $ref: '#/components/schemas/Problem' }
+        paths:
+            /api/{resourcePath}/:
+                get:
+                    tags: ['Universal CRUD API']
+                    operationId: universalCrudCollectionList
+                    summary: List objects for a resource path.
+                    parameters:
+                        - { in: path, name: resourcePath, required: true, schema: { type: string } }
+                    responses:
+                        '200':
+                            description: Resource collection returned.
+                            content:
+                                application/json:
+                                    schema: { $ref: '#/components/schemas/CrudCollectionResponse' }
+                post:
+                    tags: ['Universal CRUD API']
+                    operationId: universalCrudCreate
+                    summary: Create one object for a resource path.
+                    parameters:
+                        - { in: path, name: resourcePath, required: true, schema: { type: string } }
+                    requestBody:
+                        required: true
+                        content:
+                            application/json:
+                                schema: { type: object, additionalProperties: true }
+                    responses:
+                        '201':
+                            description: Resource created.
+                            content:
+                                application/json:
+                                    schema: { $ref: '#/components/schemas/CrudItemResponse' }
+                        '422': { $ref: '#/components/responses/ProblemValidation' }
+            /api/{resourcePath}/{slug}:
+                get:
+                    tags: ['Universal CRUD API']
+                    operationId: universalCrudItemRead
+                    summary: Read one object by external slug.
+                    parameters:
+                        - { in: path, name: resourcePath, required: true, schema: { type: string } }
+                        - { in: path, name: slug, required: true, schema: { type: string } }
+                    responses:
+                        '200':
+                            description: Resource item returned.
+                            content:
+                                application/json:
+                                    schema: { $ref: '#/components/schemas/CrudItemResponse' }
+                        '404': { $ref: '#/components/responses/ProblemNotFound' }
+                put:
+                    tags: ['Universal CRUD API']
+                    operationId: universalCrudItemReplace
+                    summary: Replace one object by external slug.
+                    parameters:
+                        - { in: path, name: resourcePath, required: true, schema: { type: string } }
+                        - { in: path, name: slug, required: true, schema: { type: string } }
+                    requestBody:
+                        required: true
+                        content:
+                            application/json:
+                                schema: { type: object, additionalProperties: true }
+                    responses:
+                        '200':
+                            description: Resource item replaced.
+                            content:
+                                application/json:
+                                    schema: { $ref: '#/components/schemas/CrudItemResponse' }
+                        '404': { $ref: '#/components/responses/ProblemNotFound' }
+                        '422': { $ref: '#/components/responses/ProblemValidation' }
+                patch:
+                    tags: ['Universal CRUD API']
+                    operationId: universalCrudItemUpdate
+                    summary: Update one object by external slug.
+                    parameters:
+                        - { in: path, name: resourcePath, required: true, schema: { type: string } }
+                        - { in: path, name: slug, required: true, schema: { type: string } }
+                    requestBody:
+                        required: true
+                        content:
+                            application/json:
+                                schema: { type: object, additionalProperties: true }
+                    responses:
+                        '200':
+                            description: Resource item updated.
+                            content:
+                                application/json:
+                                    schema: { $ref: '#/components/schemas/CrudItemResponse' }
+                        '404': { $ref: '#/components/responses/ProblemNotFound' }
+                        '422': { $ref: '#/components/responses/ProblemValidation' }
+                delete:
+                    tags: ['Universal CRUD API']
+                    operationId: universalCrudItemDelete
+                    summary: Delete one object by external slug.
+                    parameters:
+                        - { in: path, name: resourcePath, required: true, schema: { type: string } }
+                        - { in: path, name: slug, required: true, schema: { type: string } }
+                    responses:
+                        '200':
+                            description: Resource item deleted.
+                            content:
+                                application/json:
+                                    schema:
+                                        type: object
+                                        properties:
+                                            resource: { type: string }
+                                            deleted: { type: boolean }
+                        '404': { $ref: '#/components/responses/ProblemNotFound' }
+            /api/{resourcePath}/{relationKind}/{slug}/:
+                get:
+                    tags: ['Universal Relation API']
+                    operationId: universalRelationList
+                    summary: List related objects for one subject.
+                    parameters:
+                        - { in: path, name: resourcePath, required: true, schema: { type: string } }
+                        - { in: path, name: relationKind, required: true, schema: { type: string, enum: [attachment, media, tag] } }
+                        - { in: path, name: slug, required: true, schema: { type: string } }
+                    responses:
+                        '200':
+                            description: Related objects returned.
+                            content:
+                                application/json:
+                                    schema: { $ref: '#/components/schemas/RelationListResponse' }
+                        '404': { $ref: '#/components/responses/ProblemNotFound' }
+                
+            /api/{resourcePath}/{relationKind}/attach/{slug}:
+                post:
+                    tags: ['Universal Relation API']
+                    operationId: universalRelationAttach
+                    summary: Attach a related object using relatedSlug from payload or query context.
+                    parameters:
+                        - { in: path, name: resourcePath, required: true, schema: { type: string } }
+                        - { in: path, name: relationKind, required: true, schema: { type: string, enum: [attachment, media, tag] } }
+                        - { in: path, name: slug, required: true, schema: { type: string } }
+                    responses:
+                        '201': { description: Related object attached. }
+                        '400': { $ref: '#/components/responses/ProblemBadRequest' }
+                        '404': { $ref: '#/components/responses/ProblemNotFound' }
+            /api/{resourcePath}/{relationKind}/detach/{relatedSlug}/{slug}:
+                delete:
+                    tags: ['Universal Relation API']
+                    operationId: universalRelationDetach
+                    summary: Detach a related object by related slug.
+                    parameters:
+                        - { in: path, name: resourcePath, required: true, schema: { type: string } }
+                        - { in: path, name: relationKind, required: true, schema: { type: string, enum: [attachment, media, tag] } }
+                        - { in: path, name: relatedSlug, required: true, schema: { type: string } }
+                        - { in: path, name: slug, required: true, schema: { type: string } }
+                    responses:
+                        '200': { description: Related object detached. }
+                        '400': { $ref: '#/components/responses/ProblemBadRequest' }
+                        '404': { $ref: '#/components/responses/ProblemNotFound' }
+            /api/{resourcePath}/audit/{slug}:
+                get:
+                    tags: ['Universal Object Meta API']
+                    operationId: universalObjectAuditRead
+                    summary: Read audit metadata for one object.
+                    parameters:
+                        - { in: path, name: resourcePath, required: true, schema: { type: string } }
+                        - { in: path, name: slug, required: true, schema: { type: string } }
+                    responses:
+                        '200': { description: Audit metadata returned. }
+                        '404': { $ref: '#/components/responses/ProblemNotFound' }
+            /api/{resourcePath}/visibility/{transition}/{slug}:
+                post:
+                    tags: ['Universal Object Meta API']
+                    operationId: universalObjectVisibilityTransition
+                    summary: Apply one configured visibility transition.
+                    parameters:
+                        - { in: path, name: resourcePath, required: true, schema: { type: string } }
+                        - { in: path, name: transition, required: true, schema: { type: string, enum: [publish, hide, archive, draft, restore] } }
+                        - { in: path, name: slug, required: true, schema: { type: string } }
+                    responses:
+                        '200':
+                            description: Visibility state returned.
+                            content:
+                                application/json:
+                                    schema: { $ref: '#/components/schemas/VisibilityResponse' }
+                        '400': { $ref: '#/components/responses/ProblemBadRequest' }
+                        '403': { $ref: '#/components/responses/ProblemForbidden' }
+                        '404': { $ref: '#/components/responses/ProblemNotFound' }
+    areas:
+        path_patterns:
+            - ^/api(?!/doc$)

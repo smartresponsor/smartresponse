@@ -1,0 +1,235 @@
+{
+  "type": "project",
+  "license": "proprietary",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "repositories": [
+    {
+      "type": "path",
+      "url": "../Bridging",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Tagging",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Billing",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Vendoring",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Analysing",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Indexing",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Attaching",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Messaging",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Cataloging",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Accessing",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Rolling",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Taxating",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Shipping",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Addressing",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Attaching",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Locating",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Ordering",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Paying",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Cruding",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Applicating",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Interfacing",
+      "options": {
+        "symlink": true
+      }
+    }
+  ],
+  "require": {
+    "php": "^8.4",
+    "symfony/asset": "^8.0",
+    "symfony/console": "^8.0",
+    "symfony/dotenv": "^8.0",
+    "symfony/flex": "^2.4",
+    "symfony/framework-bundle": "^8.0",
+    "symfony/runtime": "^8.0",
+    "symfony/twig-bundle": "^8.0",
+    "symfony/validator": "^8.0",
+    "symfony/yaml": "^8.0",
+    "tagging/tag": "*@dev",
+    "taxating/taxation": "*@dev",
+    "billing/billing": "*@dev",
+    "vendoring/vendor": "*@dev",
+    "cruding/crud": "*@dev",
+    "analysing/analytics": "*@dev",
+    "interfacing/interface": "*@dev",
+    "indexing/index": "*@dev",
+    "applicating/application": "*@dev",
+    "attaching/attachment": "*@dev",
+    "messaging/message": "*@dev",
+    "cataloging/catalog": "*@dev",
+    "rolling/role": "*@dev",
+    "accessing/access": "*@dev",
+    "bridging/bridge": "*@dev",
+    "doctrine/dbal": "^4.3",
+    "doctrine/doctrine-bundle": "^3.2",
+    "doctrine/doctrine-migrations-bundle": "^4.0",
+    "doctrine/orm": "^3.3"
+  },
+  "require-dev": {
+    "doctrine/doctrine-fixtures-bundle": "*",
+    "phpunit/phpunit": "^11.5",
+    "symfony/browser-kit": "^8.0",
+    "symfony/css-selector": "^8.0",
+    "symfony/maker-bundle": "^1.60",
+    "symfony/phpunit-bridge": "^8.0",
+    "symfony/var-dumper": "^8.0"
+  },
+  "config": {
+    "allow-plugins": {
+      "php-http/discovery": true,
+      "symfony/flex": true,
+      "symfony/runtime": true
+    },
+    "sort-packages": true
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "App\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "auto-scripts": {
+      "cache:clear": "symfony-cmd",
+      "assets:install %PUBLIC_DIR%": "symfony-cmd",
+      "importmap:install": "symfony-cmd"
+    },
+    "post-install-cmd": [
+      "@auto-scripts"
+    ],
+    "post-update-cmd": [
+      "@auto-scripts"
+    ]
+  },
+  "conflict": {
+    "symfony/symfony": "*"
+  },
+  "extra": {
+    "symfony": {
+      "allow-contrib": false,
+      "require": "^8.0"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+parameters:
+    app.capability_map: []
+    app.object_relation_map: []
+    app.object_relation_operations: ['attachment', 'media', 'tag']
+    app.object_relations_requirement: 'attachment|media|tag'
+    app.object_meta.visibility_transitions: ['publish', 'hide', 'archive', 'draft', 'restore']
+    app.object_meta.visibility_transitions_requirement: 'publish|hide|archive|draft|restore'

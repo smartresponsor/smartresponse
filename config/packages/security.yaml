@@ -1,0 +1,71 @@
+security:
+    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+
+    # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
+    providers:
+        users_in_memory: { memory: null }
+
+    firewalls:
+        dev:
+            pattern: ^/(_profiler|_wdt|assets|build)/
+            security: false
+
+        main:
+            lazy: true
+            provider: users_in_memory
+
+    # Note: Only the first matching rule is applied
+    access_control:
+        # Public/system
+        - { path: ^/health$, roles: PUBLIC_ACCESS }
+        - { path: ^/ready$, roles: PUBLIC_ACCESS }
+        - { path: ^/sign-in, roles: PUBLIC_ACCESS }
+        - { path: ^/register, roles: PUBLIC_ACCESS }
+        - { path: ^/recover, roles: PUBLIC_ACCESS }
+        - { path: ^/reset-password, roles: PUBLIC_ACCESS }
+        - { path: ^/login, roles: PUBLIC_ACCESS }
+
+        # 2FA
+        - { path: ^/2fa, roles: IS_AUTHENTICATED_2FA_IN_PROGRESS }
+
+        # Account area
+        - { path: ^/overview, roles: ROLE_ACCOUNT }
+        - { path: ^/sessions, roles: ROLE_ACCOUNT }
+        - { path: ^/security-events, roles: ROLE_ACCOUNT }
+        - { path: ^/second-factor, roles: ROLE_ACCOUNT }
+
+        # Taxating package runtime: host-owned access policy for exported endpoints
+        - { path: '^/api/taxation/taxability/(decide|trace)$', roles: ROLE_USER }
+
+        # Category API
+        - { path: ^/api/category/webhook/test, roles: ROLE_ADMIN }
+        - { path: ^/api/category/tree, roles: PUBLIC_ACCESS }
+        - { path: ^/api/category/.+/publish, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/category/.+/move, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/category/attachment, roles: IS_AUTHENTICATED_FULLY }
+
+        # Admin API
+        - { path: ^/api/admin/v1, roles: ROLE_APPLICATION_MANAGER }
+        - { path: ^/api/admin/category, roles: ROLE_ADMIN }
+        - { path: ^/api/admin, roles: ROLE_APPLICATION_MANAGER }
+
+        # Operator / support
+        - { path: ^/operator, roles: ROLE_SUPPORT }
+
+        # Admin UI
+        - { path: '^/admin/taxability/console$', roles: ROLE_FINANCE_TAX_ADMIN }
+        - { path: ^/admin/category, roles: ROLE_ADMIN }
+        - { path: ^/admin/system, roles: ROLE_ADMIN }
+        - { path: ^/admin/moderation, roles: [ROLE_ADMIN, ROLE_MODERATOR] }
+        - { path: ^/admin, roles: [ROLE_ADMIN, ROLE_MODERATOR, ROLE_VIEWER, ROLE_APPLICATION_VIEWER] }
+
+when@test:
+    security:
+        password_hashers:
+            Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+                algorithm: auto
+                cost: 4
+                time_cost: 3
+                memory_cost: 10
