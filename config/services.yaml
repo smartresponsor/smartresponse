@@ -22,3 +22,5 @@ services:
         resource: '../src/'
 
     App\ServiceInterface\VendorApiKeyServiceInterface: '@App\Service\VendorApiKeyService'
+    doctrine.dbal.default_connection:
+        alias: doctrine.dbal.user_data_connection
