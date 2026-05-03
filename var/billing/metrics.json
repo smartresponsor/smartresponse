@@ -1,0 +1,22 @@
+{
+    "billing_http_response_total": 3,
+    "billing_http_response_total.invoice_create": 1,
+    "billing_http_error_total": 3,
+    "billing_http_error_total.invoice_create": 1,
+    "billing_http_request_duration_ms.count": 3,
+    "billing_http_request_duration_ms.sum_ms": 12,
+    "billing_http_request_duration_ms.max_ms": 6,
+    "billing_http_request_duration_ms.invoice_create.count": 1,
+    "billing_http_request_duration_ms.invoice_create.sum_ms": 6,
+    "billing_http_request_duration_ms.invoice_create.max_ms": 6,
+    "billing_http_response_total.invoice_finalize": 1,
+    "billing_http_error_total.invoice_finalize": 1,
+    "billing_http_request_duration_ms.invoice_finalize.count": 1,
+    "billing_http_request_duration_ms.invoice_finalize.sum_ms": 3,
+    "billing_http_request_duration_ms.invoice_finalize.max_ms": 3,
+    "billing_http_response_total.invoice_preview": 1,
+    "billing_http_error_total.invoice_preview": 1,
+    "billing_http_request_duration_ms.invoice_preview.count": 1,
+    "billing_http_request_duration_ms.invoice_preview.sum_ms": 3,
+    "billing_http_request_duration_ms.invoice_preview.max_ms": 3
+}
