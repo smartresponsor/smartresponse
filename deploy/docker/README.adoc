@@ -1,78 +1,89 @@
 = Host Docker Infrastructure
 
-This host-level Docker wrapper is intentionally scoped to the `App` runtime environment.
-It provides infrastructure needed by the host application and its connected Symfony bundles.
+This Docker layer is host-owned infrastructure for the local `App` runtime.
+It is intentionally shared across connected Symfony bundles and must not be duplicated per component.
 
 == Scope
 
-This Docker layer is for host runtime services only:
+The current baseline provides:
 
-* PostgreSQL
-* Mailpit
-* Mercure
+* PostgreSQL for business and user data
+* Redis for cache / transient state / queue-adjacent runtime concerns
+* RabbitMQ for asynchronous messaging transports
+* Elasticsearch for search and projection workloads
+* Mailpit for local email capture
+* Mercure for real-time updates
 
-Application code continues to run from the local host workspace.
-The containers expose infrastructure on localhost so the Symfony host app can use the normal `.env` runtime values.
+SQLite remains a local host file and is not containerized.
 
 == Location
 
-Docker assets live under `deploy/docker/` to keep infrastructure concerns out of the project root.
+Docker assets live under `deploy/docker/` so deployment/runtime wrappers remain separate from the application root.
 
 == Start
 
 [source,bash]
 ----
-docker compose -f deploy/docker/compose.yaml up -d
+docker compose --env-file deploy/docker/.env -f deploy/docker/compose.yaml up -d
+----
+
+Or on Windows:
+
+[source,powershell]
+----
+powershell -ExecutionPolicy Bypass -File .\deploy\docker\up.ps1
 ----
 
 == Stop
 
 [source,bash]
 ----
-docker compose -f deploy/docker/compose.yaml down
+docker compose --env-file deploy/docker/.env -f deploy/docker/compose.yaml down
 ----
 
 == Stop and remove volumes
 
 [source,bash]
 ----
-docker compose -f deploy/docker/compose.yaml down -v
+docker compose --env-file deploy/docker/.env -f deploy/docker/compose.yaml down -v
+----
+
+== Logs
+
+[source,powershell]
+----
+powershell -ExecutionPolicy Bypass -File .\deploy\docker\logs.ps1
 ----
 
 == Default exposed ports
 
 * PostgreSQL: `127.0.0.1:5432`
+* Redis: `127.0.0.1:6379`
+* RabbitMQ AMQP: `127.0.0.1:5672`
+* RabbitMQ Management UI: `127.0.0.1:15672`
+* Elasticsearch HTTP: `127.0.0.1:9200`
 * Mailpit SMTP: `127.0.0.1:1025`
 * Mailpit UI: `127.0.0.1:8025`
 * Mercure HTTP: `127.0.0.1:3000`
 
-== Env model
+== Host alignment
 
-Container values are resolved from `deploy/docker/.env`.
-A ready-to-edit template is included as `deploy/docker/.env.example`.
-
-Copy it locally if needed:
-
-[source,bash]
-----
-cp deploy/docker/.env.example deploy/docker/.env
-----
-
-== Symfony host alignment
-
-The current host `.env` uses:
+The host `.env` should point to these local endpoints, for example:
 
 [source,env]
 ----
 DATABASE_URL="postgresql://app:!ChangeMe!@127.0.0.1:5432/app?serverVersion=16&charset=utf8"
+APP_DATA_DATABASE_URL="sqlite:///%kernel.project_dir%/var/data/app_data.sqlite"
+REDIS_URL="redis://127.0.0.1:6379"
+MESSENGER_TRANSPORT_DSN="amqp://guest:guest@127.0.0.1:5672/%2f/messages"
+ELASTICSEARCH_URL="http://127.0.0.1:9200"
+MAILER_DSN="smtp://127.0.0.1:1025"
+MERCURE_URL="http://127.0.0.1:3000/.well-known/mercure"
+MERCURE_PUBLIC_URL="http://127.0.0.1:3000/.well-known/mercure"
 ----
 
-So the default Docker PostgreSQL values intentionally match that runtime expectation.
+== Notes
 
-== Recommended next checks
-
-[source,bash]
-----
-php bin/console doctrine:query:sql "SELECT 1"
-php bin/console list index
-----
+* Infrastructure is started once for the host app, not once per component.
+* Components consume host-defined DSNs and service endpoints.
+* If Messaging uses RabbitMQ, Redis, Mercure and Elasticsearch, all of them are still host-level services.

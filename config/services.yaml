@@ -23,4 +23,11 @@ services:
 
     App\ServiceInterface\VendorApiKeyServiceInterface: '@App\Service\VendorApiKeyService'
     doctrine.dbal.default_connection:
-        alias: doctrine.dbal.user_data_connection
+        alias: doctrine.dbal.postgres_connection
+
+    App\Twig\LocaleSelectorTwigExtension:
+        tags: ['twig.extension']
+
+when@dev:
+    services:
+        Doctrine\Bundle\FixturesBundle\Loader\SymfonyFixturesLoader: '@doctrine.fixtures.loader'

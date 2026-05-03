@@ -1,26 +1,232 @@
 doctrine:
     dbal:
-        default_connection: user_data
+        default_connection: postgres
+        types:
+            ltree: App\Cataloging\Doctrine\Type\LtreeType
         connections:
-            user_data:
-                url: '%env(resolve:DATABASE_URL)%'
+            postgres:
+                url: '%env(resolve:PLATFORM_DATA_DATABASE)%'
+                driver: 'pdo_pgsql'
+                server_version: '16'
+                charset: utf8
                 profiling_collect_backtrace: '%kernel.debug%'
-            app_data:
-                url: '%env(resolve:APP_DATA_DATABASE_URL)%'
+                mapping_types:
+                    ltree: ltree
+            review:
+                url: '%env(resolve:OBJECT_REVIEW_DATABASE)%'
+                driver: 'pdo_pgsql'
+                server_version: '16'
+                charset: utf8
+                profiling_collect_backtrace: '%kernel.debug%'
+            sqlite:
+                url: '%env(resolve:PLATFORM_SYSTEM_DATABASE)%'
+                driver: 'pdo_sqlite'
+                server_version: '3.21'
+                charset: utf8mb4
                 profiling_collect_backtrace: '%kernel.debug%'
 
     orm:
-        default_entity_manager: user_data
+        enable_native_lazy_objects: true
+        default_entity_manager: postgres
+        resolve_target_entities:
+            App\Taxating\Interface\Order\OrderTaxationInterface: App\Taxating\Entity\Taxation\TaxationOrderEntity
+            App\Taxating\EntityInterface\Taxation\Order\OrderTaxationInterface: App\Taxating\Entity\Taxation\TaxationOrderEntity
+            App\Taxating\Interface\Taxation\TaxationCategoryInterface: App\Taxating\Entity\Taxation\TaxationCategoryEntity
+            App\Taxating\EntityInterface\Taxation\TaxationCategoryInterface: App\Taxating\Entity\Taxation\TaxationCategoryEntity
+            App\Taxating\Interface\Taxation\TaxationRateInterface: App\Taxating\Entity\Taxation\TaxationRateEntity
+            App\Taxating\EntityInterface\Taxation\TaxationRateInterface: App\Taxating\Entity\Taxation\TaxationRateEntity
+            App\Taxating\Interface\Taxation\TaxationZoneInterface: App\Taxating\Entity\Taxation\TaxationZoneEntity
+            App\Taxating\EntityInterface\Taxation\TaxationZoneInterface: App\Taxating\Entity\Taxation\TaxationZoneEntity
+            App\Taxating\EntityInterface\Taxation\TaxationTaxSummaryInterface: App\Taxating\Entity\Taxation\TaxationTaxSummaryEntity
+            App\Taxating\EntityInterface\Taxation\TaxationRateValueInterface: App\Taxating\Entity\Taxation\TaxationValueEntity
+            App\Taxating\EntityInterface\Taxation\CertificateEntityInterface: App\Taxating\Entity\Taxation\TaxationCertificateEntity
+            App\Taxating\EntityInterface\Taxation\OutboxEntityInterface: App\Taxating\Entity\Taxation\TaxationOutboxEntity
+            App\Taxating\EntityInterface\Taxation\RegistrationEntityInterface: App\Taxating\Entity\Taxation\TaxationRegistrationEntity
+            App\Cataloging\EntityInterface\CategoryInterface: App\Cataloging\Entity\CatalogCategoryEntity
         entity_managers:
-            user_data:
-                connection: user_data
+            postgres:
+                connection: postgres
                 auto_mapping: false
                 validate_xml_mapping: false
                 naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
                 mappings:
+                    Accessing:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Accessing/src/Entity'
+                        prefix: 'App\Accessing\Entity'
+                        alias: Accessing
+                    Adjudicating:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Adjudicating/src/Entity'
+                        prefix: 'App\Entity'
+                        alias: Adjudicating
+                    Analysing:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Analysing/src/Entity'
+                        prefix: 'App\Analysing\Entity'
+                        alias: Analysing
                     Applicating:
                         is_bundle: false
                         type: attribute
-                        dir: '%kernel.project_dir%/src/Entity'
+                        dir: '%kernel.project_dir%/../Applicating/src/Entity'
                         prefix: 'App\Applicating\Entity'
                         alias: Applicating
+                    Attaching:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Attaching/src/Entity'
+                        prefix: 'App\Attaching\Entity'
+                        alias: Attaching
+                    Billing:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Billing/src/Entity'
+                        prefix: 'App\Billing\Entity'
+                        alias: Billing
+                    Indexing:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Indexing/src/Entity/Index'
+                        prefix: 'App\Indexing\Entity\Index'
+                        alias: Indexing
+                    Cataloging:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Cataloging/src/Entity'
+                        prefix: 'App\Cataloging\Entity'
+                        alias: Cataloging
+                    Commercializing:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Commercializing/src/Entity'
+                        prefix: 'App\Entity'
+                        alias: Commercializing
+                    Faceting:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Faceting/src/Entity'
+                        prefix: 'App\Entity'
+                        alias: Faceting
+                    Messaging:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Messaging/src/Entity'
+                        prefix: 'App\Messaging\Entity'
+                        alias: Messaging
+                    Ordering:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Ordering/src/Entity'
+                        prefix: 'App\Entity'
+                        alias: Ordering
+                    OrderingOrder:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Ordering/src/Entity/Order'
+                        prefix: 'App\Entity\Order'
+                        alias: OrderingOrder
+                    Paying:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Paying/src/Entity'
+                        prefix: 'App\Paying\Entity'
+                        alias: Paying
+                    Projecting:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Projecting/src/Entity'
+                        prefix: 'App\Entity'
+                        alias: Projecting
+                    Rolling:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Rolling/src/Entity'
+                        prefix: 'App\Rolling\Entity'
+                        alias: Rolling
+                    Shipping:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Shipping/src/Entity'
+                        prefix: 'App\Entity'
+                        alias: Shipping
+                    Taxating:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Taxating/src/Entity'
+                        prefix: 'App\Taxating\Entity'
+                        alias: Taxating
+                    TaxatingEmbeddable:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Taxating/src/Embeddable'
+                        prefix: 'App\Taxating\Embeddable'
+                        alias: TaxatingEmbeddable
+                    Vendoring:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Vendoring/src/Entity'
+                        prefix: 'App\Vendoring\Entity'
+                        alias: Vendoring
+            review:
+                connection: review
+                auto_mapping: false
+                naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+                mappings:
+                    Review:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity/Review'
+                        prefix: 'App\Entity\Review'
+                        alias: Review
+            sqlite:
+                connection: sqlite
+                auto_mapping: false
+                mappings:
+                    Module:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity/Module'
+                        prefix: 'App\Entity\Module'
+                        alias: Module
+                    Category:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity/Category'
+                        prefix: 'App\Entity\Category'
+                        alias: Category
+                    Menu:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity/Menu'
+                        prefix: 'App\Entity\Menu'
+                        alias: Menu
+                    Featured:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity/Featured'
+                        prefix: 'App\Entity\Featured'
+                        alias: Featured
+                    ProjectType:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity/Project'
+                        prefix: 'App\Entity\Project'
+                        alias: ProjectType
+                    ProductType:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity/Product'
+                        prefix: 'App\Entity\Product'
+                        alias: ProductType
+
+when@test:
+    doctrine:
+        dbal:
+            connections:
+                postgres:
+                    dbname_suffix: '_test%env(default::TEST_TOKEN)%'
+                review:
+                    dbname_suffix: '_test%env(default::TEST_TOKEN)%'

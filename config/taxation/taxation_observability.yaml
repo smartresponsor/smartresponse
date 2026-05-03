@@ -1,0 +1,20 @@
+metric:
+  enable: true
+  dir: var/metrics
+  bucket_ms:
+    - 5
+    - 10
+    - 25
+    - 50
+    - 100
+    - 250
+    - 500
+    - 1000
+    - 2500
+log:
+  enable: true
+  file: var/log/taxation/observability.ndjson
+ignore_path:
+  - /metrics
+  - /status
+  - /health/taxation

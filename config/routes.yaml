@@ -10,10 +10,10 @@
 controllers:
     resource: routing.controllers
 
+## Taxating bundle is currently not part of the host bootstrap.
+## Keep its route surface out of the host route import graph.
+# taxating:
+#     resource: '@TaxatingBundle/config/routes/taxation.yaml'
+
 cruding:
     resource: '@CrudingBundle/config/routes.yaml'
-# Taxating bundle exports its own reusable route surface.
-# Host keeps ownership of access control and security policy.
-taxating:
-    resource: '@TaxatingBundle/config/routes/taxation.yaml'
-

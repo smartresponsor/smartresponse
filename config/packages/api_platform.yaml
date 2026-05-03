@@ -1,6 +1,20 @@
 api_platform:
     title: Hello API Platform
     version: 1.0.0
+    resource_class_directories:
+        - '%kernel.project_dir%/../Accessing/src/Entity'
+        - '%kernel.project_dir%/../Analysing/src/Entity'
+        - '%kernel.project_dir%/../Applicating/src/Entity'
+        - '%kernel.project_dir%/../Attaching/src/Entity'
+        - '%kernel.project_dir%/../Billing/src/Entity'
+        - '%kernel.project_dir%/../Cataloging/src/Entity'
+        - '%kernel.project_dir%/../Indexing/src/Entity/Index'
+        - '%kernel.project_dir%/../Messaging/src/Entity'
+        - '%kernel.project_dir%/../Rolling/src/Entity'
+        - '%kernel.project_dir%/../Tagging/src/Entity'
+        - '%kernel.project_dir%/../Vendoring/src/Entity'
+        - '%kernel.project_dir%/src/ApiResource'
+        - '%kernel.project_dir%/src/Entity'
     defaults:
         stateless: true
         cache_headers:

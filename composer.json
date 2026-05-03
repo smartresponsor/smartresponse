@@ -104,13 +104,6 @@
     },
     {
       "type": "path",
-      "url": "../Attaching",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
       "url": "../Locating",
       "options": {
         "symlink": true
@@ -176,6 +169,7 @@
     "symfony/flex": "^2.4",
     "symfony/framework-bundle": "^8.0",
     "symfony/runtime": "^8.0",
+    "symfony/translation": "^8.0",
     "symfony/twig-bundle": "^8.0",
     "symfony/validator": "^8.0",
     "symfony/var-exporter": "8",
@@ -203,8 +197,38 @@
     "sort-packages": true
   },
   "autoload": {
+    "classmap": [
+      "../Accessing/src/Entity"
+    ],
     "psr-4": {
-      "App\\": "src/"
+      "App\\": [
+        "src/",
+        "../Adjudicating/src/",
+        "../Commercializing/src/",
+        "../Faceting/src/",
+        "../Ordering/src/",
+        "../Projecting/src/",
+        "../Sandbox/src/",
+        "../Shipping/src/"
+      ],
+      "App\\Ordering\\": "../Ordering/src/",
+      "App\\Accessing\\": "../Accessing/src/",
+      "App\\Analysing\\": "../Analysing/src/",
+      "App\\Applicating\\": "../Applicating/src/",
+      "App\\Attaching\\": "../Attaching/src/",
+      "App\\Billing\\": "../Billing/src/",
+      "App\\Bridging\\": "../Bridging/src/",
+      "App\\Cataloging\\": "../Cataloging/src/",
+      "App\\Cruding\\": "../Cruding/src/",
+      "App\\Indexing\\": "../Indexing/src/",
+      "App\\Interfacing\\": "../Interfacing/src/",
+      "App\\Messaging\\": "../Messaging/src/",
+      "App\\Paying\\": "../Paying/src/",
+      "App\\Rolling\\": "../Rolling/src/",
+      "App\\Taxating\\": "../Taxating/src/",
+      "App\\Vendoring\\": "../Vendoring/src/",
+      "App\\Localizing\\": "../Localizing/src/",
+      "Smartresponsor\\": "../Locating/src/"
     }
   },
   "autoload-dev": {

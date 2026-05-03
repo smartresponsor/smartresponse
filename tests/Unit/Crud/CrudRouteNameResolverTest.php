@@ -13,7 +13,7 @@ final class CrudRouteNameResolverTest extends TestCase
     public function testResolveShowUsesSlugByDefault(): void
     {
         $resolver = new CrudRouteNameResolver();
-        $context = new CrudContext('public', 'show', 'product', 'App\\Entity\\Product', 'slug', 'demo', null, 'product/product');
+        $context = new CrudContext('public', 'show', 'product', 'App\\Entity\\CommerceProductEntity', 'slug', 'demo', null, 'product/product');
 
         self::assertSame('app_crud_show_slug', $resolver->resolveShow($context));
     }
@@ -21,7 +21,7 @@ final class CrudRouteNameResolverTest extends TestCase
     public function testResolveShowUsesIdWhenRequested(): void
     {
         $resolver = new CrudRouteNameResolver();
-        $context = new CrudContext('admin', 'show', 'product', 'App\\Entity\\Product', 'id', 15, null, 'product/product');
+        $context = new CrudContext('admin', 'show', 'product', 'App\\Entity\\CommerceProductEntity', 'id', 15, null, 'product/product');
 
         self::assertSame('app_crud_show_id', $resolver->resolveShow($context));
     }

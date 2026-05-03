@@ -8,26 +8,58 @@ security:
         users_in_memory:
             memory:
                 users: { }
+        accessing_account_provider:
+            entity:
+                class: App\Accessing\Entity\AccessAccountEntity
+                property: email
+
+    role_hierarchy:
+        ROLE_ACCOUNT: [ROLE_USER]
+        ROLE_VIEWER: [ROLE_USER]
+        ROLE_APPLICATION_VIEWER: [ROLE_VIEWER]
+        ROLE_STAFF: [ROLE_USER]
+        ROLE_SUPPORT: [ROLE_STAFF]
+        ROLE_EDITOR: [ROLE_STAFF]
+        ROLE_COPYWRITER: [ROLE_EDITOR]
+        ROLE_MODERATOR: [ROLE_STAFF]
+        ROLE_MANAGER: [ROLE_STAFF]
+        ROLE_FINANCE: [ROLE_STAFF]
+        ROLE_FINANCE_TAX_ADMIN: [ROLE_FINANCE]
+        ROLE_APPLICATION_MANAGER: [ROLE_MANAGER]
+        ROLE_ADMIN: [ROLE_APPLICATION_MANAGER, ROLE_MODERATOR, ROLE_SUPPORT, ROLE_FINANCE_TAX_ADMIN]
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     firewalls:
         dev:
             pattern: ^/(_profiler|_wdt|assets|build)/
             security: false
 
+        public_auth:
+            pattern: ^/(register|sign-up|sign-in|recover|forgot-password|reset-password|login|verify)(?:/|$)
+            security: false
+
         main:
+            pattern: ^/(?!(register|sign-up|sign-in|recover|forgot-password|reset-password|login|verify)(?:/|$))
             lazy: true
-            provider: users_in_memory
+            provider: accessing_account_provider
+            entry_point: App\Accessing\Security\AccessingAuthenticationEntryPoint
 
     # Note: Only the first matching rule is applied
     access_control:
         # Public/system
+        - { path: ^/$, roles: PUBLIC_ACCESS }
         - { path: ^/health$, roles: PUBLIC_ACCESS }
         - { path: ^/ready$, roles: PUBLIC_ACCESS }
         - { path: ^/sign-in, roles: PUBLIC_ACCESS }
+        - { path: ^/sign-in/second-factor, roles: PUBLIC_ACCESS }
         - { path: ^/register, roles: PUBLIC_ACCESS }
         - { path: ^/recover, roles: PUBLIC_ACCESS }
         - { path: ^/reset-password, roles: PUBLIC_ACCESS }
+        - { path: ^/forgot-password, roles: PUBLIC_ACCESS }
         - { path: ^/login, roles: PUBLIC_ACCESS }
+        - { path: ^/verify, roles: PUBLIC_ACCESS }
+        - { path: ^/docs, roles: PUBLIC_ACCESS }
+        - { path: ^/api/docs, roles: PUBLIC_ACCESS }
 
         # 2FA
         - { path: ^/2fa, roles: IS_AUTHENTICATED_2FA_IN_PROGRESS }
