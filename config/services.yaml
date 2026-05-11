@@ -9,6 +9,11 @@ parameters:
 
 imports:
     - { resource: '../vendor/cruding/crud/config/services.yaml' }
+    - { resource: '../../Localizing/config/services.yaml' }
+    - { resource: '../../Currencing/config/packages/currencing.yaml' }
+    - { resource: '../../Currencing/config/services/currencing.yaml' }
+    - { resource: '../../Subscripting/config/packages/subscription_runtime_prep.yaml' }
+    - { resource: '../../Subscripting/config/services.yaml' }
 
 services:
     # default configuration for services in *this* file
@@ -24,6 +29,8 @@ services:
     App\ServiceInterface\VendorApiKeyServiceInterface: '@App\Service\VendorApiKeyService'
     doctrine.dbal.default_connection:
         alias: doctrine.dbal.postgres_connection
+
+    App\Contract\Ui\AppDashboardSurfaceContract: '@App\Service\Dashboard\AppDashboardSurfaceBuilder'
 
     App\Twig\LocaleSelectorTwigExtension:
         tags: ['twig.extension']

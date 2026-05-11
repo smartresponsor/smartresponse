@@ -70,7 +70,6 @@ security:
         - { path: ^/security-events, roles: ROLE_ACCOUNT }
         - { path: ^/second-factor, roles: ROLE_ACCOUNT }
 
-        # Taxating package runtime: host-owned access policy for exported endpoints
         - { path: '^/api/taxation/taxability/(decide|trace)$', roles: ROLE_USER }
 
         # Category API

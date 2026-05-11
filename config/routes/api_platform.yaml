@@ -1,7 +1,0 @@
-## Temporarily disable host API Platform route import.
-## The current Taxating API resource surface references a missing controller and
-## adds significant bootstrap latency to public UI routes like /sign-in.
-# api_platform:
-#     resource: .
-#     type: api_platform
-#     prefix: /api

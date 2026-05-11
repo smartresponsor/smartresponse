@@ -1,3 +1,0 @@
-enable: true
-bucketsMs: [ 10,50,100,250,500,1000,2000 ]
-file: var/metrics.prom

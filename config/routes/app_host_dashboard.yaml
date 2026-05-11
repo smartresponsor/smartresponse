@@ -1,0 +1,4 @@
+app_host_dashboard:
+    path: /
+    controller: App\Controller\AppDashboardController::__invoke
+    methods: [GET]

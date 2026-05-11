@@ -1,0 +1,155 @@
+{# Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp #}
+{#
+  Strict canonical provider admin body mount.
+
+  Twig owns the ecosystem shell slot, mount attributes, schema payload, and
+  provider script wiring only. It must not render an alternate admin UI,
+  Twig-rendered table/form UI, Bootstrap-like layout, or handmade CSS.
+#}
+{% set provider = provider|default('antd-pro') %}
+{% set secondaryProvider = secondaryProvider|default('primereact') %}
+{% set resourceName = resourceName|default(workbench.routeContext.resourcePath|default('resource')) %}
+{% set resourceLabel = resourceLabel|default(workbench.routeContext.resourceLabel|default(resourceName|title)) %}
+{% set operation = operation|default(workbench.routeContext.operation|default('index')) %}
+{% set surface = surface|default(workbench.routeContext.surface|default('admin')) %}
+{% set defaultView = defaultView|default('table') %}
+{% set viewModes = viewModes|default(['table', 'cards']) %}
+{% set contentLocale = contentLocale|default(app.request.query.get('contentLocale', app.request.locale|default('en'))) %}
+{% set providerSelectionPolicy = providerSelectionPolicy|default('admin-body-provider-selection') %}
+{% set primaryProviderRole = primaryProviderRole|default('admin-workbench') %}
+{% set secondaryProviderRole = secondaryProviderRole|default('rich-facade') %}
+{% set secondaryReplacementMode = secondaryReplacementMode|default('forbidden-for-admin-body') %}
+
+<section
+  class="if-admin-body-mount"
+  data-interfacing-admin-body-mount="true"
+  data-admin-body-rendering-mode="canonical-provider-required"
+  data-admin-body-contract="ant-design-procomponents"
+  data-provider="{{ provider }}"
+  data-secondary-provider="{{ secondaryProvider }}"
+  data-provider-selection-policy="{{ providerSelectionPolicy }}"
+  data-primary-provider-role="{{ primaryProviderRole }}"
+  data-secondary-provider-role="{{ secondaryProviderRole }}"
+  data-secondary-provider-replacement="{{ secondaryReplacementMode }}"
+  data-resource="{{ resourceName }}"
+  data-resource-label="{{ resourceLabel }}"
+  data-operation="{{ operation }}"
+  data-surface="{{ surface }}"
+  data-default-view="{{ defaultView }}"
+  data-view-modes="{{ viewModes|join(',') }}"
+  data-content-locale="{{ contentLocale }}"
+  data-admin-body-hydration="pending"
+  data-admin-body-provider-registry-entrypoint="interfacing/admin-body/provider-registry.js"
+  data-admin-body-canonical-provider-bundle="interfacing/admin-body/canonical-providers.js"
+  data-admin-body-antd-pro-provider-entrypoint="interfacing/admin-body/providers/antd-pro.js"
+  data-admin-body-primereact-provider-entrypoint="interfacing/admin-body/providers/primereact.js"
+  data-admin-body-runtime-entrypoint="interfacing/admin-body/runtime.js"
+  data-admin-body-schema-manifest="admin-body-schema-manifest"
+  data-admin-body-schema-manifest-version="1.0"
+  data-admin-body-resource-contract="admin-body-resource-contract"
+  data-admin-body-operation-policy="admin-body-operation-policy"
+  data-admin-body-toolbar-policy="admin-body-toolbar-policy"
+  data-admin-body-row-selection-policy="admin-body-row-selection-policy"
+  data-admin-body-table-interaction-policy="admin-body-table-interaction-policy"
+  data-admin-body-empty-state-policy="admin-body-empty-state-policy"
+  data-admin-body-form-lifecycle-policy="admin-body-form-lifecycle-policy"
+  data-admin-body-detail-view-policy="admin-body-detail-view-policy"
+  data-admin-body-navigation-policy="admin-body-navigation-policy"
+  data-admin-body-authorization-policy="admin-body-authorization-policy"
+  data-admin-body-telemetry-policy="admin-body-telemetry-policy"
+  data-admin-body-accessibility-policy="admin-body-accessibility-policy"
+  data-admin-body-responsive-layout-policy="admin-body-responsive-layout-policy"
+  data-accessibility-mode="provider-native-required"
+  data-accessibility-keyboard-navigation="keyboard-navigation-required"
+  data-accessibility-focus-restore="restore-focus-after-action"
+  data-responsive-layout-mode="provider-native-responsive-layout"
+  data-responsive-layout-breakpoints="desktop,tablet,mobile"
+  data-responsive-layout-density="middle"
+  data-responsive-layout-table-scroll="horizontal-scroll-on-narrow"
+  data-responsive-layout-filter-collapse="collapse-filters-on-narrow"
+  data-telemetry-mode="browser-ui-events"
+  data-telemetry-owner="interfacing-admin-body-runtime"
+  data-action-authorization-mode="server-declared-action-state"
+  data-action-default-decision="disabled-until-authorized"
+  data-detail-view-renderer="Descriptions"
+  data-form-submit-mode="server-driven"
+  data-form-dirty-state-guard="confirm-on-navigate-away"
+  data-empty-state-renderer="ProTable.locale.emptyText"
+  data-loading-state-renderer="ProTable.loading"
+  data-error-state-renderer="Result.error"
+  data-table-pagination-mode="server-driven"
+  data-table-sorting-mode="server-driven"
+  data-admin-body-ready-event="interfacing:admin-body:ready"
+  data-admin-body-breadcrumb-provider-target="PageContainer.breadcrumb"
+  data-admin-body-resource-context-provider-target="PageContainer.header.resourceContext"
+  aria-label="{{ resourceLabel }} admin workbench"
+>
+
+  <link
+    rel="stylesheet"
+    href="{{ asset('interfacing/admin-body/canonical-providers.interfacing-interface-ui.css') }}?v=w48-dashboard-panels"
+    data-interfacing-admin-body-canonical-provider-styles="true"
+  >
+
+
+  <div
+    data-interfacing-admin-body-provider-boot-marker="true"
+    data-provider-marker-version="w48-dashboard-panels"
+    role="status"
+    aria-live="polite"
+  >
+    Interfacing provider boot: Ant Design ProComponents primary renderer is loading for {{ resourceLabel }}.
+  </div>
+
+  {% include 'interfacing/admin/body/schema.html.twig' with {
+    workbench: workbench,
+    provider: provider,
+    secondaryProvider: secondaryProvider,
+    resourceName: resourceName,
+    resourceLabel: resourceLabel,
+    operation: operation,
+    surface: surface,
+    defaultView: defaultView,
+    viewModes: viewModes,
+    contentLocale: contentLocale,
+    providerSelectionPolicy: providerSelectionPolicy,
+    primaryProviderRole: primaryProviderRole,
+    secondaryProviderRole: secondaryProviderRole,
+    secondaryReplacementMode: secondaryReplacementMode
+  } only %}
+
+  <script
+    src="{{ asset('interfacing/admin-body/process-env.js') }}?v=w48-dashboard-panels"
+    data-interfacing-admin-body-process-env="true"
+  ></script>
+
+  <script
+    type="module"
+    src="{{ asset('interfacing/admin-body/provider-registry.js') }}?v=w48-dashboard-panels"
+    data-interfacing-admin-body-provider-registry="true"
+  ></script>
+
+  <script
+    type="module"
+    src="{{ asset('interfacing/admin-body/canonical-providers.js') }}?v=w48-dashboard-panels"
+    data-interfacing-admin-body-canonical-providers="true"
+  ></script>
+
+  <script
+    type="module"
+    src="{{ asset('interfacing/admin-body/providers/antd-pro.js') }}?v=w48-dashboard-panels"
+    data-interfacing-admin-body-provider-antd-pro="true"
+  ></script>
+
+  <script
+    type="module"
+    src="{{ asset('interfacing/admin-body/providers/primereact.js') }}?v=w48-dashboard-panels"
+    data-interfacing-admin-body-provider-primereact="true"
+  ></script>
+
+  <script
+    type="module"
+    src="{{ asset('interfacing/admin-body/runtime.js') }}?v=w48-dashboard-panels"
+    data-interfacing-admin-body-runtime="true"
+  ></script>
+</section>

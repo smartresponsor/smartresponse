@@ -1,0 +1,19 @@
+= App host provider dashboard boundary
+
+The App host owns the `/` route and the dashboard composition contract. It does
+not own Interfacing renderer templates, but the visible dashboard chrome is
+rendered through the canonical Interfacing provider page and shell base.
+
+Canonical route flow:
+
+----
+App route /
+  -> AppDashboardSurfaceContract
+  -> Bridging app-host responder
+  -> Interfacing provider page
+  -> Ant Design ProComponents primary renderer
+----
+
+App may publish Interfacing provider assets into its public webroot, because App
+is the runtime. Interfacing remains the source owner for renderer templates and
+provider contracts.

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
     Symfony\Bundle\TwigBundle\TwigBundle::class => ['all' => true],
@@ -19,19 +21,25 @@ return [
     Nelmio\ApiDocBundle\NelmioApiDocBundle::class => ['all' => true],
     ApiPlatform\Symfony\Bundle\ApiPlatformBundle::class => ['all' => true],
     Twig\Extra\TwigExtraBundle\TwigExtraBundle::class => ['all' => true],
+    EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle::class => ['all' => true],
     App\Cruding\CrudingBundle::class => ['all' => true],
     App\Messaging\MessagingBundle::class => ['all' => true],
     App\Analysing\AnalysingBundle::class => ['all' => true],
     App\Attaching\AttachingBundle::class => ['all' => true],
     App\Billing\BillingBundle::class => ['all' => true],
+    App\Commissioning\CommissioningBundle::class => ['all' => true],
+    App\Exchanging\ExchangingBundle::class => ['all' => true],
     App\Rolling\RollingBundle::class => ['all' => true],
-    // App\Taxating\TaxatingBundle::class => ['all' => true],
+    App\Taxating\TaxatingBundle::class => ['all' => true],
     App\Tagging\TaggingBundle::class => ['all' => true],
     App\Interfacing\InterfacingBundle::class => ['all' => true],
+    App\Paging\PageBundle::class => ['all' => true],
+    App\Managing\ManagingBundle::class => ['all' => true],
     App\Accessing\AccessingBundle::class => ['all' => true],
     App\Bridging\BridgingBundle::class => ['all' => true],
     App\Cataloging\CatalogingBundle::class => ['all' => true],
     App\Indexing\IndexingBundle::class => ['all' => true],
     App\Vendoring\VendoringBundle::class => ['all' => true],
     App\Applicating\ApplicatingBundle::class => ['all' => true],
+    App\Subscripting\Bundle\SubscriptionBundle::class => ['all' => true],
 ];

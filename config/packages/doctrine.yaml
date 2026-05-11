@@ -86,6 +86,24 @@ doctrine:
                         dir: '%kernel.project_dir%/../Billing/src/Entity'
                         prefix: 'App\Billing\Entity'
                         alias: Billing
+                    Commissioning:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Commissioning/src/Entity'
+                        prefix: 'App\Commissioning\Entity'
+                        alias: Commissioning
+                    Currencing:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Currencing/src/Entity/Currency'
+                        prefix: 'App\Entity\Currency'
+                        alias: Currencing
+                    Exchanging:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Exchanging/src/Entity'
+                        prefix: 'App\Exchanging\Entity'
+                        alias: Exchanging
                     Indexing:
                         is_bundle: false
                         type: attribute
@@ -170,6 +188,18 @@ doctrine:
                         dir: '%kernel.project_dir%/../Vendoring/src/Entity'
                         prefix: 'App\Vendoring\Entity'
                         alias: Vendoring
+                    Subscripting:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Subscripting/src/Entity'
+                        prefix: 'App\Subscripting\Entity'
+                        alias: Subscripting
+                    Paging:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Paging/src/Entity'
+                        prefix: 'App\Paging\Entity'
+                        alias: Paging
             review:
                 connection: review
                 auto_mapping: false

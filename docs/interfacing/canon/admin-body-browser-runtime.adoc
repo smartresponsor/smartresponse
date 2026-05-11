@@ -1,0 +1,10 @@
+= Interfacing Admin Body Browser Runtime Canon
+
+Interfacing provider assets are browser assets. They must not require a Node `process` global at execution time.
+
+The canonical provider bundle includes a browser-safe `process.env.NODE_ENV` shim before React/JSX runtime code executes.
+
+Runtime owner: host application.
+Rendering owner: Interfacing.
+Primary provider: Ant Design ProComponents.
+Secondary provider: PrimeReact rich facade.

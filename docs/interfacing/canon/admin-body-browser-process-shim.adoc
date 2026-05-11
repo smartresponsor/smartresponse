@@ -1,0 +1,7 @@
+= Interfacing Admin Body Browser Process Shim
+
+Wave 47 requires the host runtime to expose `public/interfacing/admin-body/process-env.js` and load it before canonical provider ES modules.
+
+The shim is not a UI fallback. It only supplies the browser global `process.env.NODE_ENV = production` required by React/JSX-runtime bundles.
+
+Canonical render path remains: host route -> Bridge contract -> Interfacing provider document -> Ant Design ProComponents primary provider, PrimeReact secondary provider.

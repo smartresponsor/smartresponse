@@ -1,0 +1,34 @@
+{# Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp #}
+{#
+  Provider-only application document for visible bridge/adoption pages.
+
+  This document deliberately avoids Bootstrap, EasyAdmin, handmade Twig CSS,
+  Twig-rendered tables/forms, and legacy shell fallback chrome. Twig owns only
+  the document slot and passes the machine-readable contract into the canonical
+  provider runtime. Ant Design ProComponents remains the primary renderer;
+  PrimeReact remains the secondary rich-facade provider.
+#}
+<!doctype html>
+<html lang="{{ app.request.locale|default('en') }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="interfacing-rendering-owner" content="interfacing">
+  <meta name="interfacing-route-adoption-owner" content="bridge">
+  <meta name="interfacing-primary-provider" content="ant-design-procomponents">
+  <meta name="interfacing-secondary-provider" content="primereact">
+  <title>{% block title %}Interfacing Provider Surface{% endblock %}</title>
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="{{ asset('interfacing/admin-body/canonical-providers.interfacing-interface-ui.css') }}?v=w47-browser-process-shim" data-interfacing-document-provider-styles="true">
+  {% block head_extra %}{% endblock %}
+</head>
+<body
+  data-interfacing-provider-document="true"
+  data-interfacing-rendering-owner="interfacing"
+  data-interfacing-route-adoption-owner="bridge"
+  data-interfacing-primary-provider="ant-design-procomponents"
+  data-interfacing-secondary-provider="primereact"
+>
+  {% block body %}{% endblock %}
+</body>
+</html>

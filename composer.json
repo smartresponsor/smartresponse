@@ -13,6 +13,13 @@
     },
     {
       "type": "path",
+      "url": "../Objecting",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
       "url": "../Tagging",
       "options": {
         "symlink": true
@@ -163,6 +170,7 @@
     "interfacing/interface": "*@dev",
     "messaging/message": "*@dev",
     "rolling/role": "*@dev",
+    "smart-responsor/objecting": "*@dev",
     "symfony/asset": "^8.0",
     "symfony/console": "^8.0",
     "symfony/dotenv": "^8.0",
@@ -176,6 +184,7 @@
     "symfony/yaml": "^8.0",
     "tagging/tag": "*@dev",
     "taxating/taxation": "*@dev",
+    "twig/html-extra": "3.24",
     "vendoring/vendor": "*@dev"
   },
   "require-dev": {
@@ -205,12 +214,18 @@
         "src/",
         "../Adjudicating/src/",
         "../Commercializing/src/",
+        "../Currencing/src/",
         "../Faceting/src/",
+        "../Managing/src/",
         "../Ordering/src/",
         "../Projecting/src/",
         "../Sandbox/src/",
         "../Shipping/src/"
       ],
+      "App\\Commissioning\\": "../Commissioning/src/",
+      "App\\Exchanging\\": "../Exchanging/src/",
+      "App\\Managing\\": "../Managing/src/",
+      "App\\Subscripting\\": "../Subscripting/src/",
       "App\\Ordering\\": "../Ordering/src/",
       "App\\Accessing\\": "../Accessing/src/",
       "App\\Analysing\\": "../Analysing/src/",
@@ -220,6 +235,7 @@
       "App\\Bridging\\": "../Bridging/src/",
       "App\\Cataloging\\": "../Cataloging/src/",
       "App\\Cruding\\": "../Cruding/src/",
+      "App\\Paging\\": "../Paging/src/",
       "App\\Indexing\\": "../Indexing/src/",
       "App\\Interfacing\\": "../Interfacing/src/",
       "App\\Messaging\\": "../Messaging/src/",
@@ -228,6 +244,7 @@
       "App\\Taxating\\": "../Taxating/src/",
       "App\\Vendoring\\": "../Vendoring/src/",
       "App\\Localizing\\": "../Localizing/src/",
+      "EasyCorp\\Bundle\\EasyAdminBundle\\": "../EasyAdminBundle/src/",
       "Smartresponsor\\": "../Locating/src/"
     }
   },

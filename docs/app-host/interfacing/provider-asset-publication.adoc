@@ -1,0 +1,5 @@
+= App host Interfacing provider asset publication
+
+The App host is the only browser runtime. Interfacing owns canonical provider source assets, but the App host must expose the public runtime copies under `public/interfacing/admin-body/`.
+
+The `process-env.js` shim is a host-public browser compatibility asset. It must load before the canonical provider bundle so browser ESM code that includes React JSX runtime can read `process.env.NODE_ENV` without requiring a Node runtime.

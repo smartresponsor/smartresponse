@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Bridging;
 
 use App\Accessing\ServiceInterface\Rendering\PageResponderInterface;
-use App\Accessing\Service\Rendering\TwigPageResponder;
+use App\Bridging\Service\AccessingInterfacing\AccessingInterfacingPageResponder;
 use App\Kernel;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -16,12 +16,12 @@ final class AccessingPageResponderWiringTest extends KernelTestCase
         return Kernel::class;
     }
 
-    public function testAccessingPageResponderResolvesToOwningSideResponder(): void
+    public function testAccessingPageResponderResolvesToBridgeResponderInHostApp(): void
     {
         self::bootKernel();
 
         $responder = static::getContainer()->get(PageResponderInterface::class);
 
-        self::assertInstanceOf(TwigPageResponder::class, $responder);
+        self::assertInstanceOf(AccessingInterfacingPageResponder::class, $responder);
     }
 }

@@ -7,13 +7,42 @@
 # To list all registered routes, run the following command:
 #   bin/console debug:router
 
+app_host_dashboard:
+    resource: routes/app_host_dashboard.yaml
+
 controllers:
     resource: routing.controllers
 
-## Taxating bundle is currently not part of the host bootstrap.
-## Keep its route surface out of the host route import graph.
-# taxating:
-#     resource: '@TaxatingBundle/config/routes/taxation.yaml'
+managing:
+    resource: '../../Managing/config/routes/managing.yaml'
+
+notification_index:
+    path: /notification/
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction
+    defaults:
+        path: /interfacing/
+        permanent: false
+
+bridging:
+    resource: '../../Bridging/config/component/routes.yaml'
+
+accessing:
+    resource: '../../Accessing/config/routes/accessing_routes.yaml'
+
+exchanging:
+    resource: '../../Exchanging/config/routes/exchanging.yaml'
+
+subscripting:
+    resource: '../../Subscripting/config/routes.yaml'
+
+currencing:
+    resource: '../../Currencing/config/routes.yaml'
+
+commissioning:
+    resource: '../../Commissioning/config/routes.yaml'
+
+paging:
+    resource: '../../Paging/config/routes.yaml'
 
 cruding:
     resource: '@CrudingBundle/config/routes.yaml'

@@ -1,0 +1,25 @@
+= App Host Provider Dashboard Contract
+
+The App host owns the root dashboard route and composition decision. It does not
+own primary visual rendering, but it now enters the Interfacing provider page so
+the canonical shell panels remain visible.
+
+Canonical flow:
+
+----
+App route /
+  -> AppDashboardSurfaceContract
+  -> Bridging app-host responder
+  -> Bridge/Interfacing provider surface payload
+  -> Ant Design ProComponents primary renderer
+  -> PrimeReact secondary rich-facade provider
+----
+
+The dashboard surface is an App-level UI composition contract, not a Doctrine entity and not a Cruding/Cataloging/Vendoring page. Connected components expose resource or widget data; App composes the entrypoint; Interfacing renders the primary UI.
+
+Forbidden as primary homepage UI:
+
+* handmade Twig CSS shells;
+* Bootstrap/EasyAdmin fallback pages;
+* direct `@Cruding/crud/*` template rendering;
+* assigning `/` to a random component index route.
