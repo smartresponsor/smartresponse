@@ -1,0 +1,9 @@
+src/Service/Dashboard/AppDashboardSurfaceBuilder.php
+src/Service/Diagnostics/AppRouteAuditController.php
+src/Service/Interfacing/Commerce/DemoProjectShowcaseProvider.php
+src/Service/Interfacing/Crud/Contribution/EcosystemCrudResourceContribution.php
+src/Service/Interfacing/Ecommerce/EcommerceScreenCatalogProvider.php
+src/Service/Interfacing/Shell/ShellChromeProvider.php
+src/Service/Interfacing/Shell/ShellLayoutPreviewProvider.php
+src/Service/Interfacing/Shell/ShellScreenCatalogProvider.php
+src/Service/Navigation/InterfacingNavigationSurfaceRenderer.php

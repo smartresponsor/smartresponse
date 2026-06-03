@@ -5,47 +5,45 @@ declare(strict_types=1);
 namespace App\Entity\Module;
 
 use App\EntityTrait\TimestampableTrait;
+use App\Objecting\EntityInterface\ObjectAuditedInterface;
+use App\Objecting\EntityInterface\ObjectCodedInterface;
+use App\Objecting\EntityInterface\ObjectIdentifiedInterface;
+use App\Objecting\EntityInterface\ObjectScopedInterface;
+use App\Objecting\EntityInterface\ObjectStatefulInterface;
+use App\Objecting\EntityInterface\ObjectTitledInterface;
+use App\Objecting\EntityTrait\Embeddable\ObjectCodeEmbeddableTrait;
+use App\Objecting\EntityTrait\Embeddable\ObjectIdentityEmbeddableTrait;
+use App\Objecting\EntityTrait\Embeddable\ObjectScopeEmbeddableTrait;
+use App\Objecting\EntityTrait\Embeddable\ObjectStateEmbeddableTrait;
+use App\Objecting\EntityTrait\Embeddable\ObjectTitleEmbeddableTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'module')]
-#[ORM\UniqueConstraint(name: 'uniq_module_tenant_code', columns: ['tenant_id', 'code'])]
-#[ORM\UniqueConstraint(name: 'uniq_module_tenant_slug', columns: ['tenant_id', 'slug'])]
-final class ModuleEntity
+#[ORM\UniqueConstraint(name: 'uniq_module_tenant_code', columns: ['object_tenant', 'object_code'])]
+#[ORM\UniqueConstraint(name: 'uniq_module_tenant_slug', columns: ['object_tenant', 'object_slug'])]
+final class ModuleEntity implements ObjectAuditedInterface, ObjectCodedInterface, ObjectIdentifiedInterface, ObjectScopedInterface, ObjectStatefulInterface, ObjectTitledInterface
 {
     use TimestampableTrait;
+    use ObjectCodeEmbeddableTrait;
+    use ObjectIdentityEmbeddableTrait;
+    use ObjectScopeEmbeddableTrait;
+    use ObjectStateEmbeddableTrait;
+    use ObjectTitleEmbeddableTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(name: 'tenant_id', length: 64)]
-    private string $tenantId;
-
-    #[ORM\Column(length: 64)]
-    private string $code;
-
-    #[ORM\Column(length: 180)]
-    private string $slug;
-
-    #[ORM\Column(length: 160)]
-    private string $name;
-
-    #[ORM\Column(type: 'text', nullable: true)]
-    private ?string $description;
-
-    #[ORM\Column(type: 'boolean', options: ['default' => true])]
-    private bool $active = true;
-
     public function __construct(string $code, string $slug, string $name, ?string $description = null, bool $active = true, string $tenantId = 'default')
     {
-        $this->tenantId = $this->normalizeTenantId($tenantId);
-        $this->code = $code;
-        $this->slug = $slug;
-        $this->name = $name;
-        $this->description = $description;
-        $this->active = $active;
+        $tenantId = $this->normalizeTenantId($tenantId);
+        $this->initializeObjectScope(null, $tenantId);
+        $this->initializeObjectCode($code);
+        $this->initializeObjectIdentity(null, $slug);
+        $this->initializeObjectState($active, true, null);
+        $this->initializeObjectTitle($name, null, $description);
         $this->initializeTimestamps();
     }
 
@@ -56,49 +54,59 @@ final class ModuleEntity
 
     public function code(): string
     {
-        return $this->code;
+        return $this->getObjectCode() ?? '';
     }
 
     public function tenantId(): string
     {
-        return $this->tenantId;
+        return $this->getObjectTenant() ?? 'default';
     }
 
     public function slug(): string
     {
-        return $this->slug;
+        return $this->getObjectSlug() ?? '';
     }
 
     public function name(): string
     {
-        return $this->name;
+        return $this->getFirstTitle() ?? '';
+    }
+
+    public function getTitle(): string
+    {
+        return $this->name();
+    }
+
+    public function setTitle(string $title): void
+    {
+        $this->rename($title);
     }
 
     public function description(): ?string
     {
-        return $this->description;
+        return $this->getLastTitle();
     }
 
     public function isActive(): bool
     {
-        return $this->active;
+        return $this->isObjectActive();
     }
 
     public function rename(string $name): void
     {
-        $this->name = $name;
+        $this->setFirstTitle($name);
         $this->touch();
     }
 
     public function setDescription(?string $description): void
     {
-        $this->description = $description;
+        $this->setLastTitle($description);
         $this->touch();
     }
 
     public function setActive(bool $active): void
     {
-        $this->active = $active;
+        $this->setObjectActive($active);
         $this->touch();
     }
 }

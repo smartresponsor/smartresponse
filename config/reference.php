@@ -413,7 +413,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         enabled?: bool|Param, // Default: true
  *     },
  *     lock?: bool|string|array{ // Lock configuration
- *         enabled?: bool|Param, // Default: false
+ *         enabled?: bool|Param, // Default: true
  *         resources?: string|array<string, string|list<scalar|Param|null>>,
  *     },
  *     semaphore?: bool|string|array{ // Semaphore configuration
@@ -463,7 +463,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         }>,
  *     },
  *     scheduler?: bool|array{ // Scheduler configuration
- *         enabled?: bool|Param, // Default: false
+ *         enabled?: bool|Param, // Default: true
  *     },
  *     disallow_search_engine_index?: bool|Param, // Enabled by default when debug is enabled. // Default: true
  *     http_client?: bool|array{ // HTTP Client configuration
@@ -770,6 +770,9 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             property?: scalar|Param|null, // Default: null
  *             manager_name?: scalar|Param|null, // Default: null
  *         },
+ *         lexik_jwt?: array{
+ *             class?: scalar|Param|null, // Default: "Lexik\\Bundle\\JWTAuthenticationBundle\\Security\\User\\JWTUser"
+ *         },
  *     }>,
  *     firewalls?: array<string, array{ // Default: []
  *         pattern?: scalar|Param|null,
@@ -827,6 +830,10 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         remote_user?: array{
  *             provider?: scalar|Param|null,
  *             user?: scalar|Param|null, // Default: "REMOTE_USER"
+ *         },
+ *         jwt?: array{
+ *             provider?: scalar|Param|null, // Default: null
+ *             authenticator?: scalar|Param|null, // Default: "lexik_jwt_authentication.security.jwt_authenticator"
  *         },
  *         login_link?: array{
  *             check_route?: scalar|Param|null, // Route that will validate the login link - e.g. "app_login_link_verify".
@@ -1245,6 +1252,16 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     secret?: scalar|Param|null, // The secret used to compute fingerprints and checksums // Default: "%kernel.secret%"
  *     fetch_credentials?: "same-origin"|"include"|"omit"|Param, // The default fetch credentials mode for all Live Components ('same-origin', 'include', 'omit') // Default: "same-origin"
  * }
+ * @psalm-type TurboConfig = array{
+ *     broadcast?: bool|array{
+ *         enabled?: bool|Param, // Default: true
+ *         entity_template_prefixes?: list<scalar|Param|null>,
+ *         doctrine_orm?: bool|array{ // Enable the Doctrine ORM integration
+ *             enabled?: bool|Param, // Default: true
+ *         },
+ *     },
+ *     default_transport?: scalar|Param|null, // Default: "default"
+ * }
  * @psalm-type DoctrineConfig = array{
  *     dbal?: array{
  *         default_connection?: scalar|Param|null,
@@ -1525,302 +1542,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         }>,
  *     },
  * }
- * @psalm-type ApiPlatformConfig = array{
- *     title?: scalar|Param|null, // The title of the API. // Default: ""
- *     description?: scalar|Param|null, // The description of the API. // Default: ""
- *     version?: scalar|Param|null, // The version of the API. // Default: "0.0.0"
- *     show_webby?: bool|Param, // If true, show Webby on the documentation page // Default: true
- *     use_symfony_listeners?: bool|Param, // Uses Symfony event listeners instead of the ApiPlatform\Symfony\Controller\MainController. // Default: false
- *     name_converter?: scalar|Param|null, // Specify a name converter to use. // Default: null
- *     asset_package?: scalar|Param|null, // Specify an asset package name to use. // Default: null
- *     path_segment_name_generator?: scalar|Param|null, // Specify a path name generator to use. // Default: "api_platform.metadata.path_segment_name_generator.underscore"
- *     inflector?: scalar|Param|null, // Specify an inflector to use. // Default: "api_platform.metadata.inflector"
- *     validator?: array{
- *         serialize_payload_fields?: mixed, // Set to null to serialize all payload fields when a validation error is thrown, or set the fields you want to include explicitly. // Default: []
- *         query_parameter_validation?: bool|Param, // Deprecated: Will be removed in API Platform 5.0. // Default: true
- *     },
- *     jsonapi?: array{
- *         use_iri_as_id?: bool|Param, // Set to false to use entity identifiers instead of IRIs as the "id" field in JSON:API responses. // Default: true
- *     },
- *     eager_loading?: bool|array{
- *         enabled?: bool|Param, // Default: true
- *         fetch_partial?: bool|Param, // Fetch only partial data according to serialization groups. If enabled, Doctrine ORM entities will not work as expected if any of the other fields are used. // Default: false
- *         max_joins?: int|Param, // Max number of joined relations before EagerLoading throws a RuntimeException // Default: 30
- *         force_eager?: bool|Param, // Force join on every relation. If disabled, it will only join relations having the EAGER fetch mode. // Default: true
- *     },
- *     handle_symfony_errors?: bool|Param, // Allows to handle symfony exceptions. // Default: false
- *     enable_swagger?: bool|Param, // Enable the Swagger documentation and export. // Default: true
- *     enable_json_streamer?: bool|Param, // Enable json streamer. // Default: false
- *     enable_swagger_ui?: bool|Param, // Enable Swagger UI // Default: true
- *     enable_re_doc?: bool|Param, // Enable ReDoc // Default: true
- *     enable_scalar?: bool|Param, // Enable Scalar API Reference // Default: true
- *     enable_entrypoint?: bool|Param, // Enable the entrypoint // Default: true
- *     enable_docs?: bool|Param, // Enable the docs // Default: true
- *     enable_profiler?: bool|Param, // Enable the data collector and the WebProfilerBundle integration. // Default: true
- *     enable_phpdoc_parser?: bool|Param, // Enable resource metadata collector using PHPStan PhpDocParser. // Default: true
- *     enable_link_security?: bool|Param, // Deprecated: This option is always enabled and will be removed in API Platform 5.0. // Enable security for Links (sub resources). // Default: true
- *     collection?: array{
- *         exists_parameter_name?: scalar|Param|null, // The name of the query parameter to filter on nullable field values. // Default: "exists"
- *         order?: scalar|Param|null, // The default order of results. // Default: "ASC"
- *         order_parameter_name?: scalar|Param|null, // The name of the query parameter to order results. // Default: "order"
- *         order_nulls_comparison?: "nulls_smallest"|"nulls_largest"|"nulls_always_first"|"nulls_always_last"|Param|null, // The nulls comparison strategy. // Default: null
- *         pagination?: bool|array{
- *             enabled?: bool|Param, // Default: true
- *             page_parameter_name?: scalar|Param|null, // The default name of the parameter handling the page number. // Default: "page"
- *             enabled_parameter_name?: scalar|Param|null, // The name of the query parameter to enable or disable pagination. // Default: "pagination"
- *             items_per_page_parameter_name?: scalar|Param|null, // The name of the query parameter to set the number of items per page. // Default: "itemsPerPage"
- *             partial_parameter_name?: scalar|Param|null, // The name of the query parameter to enable or disable partial pagination. // Default: "partial"
- *         },
- *     },
- *     mapping?: array{
- *         imports?: list<scalar|Param|null>,
- *         paths?: list<scalar|Param|null>,
- *     },
- *     resource_class_directories?: list<scalar|Param|null>,
- *     serializer?: array{
- *         hydra_prefix?: bool|Param, // Use the "hydra:" prefix. // Default: false
- *     },
- *     doctrine?: bool|array{
- *         enabled?: bool|Param, // Default: true
- *     },
- *     doctrine_mongodb_odm?: bool|array{
- *         enabled?: bool|Param, // Default: false
- *     },
- *     oauth?: bool|array{
- *         enabled?: bool|Param, // Default: false
- *         clientId?: scalar|Param|null, // The oauth client id. // Default: ""
- *         clientSecret?: scalar|Param|null, // The OAuth client secret. Never use this parameter in your production environment. It exposes crucial security information. This feature is intended for dev/test environments only. Enable "oauth.pkce" instead // Default: ""
- *         pkce?: bool|Param, // Enable the oauth PKCE. // Default: false
- *         type?: scalar|Param|null, // The oauth type. // Default: "oauth2"
- *         flow?: scalar|Param|null, // The oauth flow grant type. // Default: "application"
- *         tokenUrl?: scalar|Param|null, // The oauth token url. // Default: ""
- *         authorizationUrl?: scalar|Param|null, // The oauth authentication url. // Default: ""
- *         refreshUrl?: scalar|Param|null, // The oauth refresh url. // Default: ""
- *         scopes?: list<scalar|Param|null>,
- *     },
- *     graphql?: bool|array{
- *         enabled?: bool|Param, // Default: true
- *         default_ide?: scalar|Param|null, // Default: "graphiql"
- *         graphiql?: bool|array{
- *             enabled?: bool|Param, // Default: true
- *         },
- *         introspection?: bool|array{
- *             enabled?: bool|Param, // Default: true
- *         },
- *         max_query_depth?: int|Param, // Default: 20
- *         graphql_playground?: bool|array{ // Deprecated: The "graphql_playground" configuration is deprecated and will be ignored.
- *             enabled?: bool|Param, // Default: false
- *         },
- *         max_query_complexity?: int|Param, // Default: 500
- *         nesting_separator?: scalar|Param|null, // The separator to use to filter nested fields. // Default: "_"
- *         collection?: array{
- *             pagination?: bool|array{
- *                 enabled?: bool|Param, // Default: true
- *             },
- *         },
- *     },
- *     swagger?: array{
- *         persist_authorization?: bool|Param, // Persist the SwaggerUI Authorization in the localStorage. // Default: false
- *         versions?: list<scalar|Param|null>,
- *         api_keys?: array<string, array{ // Default: []
- *             name?: scalar|Param|null, // The name of the header or query parameter containing the api key.
- *             type?: "query"|"header"|Param, // Whether the api key should be a query parameter or a header.
- *         }>,
- *         http_auth?: array<string, array{ // Default: []
- *             scheme?: scalar|Param|null, // The OpenAPI HTTP auth scheme, for example "bearer"
- *             bearerFormat?: scalar|Param|null, // The OpenAPI HTTP bearer format
- *         }>,
- *         swagger_ui_extra_configuration?: mixed, // To pass extra configuration to Swagger UI, like docExpansion or filter. // Default: []
- *     },
- *     http_cache?: array{
- *         public?: bool|Param|null, // To make all responses public by default. // Default: null
- *         invalidation?: bool|array{ // Enable the tags-based cache invalidation system.
- *             enabled?: bool|Param, // Default: false
- *             varnish_urls?: list<scalar|Param|null>,
- *             urls?: list<scalar|Param|null>,
- *             scoped_clients?: list<scalar|Param|null>,
- *             max_header_length?: int|Param, // Max header length supported by the cache server. // Default: 7500
- *             request_options?: mixed, // To pass options to the client charged with the request. // Default: []
- *             purger?: scalar|Param|null, // Specify a purger to use (available values: "api_platform.http_cache.purger.varnish.ban", "api_platform.http_cache.purger.varnish.xkey", "api_platform.http_cache.purger.souin"). // Default: "api_platform.http_cache.purger.varnish"
- *             xkey?: array{ // Deprecated: The "xkey" configuration is deprecated, use your own purger to customize surrogate keys or the appropriate parameters.
- *                 glue?: scalar|Param|null, // xkey glue between keys // Default: " "
- *             },
- *         },
- *     },
- *     mercure?: bool|array{
- *         enabled?: bool|Param, // Default: true
- *         hub_url?: scalar|Param|null, // The URL sent in the Link HTTP header. If not set, will default to the URL for MercureBundle's default hub. // Default: null
- *         include_type?: bool|Param, // Always include @var in updates (including delete ones). // Default: false
- *     },
- *     messenger?: bool|array{
- *         enabled?: bool|Param, // Default: true
- *     },
- *     elasticsearch?: bool|array{
- *         enabled?: bool|Param, // Default: false
- *         hosts?: list<scalar|Param|null>,
- *         ssl_ca_bundle?: scalar|Param|null, // Path to the SSL CA bundle file for Elasticsearch SSL verification. // Default: null
- *         ssl_verification?: bool|Param, // Enable or disable SSL verification for Elasticsearch connections. // Default: true
- *         client?: "elasticsearch"|"opensearch"|Param, // The search engine client to use: "elasticsearch" or "opensearch". // Default: "elasticsearch"
- *     },
- *     openapi?: array{
- *         contact?: array{
- *             name?: scalar|Param|null, // The identifying name of the contact person/organization. // Default: null
- *             url?: scalar|Param|null, // The URL pointing to the contact information. MUST be in the format of a URL. // Default: null
- *             email?: scalar|Param|null, // The email address of the contact person/organization. MUST be in the format of an email address. // Default: null
- *         },
- *         termsOfService?: scalar|Param|null, // A URL to the Terms of Service for the API. MUST be in the format of a URL. // Default: null
- *         tags?: list<array{ // Default: []
- *             name?: scalar|Param|null,
- *             description?: scalar|Param|null, // Default: null
- *         }>,
- *         license?: array{
- *             name?: scalar|Param|null, // The license name used for the API. // Default: null
- *             url?: scalar|Param|null, // URL to the license used for the API. MUST be in the format of a URL. // Default: null
- *             identifier?: scalar|Param|null, // An SPDX license expression for the API. The identifier field is mutually exclusive of the url field. // Default: null
- *         },
- *         swagger_ui_extra_configuration?: mixed, // To pass extra configuration to Swagger UI, like docExpansion or filter. // Default: []
- *         scalar_extra_configuration?: mixed, // To pass extra configuration to Scalar API Reference, like theme or darkMode. // Default: []
- *         overrideResponses?: bool|Param, // Whether API Platform adds automatic responses to the OpenAPI documentation. // Default: true
- *         error_resource_class?: scalar|Param|null, // The class used to represent errors in the OpenAPI documentation. // Default: null
- *         validation_error_resource_class?: scalar|Param|null, // The class used to represent validation errors in the OpenAPI documentation. // Default: null
- *     },
- *     maker?: bool|array{
- *         enabled?: bool|Param, // Default: true
- *         namespace_prefix?: scalar|Param|null, // Add a prefix to all maker generated classes. e.g set it to "Api" to set the maker namespace to "App\Api\" (if the maker.root_namespace config is App). e.g. App\Api\State\MyStateProcessor // Default: ""
- *     },
- *     mcp?: bool|array{
- *         enabled?: bool|Param, // Default: true
- *         format?: scalar|Param|null, // The serialization format used for MCP tool input/output. Must be a format registered in api_platform.formats (e.g. "jsonld", "json", "jsonapi"). // Default: "jsonld"
- *     },
- *     exception_to_status?: array<string, int|Param>,
- *     formats?: array<string, array{ // Default: {"jsonld":{"mime_types":["application/ld+json"]}}
- *         mime_types?: list<scalar|Param|null>,
- *     }>,
- *     patch_formats?: array<string, array{ // Default: {"json":{"mime_types":["application/merge-patch+json"]}}
- *         mime_types?: list<scalar|Param|null>,
- *     }>,
- *     docs_formats?: array<string, array{ // Default: {"jsonld":{"mime_types":["application/ld+json"]},"jsonopenapi":{"mime_types":["application/vnd.openapi+json"]},"html":{"mime_types":["text/html"]},"yamlopenapi":{"mime_types":["application/vnd.openapi+yaml"]}}
- *         mime_types?: list<scalar|Param|null>,
- *     }>,
- *     error_formats?: array<string, array{ // Default: {"jsonld":{"mime_types":["application/ld+json"]},"jsonproblem":{"mime_types":["application/problem+json"]},"json":{"mime_types":["application/problem+json","application/json"]}}
- *         mime_types?: list<scalar|Param|null>,
- *     }>,
- *     jsonschema_formats?: list<scalar|Param|null>,
- *     defaults?: array{
- *         uri_template?: mixed,
- *         short_name?: mixed,
- *         description?: mixed,
- *         types?: mixed,
- *         operations?: mixed,
- *         formats?: mixed,
- *         input_formats?: mixed,
- *         output_formats?: mixed,
- *         uri_variables?: mixed,
- *         route_prefix?: mixed,
- *         defaults?: mixed,
- *         requirements?: mixed,
- *         options?: mixed,
- *         stateless?: mixed,
- *         sunset?: mixed,
- *         accept_patch?: mixed,
- *         status?: mixed,
- *         host?: mixed,
- *         schemes?: mixed,
- *         condition?: mixed,
- *         controller?: mixed,
- *         class?: mixed,
- *         url_generation_strategy?: mixed,
- *         deprecation_reason?: mixed,
- *         headers?: mixed,
- *         cache_headers?: mixed,
- *         normalization_context?: mixed,
- *         denormalization_context?: mixed,
- *         collect_denormalization_errors?: mixed,
- *         hydra_context?: mixed,
- *         openapi?: mixed,
- *         validation_context?: mixed,
- *         filters?: mixed,
- *         mercure?: mixed,
- *         messenger?: mixed,
- *         input?: mixed,
- *         output?: mixed,
- *         order?: mixed,
- *         fetch_partial?: mixed,
- *         force_eager?: mixed,
- *         pagination_client_enabled?: mixed,
- *         pagination_client_items_per_page?: mixed,
- *         pagination_client_partial?: mixed,
- *         pagination_via_cursor?: mixed,
- *         pagination_enabled?: mixed,
- *         pagination_fetch_join_collection?: mixed,
- *         pagination_use_output_walkers?: mixed,
- *         pagination_items_per_page?: mixed,
- *         pagination_maximum_items_per_page?: mixed,
- *         pagination_partial?: mixed,
- *         pagination_type?: mixed,
- *         security?: mixed,
- *         security_message?: mixed,
- *         security_post_denormalize?: mixed,
- *         security_post_denormalize_message?: mixed,
- *         security_post_validation?: mixed,
- *         security_post_validation_message?: mixed,
- *         composite_identifier?: mixed,
- *         exception_to_status?: mixed,
- *         query_parameter_validation_enabled?: mixed,
- *         links?: mixed,
- *         graph_ql_operations?: mixed,
- *         provider?: mixed,
- *         processor?: mixed,
- *         state_options?: mixed,
- *         rules?: mixed,
- *         policy?: mixed,
- *         middleware?: mixed,
- *         parameters?: array<string, array{ // Default: []
- *             key?: mixed,
- *             schema?: mixed,
- *             open_api?: mixed,
- *             provider?: mixed,
- *             filter?: mixed,
- *             property?: mixed,
- *             description?: mixed,
- *             properties?: mixed,
- *             required?: mixed,
- *             priority?: mixed,
- *             hydra?: mixed,
- *             constraints?: mixed,
- *             security?: mixed,
- *             security_message?: mixed,
- *             extra_properties?: mixed,
- *             filter_context?: mixed,
- *             native_type?: mixed,
- *             cast_to_array?: mixed,
- *             cast_to_native_type?: mixed,
- *             cast_fn?: mixed,
- *             default?: mixed,
- *             filter_class?: mixed,
- *             ...<string, mixed>
- *         }>,
- *         strict_query_parameter_validation?: mixed,
- *         hide_hydra_operation?: mixed,
- *         json_stream?: mixed,
- *         extra_properties?: mixed,
- *         map?: mixed,
- *         mcp?: mixed,
- *         route_name?: mixed,
- *         errors?: mixed,
- *         read?: mixed,
- *         deserialize?: mixed,
- *         validate?: mixed,
- *         write?: mixed,
- *         serialize?: mixed,
- *         content_negotiation?: mixed,
- *         priority?: mixed,
- *         name?: mixed,
- *         allow_create?: mixed,
- *         item_uri_template?: mixed,
- *         ...<string, mixed>
- *     },
- * }
  * @psalm-type TwigExtraConfig = array{
  *     cache?: bool|array{
  *         enabled?: bool|Param, // Default: false
@@ -1868,6 +1589,66 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         ...<string, mixed>
  *     },
  * }
+ * @psalm-type CrudingConfig = array{
+ *     resource_path_requirement?: scalar|Param|null, // Default: "(?!.*(?:^|/)(?:new|edit|delete|audit|visibility|attach|detach)(?:$|/))[a-z0-9](?:[a-z0-9/_-]*[a-z0-9])?"
+ *     capability_map?: array<string, mixed>,
+ *     entity_class_alias_map?: array<string, scalar|Param|null>,
+ *     form_type_map?: array<string, scalar|Param|null>,
+ * }
+ * @psalm-type NavigationConfig = array{
+ *     schema?: int|Param, // Default: 2
+ *     slots?: array{
+ *         roots?: scalar|Param|null, // Default: "shell.left.middle"
+ *         active_root_sections?: scalar|Param|null, // Default: "shell.context.middle"
+ *         footer_left?: scalar|Param|null, // Default: "shell.footer.left"
+ *         footer_context?: scalar|Param|null, // Default: "shell.footer.context"
+ *         footer_main?: scalar|Param|null, // Default: "shell.footer.main"
+ *         footer_right?: scalar|Param|null, // Default: "shell.footer.right"
+ *     },
+ *     locations?: mixed,
+ *     template?: mixed,
+ *     templates?: mixed,
+ *     template_path?: mixed,
+ *     crud?: mixed,
+ *     resources?: mixed,
+ *     runtime_roles?: array{
+ *         fallback_roles?: list<scalar|Param|null>,
+ *     },
+ *     footer?: array<string, array{ // Default: []
+ *         label?: scalar|Param|null,
+ *         priority?: int|Param, // Default: 100
+ *         enabled?: bool|Param, // Default: true
+ *         visible?: bool|Param, // Default: true
+ *         visible_for_roles?: list<scalar|Param|null>,
+ *         location?: scalar|Param|null, // Default: null
+ *         items?: array<string, array{ // Default: []
+ *             label?: scalar|Param|null,
+ *             priority?: int|Param, // Default: 100
+ *             enabled?: bool|Param, // Default: true
+ *             visible?: bool|Param, // Default: true
+ *             visible_for_roles?: list<scalar|Param|null>,
+ *             target?: list<mixed>,
+ *             icon?: scalar|Param|null, // Default: null
+ *         }>,
+ *     }>,
+ *     roots?: array<string, array{ // Default: []
+ *         label?: scalar|Param|null,
+ *         priority?: int|Param, // Default: 100
+ *         enabled?: bool|Param, // Default: true
+ *         visible?: bool|Param, // Default: true
+ *         visible_for_roles?: list<scalar|Param|null>,
+ *         target?: list<mixed>,
+ *         icon?: scalar|Param|null, // Default: null
+ *         sections?: array<string, array{ // Default: []
+ *             label?: scalar|Param|null,
+ *             priority?: int|Param, // Default: 100
+ *             enabled?: bool|Param, // Default: true
+ *             visible?: bool|Param, // Default: true
+ *             visible_for_roles?: list<scalar|Param|null>,
+ *             target?: list<mixed>,
+ *         }>,
+ *     }>,
+ * }
  * @psalm-type AttachmentConfig = array{
  *     storage?: array{
  *         default?: scalar|Param|null, // Default: "local"
@@ -1911,6 +1692,31 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     default_plan_code?: scalar|Param|null, // Default: "default"
  *     development_fallbacks?: bool|Param, // Default: true
  * }
+ * @psalm-type RoleConfig = array{
+ *     enabled?: bool|Param, // Default: true
+ *     policy_namespace?: scalar|Param|null, // Default: "role"
+ *     admin_namespace?: scalar|Param|null, // Default: "role-admin"
+ *     audit_namespace?: scalar|Param|null, // Default: "role-audit"
+ *     ops_dir?: scalar|Param|null, // Default: "%kernel.project_dir%/ops"
+ *     sdk_namespace?: scalar|Param|null, // Default: "Rolling\\SDK\\V2"
+ * }
+ * @psalm-type ViewingConfig = array{
+ *     enabled?: bool|Param, // Default: true
+ *     bot_actor_values?: list<scalar|Param|null>,
+ *     actor_request_attribute?: scalar|Param|null, // Default: "_view_actor_type"
+ *     controlled_route_attribute?: scalar|Param|null, // Default: "_view_controlled"
+ *     response_guard_enabled?: bool|Param, // Default: true
+ *     debug_response_guard?: bool|Param, // Default: false
+ *     diagnostic_mode?: "off"|"safe"|"debug"|Param, // Default: "safe"
+ *     traffic_classifier_enabled?: bool|Param, // Default: true
+ *     bot_user_agent_patterns?: list<scalar|Param|null>,
+ *     excluded_path_patterns?: list<scalar|Param|null>,
+ *     excluded_route_patterns?: list<scalar|Param|null>,
+ *     interfacing_twig_namespace?: scalar|Param|null, // Default: "Interfacing"
+ *     viewing_twig_namespace?: scalar|Param|null, // Default: "Viewing"
+ *     local_component_fallback_enabled?: bool|Param, // Default: true
+ *     json_fallback_status_code?: int|Param, // Default: 200
+ * }
  * @psalm-type PageConfig = array{
  *     public_route_prefix?: scalar|Param|null, // Default: "/page"
  *     api_route_prefix?: scalar|Param|null, // Default: "/api/page"
@@ -1921,28 +1727,206 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     enabled_components?: list<scalar|Param|null>,
  *     disabled_resources?: list<scalar|Param|null>,
  *     menu_order?: list<scalar|Param|null>,
- *     admin_enabled?: bool|Param, // Default: true
- *     admin_route_prefix?: scalar|Param|null, // Default: "/manage"
+ *     left_menu?: list<scalar|Param|null>,
+ *     menu_excluded_components?: list<scalar|Param|null>,
+ *     host_scan_source_roots?: list<scalar|Param|null>,
+ *     host_scan_namespace_prefixes?: list<scalar|Param|null>,
+ *     host_scan_excluded_namespaces?: list<scalar|Param|null>,
+ *     crud_primary_technical_keywords?: list<scalar|Param|null>,
+ *     crud_primary_business_keywords?: list<scalar|Param|null>,
+ *     crud_generated_attachment_migration_components?: list<scalar|Param|null>,
+ *     crud_behavior_search_fields?: list<scalar|Param|null>,
+ *     crud_behavior_status_fields?: list<scalar|Param|null>,
+ *     crud_behavior_publication_flag_fields?: list<scalar|Param|null>,
+ *     crud_behavior_publication_date_fields?: list<scalar|Param|null>,
+ *     crud_behavior_audit_date_fields?: list<scalar|Param|null>,
+ *     crud_behavior_default_sort_fields?: list<scalar|Param|null>,
+ *     crud_field_primary_identifier_candidates?: list<scalar|Param|null>,
+ *     crud_field_title_candidates?: list<scalar|Param|null>,
+ *     crud_field_identity_candidates?: list<scalar|Param|null>,
+ *     crud_field_description_candidates?: list<scalar|Param|null>,
+ *     crud_field_technical_excluded_fields?: list<scalar|Param|null>,
+ *     crud_field_email_keywords?: list<scalar|Param|null>,
+ *     crud_field_url_keywords?: list<scalar|Param|null>,
+ *     crud_field_long_text_keywords?: list<scalar|Param|null>,
  *     admin_allowed_environments?: list<scalar|Param|null>,
- *     admin_required_role?: scalar|Param|null, // Default: "ROLE_ADMIN"
+ *     component_root_names?: array<string, scalar|Param|null>,
+ *     component_root_aliases?: array<string, scalar|Param|null>,
+ *     host_scan_included_entity_suffixes_by_component?: array<string, list<scalar|Param|null>>,
+ *     crud_primary_entity_bonus_suffixes_by_component?: array<string, array<string, int|Param>>,
+ *     crud_primary_entity_penalty_suffixes_by_component?: array<string, array<string, int|Param>>,
+ *     crud_field_type_overrides?: array<string, array<string, scalar|Param|null>>,
+ *     crud_field_visibility?: mixed, // Default: {"defaults":[],"resources":[]}
+ *     crud_field_user_profiles?: mixed, // Default: {"subjects":[]}
+ *     host_scan_enabled?: bool|Param, // Default: true
+ *     admin_enabled?: bool|Param, // Default: true
  *     admin_show_security_notes?: bool|Param, // Default: true
+ *     crud_field_user_profile_runtime_backend?: scalar|Param|null, // Default: "config"
+ *     crud_field_user_profile_reader_backend?: scalar|Param|null, // Default: "none"
+ *     crud_field_user_profile_writer_backend?: scalar|Param|null, // Default: "none"
+ *     crud_field_user_profile_entity_manager_service?: scalar|Param|null, // Default: "doctrine.orm.system_entity_manager"
+ *     crud_field_external_access_backend?: scalar|Param|null, // Default: "none"
+ *     crud_field_external_access_failure_effect?: scalar|Param|null, // Default: "deny"
+ *     crud_field_external_access_rolling_decision_service?: scalar|Param|null, // Default: "App\\Rolling\\ServiceInterface\\Administration\\RollingFieldAccessDecisionServiceInterface"
+ *     crud_field_external_access_permission_key?: scalar|Param|null, // Default: "managing.field.view"
+ *     admin_route_prefix?: scalar|Param|null, // Default: "/manage"
+ *     admin_required_role?: scalar|Param|null, // Default: "ROLE_ADMIN"
  *     admin_logout_path?: scalar|Param|null, // Default: "/logout"
  *     admin_logout_label?: scalar|Param|null, // Default: "Logout"
- *     configured_components?: mixed, // Default: []
- *     configured_resources?: mixed, // Default: []
- *     configured_routes?: mixed, // Default: []
- *     configured_forms?: mixed, // Default: []
- *     configured_relations?: mixed, // Default: []
- *     configured_probes?: mixed, // Default: []
- * }
- * @psalm-type BridgeConfig = array{
- *     defaults?: array{
- *         strict_resolution?: bool|Param, // Default: true
- *     },
  * }
  * @psalm-type VendoringConfig = array{
  *     observability_dir?: scalar|Param|null, // Default: "%kernel.project_dir%/var/observability"
  *     fault_tolerance_dir?: scalar|Param|null, // Default: "%kernel.project_dir%/var/fault-tolerance"
+ * }
+ * @psalm-type SearchingConfig = array{
+ *     enabled?: bool|Param, // Default: true
+ *     default_provider?: scalar|Param|null, // Default: "null"
+ *     providers?: array<string, array{ // Default: []
+ *         enabled?: bool|Param, // Default: false
+ *         dsn?: scalar|Param|null, // Default: null
+ *         index_prefix?: scalar|Param|null, // Default: "sr"
+ *         options?: list<mixed>,
+ *     }>,
+ *     indexing?: array{
+ *         batch_size?: int|Param, // Default: 100
+ *         track_document_hash?: bool|Param, // Default: true
+ *         reindex?: array{
+ *             dispatch_mode?: "sync"|"messenger"|Param, // Default: "sync"
+ *             messenger_max_attempts?: int|Param, // Default: 3
+ *             duplicate_guard?: bool|Param, // Default: true
+ *         },
+ *     },
+ *     query?: array{
+ *         default_limit?: int|Param, // Default: 20
+ *         max_limit?: int|Param, // Default: 100
+ *         highlights?: bool|Param, // Default: true
+ *         facets?: bool|Param, // Default: true
+ *     },
+ *     logging?: array{
+ *         enabled?: bool|Param, // Default: false
+ *         driver?: "null"|"doctrine"|Param, // Default: "null"
+ *         flush_immediately?: bool|Param, // Default: true
+ *         recent_limit?: int|Param, // Default: 50
+ *     },
+ *     hydration?: array{
+ *         enabled?: bool|Param, // Default: true
+ *     },
+ *     security?: array{
+ *         permission_filtering?: bool|Param, // Default: true
+ *     },
+ *     flow_control?: array{
+ *         enabled?: bool|Param, // Default: false
+ *         default_mode?: "reject"|"defer"|Param, // Default: "reject"
+ *         operations?: array<string, array{ // Default: []
+ *             limit?: int|Param, // Default: 60
+ *             window_seconds?: int|Param, // Default: 60
+ *             mode?: "reject"|"defer"|Param, // Default: "reject"
+ *         }>,
+ *     },
+ * }
+ * @psalm-type LexikJwtAuthenticationConfig = array{
+ *     public_key?: scalar|Param|null, // The key used to sign tokens (useless for HMAC). If not set, the key will be automatically computed from the secret key. // Default: null
+ *     additional_public_keys?: list<scalar|Param|null>,
+ *     secret_key?: scalar|Param|null, // The key used to sign tokens. It can be a raw secret (for HMAC), a raw RSA/ECDSA key or the path to a file itself being plaintext or PEM. // Default: null
+ *     pass_phrase?: scalar|Param|null, // The key passphrase (useless for HMAC) // Default: ""
+ *     token_ttl?: scalar|Param|null, // Default: 3600
+ *     allow_no_expiration?: bool|Param, // Allow tokens without "exp" claim (i.e. indefinitely valid, no lifetime) to be considered valid. Caution: usage of this should be rare. // Default: false
+ *     clock_skew?: scalar|Param|null, // Default: 0
+ *     encoder?: array{
+ *         service?: scalar|Param|null, // Default: "lexik_jwt_authentication.encoder.lcobucci"
+ *         signature_algorithm?: scalar|Param|null, // Default: "RS256"
+ *     },
+ *     user_id_claim?: scalar|Param|null, // Default: "username"
+ *     token_extractors?: array{
+ *         authorization_header?: bool|array{
+ *             enabled?: bool|Param, // Default: true
+ *             prefix?: scalar|Param|null, // Default: "Bearer"
+ *             name?: scalar|Param|null, // Default: "Authorization"
+ *         },
+ *         cookie?: bool|array{
+ *             enabled?: bool|Param, // Default: false
+ *             name?: scalar|Param|null, // Default: "BEARER"
+ *         },
+ *         query_parameter?: bool|array{
+ *             enabled?: bool|Param, // Default: false
+ *             name?: scalar|Param|null, // Default: "bearer"
+ *         },
+ *         split_cookie?: bool|array{
+ *             enabled?: bool|Param, // Default: false
+ *             cookies?: list<scalar|Param|null>,
+ *         },
+ *     },
+ *     remove_token_from_body_when_cookies_used?: scalar|Param|null, // Default: true
+ *     set_cookies?: array<string, array{ // Default: []
+ *         lifetime?: scalar|Param|null, // The cookie lifetime. If null, the "token_ttl" option value will be used // Default: null
+ *         samesite?: "none"|"lax"|"strict"|Param, // Default: "lax"
+ *         path?: scalar|Param|null, // Default: "/"
+ *         domain?: scalar|Param|null, // Default: null
+ *         secure?: scalar|Param|null, // Default: true
+ *         httpOnly?: scalar|Param|null, // Default: true
+ *         partitioned?: scalar|Param|null, // Default: false
+ *         split?: list<scalar|Param|null>,
+ *     }>,
+ *     api_platform?: bool|array{ // API Platform compatibility: add check_path in OpenAPI documentation.
+ *         enabled?: bool|Param, // Default: false
+ *         check_path?: scalar|Param|null, // The login check path to add in OpenAPI. // Default: null
+ *         username_path?: scalar|Param|null, // The path to the username in the JSON body. // Default: null
+ *         password_path?: scalar|Param|null, // The path to the password in the JSON body. // Default: null
+ *     },
+ *     access_token_issuance?: bool|array{
+ *         enabled?: bool|Param, // Default: false
+ *         signature?: array{
+ *             algorithm?: scalar|Param|null, // The algorithm use to sign the access tokens.
+ *             key?: scalar|Param|null, // The signature key. It shall be JWK encoded.
+ *         },
+ *         encryption?: bool|array{
+ *             enabled?: bool|Param, // Default: false
+ *             key_encryption_algorithm?: scalar|Param|null, // The key encryption algorithm is used to encrypt the token.
+ *             content_encryption_algorithm?: scalar|Param|null, // The key encryption algorithm is used to encrypt the token.
+ *             key?: scalar|Param|null, // The encryption key. It shall be JWK encoded.
+ *         },
+ *     },
+ *     access_token_verification?: bool|array{
+ *         enabled?: bool|Param, // Default: false
+ *         signature?: array{
+ *             header_checkers?: list<scalar|Param|null>,
+ *             claim_checkers?: list<scalar|Param|null>,
+ *             mandatory_claims?: list<scalar|Param|null>,
+ *             allowed_algorithms?: list<scalar|Param|null>,
+ *             keyset?: scalar|Param|null, // The signature keyset. It shall be JWKSet encoded.
+ *         },
+ *         encryption?: bool|array{
+ *             enabled?: bool|Param, // Default: false
+ *             continue_on_decryption_failure?: bool|Param, // If enable, non-encrypted tokens or tokens that failed during decryption or verification processes are accepted. // Default: false
+ *             header_checkers?: list<scalar|Param|null>,
+ *             allowed_key_encryption_algorithms?: list<scalar|Param|null>,
+ *             allowed_content_encryption_algorithms?: list<scalar|Param|null>,
+ *             keyset?: scalar|Param|null, // The encryption keyset. It shall be JWKSet encoded.
+ *         },
+ *     },
+ *     blocklist_token?: bool|array{
+ *         enabled?: bool|Param, // Default: false
+ *         cache?: scalar|Param|null, // Storage to track blocked tokens // Default: "cache.app"
+ *     },
+ * }
+ * @psalm-type PayingConfig = array{
+ *     storage?: array{
+ *         data_server_version?: scalar|Param|null, // Default: "16.0"
+ *         infra_server_version?: scalar|Param|null, // Default: "3.45.1"
+ *     },
+ *     messenger?: array{
+ *         dsn?: scalar|Param|null, // Default: "%env(resolve:RABBITMQ_DSN)%"
+ *     },
+ * }
+ * @psalm-type DomainingConfig = array{
+ *     standalone_enabled?: bool|Param, // Default: false
+ *     template_surface?: scalar|Param|null, // Default: "domain"
+ *     raw_json_fallback?: bool|Param, // Default: true
+ *     interfacing_template_candidates?: list<scalar|Param|null>,
+ *     provider_recommendation?: array{
+ *         primary?: scalar|Param|null, // Default: "Cloudflare"
+ *         note?: scalar|Param|null, // Default: "Smart Responsor does not register, sell, transfer, or host domains as a registrar."
+ *     },
  * }
  * @psalm-type ConfigType = array{
  *     imports?: ImportsConfig,
@@ -1958,19 +1942,26 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     twig_component?: TwigComponentConfig,
  *     stimulus?: StimulusConfig,
  *     live_component?: LiveComponentConfig,
+ *     turbo?: TurboConfig,
  *     doctrine?: DoctrineConfig,
  *     doctrine_migrations?: DoctrineMigrationsConfig,
  *     scheb_two_factor?: SchebTwoFactorConfig,
  *     nelmio_api_doc?: NelmioApiDocConfig,
- *     api_platform?: ApiPlatformConfig,
  *     twig_extra?: TwigExtraConfig,
+ *     cruding?: CrudingConfig,
+ *     navigation?: NavigationConfig,
  *     attachment?: AttachmentConfig,
  *     billing?: BillingConfig,
  *     commissioning?: CommissioningConfig,
+ *     role?: RoleConfig,
+ *     viewing?: ViewingConfig,
  *     page?: PageConfig,
  *     managing?: ManagingConfig,
- *     bridge?: BridgeConfig,
  *     vendoring?: VendoringConfig,
+ *     searching?: SearchingConfig,
+ *     lexik_jwt_authentication?: LexikJwtAuthenticationConfig,
+ *     paying?: PayingConfig,
+ *     domaining?: DomainingConfig,
  *     "when@dev"?: array{
  *         imports?: ImportsConfig,
  *         parameters?: ParametersConfig,
@@ -1986,19 +1977,26 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         twig_component?: TwigComponentConfig,
  *         stimulus?: StimulusConfig,
  *         live_component?: LiveComponentConfig,
+ *         turbo?: TurboConfig,
  *         doctrine?: DoctrineConfig,
  *         doctrine_migrations?: DoctrineMigrationsConfig,
  *         scheb_two_factor?: SchebTwoFactorConfig,
  *         nelmio_api_doc?: NelmioApiDocConfig,
- *         api_platform?: ApiPlatformConfig,
  *         twig_extra?: TwigExtraConfig,
+ *         cruding?: CrudingConfig,
+ *         navigation?: NavigationConfig,
  *         attachment?: AttachmentConfig,
  *         billing?: BillingConfig,
  *         commissioning?: CommissioningConfig,
+ *         role?: RoleConfig,
+ *         viewing?: ViewingConfig,
  *         page?: PageConfig,
  *         managing?: ManagingConfig,
- *         bridge?: BridgeConfig,
  *         vendoring?: VendoringConfig,
+ *         searching?: SearchingConfig,
+ *         lexik_jwt_authentication?: LexikJwtAuthenticationConfig,
+ *         paying?: PayingConfig,
+ *         domaining?: DomainingConfig,
  *     },
  *     "when@prod"?: array{
  *         imports?: ImportsConfig,
@@ -2014,19 +2012,26 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         twig_component?: TwigComponentConfig,
  *         stimulus?: StimulusConfig,
  *         live_component?: LiveComponentConfig,
+ *         turbo?: TurboConfig,
  *         doctrine?: DoctrineConfig,
  *         doctrine_migrations?: DoctrineMigrationsConfig,
  *         scheb_two_factor?: SchebTwoFactorConfig,
  *         nelmio_api_doc?: NelmioApiDocConfig,
- *         api_platform?: ApiPlatformConfig,
  *         twig_extra?: TwigExtraConfig,
+ *         cruding?: CrudingConfig,
+ *         navigation?: NavigationConfig,
  *         attachment?: AttachmentConfig,
  *         billing?: BillingConfig,
  *         commissioning?: CommissioningConfig,
+ *         role?: RoleConfig,
+ *         viewing?: ViewingConfig,
  *         page?: PageConfig,
  *         managing?: ManagingConfig,
- *         bridge?: BridgeConfig,
  *         vendoring?: VendoringConfig,
+ *         searching?: SearchingConfig,
+ *         lexik_jwt_authentication?: LexikJwtAuthenticationConfig,
+ *         paying?: PayingConfig,
+ *         domaining?: DomainingConfig,
  *     },
  *     "when@test"?: array{
  *         imports?: ImportsConfig,
@@ -2042,19 +2047,26 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         twig_component?: TwigComponentConfig,
  *         stimulus?: StimulusConfig,
  *         live_component?: LiveComponentConfig,
+ *         turbo?: TurboConfig,
  *         doctrine?: DoctrineConfig,
  *         doctrine_migrations?: DoctrineMigrationsConfig,
  *         scheb_two_factor?: SchebTwoFactorConfig,
  *         nelmio_api_doc?: NelmioApiDocConfig,
- *         api_platform?: ApiPlatformConfig,
  *         twig_extra?: TwigExtraConfig,
+ *         cruding?: CrudingConfig,
+ *         navigation?: NavigationConfig,
  *         attachment?: AttachmentConfig,
  *         billing?: BillingConfig,
  *         commissioning?: CommissioningConfig,
+ *         role?: RoleConfig,
+ *         viewing?: ViewingConfig,
  *         page?: PageConfig,
  *         managing?: ManagingConfig,
- *         bridge?: BridgeConfig,
  *         vendoring?: VendoringConfig,
+ *         searching?: SearchingConfig,
+ *         lexik_jwt_authentication?: LexikJwtAuthenticationConfig,
+ *         paying?: PayingConfig,
+ *         domaining?: DomainingConfig,
  *     },
  *     ...<string, ExtensionType|array{ // extra keys must follow the when@%env% pattern or match an extension alias
  *         imports?: ImportsConfig,

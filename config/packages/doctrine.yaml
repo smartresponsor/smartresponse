@@ -86,6 +86,18 @@ doctrine:
                         dir: '%kernel.project_dir%/../Billing/src/Entity'
                         prefix: 'App\Billing\Entity'
                         alias: Billing
+                    Carting:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Carting/src/Entity'
+                        prefix: 'App\Carting\Entity'
+                        alias: Carting
+                    Localizing:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Localizing/src/Entity'
+                        prefix: 'App\Localizing\Entity'
+                        alias: Localizing
                     Commissioning:
                         is_bundle: false
                         type: attribute
@@ -134,6 +146,12 @@ doctrine:
                         dir: '%kernel.project_dir%/../Messaging/src/Entity'
                         prefix: 'App\Messaging\Entity'
                         alias: Messaging
+                    MessagingMessage:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Messaging/src/Entity/Message'
+                        prefix: 'App\Entity\Message'
+                        alias: MessagingMessage
                     Ordering:
                         is_bundle: false
                         type: attribute
@@ -158,18 +176,24 @@ doctrine:
                         dir: '%kernel.project_dir%/../Projecting/src/Entity'
                         prefix: 'App\Entity'
                         alias: Projecting
-                    Rolling:
-                        is_bundle: false
-                        type: attribute
-                        dir: '%kernel.project_dir%/../Rolling/src/Entity'
-                        prefix: 'App\Rolling\Entity'
-                        alias: Rolling
                     Shipping:
                         is_bundle: false
                         type: attribute
                         dir: '%kernel.project_dir%/../Shipping/src/Entity'
                         prefix: 'App\Entity'
                         alias: Shipping
+                    ShippingShipping:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Shipping/src/Entity/Shipping'
+                        prefix: 'App\Shipping\Entity\Shipping'
+                        alias: ShippingShipping
+                    Tagging:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Tagging/src/Entity/Core/Tag'
+                        prefix: 'App\Tagging\Entity\Core\Tag'
+                        alias: Tagging
                     Taxating:
                         is_bundle: false
                         type: attribute
@@ -211,6 +235,12 @@ doctrine:
                         dir: '%kernel.project_dir%/src/Entity/Review'
                         prefix: 'App\Entity\Review'
                         alias: Review
+                    ObjectingEmbeddable:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Objecting/src/Embeddable'
+                        prefix: 'App\Objecting\Embeddable'
+                        alias: ObjectingEmbeddable
             sqlite:
                 connection: sqlite
                 auto_mapping: false
@@ -251,6 +281,29 @@ doctrine:
                         dir: '%kernel.project_dir%/src/Entity/Product'
                         prefix: 'App\Entity\Product'
                         alias: ProductType
+                    ObjectingEmbeddable:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Objecting/src/Embeddable'
+                        prefix: 'App\Objecting\Embeddable'
+                        alias: ObjectingEmbeddable
+            system:
+                connection: sqlite
+                auto_mapping: false
+                naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+                mappings:
+                    Administering:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Administering/src/Entity'
+                        prefix: 'App\Administering\Entity'
+                        alias: Administering
+                    Rolling:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Rolling/src/Entity'
+                        prefix: 'App\Rolling\Entity'
+                        alias: Rolling
 
 when@test:
     doctrine:

@@ -7,14 +7,6 @@
 parameters:
     redis.dsn: 'redis://127.0.0.1:6379/0'
 
-imports:
-    - { resource: '../vendor/cruding/crud/config/services.yaml' }
-    - { resource: '../../Localizing/config/services.yaml' }
-    - { resource: '../../Currencing/config/packages/currencing.yaml' }
-    - { resource: '../../Currencing/config/services/currencing.yaml' }
-    - { resource: '../../Subscripting/config/packages/subscription_runtime_prep.yaml' }
-    - { resource: '../../Subscripting/config/services.yaml' }
-
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -25,16 +17,79 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/'
+        exclude:
+            - '../src/Presentation/Controller/Interfacing/'
+            - '../src/Contract/Ui/AdminBodyBridgeProviderSurfaceContract.php'
+            - '../src/Contract/Ui/AdminBodyConsumerProviderAdoptionContract.php'
+            - '../src/Contract/Ui/AdminBodyMountContract.php'
+            - '../../Complying/src/'
+            - '../../Complying/Command/'
+
+    App\Fixture\GovernanceDemoSeeder: ~
+    App\Service\Demo\FacetingDemoDatasetService: ~
+    App\ServiceInterface\Demo\FacetingDemoDatasetServiceInterface: '@App\Service\Demo\FacetingDemoDatasetService'
+    App\Service\Demo\OrderDemoDataService: ~
 
     App\ServiceInterface\VendorApiKeyServiceInterface: '@App\Service\VendorApiKeyService'
+    App\Navigating\ServiceInterface\Navigation\NavigationSurfaceRendererInterface: '@App\Service\Navigation\InterfacingNavigationSurfaceRendererService'
+    App\Service\Dashboard\AppDashboardSurfaceBuilderService:
+        public: true
+    App\Service\Diagnostics\AppRouteAuditService:
+        public: true
+        tags: ['controller.service_arguments']
     doctrine.dbal.default_connection:
         alias: doctrine.dbal.postgres_connection
 
-    App\Contract\Ui\AppDashboardSurfaceContract: '@App\Service\Dashboard\AppDashboardSurfaceBuilder'
+    App\Contract\Ui\AppDashboardSurfaceContract: '@App\Service\Dashboard\AppDashboardSurfaceBuilderService'
+    App\Interfacing\ServiceInterface\Shell\ShellChromeProviderInterface: '@App\Service\Interfacing\Shell\ShellChromeProviderService'
+    App\Interfacing\ServiceInterface\Commerce\ProjectShowcaseProviderInterface: '@App\Service\Interfacing\Commerce\DemoProjectShowcaseProviderService'
+    App\Interfacing\ServiceInterface\Ecommerce\EcommerceScreenCatalogProviderInterface: '@App\Service\Interfacing\Ecommerce\EcommerceScreenCatalogProviderService'
+    App\Interfacing\ServiceInterface\Shell\ShellLayoutPreviewProviderInterface: '@App\Service\Interfacing\Shell\ShellLayoutPreviewProviderService'
+    App\Interfacing\ServiceInterface\Shell\ShellScreenCatalogProviderInterface: '@App\Service\Interfacing\Shell\ShellScreenCatalogProviderService'
+
+    App\Repository\Order\OrderRepository:
+        tags: [ 'doctrine.repository_service' ]
 
     App\Twig\LocaleSelectorTwigExtension:
         tags: ['twig.extension']
 
+    doctrine.orm.infrastructure_entity_manager:
+        alias: doctrine.orm.sqlite_entity_manager
+
+    App\Service\Navigation\InterfacingNavigationSurfaceRendererService:
+        arguments:
+            $interfacingRenderer: '@App\Interfacing\ServiceInterface\Presentation\InterfacingRendererInterface'
+
+    App\Routing\SiblingRoutesLoader:
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+            $connectedComponents: '%app.connected_components%'
+        tags:
+            - { name: 'routing.loader', type: 'sibling_routes' }
+
 when@dev:
     services:
         Doctrine\Bundle\FixturesBundle\Loader\SymfonyFixturesLoader: '@doctrine.fixtures.loader'
+
+imports:
+    - { resource: '../../Administering/config/services.yaml' }
+    - { resource: '../vendor/cruding/crud/config/services.yaml' }
+    - { resource: '../../Accessing/config/services.yaml' }
+    - { resource: '../../Shipping/config/component/services.yaml' }
+    - { resource: '../../Carting/config/services.yaml' }
+    - { resource: '../../Observabiliting/config/services.yaml' }
+    - { resource: '../../Vendoring/config/component/services.yaml' }
+    - { resource: '../../Searching/config/packages/searching.yaml' }
+    - { resource: '../../Navigating/config/services.yaml' }
+    - { resource: '../../Ordering/config/component/services.yaml' }
+    - { resource: '../../Ordering/config/packages/rate_limiter.php' }
+    - { resource: '../../Paying/config/services.yaml' }
+    - { resource: '../../Domaining/config/services.yaml' }
+    - { resource: '../../Billing/config/component/services.yaml' }
+    - { resource: '../../Localizing/config/services.yaml' }
+    - { resource: '../../Currencing/config/packages/currencing.yaml' }
+    - { resource: '../../Currencing/config/services/currencing.yaml' }
+    - { resource: '../../Discovering/config/services.yaml' }
+    - { resource: '../../Complying/config/services.yaml' }
+    - { resource: '../../Subscripting/config/packages/subscription_runtime_prep.yaml' }
+    - { resource: '../../Subscripting/config/services.yaml' }

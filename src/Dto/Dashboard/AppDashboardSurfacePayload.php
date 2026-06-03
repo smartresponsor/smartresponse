@@ -10,7 +10,7 @@ namespace App\Dto\Dashboard;
 
 /**
  * Host dashboard UI composition payload produced by App and normalized by
- * Bridging before it reaches the Interfacing provider document.
+ * Viewing before it reaches the Interfacing template hierarchy.
  */
 final readonly class AppDashboardSurfacePayload
 {

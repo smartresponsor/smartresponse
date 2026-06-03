@@ -9,4 +9,14 @@
     array (
     ),
   ),
+  '@hotwired/turbo' => 
+  array (
+    'version' => '8.0.23',
+    'dependencies' => 
+    array (
+    ),
+    'extraFiles' => 
+    array (
+    ),
+  ),
 );

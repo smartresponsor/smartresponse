@@ -1,1 +1,20 @@
-managing: ~
+managing:
+  left_menu:
+    - analysing
+    - applicating
+    - attaching
+    - billing
+    - cataloging
+    - commissioning
+    - currencing
+    - exchanging
+    - localizing
+    - messaging
+    - ordering
+    - paging
+    - paying
+    - shipping
+    - subscripting
+    - tagging
+    - taxating
+    - vendoring

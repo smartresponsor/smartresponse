@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Role Check</title>
+    <style>body {
+        font: 14px/1.4 system-ui;
+        margin: 20px
+    }
+
+    input {
+        padding: 6px
+    }
+
+    button {
+        padding: 6px 10px
+    }</style>
+</head>
+<body>
+<h3>/v2/check quick probe</h3>
+<div>
+    <label>Tenant <input id="tenant" value="t1"></label>
+    <label>Subject <input id="subject" value="user:1"></label>
+    <label>Relation <input id="relation" value="viewer"></label>
+    <label>Resource <input id="resource" value="doc:42"></label>
+    <button id="run">Check</button>
+</div>
+<pre id="out"></pre>
+<script>
+    async function run() {
+        const body = {
+            tenant: document.getElementById('tenant').value,
+            subject: document.getElementById('subject').value,
+            relation: document.getElementById('relation').value,
+            resource: document.getElementById('resource').value,
+        };
+        const res = await fetch('/v2/check', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(body)
+        });
+        document.getElementById('out').textContent = await res.text();
+    }
+
+    document.getElementById('run').addEventListener('click', run);
+</script>
+</body>
+</html>

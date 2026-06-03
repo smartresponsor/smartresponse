@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-label="Category icon placeholder">
+  <rect width="128" height="128" rx="24" fill="#f59e0b"/>
+  <path d="M28 38h36l8 10h28v42H28z" fill="#fff7ed" opacity="0.95"/>
+  <path d="M32 50h64v6H32zM32 64h64v6H32zM32 78h48v6H32z" fill="#f59e0b"/>
+</svg>

@@ -1,0 +1,6 @@
+category:
+    - { id: 1, name: 'Marketplace', slug: '018f4f0e-5d8c-7a3c-a0d4-1bf3d8c6a101', locale: 'en', parent: null }
+    - { id: 2, name: 'Electronics', slug: '018f4f0e-5d8c-7a3c-a0d4-1bf3d8c6a102', locale: 'en', parent: 1 }
+    - { id: 3, name: 'Smartphones', slug: '018f4f0e-5d8c-7a3c-a0d4-1bf3d8c6a103', locale: 'en', parent: 2 }
+    - { id: 4, name: 'Marketplace', slug: '018f4f0e-5d8c-7a3c-a0d4-1bf3d8c6a104', locale: 'uk', parent: null }
+    - { id: 5, name: 'Electronics', slug: '018f4f0e-5d8c-7a3c-a0d4-1bf3d8c6a105', locale: 'uk', parent: 4 }

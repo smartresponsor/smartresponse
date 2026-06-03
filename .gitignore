@@ -48,3 +48,7 @@ composer.phar
 !/tools/
 !/bin/
 !/bin/console
+
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###

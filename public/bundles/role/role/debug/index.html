@@ -1,0 +1,136 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Role Debug Explain</title>
+    <style>
+        body {
+            font: 14px/1.4 -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        input {
+            padding: 6px 8px;
+        }
+
+        button {
+            padding: 6px 10px;
+        }
+
+        #graph {
+            border: 1px solid #ddd;
+            margin-top: 12px;
+            width: 100%;
+            height: 420px;
+            position: relative;
+            overflow: auto;
+        }
+
+        .node {
+            position: absolute;
+            padding: 6px 8px;
+            border: 1px solid #999;
+            border-radius: 6px;
+            background: #fafafa;
+        }
+
+        .tenant {
+            background: #eef;
+        }
+
+        .subject {
+            background: #efe;
+        }
+
+        .relation {
+            background: #ffe;
+        }
+
+        .resource {
+            background: #fee;
+        }
+
+        .edge {
+            position: absolute;
+            color: #555;
+            font-size: 12px;
+        }
+
+        pre {
+            background: #f7f7f7;
+            padding: 8px;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+<h3>Role Debug Explain</h3>
+<div class="row">
+    <label>Tenant <input id="tenant" value="t1"/></label>
+    <label>Subject <input id="subject" value="user:1"/></label>
+    <label>Relation <input id="relation" value="viewer"/></label>
+    <label>Resource <input id="resource" value="doc:42"/></label>
+    <button id="run">Explain</button>
+</div>
+<div id="graph"></div>
+<h4>JSON</h4>
+<pre id="json"></pre>
+<script>
+    async function explain() {
+        const tenant = document.getElementById('tenant').value;
+        const subject = document.getElementById('subject').value;
+        const relation = document.getElementById('relation').value;
+        const resource = document.getElementById('resource').value;
+        const res = await fetch('/v2/check/explain', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({tenant, subject, relation, resource})
+        });
+        const json = await res.json();
+        document.getElementById('json').textContent = JSON.stringify(json, null, 2);
+        draw(json.explain);
+    }
+
+    function draw(exp) {
+        const box = document.getElementById('graph');
+        box.innerHTML = '';
+        if (!exp) return;
+        const pos = {}; // simple fixed layout
+        const N = exp.nodes;
+        const centerX = box.clientWidth / 2;
+        const centerY = box.clientHeight / 2;
+        const lay = {'tenant': [-200, -60], 'subject': [-80, 40], 'relation': [80, 40], 'resource': [200, -60]};
+        for (const n of N) {
+            const div = document.createElement('div');
+            div.className = 'node ' + n.type;
+            div.textContent = n.label;
+            const [dx, dy] = lay[n.type] || [0, 0];
+            const x = centerX + dx, y = centerY + dy;
+            div.style.left = (x) + 'px';
+            div.style.top = (y) + 'px';
+            box.appendChild(div);
+            pos[n.id] = [x + 40, y + 16];
+        }
+        for (const e of exp.edges) {
+            const el = document.createElement('div');
+            el.className = 'edge';
+            const [x1, y1] = pos[e.from] || [10, 10];
+            const [x2, y2] = pos[e.to] || [100, 100];
+            el.style.left = Math.min(x1, x2) + 'px';
+            el.style.top = Math.min(y1, y2) + 'px';
+            el.textContent = '→ ' + e.label;
+            box.appendChild(el);
+        }
+    }
+
+    document.getElementById('run').addEventListener('click', explain);
+</script>
+</body>
+</html>

@@ -16,7 +16,7 @@ final class Version20260429192000 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->addSql('ALTER TABLE category ADD COLUMN IF NOT EXISTS parent_id VARCHAR(26) DEFAULT NULL');
+        $this->addSql('ALTER TABLE category ADD COLUMN IF NOT EXISTS parent_id INTEGER DEFAULT NULL');
         $this->addSql('ALTER TABLE category ADD COLUMN IF NOT EXISTS locale VARCHAR(12) DEFAULT NULL');
         $this->addSql("ALTER TABLE category ADD COLUMN IF NOT EXISTS tenant VARCHAR(64) NOT NULL DEFAULT 'default'");
         $this->addSql("ALTER TABLE category ADD COLUMN IF NOT EXISTS workflow_state VARCHAR(32) NOT NULL DEFAULT 'draft'");

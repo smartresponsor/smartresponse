@@ -1,42 +1,8 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+{# Copyright (c) 2025 Oleksandr Tishchenko / Marketing America Corp #}
+{#
+  Compatibility host base.
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-
-        {% set frankenphpHotReload = app.request.server.get('FRANKENPHP_HOT_RELOAD') %}
-        {% if frankenphpHotReload %}
-        <meta name="frankenphp-hot-reload:url" content="{{ frankenphpHotReload }}">
-        <script src="https://cdn.jsdelivr.net/npm/idiomorph"></script>
-        <script src="https://cdn.jsdelivr.net/npm/frankenphp-hot-reload/+esm" type="module"></script>
-        {% endif %}
-    </head>
-    <body>
-        {% set localeSelector = locale_selector() %}
-        <div style="position:sticky; top:0; z-index:40; border-bottom:1px solid #d7dde6; background:#f8fafc; font-size:12px;">
-            <div style="max-width:1680px; margin:0 auto; display:flex; align-items:center; justify-content:flex-end; gap:10px; padding:8px 14px;">
-                <form method="get" action="{{ localeSelector.action }}" style="display:flex; align-items:center; gap:8px; margin:0;">
-                    {% for key, value in localeSelector.query %}
-                        <input type="hidden" name="{{ key }}" value="{{ value }}">
-                    {% endfor %}
-                    <label for="app-locale-selector" style="font-weight:600; color:#475569;">Locale</label>
-                    <select id="app-locale-selector" name="locale" onchange="this.form.submit()" style="min-width:180px; padding:6px 10px; border:1px solid #cfd6df; border-radius:8px; background:#fff;">
-                        {% for option in localeSelector.options %}
-                            <option value="{{ option.code }}" {% if option.current %}selected{% endif %}>
-                                {{ option.nativeName }}{% if option.default %} (default){% endif %}
-                            </option>
-                        {% endfor %}
-                    </select>
-                </form>
-            </div>
-        </div>
-        {% block body %}{% endblock %}
-    </body>
-</html>
+  Keep legacy `extends 'base.html.twig'` templates on the canonical Interfacing shell,
+  so all host pages share the same up-to-date provider layout as `/catalog/`.
+#}
+{% extends '@Interfacing/base.html.twig' %}

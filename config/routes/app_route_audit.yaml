@@ -1,0 +1,4 @@
+app_route_audit:
+    path: /interfacing/route-audit
+    controller: App\Service\Diagnostics\AppRouteAuditService::__invoke
+    methods: [GET]

@@ -1,0 +1,2 @@
+parameters:
+    app.sibling_fixtures_allowlist: []

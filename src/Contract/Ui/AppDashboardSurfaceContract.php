@@ -15,8 +15,8 @@ use Symfony\Component\HttpFoundation\Request;
  * App-level UI contract for the host dashboard surface.
  *
  * App owns host runtime routes and composition decisions, but it does not own
- * primary visual rendering. Implementations return dashboard composition
- * payloads that Bridging normalizes for the Interfacing provider surface.
+ * primary visual rendering. Implementations return neutral dashboard payloads
+ * that Viewing normalizes and renders through the shared Interfacing shell.
  */
 interface AppDashboardSurfaceContract
 {

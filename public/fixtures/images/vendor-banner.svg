@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="400" viewBox="0 0 1200 400" role="img" aria-label="Vendor banner placeholder">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="50%" stop-color="#1d4ed8"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="400" rx="36" fill="url(#g)"/>
+  <circle cx="180" cy="200" r="80" fill="#ffffff" opacity="0.14"/>
+  <circle cx="1020" cy="120" r="110" fill="#ffffff" opacity="0.08"/>
+  <circle cx="960" cy="310" r="70" fill="#ffffff" opacity="0.10"/>
+  <text x="120" y="190" font-family="Arial, sans-serif" font-size="44" font-weight="700" fill="#ffffff">Vendor banner</text>
+  <text x="120" y="245" font-family="Arial, sans-serif" font-size="22" fill="#dbeafe">Fixture placeholder for brand cover media</text>
+</svg>

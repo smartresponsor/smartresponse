@@ -35,14 +35,20 @@ security:
             security: false
 
         public_auth:
-            pattern: ^/(register|sign-up|sign-in|recover|forgot-password|reset-password|login|verify)(?:/|$)
+            pattern: ^/(access|register|sign-up|recover|forgot-password|reset-password|login|verify)(?:/|$)
             security: false
 
         main:
-            pattern: ^/(?!(register|sign-up|sign-in|recover|forgot-password|reset-password|login|verify)(?:/|$))
+            pattern: ^/(?!(access|register|sign-up|recover|forgot-password|reset-password|login|verify)(?:/|$))
             lazy: true
             provider: accessing_account_provider
             entry_point: App\Accessing\Security\AccessingAuthenticationEntryPoint
+            logout:
+                path: /sign-out
+                target: interfacing_welcome_sign_in
+            switch_user:
+                parameter: _switch_user
+                role: ROLE_ALLOWED_TO_SWITCH
 
     # Note: Only the first matching rule is applied
     access_control:
@@ -50,8 +56,8 @@ security:
         - { path: ^/$, roles: PUBLIC_ACCESS }
         - { path: ^/health$, roles: PUBLIC_ACCESS }
         - { path: ^/ready$, roles: PUBLIC_ACCESS }
-        - { path: ^/sign-in, roles: PUBLIC_ACCESS }
-        - { path: ^/sign-in/second-factor, roles: PUBLIC_ACCESS }
+        - { path: ^/access, roles: PUBLIC_ACCESS }
+        - { path: '^/accessing/(sign-in|sign-up|login|recover|forgot-password|reset-password|verify)(?:/|$)', roles: PUBLIC_ACCESS }
         - { path: ^/register, roles: PUBLIC_ACCESS }
         - { path: ^/recover, roles: PUBLIC_ACCESS }
         - { path: ^/reset-password, roles: PUBLIC_ACCESS }
@@ -59,35 +65,37 @@ security:
         - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/verify, roles: PUBLIC_ACCESS }
         - { path: ^/docs, roles: PUBLIC_ACCESS }
-        - { path: ^/api/docs, roles: PUBLIC_ACCESS }
+        - { path: ^/api/applicating/doc, roles: PUBLIC_ACCESS }
 
         # 2FA
         - { path: ^/2fa, roles: IS_AUTHENTICATED_2FA_IN_PROGRESS }
 
         # Account area
-        - { path: ^/overview, roles: ROLE_ACCOUNT }
         - { path: ^/sessions, roles: ROLE_ACCOUNT }
         - { path: ^/security-events, roles: ROLE_ACCOUNT }
+        - { path: ^/accessing/second-factor/disable$, methods: [GET], roles: PUBLIC_ACCESS }
         - { path: ^/second-factor, roles: ROLE_ACCOUNT }
 
         - { path: '^/api/taxation/taxability/(decide|trace)$', roles: ROLE_USER }
 
         # Category API
-        - { path: ^/api/category/webhook/test, roles: ROLE_ADMIN }
-        - { path: ^/api/category/tree, roles: PUBLIC_ACCESS }
-        - { path: ^/api/category/.+/publish, roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/api/category/.+/move, roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/api/category/attachment, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/catalog/category/webhook/test, roles: ROLE_ADMIN }
+        - { path: ^/api/catalog/category/tree, roles: PUBLIC_ACCESS }
+        - { path: '^/api/catalog/category/publish/.+$', roles: IS_AUTHENTICATED_FULLY }
+        - { path: '^/api/catalog/category/move/.+$', roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/catalog/category/attachment, roles: IS_AUTHENTICATED_FULLY }
 
         # Admin API
-        - { path: ^/api/admin/v1, roles: ROLE_APPLICATION_MANAGER }
-        - { path: ^/api/admin/category, roles: ROLE_ADMIN }
-        - { path: ^/api/admin, roles: ROLE_APPLICATION_MANAGER }
+        - { path: ^/api/applicating, roles: ROLE_APPLICATION_MANAGER }
+        - { path: ^/api/catalog/category, roles: ROLE_ADMIN }
 
         # Operator / support
         - { path: ^/operator, roles: ROLE_SUPPORT }
 
         # Admin UI
+        - { path: ^/manage, roles: [ROLE_ADMIN, ROLE_MODERATOR, ROLE_VIEWER, ROLE_APPLICATION_VIEWER] }
+        - { path: '^/admin/$', roles: PUBLIC_ACCESS }
+        - { path: '^/admin$', roles: PUBLIC_ACCESS }
         - { path: '^/admin/taxability/console$', roles: ROLE_FINANCE_TAX_ADMIN }
         - { path: ^/admin/category, roles: ROLE_ADMIN }
         - { path: ^/admin/system, roles: ROLE_ADMIN }

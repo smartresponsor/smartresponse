@@ -1,4 +1,6 @@
 {
+  "name": "smartresponsing/app",
+  "description": "smartresponsing platform",
   "type": "project",
   "license": "proprietary",
   "minimum-stability": "dev",
@@ -6,7 +8,28 @@
   "repositories": [
     {
       "type": "path",
-      "url": "../Bridging",
+      "url": "../Carting",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Searching",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Domaining",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Merchandising",
       "options": {
         "symlink": true
       }
@@ -48,6 +71,13 @@
     },
     {
       "type": "path",
+      "url": "../Configuring",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
       "url": "../Indexing",
       "options": {
         "symlink": true
@@ -63,6 +93,13 @@
     {
       "type": "path",
       "url": "../Messaging",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Navigating",
       "options": {
         "symlink": true
       }
@@ -150,32 +187,200 @@
       "options": {
         "symlink": true
       }
+    },
+    {
+      "type": "path",
+      "url": "../Viewing",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Administering",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Anchoring/sdk/php",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Adjudicating",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Commissioning",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Commercializing",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Discovering",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Currencing",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Exchanging",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Faceting",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Facting",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Locating",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Localizing",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Managing",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Ordering",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Observabiliting",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Paging",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Projecting",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Shipping",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../Subscripting",
+      "options": {
+        "symlink": true
+      }
     }
   ],
   "require": {
-    "php": "^8.4",
     "accessing/access": "*@dev",
+    "adjudicating/adjudication": "*@dev",
+    "administering/admin": "*@dev",
     "analysing/analytics": "*@dev",
     "applicating/application": "*@dev",
     "attaching/attachment": "*@dev",
     "billing/billing": "*@dev",
-    "bridging/bridge": "*@dev",
+    "carting/cart": "*@dev",
     "cataloging/catalog": "*@dev",
+    "commissioning/commission": "*@dev",
+    "configuring/config": "*@dev",
     "cruding/crud": "*@dev",
+    "discovering/discovery": "*@dev",
     "doctrine/dbal": "^4.3",
     "doctrine/doctrine-bundle": "^3.2",
     "doctrine/doctrine-migrations-bundle": "^4.0",
     "doctrine/orm": "^3.3",
+    "domaining/domain": "*@dev",
+    "easycorp/easyadmin-bundle": "5.0",
+    "exchanging/exchange": "*@dev",
     "indexing/index": "*@dev",
     "interfacing/interface": "*@dev",
+    "localizing/locale": "*@dev",
+    "locating/location": "*@dev",
+    "merchandising/merch": "*@dev",
     "messaging/message": "*@dev",
+    "navigating/navigation": "*@dev",
+    "ordering/order": "*@dev",
+    "paying/payment": "*@dev",
+    "php": "^8.4",
+    "project/project": "*@dev",
     "rolling/role": "*@dev",
+    "searching/search": "*@dev",
+    "shipping/shipment": "*@dev",
+    "smart-responsor/managing": "*@dev",
     "smart-responsor/objecting": "*@dev",
+    "smart-responsor/paging": "*@dev",
+    "smart-responsor/subscription": "*@dev",
+    "smartresponsor/anchoring": "*@dev",
+    "smartresponsor/currencing": "*@dev",
+    "smartresponsor/e2e": "*@dev",
+    "smartresponsor/faceting": "*@dev",
+    "smartresponsor/factage": "*@dev",
+    "smartresponsor/observability-sketch-25-local-demo": "*@dev",
     "symfony/asset": "^8.0",
     "symfony/console": "^8.0",
     "symfony/dotenv": "^8.0",
     "symfony/flex": "^2.4",
     "symfony/framework-bundle": "^8.0",
+    "symfony/mercure-bundle": "*",
+    "symfony/messenger": "^8.0",
     "symfony/runtime": "^8.0",
     "symfony/translation": "^8.0",
     "symfony/twig-bundle": "^8.0",
@@ -185,10 +390,12 @@
     "tagging/tag": "*@dev",
     "taxating/taxation": "*@dev",
     "twig/html-extra": "3.24",
-    "vendoring/vendor": "*@dev"
+    "vendoring/vendor": "*@dev",
+    "viewing/view": "*@dev"
   },
   "require-dev": {
     "doctrine/doctrine-fixtures-bundle": "*",
+    "fakerphp/faker": "1.24",
     "friendsofphp/php-cs-fixer": "^3.95",
     "phpunit/phpunit": "^11.5",
     "symfony/browser-kit": "^8.0",
@@ -201,51 +408,22 @@
     "allow-plugins": {
       "php-http/discovery": true,
       "symfony/flex": true,
-      "symfony/runtime": true
+      "symfony/runtime": true,
+      "tbachert/spi": true
     },
     "sort-packages": true
   },
   "autoload": {
     "classmap": [
-      "../Accessing/src/Entity"
+      "../Complying/src/",
+      "../Complying/Command/"
     ],
     "psr-4": {
       "App\\": [
         "src/",
-        "../Adjudicating/src/",
-        "../Commercializing/src/",
-        "../Currencing/src/",
-        "../Faceting/src/",
-        "../Managing/src/",
-        "../Ordering/src/",
-        "../Projecting/src/",
-        "../Sandbox/src/",
-        "../Shipping/src/"
+        "../Complying/src/"
       ],
-      "App\\Commissioning\\": "../Commissioning/src/",
-      "App\\Exchanging\\": "../Exchanging/src/",
-      "App\\Managing\\": "../Managing/src/",
-      "App\\Subscripting\\": "../Subscripting/src/",
-      "App\\Ordering\\": "../Ordering/src/",
-      "App\\Accessing\\": "../Accessing/src/",
-      "App\\Analysing\\": "../Analysing/src/",
-      "App\\Applicating\\": "../Applicating/src/",
-      "App\\Attaching\\": "../Attaching/src/",
-      "App\\Billing\\": "../Billing/src/",
-      "App\\Bridging\\": "../Bridging/src/",
-      "App\\Cataloging\\": "../Cataloging/src/",
-      "App\\Cruding\\": "../Cruding/src/",
-      "App\\Paging\\": "../Paging/src/",
-      "App\\Indexing\\": "../Indexing/src/",
-      "App\\Interfacing\\": "../Interfacing/src/",
-      "App\\Messaging\\": "../Messaging/src/",
-      "App\\Paying\\": "../Paying/src/",
-      "App\\Rolling\\": "../Rolling/src/",
-      "App\\Taxating\\": "../Taxating/src/",
-      "App\\Vendoring\\": "../Vendoring/src/",
-      "App\\Localizing\\": "../Localizing/src/",
-      "EasyCorp\\Bundle\\EasyAdminBundle\\": "../EasyAdminBundle/src/",
-      "Smartresponsor\\": "../Locating/src/"
+      "EasyCorp\\Bundle\\EasyAdminBundle\\": "../EasyAdminBundle/src/"
     }
   },
   "autoload-dev": {

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Crud;
 
-use App\Dto\Crud\CrudContext;
-use App\Service\Crud\CrudRouteNameResolver;
+use App\Cruding\Dto\Crud\CrudContext;
+use App\Cruding\Service\Crud\CrudRouteNameResolver;
 use PHPUnit\Framework\TestCase;
 
 final class CrudRouteNameResolverTest extends TestCase
@@ -15,7 +15,7 @@ final class CrudRouteNameResolverTest extends TestCase
         $resolver = new CrudRouteNameResolver();
         $context = new CrudContext('public', 'show', 'product', 'App\\Entity\\CommerceProductEntity', 'slug', 'demo', null, 'product/product');
 
-        self::assertSame('app_crud_show_slug', $resolver->resolveShow($context));
+        self::assertSame('cruding_show_slug', $resolver->resolveShow($context));
     }
 
     public function testResolveShowUsesIdWhenRequested(): void
@@ -23,7 +23,7 @@ final class CrudRouteNameResolverTest extends TestCase
         $resolver = new CrudRouteNameResolver();
         $context = new CrudContext('admin', 'show', 'product', 'App\\Entity\\CommerceProductEntity', 'id', 15, null, 'product/product');
 
-        self::assertSame('app_crud_show_id', $resolver->resolveShow($context));
+        self::assertSame('cruding_show_id', $resolver->resolveShow($context));
     }
 
     public function testParametersCarryResourcePathAndIdentifier(): void

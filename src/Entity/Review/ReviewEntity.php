@@ -5,27 +5,34 @@ declare(strict_types=1);
 namespace App\Entity\Review;
 
 use App\EntityTrait\TimestampableTrait;
+use App\Objecting\EntityInterface\ObjectAuditedInterface;
+use App\Objecting\EntityInterface\ObjectIdentifiedInterface;
+use App\Objecting\EntityInterface\ObjectScopedInterface;
+use App\Objecting\EntityInterface\ObjectStatefulInterface;
+use App\Objecting\EntityInterface\ObjectTitledInterface;
+use App\Objecting\EntityTrait\Embeddable\ObjectIdentityEmbeddableTrait;
+use App\Objecting\EntityTrait\Embeddable\ObjectScopeEmbeddableTrait;
+use App\Objecting\EntityTrait\Embeddable\ObjectStateEmbeddableTrait;
+use App\Objecting\EntityTrait\Embeddable\ObjectTitleEmbeddableTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'review')]
-#[ORM\Index(name: 'idx_review_subject', columns: ['tenant_id', 'subject_type', 'subject_id'])]
-#[ORM\Index(name: 'idx_review_author', columns: ['tenant_id', 'author_id'])]
-#[ORM\UniqueConstraint(name: 'uniq_review_tenant_slug', columns: ['tenant_id', 'slug'])]
-final class ReviewEntity
+#[ORM\Index(name: 'idx_review_subject', columns: ['object_tenant', 'subject_type', 'subject_id'])]
+#[ORM\Index(name: 'idx_review_author', columns: ['object_tenant', 'author_id'])]
+#[ORM\UniqueConstraint(name: 'uniq_review_tenant_slug', columns: ['object_tenant', 'object_slug'])]
+final class ReviewEntity implements ObjectAuditedInterface, ObjectIdentifiedInterface, ObjectScopedInterface, ObjectStatefulInterface, ObjectTitledInterface
 {
     use TimestampableTrait;
+    use ObjectIdentityEmbeddableTrait;
+    use ObjectScopeEmbeddableTrait;
+    use ObjectStateEmbeddableTrait;
+    use ObjectTitleEmbeddableTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
-
-    #[ORM\Column(length: 64)]
-    private string $tenantId;
-
-    #[ORM\Column(length: 180)]
-    private string $slug;
 
     #[ORM\Column(name: 'subject_type', length: 64)]
     private string $subjectType;
@@ -42,17 +49,8 @@ final class ReviewEntity
     #[ORM\Column(type: 'smallint')]
     private int $rating;
 
-    #[ORM\Column(length: 160)]
-    private string $title;
-
-    #[ORM\Column(type: 'text')]
-    private string $comment;
-
     #[ORM\Column(length: 12, nullable: true)]
     private ?string $locale;
-
-    #[ORM\Column(length: 32)]
-    private string $status;
 
     #[ORM\Column(type: 'boolean', options: ['default' => true])]
     private bool $visible = true;
@@ -79,16 +77,16 @@ final class ReviewEntity
         ?array $metadata = null,
         ?array $payload = null,
     ) {
-        $this->tenantId = $this->normalizeTenantId($tenantId);
-        $this->slug = $slug;
+        $tenantId = $this->normalizeTenantId($tenantId);
+        $this->initializeObjectScope(null, $tenantId);
+        $this->initializeObjectIdentity(null, $slug);
         $this->subjectType = $subjectType;
         $this->subjectId = $subjectId;
         $this->authorId = $authorId;
         $this->rating = max(0, min(5, $rating));
-        $this->title = $title;
-        $this->comment = $comment;
+        $this->initializeObjectState(true, true, $status);
+        $this->initializeObjectTitle($title, null, $comment);
         $this->locale = $locale;
-        $this->status = $status;
         $this->visible = $visible;
         $this->subjectSlug = $subjectSlug;
         $this->metadata = $metadata;
@@ -103,12 +101,12 @@ final class ReviewEntity
 
     public function tenantId(): string
     {
-        return $this->tenantId;
+        return $this->getObjectTenant() ?? 'default';
     }
 
     public function slug(): string
     {
-        return $this->slug;
+        return $this->getObjectSlug() ?? '';
     }
 
     public function subjectType(): string
@@ -138,12 +136,32 @@ final class ReviewEntity
 
     public function title(): string
     {
-        return $this->title;
+        return $this->getFirstTitle() ?? '';
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title();
+    }
+
+    public function setTitle(string $title): void
+    {
+        $this->setFirstTitle($title);
     }
 
     public function comment(): string
     {
-        return $this->comment;
+        return $this->getLastTitle() ?? '';
+    }
+
+    public function getComment(): string
+    {
+        return $this->comment();
+    }
+
+    public function setComment(string $comment): void
+    {
+        $this->setLastTitle($comment);
     }
 
     public function locale(): ?string
@@ -153,7 +171,7 @@ final class ReviewEntity
 
     public function status(): string
     {
-        return $this->status;
+        return $this->getObjectStatus() ?? 'draft';
     }
 
     public function isVisible(): bool

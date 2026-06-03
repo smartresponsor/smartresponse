@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=../vendor/symfony/dependency-injection/Loader/schema/dic/services.schema.json
+# Route Governance W3: generic collection CRUD belongs to Cruding.
+# Producer controllers must not declare standalone collection index/create routes such as
+# /api/orders, /api/payments, /api/products, /api/projects, /api/categories, /api/messages,
+# /api/attachments, or /api/vendors. Business commands remain producer-owned.
+cruding:
+    entity_class_alias_map:
+        attachment: 'App\Attaching\Entity\Attachment\Attachment'
+        message: 'App\Messaging\Entity\Message\MessageEntity'
+        order: 'App\Entity\Order\OrderEntity'
+        payment: 'App\Paying\Entity\PaymentEntity'
+        product: 'App\Entity\Product\CommerceProductEntity'
+        project: 'App\Entity\Project\CommerceProjectEntity'
+        category: 'App\Cataloging\Entity\Catalog\CatalogCategoryEntity'

@@ -6,14 +6,30 @@ namespace App\Entity\Category;
 
 use App\Entity\Module\ModuleEntity;
 use App\EntityTrait\TimestampableTrait;
+use App\Objecting\EntityInterface\ObjectAuditedInterface;
+use App\Objecting\EntityInterface\ObjectCodedInterface;
+use App\Objecting\EntityInterface\ObjectIdentifiedInterface;
+use App\Objecting\EntityInterface\ObjectScopedInterface;
+use App\Objecting\EntityInterface\ObjectStatefulInterface;
+use App\Objecting\EntityInterface\ObjectTitledInterface;
+use App\Objecting\EntityTrait\Embeddable\ObjectCodeEmbeddableTrait;
+use App\Objecting\EntityTrait\Embeddable\ObjectIdentityEmbeddableTrait;
+use App\Objecting\EntityTrait\Embeddable\ObjectScopeEmbeddableTrait;
+use App\Objecting\EntityTrait\Embeddable\ObjectStateEmbeddableTrait;
+use App\Objecting\EntityTrait\Embeddable\ObjectTitleEmbeddableTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'category')]
-#[ORM\UniqueConstraint(name: 'uniq_category_tenant_module_slug', columns: ['tenant_id', 'module_id', 'slug'])]
-final class CategoryEntity
+#[ORM\UniqueConstraint(name: 'uniq_category_tenant_module_slug', columns: ['object_tenant', 'module_id', 'object_slug'])]
+final class CategoryEntity implements ObjectAuditedInterface, ObjectCodedInterface, ObjectIdentifiedInterface, ObjectScopedInterface, ObjectStatefulInterface, ObjectTitledInterface
 {
     use TimestampableTrait;
+    use ObjectCodeEmbeddableTrait;
+    use ObjectIdentityEmbeddableTrait;
+    use ObjectScopeEmbeddableTrait;
+    use ObjectStateEmbeddableTrait;
+    use ObjectTitleEmbeddableTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -28,34 +44,16 @@ final class CategoryEntity
     #[ORM\JoinColumn(name: 'parent_id', nullable: true, onDelete: 'SET NULL')]
     private ?self $parent = null;
 
-    #[ORM\Column(length: 64)]
-    private string $code;
-
-    #[ORM\Column(name: 'tenant_id', length: 64)]
-    private string $tenantId;
-
-    #[ORM\Column(length: 180)]
-    private string $slug;
-
-    #[ORM\Column(length: 160)]
-    private string $name;
-
-    #[ORM\Column(type: 'text', nullable: true)]
-    private ?string $description;
-
-    #[ORM\Column(type: 'boolean', options: ['default' => true])]
-    private bool $active = true;
-
     public function __construct(ModuleEntity $module, string $code, string $slug, string $name, ?string $description = null, ?self $parent = null, bool $active = true, string $tenantId = 'default')
     {
         $this->module = $module;
-        $this->code = $code;
-        $this->tenantId = $this->normalizeTenantId($tenantId);
-        $this->slug = $slug;
-        $this->name = $name;
-        $this->description = $description;
+        $tenantId = $this->normalizeTenantId($tenantId);
+        $this->initializeObjectScope(null, $tenantId);
+        $this->initializeObjectCode($code);
+        $this->initializeObjectIdentity(null, $slug);
+        $this->initializeObjectState($active, true, null);
+        $this->initializeObjectTitle($name, null, $description);
         $this->parent = $parent;
-        $this->active = $active;
         $this->initializeTimestamps();
     }
 
@@ -76,26 +74,37 @@ final class CategoryEntity
 
     public function code(): string
     {
-        return $this->code;
+        return $this->getObjectCode() ?? '';
     }
 
     public function tenantId(): string
     {
-        return $this->tenantId;
+        return $this->getObjectTenant() ?? 'default';
     }
 
     public function slug(): string
     {
-        return $this->slug;
+        return $this->getObjectSlug() ?? '';
     }
 
     public function name(): string
     {
-        return $this->name;
+        return $this->getFirstTitle() ?? '';
+    }
+
+    public function getTitle(): string
+    {
+        return $this->name();
+    }
+
+    public function setTitle(string $title): void
+    {
+        $this->setFirstTitle($title);
+        $this->touch();
     }
 
     public function isActive(): bool
     {
-        return $this->active;
+        return $this->isObjectActive();
     }
 }

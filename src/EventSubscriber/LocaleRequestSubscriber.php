@@ -6,9 +6,7 @@ namespace App\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
-use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Intl\Locales;
 
@@ -32,6 +30,8 @@ final class LocaleRequestSubscriber implements EventSubscriberInterface
 
         if (null !== $locale) {
             $request->setLocale($locale);
+            $this->storeLocale($request, $locale);
+
             return;
         }
 
@@ -53,6 +53,24 @@ final class LocaleRequestSubscriber implements EventSubscriberInterface
 
     private function storedLocale(Request $request): ?string
     {
-        return null;
+        if (!$request->hasSession()) {
+            return null;
+        }
+
+        $locale = trim((string) $request->getSession()->get('_app_locale', ''));
+        if ('' === $locale || !Locales::exists($locale)) {
+            return null;
+        }
+
+        return $locale;
+    }
+
+    private function storeLocale(Request $request, string $locale): void
+    {
+        if (!$request->hasSession()) {
+            return;
+        }
+
+        $request->getSession()->set('_app_locale', $locale);
     }
 }

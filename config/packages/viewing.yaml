@@ -1,0 +1,19 @@
+viewing:
+    enabled: true
+    local_component_fallback_enabled: true
+    response_guard_enabled: true
+    diagnostic_mode: safe
+    traffic_classifier_enabled: true
+    interfacing_twig_namespace: Interfacing
+    viewing_twig_namespace: Viewing
+    excluded_path_patterns:
+        - '#^/_wdt(?:/|$)#'
+        - '#^/_profiler(?:/|$)#'
+        - '#^/assets(?:/|$)#'
+        - '#^/build(?:/|$)#'
+        - '#^/favicon\\.ico$#'
+        - '#^/robots\\.txt$#'
+        - '#^/sitemap\\.xml$#'
+        - '#^/health$#'
+        - '#^/metrics$#'
+        - '#^/api(?:/|$)#'

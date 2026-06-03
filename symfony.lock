@@ -2,16 +2,19 @@
     "accessing/access": {
         "version": "dev-master"
     },
+    "administering/admin": {
+        "version": "dev-main"
+    },
     "analysing/analytics": {
         "version": "dev-master"
     },
-    "api-platform/symfony": {
+    "api-platform/core": {
         "version": "4.3",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
             "version": "4.0",
-            "ref": "e9952e9f393c2d048f10a78f272cd35e807d972b"
+            "ref": "cb9e6b8ceb9b62f32d41fc8ad72a25d5bd674c6d"
         },
         "files": [
             "./config/packages/api_platform.yaml",
@@ -31,8 +34,14 @@
     "bridging/bridge": {
         "version": "dev-master"
     },
+    "carting/cart": {
+        "version": "dev-main"
+    },
     "cataloging/catalog": {
         "version": "dev-master"
+    },
+    "commissioning/commission": {
+        "version": "dev-main"
     },
     "cruding/crud": {
         "version": "dev-master"
@@ -85,6 +94,24 @@
             "./migrations/.gitignore"
         ]
     },
+    "domaining/domain": {
+        "version": "dev-main"
+    },
+    "easycorp/easyadmin-bundle": {
+        "version": "5.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "4.14",
+            "ref": "13b3e524d1038a6861ad6c7fc64e31b644ba0c54"
+        },
+        "files": [
+            "./config/routes/easyadmin.yaml"
+        ]
+    },
+    "exchanging/exchange": {
+        "version": "dev-main"
+    },
     "friendsofphp/php-cs-fixer": {
         "version": "3.95",
         "recipe": {
@@ -115,8 +142,26 @@
     "interfacing/interface": {
         "version": "dev-master"
     },
+    "lexik/jwt-authentication-bundle": {
+        "version": "3.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "2.5",
+            "ref": "e9481b233a11ef7e15fe055a2b21fd3ac1aa2bb7"
+        },
+        "files": [
+            "./config/packages/lexik_jwt_authentication.yaml"
+        ]
+    },
+    "merchandising/merch": {
+        "version": "0.1.0-dev"
+    },
     "messaging/message": {
         "version": "dev-master"
+    },
+    "navigating/navigation": {
+        "version": "dev-main"
     },
     "nelmio/api-doc-bundle": {
         "version": "5.10",
@@ -129,6 +174,21 @@
         "files": [
             "./config/packages/nelmio_api_doc.yaml",
             "./config/routes/nelmio_api_doc.yaml"
+        ]
+    },
+    "paying/payment": {
+        "version": "dev-master"
+    },
+    "php-http/discovery": {
+        "version": "1.20",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.18",
+            "ref": "f45b5dd173a27873ab19f5e3180b2f661c21de02"
+        },
+        "files": [
+            "./config/packages/http_discovery.yaml"
         ]
     },
     "phpunit/phpunit": {
@@ -161,6 +221,21 @@
             "./config/packages/scheb_2fa.yaml",
             "./config/routes/scheb_2fa.yaml"
         ]
+    },
+    "searching/search": {
+        "version": "dev-main"
+    },
+    "sentry/sentry-symfony": {
+        "version": "5.10",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "5.0",
+            "ref": "aac2bc5220e9ab5b9e3838a7a4da90e7f74e6148"
+        }
+    },
+    "smart-responsor/managing": {
+        "version": "dev-master"
     },
     "symfony/asset-mapper": {
         "version": "8.0",
@@ -232,6 +307,18 @@
             "./src/Controller/.gitignore",
             "./src/Kernel.php",
             "./.editorconfig"
+        ]
+    },
+    "symfony/lock": {
+        "version": "8.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "5.2",
+            "ref": "8e937ff2b4735d110af1770f242c1107fdab4c8e"
+        },
+        "files": [
+            "./config/packages/lock.yaml"
         ]
     },
     "symfony/mailer": {
@@ -337,6 +424,18 @@
             "./config/routes.yaml"
         ]
     },
+    "symfony/scheduler": {
+        "version": "8.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "7.2",
+            "ref": "caea3c928ee9e1b21288fd76aef36f16ea355515"
+        },
+        "files": [
+            "./src/Schedule.php"
+        ]
+    },
     "symfony/security-bundle": {
         "version": "8.0",
         "recipe": {
@@ -412,6 +511,18 @@
             "./config/routes/ux_live_component.yaml"
         ]
     },
+    "symfony/ux-turbo": {
+        "version": "3.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "2.20",
+            "ref": "287f7c6eb6e9b65e422d34c00795b360a787380b"
+        },
+        "files": [
+            "./config/packages/ux_turbo.yaml"
+        ]
+    },
     "symfony/ux-twig-component": {
         "version": "2.35",
         "recipe": {
@@ -434,6 +545,18 @@
         },
         "files": [
             "./config/packages/validator.yaml"
+        ]
+    },
+    "symfony/workflow": {
+        "version": "8.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "3.3",
+            "ref": "3b2f8ca32a07fcb00f899649053943fa3d8bbfb6"
+        },
+        "files": [
+            "./config/packages/workflow.yaml"
         ]
     },
     "symfonycasts/reset-password-bundle": {
@@ -462,5 +585,8 @@
     },
     "vendoring/vendor": {
         "version": "dev-local-priority-vendoring-finish"
+    },
+    "viewing/view": {
+        "version": "dev-main"
     }
 }
