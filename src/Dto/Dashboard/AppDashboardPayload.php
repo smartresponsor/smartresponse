@@ -9,16 +9,16 @@ declare(strict_types=1);
 namespace App\Dto\Dashboard;
 
 /**
- * Host dashboard UI composition payload produced by App and normalized by
+ * Host dashboard composition payload produced by App and normalized by
  * Viewing before it reaches the Interfacing template hierarchy.
  */
-final readonly class AppDashboardSurfacePayload
+final readonly class AppDashboardPayload
 {
     /**
-     * @param array<string, mixed> $surface
+     * @param array<string, mixed> $data
      */
     public function __construct(
-        private array $surface,
+        private array $data,
     ) {
     }
 
@@ -27,6 +27,6 @@ final readonly class AppDashboardSurfacePayload
      */
     public function toArray(): array
     {
-        return $this->surface;
+        return $this->data;
     }
 }

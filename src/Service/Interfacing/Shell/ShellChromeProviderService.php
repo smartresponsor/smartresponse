@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Service\Interfacing\Shell;
 
-use App\Interfacing\Contract\ValueObject\ShellSlot;
-use App\Interfacing\ServiceInterface\Shell\ShellChromeProviderInterface;
+use App\Interfacing\Contract\ValueObject\InterfaceShellSlot;
+use App\Interfacing\ProviderInterface\Shell\InterfaceShellChromeProviderInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 
-final class ShellChromeProviderService implements ShellChromeProviderInterface
+final class ShellChromeProviderService implements InterfaceShellChromeProviderInterface
 {
     public function __construct(
         private readonly RequestStack $requestStack,
@@ -43,7 +43,7 @@ final class ShellChromeProviderService implements ShellChromeProviderInterface
                 'quickMenuGroup' => $this->quickMenuRegistry->provide(),
                 'rightPanelGroup' => $this->rightPanelRegistry->provide(),
                 'rightPanelEnabled' => true,
-                'slotMap' => ShellSlot::labelMap(),
+                'slotMap' => InterfaceShellSlot::labelMap(),
             ];
         });
 

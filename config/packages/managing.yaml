@@ -8,7 +8,6 @@ managing:
     - commissioning
     - currencing
     - exchanging
-    - localizing
     - messaging
     - ordering
     - paging
@@ -18,3 +17,24 @@ managing:
     - tagging
     - taxating
     - vendoring
+
+when@prod:
+  managing:
+    left_menu:
+      - analysing
+      - applicating
+      - attaching
+      - billing
+      - cataloging
+      - commissioning
+      - currencing
+      - exchanging
+      - messaging
+      - ordering
+      - paging
+      - paying
+      - shipping
+      - subscripting
+      - tagging
+      - taxating
+      - vendoring

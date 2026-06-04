@@ -92,12 +92,6 @@ doctrine:
                         dir: '%kernel.project_dir%/../Carting/src/Entity'
                         prefix: 'App\Carting\Entity'
                         alias: Carting
-                    Localizing:
-                        is_bundle: false
-                        type: attribute
-                        dir: '%kernel.project_dir%/../Localizing/src/Entity'
-                        prefix: 'App\Localizing\Entity'
-                        alias: Localizing
                     Commissioning:
                         is_bundle: false
                         type: attribute
@@ -304,6 +298,7 @@ doctrine:
                         dir: '%kernel.project_dir%/../Rolling/src/Entity'
                         prefix: 'App\Rolling\Entity'
                         alias: Rolling
+
 
 when@test:
     doctrine:

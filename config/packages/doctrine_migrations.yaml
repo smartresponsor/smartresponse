@@ -5,7 +5,6 @@ doctrine_migrations:
         'DoctrineMigrations': '%kernel.project_dir%/migrations'
         'App\Administering\Migrations': '%kernel.project_dir%/../Administering/migrations'
         'App\Commercializing\Migrations': '%kernel.project_dir%/../Commercializing/migrations'
-        'App\Localizing\Migrations': '%kernel.project_dir%/../Localizing/migrations'
         'App\Exchanging\Migrations': '%kernel.project_dir%/../Exchanging/migrations'
         'App\Tagging\Migrations': '%kernel.project_dir%/../Tagging/migrations'
         'App\Commissioning\Migrations': '%kernel.project_dir%/../Commissioning/migrations'

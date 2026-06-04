@@ -1,4 +1,4 @@
 app_host_dashboard:
     path: /
-    controller: App\Service\Dashboard\AppDashboardSurfaceBuilderService::__invoke
+    controller: App\Service\Dashboard\AppDashboardBuilderService::__invoke
     methods: [GET]

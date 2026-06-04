@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Service\Interfacing\Crud\Contribution;
 
-use App\Interfacing\Service\Crud\Contribution\AbstractCrudResourceContribution;
-use App\Interfacing\ServiceInterface\Crud\CrudResourceDescriptorContributionInterface;
+use App\Interfacing\Contribution\Crud\InterfaceAbstractCrudResourceContribution;
+use App\Interfacing\ContributionInterface\Crud\InterfaceCrudResourceDescriptorContributionInterface;
 
-final class EcosystemCrudResourceContributionService extends AbstractCrudResourceContribution implements CrudResourceDescriptorContributionInterface
+final class EcosystemCrudResourceContributionService extends InterfaceAbstractCrudResourceContribution implements InterfaceCrudResourceDescriptorContributionInterface
 {
     public function provide(): array
     {

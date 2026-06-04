@@ -7,12 +7,12 @@ namespace App\Service\Interfacing\Ecommerce;
 use App\Interfacing\Contract\View\CrudResourceLinkSetInterface;
 use App\Interfacing\Contract\View\EcommerceComponentSummary;
 use App\Interfacing\Contract\View\EcommerceScreenEntry;
-use App\Interfacing\ServiceInterface\Crud\CrudResourceExplorerProviderInterface;
-use App\Interfacing\ServiceInterface\Ecommerce\EcommerceScreenCatalogProviderInterface;
+use App\Interfacing\ProviderInterface\Crud\InterfaceCrudResourceExplorerProviderInterface;
+use App\Interfacing\ProviderInterface\Ecommerce\InterfaceEcommerceScreenCatalogProviderInterface;
 
-final readonly class EcommerceScreenCatalogProviderService implements EcommerceScreenCatalogProviderInterface
+final readonly class EcommerceScreenCatalogProviderService implements InterfaceEcommerceScreenCatalogProviderInterface
 {
-    public function __construct(private CrudResourceExplorerProviderInterface $crudResourceExplorerProvider)
+    public function __construct(private InterfaceCrudResourceExplorerProviderInterface $crudResourceExplorerProvider)
     {
     }
 

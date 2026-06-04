@@ -8,9 +8,9 @@ declare(strict_types=1);
 
 namespace App\Service\Dashboard;
 
-use App\Contract\Ui\AppDashboardSurfaceContract;
-use App\Dto\Dashboard\AppDashboardSurfacePayload;
-use App\Navigating\ServiceInterface\Navigation\NavigationSurfaceRendererInterface;
+use App\Contract\Ui\AppDashboardContract;
+use App\Dto\Dashboard\AppDashboardPayload;
+use App\Navigating\ServiceInterface\Navigation\NavigationRendererInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -18,21 +18,21 @@ use Symfony\Component\HttpFoundation\Response;
  * Builds the App-owned dashboard composition contract.
  *
  * The host application exposes dashboard composition as data. Viewing owns the
- * render decision boundary, while Interfacing provides the shell and surface
- * templates that the decision layer selects from.
+ * render decision boundary, while Interfacing provides the shell and templates
+ * that the decision layer selects from.
  */
-final class AppDashboardSurfaceBuilderService implements AppDashboardSurfaceContract
+final class AppDashboardBuilderService implements AppDashboardContract
 {
     public function __construct(
-        private readonly NavigationSurfaceRendererInterface $navigationSurfaceRenderer,
+        private readonly NavigationRendererInterface $navigationRenderer,
     ) {
     }
 
-    public function buildDashboardSurface(Request $request): AppDashboardSurfacePayload
+    public function buildDashboard(Request $request): AppDashboardPayload
     {
         $locale = $request->query->get('contentLocale', $request->getLocale());
 
-        $surface = [
+        $data = [
             'title' => 'Commerce Control Center',
             'component' => 'app-host',
             'integrationOwner' => 'app-host-contract',
@@ -125,15 +125,15 @@ final class AppDashboardSurfaceBuilderService implements AppDashboardSurfaceCont
             'paginationLabel' => 'App-owned dashboard sections rendered through the shared Interfacing shell',
         ];
 
-        return new AppDashboardSurfacePayload($surface);
+        return new AppDashboardPayload($data);
     }
 
     public function __invoke(Request $request): Response
     {
-        return $this->navigationSurfaceRenderer->render(
+        return $this->navigationRenderer->render(
             'dashboard',
             'index',
-            $this->buildDashboardSurface($request)->toArray(),
+            $this->buildDashboard($request)->toArray(),
         );
     }
 }

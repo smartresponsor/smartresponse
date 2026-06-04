@@ -1,0 +1,41 @@
+<?php
+
+declare(strict_types=1);
+
+return [
+    'schema' => 'app.kernel.runtime_scope.v1',
+    'scope' => 'local-current',
+    'source' => 'materialized from the previous Smart Responsor bundle list in config/bundles.php',
+    'strict' => false,
+    'enabledBundles' => [
+        App\Cruding\CrudingBundle::class,
+        App\Messaging\MessagingBundle::class,
+        App\Navigating\NavigationBundle::class,
+        App\Analysing\AnalysingBundle::class,
+        App\Attaching\AttachingBundle::class,
+        App\Billing\BillingBundle::class,
+        App\Carting\CartingBundle::class,
+        App\Commissioning\CommissioningBundle::class,
+        App\Exchanging\ExchangingBundle::class,
+        App\Rolling\RollingBundle::class,
+        App\Rolling\Infrastructure\Symfony\RoleBundle::class,
+        App\Taxating\TaxatingBundle::class,
+        App\Tagging\TaggingBundle::class,
+        App\Interfacing\InterfaceBundle::class,
+        App\Viewing\ViewingBundle::class,
+        App\Paging\PageBundle::class,
+        App\Managing\ManagingBundle::class,
+        App\Accessing\AccessingBundle::class,
+        App\Cataloging\CatalogingBundle::class,
+        App\Indexing\IndexingBundle::class,
+        App\Vendoring\VendoringBundle::class,
+        App\Applicating\ApplicatingBundle::class,
+        App\Subscripting\Bundle\SubscriptionBundle::class,
+        App\Searching\SearchingBundle::class,
+        App\Administering\AdministeringBundle::class,
+        App\Projecting\ProjectingBundle::class,
+        App\Paying\PayingBundle::class,
+        App\Domaining\DomainingBundle::class,
+        App\Merchandising\MerchandisingBundle::class,
+    ],
+];

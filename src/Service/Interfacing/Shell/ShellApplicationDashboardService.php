@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Interfacing\Shell;
 
-use App\Interfacing\ServiceInterface\Crud\CrudResourceExplorerProviderInterface;
+use App\Interfacing\ProviderInterface\Crud\InterfaceCrudResourceExplorerProviderInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
@@ -12,7 +12,7 @@ use Symfony\Contracts\Cache\ItemInterface;
 final class ShellApplicationDashboardService
 {
     public function __construct(
-        private readonly CrudResourceExplorerProviderInterface $crudResourceExplorerProvider,
+        private readonly InterfaceCrudResourceExplorerProviderInterface $crudResourceExplorerProvider,
         #[Autowire(service: 'cache.app.recorder_inner')]
         private readonly CacheInterface $cache,
     ) {

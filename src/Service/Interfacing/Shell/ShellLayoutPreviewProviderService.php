@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Service\Interfacing\Shell;
 
-use App\Interfacing\ServiceInterface\Shell\ShellChromeProviderInterface;
-use App\Interfacing\ServiceInterface\Shell\ShellLayoutPreviewProviderInterface;
+use App\Interfacing\ProviderInterface\Shell\InterfaceShellChromeProviderInterface;
+use App\Interfacing\ProviderInterface\Shell\InterfaceShellLayoutPreviewProviderInterface;
 
-final readonly class ShellLayoutPreviewProviderService implements ShellLayoutPreviewProviderInterface
+final readonly class ShellLayoutPreviewProviderService implements InterfaceShellLayoutPreviewProviderInterface
 {
     public function __construct(
-        private ShellChromeProviderInterface $shellChromeProvider,
+        private InterfaceShellChromeProviderInterface $shellChromeProvider,
     ) {
     }
 

@@ -1,7 +1,7 @@
 nelmio_api_doc:
     documentation:
         info:
-            title: App Host Surface API
+            title: App Host Dashboard API
             description: Host-owned API documentation for stable owner-root routes exposed by the application shell.
             version: 1.0.1
         components:
@@ -20,7 +20,7 @@ nelmio_api_doc:
                                 properties:
                                     field: { type: string, nullable: true }
                                     message: { type: string }
-                SurfacePayload:
+                DashboardPayload:
                     type: object
                     additionalProperties: true
                 TaxabilityDecision:
@@ -120,25 +120,25 @@ nelmio_api_doc:
             /api/billing/meter:
                 get:
                     tags: ['Billing']
-                    operationId: billingMeterSurface
-                    summary: Return the billing meter surface payload.
+                    operationId: billingMeterDashboard
+                    summary: Return the billing meter dashboard payload.
                     responses:
                         '200':
-                            description: Billing meter surface returned.
+                            description: Billing meter dashboard returned.
                             content:
                                 application/json:
-                                    schema: { $ref: '#/components/schemas/SurfacePayload' }
+                                    schema: { $ref: '#/components/schemas/DashboardPayload' }
             /api/order/summary:
                 get:
                     tags: ['Order']
-                    operationId: orderSummarySurface
-                    summary: Return the order summary surface payload.
+                    operationId: orderSummaryDashboard
+                    summary: Return the order summary dashboard payload.
                     responses:
                         '200':
-                            description: Order summary surface returned.
+                            description: Order summary dashboard returned.
                             content:
                                 application/json:
-                                    schema: { $ref: '#/components/schemas/SurfacePayload' }
+                                    schema: { $ref: '#/components/schemas/DashboardPayload' }
     areas:
         path_patterns:
             - ^/api(?!/applicating/doc$)

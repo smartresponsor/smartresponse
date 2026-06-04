@@ -30,8 +30,8 @@ services:
     App\Service\Demo\OrderDemoDataService: ~
 
     App\ServiceInterface\VendorApiKeyServiceInterface: '@App\Service\VendorApiKeyService'
-    App\Navigating\ServiceInterface\Navigation\NavigationSurfaceRendererInterface: '@App\Service\Navigation\InterfacingNavigationSurfaceRendererService'
-    App\Service\Dashboard\AppDashboardSurfaceBuilderService:
+    App\Navigating\ServiceInterface\Navigation\NavigationRendererInterface: '@App\Service\Navigation\InterfacingNavigationRendererService'
+    App\Service\Dashboard\AppDashboardBuilderService:
         public: true
     App\Service\Diagnostics\AppRouteAuditService:
         public: true
@@ -39,12 +39,12 @@ services:
     doctrine.dbal.default_connection:
         alias: doctrine.dbal.postgres_connection
 
-    App\Contract\Ui\AppDashboardSurfaceContract: '@App\Service\Dashboard\AppDashboardSurfaceBuilderService'
-    App\Interfacing\ServiceInterface\Shell\ShellChromeProviderInterface: '@App\Service\Interfacing\Shell\ShellChromeProviderService'
-    App\Interfacing\ServiceInterface\Commerce\ProjectShowcaseProviderInterface: '@App\Service\Interfacing\Commerce\DemoProjectShowcaseProviderService'
-    App\Interfacing\ServiceInterface\Ecommerce\EcommerceScreenCatalogProviderInterface: '@App\Service\Interfacing\Ecommerce\EcommerceScreenCatalogProviderService'
-    App\Interfacing\ServiceInterface\Shell\ShellLayoutPreviewProviderInterface: '@App\Service\Interfacing\Shell\ShellLayoutPreviewProviderService'
-    App\Interfacing\ServiceInterface\Shell\ShellScreenCatalogProviderInterface: '@App\Service\Interfacing\Shell\ShellScreenCatalogProviderService'
+    App\Contract\Ui\AppDashboardContract: '@App\Service\Dashboard\AppDashboardBuilderService'
+    App\Interfacing\ProviderInterface\Shell\InterfaceShellChromeProviderInterface: '@App\Service\Interfacing\Shell\ShellChromeProviderService'
+    App\Interfacing\ProviderInterface\Commerce\InterfaceProjectShowcaseProviderInterface: '@App\Service\Interfacing\Commerce\DemoProjectShowcaseProviderService'
+    App\Interfacing\ProviderInterface\Ecommerce\InterfaceEcommerceScreenCatalogProviderInterface: '@App\Service\Interfacing\Ecommerce\EcommerceScreenCatalogProviderService'
+    App\Interfacing\ProviderInterface\Shell\InterfaceShellLayoutPreviewProviderInterface: '@App\Service\Interfacing\Shell\ShellLayoutPreviewProviderService'
+    App\Interfacing\ProviderInterface\Shell\InterfaceShellScreenCatalogProviderInterface: '@App\Service\Interfacing\Shell\ShellScreenCatalogProviderService'
 
     App\Repository\Order\OrderRepository:
         tags: [ 'doctrine.repository_service' ]
@@ -55,9 +55,9 @@ services:
     doctrine.orm.infrastructure_entity_manager:
         alias: doctrine.orm.sqlite_entity_manager
 
-    App\Service\Navigation\InterfacingNavigationSurfaceRendererService:
+    App\Service\Navigation\InterfacingNavigationRendererService:
         arguments:
-            $interfacingRenderer: '@App\Interfacing\ServiceInterface\Presentation\InterfacingRendererInterface'
+            $interfacingRenderer: '@App\Interfacing\ServiceInterface\Rendering\InterfaceRendererInterface'
 
     App\Routing\SiblingRoutesLoader:
         arguments:
@@ -85,7 +85,6 @@ imports:
     - { resource: '../../Paying/config/services.yaml' }
     - { resource: '../../Domaining/config/services.yaml' }
     - { resource: '../../Billing/config/component/services.yaml' }
-    - { resource: '../../Localizing/config/services.yaml' }
     - { resource: '../../Currencing/config/packages/currencing.yaml' }
     - { resource: '../../Currencing/config/services/currencing.yaml' }
     - { resource: '../../Discovering/config/services.yaml' }

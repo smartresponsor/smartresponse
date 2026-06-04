@@ -42,7 +42,7 @@ security:
             pattern: ^/(?!(access|register|sign-up|recover|forgot-password|reset-password|login|verify)(?:/|$))
             lazy: true
             provider: accessing_account_provider
-            entry_point: App\Accessing\Security\AccessingAuthenticationEntryPoint
+            entry_point: App\Accessing\Authenticator\AccessAuthenticationEntryPoint
             logout:
                 path: /sign-out
                 target: interfacing_welcome_sign_in

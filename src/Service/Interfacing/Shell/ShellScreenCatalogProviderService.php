@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Service\Interfacing\Shell;
 
-use App\Interfacing\ServiceInterface\Shell\ShellChromeProviderInterface;
-use App\Interfacing\ServiceInterface\Shell\ShellNavigationMapProviderInterface;
-use App\Interfacing\ServiceInterface\Shell\ShellScreenCatalogProviderInterface;
+use App\Interfacing\ProviderInterface\Shell\InterfaceShellChromeProviderInterface;
+use App\Interfacing\ProviderInterface\Shell\InterfaceShellNavigationMapProviderInterface;
+use App\Interfacing\ProviderInterface\Shell\InterfaceShellScreenCatalogProviderInterface;
 
-final readonly class ShellScreenCatalogProviderService implements ShellScreenCatalogProviderInterface
+final readonly class ShellScreenCatalogProviderService implements InterfaceShellScreenCatalogProviderInterface
 {
     public function __construct(
-        private ShellChromeProviderInterface $shellChromeProvider,
-        private ShellNavigationMapProviderInterface $shellNavigationMapProvider,
+        private InterfaceShellChromeProviderInterface $shellChromeProvider,
+        private InterfaceShellNavigationMapProviderInterface $shellNavigationMapProvider,
     ) {
     }
 

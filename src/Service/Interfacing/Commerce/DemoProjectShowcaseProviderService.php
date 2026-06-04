@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Interfacing\Commerce;
 
-use App\Interfacing\ServiceInterface\Commerce\ProjectShowcaseProviderInterface;
+use App\Interfacing\ProviderInterface\Commerce\InterfaceProjectShowcaseProviderInterface;
 
 /**
  * Demo-backed storefront surface for Project routes.
@@ -14,7 +14,7 @@ use App\Interfacing\ServiceInterface\Commerce\ProjectShowcaseProviderInterface;
  * This provider keeps temporary project cards out of Twig until a real
  * Projecting/Cataloging data source owns these records.
  */
-final readonly class DemoProjectShowcaseProviderService implements ProjectShowcaseProviderInterface
+final readonly class DemoProjectShowcaseProviderService implements InterfaceProjectShowcaseProviderInterface
 {
     public function provide(array $criteria = []): array
     {

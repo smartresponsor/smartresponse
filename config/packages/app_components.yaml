@@ -21,7 +21,6 @@ parameters:
         - Facting
         - Indexing
         - Interfacing
-        - Localizing
         - Locating
         - Managing
         - Messaging
@@ -42,3 +41,48 @@ parameters:
         - Taxating
         - Vendoring
         - Viewing
+
+when@prod:
+    parameters:
+        app.connected_components:
+            - Accessing
+            - Adjudicating
+            - Administering
+            - Analysing
+            - Anchoring
+            - Applicating
+            - Attaching
+            - Billing
+            - Carting
+            - Cataloging
+            - Commercializing
+            - Commissioning
+            - Cruding
+            - Currencing
+            - Discovering
+            - Domaining
+            - Exchanging
+            - Faceting
+            - Facting
+            - Indexing
+            - Interfacing
+            - Locating
+            - Managing
+            - Messaging
+            - Merchandising
+            - Navigating
+            - Observabiliting
+            - Operating
+            - Ordering
+            - Paging
+            - Paying
+            - Projecting
+            - Rolling
+            - Runtiming
+            - Searching
+            - Shipping
+            - Subscripting
+            - Tagging
+            - Taxating
+            - Vendoring
+            - Viewing

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Twig;
 
-use App\Localizing\ServiceInterface\Template\LocaleTemplateSelectorProviderInterface;
+use App\Interfacing\ProviderInterface\Localization\InterfaceLocaleTemplateSelectorProviderInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -13,7 +13,7 @@ final class LocaleSelectorTwigExtension extends AbstractExtension
 {
     public function __construct(
         private readonly RequestStack $requestStack,
-        private readonly LocaleTemplateSelectorProviderInterface $localeTemplateSelectorProvider,
+        private readonly InterfaceLocaleTemplateSelectorProviderInterface $localeTemplateSelectorProvider,
     ) {
     }
 
