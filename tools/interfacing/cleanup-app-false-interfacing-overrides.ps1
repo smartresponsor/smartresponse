@@ -24,7 +24,7 @@ if (!(Test-Path $InterfacingRoot -PathType Container)) {
 }
 
 $requiredTargets = @(
-    (Join-Path $InterfacingRoot 'template\interfacing'),
+    (Join-Path $InterfacingRoot 'templates\interfacing'),
     (Join-Path $InterfacingRoot 'public\interfacing')
 )
 foreach ($target in $requiredTargets) {
@@ -38,7 +38,7 @@ $backupRoot = Join-Path $AppRoot "var\backups\interfacing-false-overrides-$stamp
 New-Item -ItemType Directory -Force -Path $backupRoot | Out-Null
 
 $links = @(
-    @{ App = 'template\interfacing'; Target = 'template\interfacing'; Required = $true },
+    @{ App = 'templates\interfacing'; Target = 'templates\interfacing'; Required = $true },
     @{ App = 'public\interfacing';   Target = 'public\interfacing';   Required = $true },
     @{ App = 'assets\interfacing';   Target = 'assets\interfacing';   Required = $false }
 )
@@ -82,7 +82,7 @@ This backup was created by cleanup-app-false-interfacing-overrides.ps1.
 
 Purpose:
 - Host App must not own duplicate Interfacing templates/assets.
-- App template/public/assets Interfacing paths are now directory junctions to the sibling Interfacing repository.
+- App templates/public/assets Interfacing paths are now directory junctions to the sibling Interfacing repository.
 - Interfacing repository is the source of truth.
 
 AppRoot: $AppRoot
@@ -95,3 +95,5 @@ Rollback manually if needed:
 "@ | Set-Content -Path $marker -Encoding UTF8
 
 Write-Host "[done] False Interfacing overrides cleaned from App. Backup: $backupRoot"
+
+

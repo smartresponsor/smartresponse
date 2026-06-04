@@ -1,2 +1,0 @@
-- { code: 'only-active', expr: 'status == "active"' }
-- { code: 'only-us', expr: 'locale == "en_US"' }

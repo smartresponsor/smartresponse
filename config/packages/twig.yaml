@@ -8,17 +8,16 @@ twig:
         '%kernel.project_dir%/../Applicating/templates': Applicating
         '%kernel.project_dir%/../Cataloging/templates': Cataloging
         '%kernel.project_dir%/../Complying/templates': Complying
-        '%kernel.project_dir%/../Containerizing/template': Containerizing
+        '%kernel.project_dir%/../Containerizing/templates': Containerizing
         '%kernel.project_dir%/../Cruding/templates': Cruding
         '%kernel.project_dir%/../Currencing/templates': Currencing
         '%kernel.project_dir%/../Managing/templates': ~
         '%kernel.project_dir%/../Discovering/templates': Discovering
-        '%kernel.project_dir%/../Domaining/template': Domaining
+        '%kernel.project_dir%/../Domaining/templates': Domaining
         '%kernel.project_dir%/../Faceting/templates': Faceting
-        '%kernel.project_dir%/../Interfacing/template/': ~
-        '%kernel.project_dir%/../Interfacing/template': Interfacing
+        '%kernel.project_dir%/../Interfacing/templates/': ~
+        '%kernel.project_dir%/../Interfacing/templates': Interfacing
         '%kernel.project_dir%/../Messaging/templates': Messaging
-        '%kernel.project_dir%/../Navigating/template': Navigating
         '%kernel.project_dir%/../Navigating/templates': Navigating
         '%kernel.project_dir%/../Ordering/templates': Ordering
         '%kernel.project_dir%/../Paging/templates': Paging
@@ -33,3 +32,6 @@ twig:
 when@test:
     twig:
         strict_variables: true
+
+
+

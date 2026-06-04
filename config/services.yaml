@@ -18,12 +18,11 @@ services:
     App\:
         resource: '../src/'
         exclude:
-            - '../src/Presentation/Controller/Interfacing/'
-            - '../src/Contract/Ui/AdminBodyBridgeProviderSurfaceContract.php'
-            - '../src/Contract/Ui/AdminBodyConsumerProviderAdoptionContract.php'
-            - '../src/Contract/Ui/AdminBodyMountContract.php'
-            - '../../Complying/src/'
-            - '../../Complying/Command/'
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Fixture/'
+            - '../src/DataFixtures/'
+            - '../src/Kernel.php'
 
     App\Fixture\GovernanceDemoSeeder: ~
     App\Service\Demo\FacetingDemoDatasetService: ~
@@ -73,7 +72,7 @@ when@dev:
 
 imports:
     - { resource: '../../Administering/config/services.yaml' }
-    - { resource: '../vendor/cruding/crud/config/services.yaml' }
+    - { resource: '../../Cruding/config/services.yaml' }
     - { resource: '../../Accessing/config/services.yaml' }
     - { resource: '../../Shipping/config/component/services.yaml' }
     - { resource: '../../Carting/config/services.yaml' }

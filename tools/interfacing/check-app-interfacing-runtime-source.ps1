@@ -12,7 +12,7 @@ if ([string]::IsNullOrWhiteSpace($InterfacingRoot)) {
 }
 
 $paths = @(
-    @{ Name = 'template/interfacing'; App = Join-Path $AppRoot 'template\interfacing'; Target = Join-Path $InterfacingRoot 'template\interfacing' },
+    @{ Name = 'templates/interfacing'; App = Join-Path $AppRoot 'templates\interfacing'; Target = Join-Path $InterfacingRoot 'templates\interfacing' },
     @{ Name = 'public/interfacing'; App = Join-Path $AppRoot 'public\interfacing'; Target = Join-Path $InterfacingRoot 'public\interfacing' },
     @{ Name = 'assets/interfacing'; App = Join-Path $AppRoot 'assets\interfacing'; Target = Join-Path $InterfacingRoot 'assets\interfacing' }
 )
@@ -40,3 +40,5 @@ Get-ChildItem -Path $AppRoot -Recurse -File |
   } |
   Select-String -Pattern 'Smart Responsor','sr-shell-top','provider-baseline-20260527b','interfacing-shell-grid--top','\[data-interfacing-shell-slot="top"\] > div' |
   Select-Object Path, LineNumber, Line
+
+

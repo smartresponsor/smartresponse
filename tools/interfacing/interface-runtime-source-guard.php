@@ -5,7 +5,7 @@ declare(strict_types=1);
 $root = dirname(__DIR__, 2);
 $failures = [];
 
-$base = $root . '/template/interfacing/shell/base.html.twig';
+$base = $root . '/templates/interfacing/shell/base.html.twig';
 $css = $root . '/public/interfacing/design/provider-baseline.css';
 
 $baseContents = is_file($base) ? (string) file_get_contents($base) : '';
@@ -61,3 +61,4 @@ if ($failures !== []) {
 }
 
 fwrite(STDOUT, '[interface-runtime-source-guard] PASS' . PHP_EOL);
+

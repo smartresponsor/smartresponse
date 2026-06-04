@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 $root = dirname(__DIR__, 2);
-$basePath = $root . '/template/interfacing/shell/base.html.twig';
-$topPath = $root . '/template/interfacing/shell/partial/top_panel.html.twig';
+$basePath = $root . '/templates/interfacing/shell/base.html.twig';
+$topPath = $root . '/templates/interfacing/shell/partial/top_panel.html.twig';
 $cssPath = $root . '/public/interfacing/design/provider-baseline.css';
 $brandAssetPath = $root . '/public/interfacing/brand/smart-response-mark.svg';
 $legacyMandalaAssetPath = $root . '/public/mandala.svg';
@@ -82,3 +82,4 @@ if ($failures !== []) {
 }
 
 fwrite(STDOUT, '[shared-shell-grid-class-guard] PASS' . PHP_EOL);
+

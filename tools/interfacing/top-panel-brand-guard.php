@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 $root = dirname(__DIR__, 2);
-$basePath = $root . DIRECTORY_SEPARATOR . 'template/interfacing/shell/base.html.twig';
-$partialPath = $root . DIRECTORY_SEPARATOR . 'template/interfacing/shell/partial/top_panel.html.twig';
+$basePath = $root . DIRECTORY_SEPARATOR . 'templates/interfacing/shell/base.html.twig';
+$partialPath = $root . DIRECTORY_SEPARATOR . 'templates/interfacing/shell/partial/top_panel.html.twig';
 $cssPath = $root . DIRECTORY_SEPARATOR . 'public/interfacing/design/provider-baseline.css';
 
 $failures = [];
@@ -64,3 +64,4 @@ if ($failures !== []) {
 }
 
 fwrite(STDOUT, '[top-panel-brand-guard] PASS' . PHP_EOL);
+

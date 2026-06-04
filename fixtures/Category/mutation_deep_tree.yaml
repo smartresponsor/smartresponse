@@ -1,7 +1,0 @@
-rows:
-  - { id: 1, slug: '018f4f0e-5d8c-7a3c-a0d4-1bf3d8c6a401', name: 'Marketplace', parent_id: null, depth: 0, path: '018f4f0e-5d8c-7a3c-a0d4-1bf3d8c6a401' }
-  - { id: 2, slug: '018f4f0e-5d8c-7a3c-a0d4-1bf3d8c6a402', name: 'Electronics', parent_id: 1, depth: 1, path: '018f4f0e-5d8c-7a3c-a0d4-1bf3d8c6a401.018f4f0e-5d8c-7a3c-a0d4-1bf3d8c6a402' }
-  - { id: 3, slug: '018f4f0e-5d8c-7a3c-a0d4-1bf3d8c6a403', name: 'Phones', parent_id: 2, depth: 2, path: '018f4f0e-5d8c-7a3c-a0d4-1bf3d8c6a401.018f4f0e-5d8c-7a3c-a0d4-1bf3d8c6a402.018f4f0e-5d8c-7a3c-a0d4-1bf3d8c6a403' }
-  - { id: 4, slug: '018f4f0e-5d8c-7a3c-a0d4-1bf3d8c6a404', name: 'Accessories', parent_id: 3, depth: 3, path: '018f4f0e-5d8c-7a3c-a0d4-1bf3d8c6a401.018f4f0e-5d8c-7a3c-a0d4-1bf3d8c6a402.018f4f0e-5d8c-7a3c-a0d4-1bf3d8c6a403.018f4f0e-5d8c-7a3c-a0d4-1bf3d8c6a404' }
-  - { id: 5, slug: '018f4f0e-5d8c-7a3c-a0d4-1bf3d8c6a405', name: 'Clearance', parent_id: 4, depth: 4, path: '018f4f0e-5d8c-7a3c-a0d4-1bf3d8c6a401.018f4f0e-5d8c-7a3c-a0d4-1bf3d8c6a402.018f4f0e-5d8c-7a3c-a0d4-1bf3d8c6a403.018f4f0e-5d8c-7a3c-a0d4-1bf3d8c6a404.018f4f0e-5d8c-7a3c-a0d4-1bf3d8c6a405' }
-  - { id: 6, slug: '018f4f0e-5d8c-7a3c-a0d4-1bf3d8c6a406', name: 'Outlet', parent_id: 1, depth: 1, path: '018f4f0e-5d8c-7a3c-a0d4-1bf3d8c6a401.018f4f0e-5d8c-7a3c-a0d4-1bf3d8c6a406' }

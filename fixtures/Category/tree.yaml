@@ -1,3 +1,0 @@
-- { id: 1, slug: '018f4f0e-5d8c-7a3c-a0d4-1bf3d8c6a201', parent: null }
-- { id: 2, slug: '018f4f0e-5d8c-7a3c-a0d4-1bf3d8c6a202', parent: 1 }
-- { id: 3, slug: '018f4f0e-5d8c-7a3c-a0d4-1bf3d8c6a203', parent: 2 }

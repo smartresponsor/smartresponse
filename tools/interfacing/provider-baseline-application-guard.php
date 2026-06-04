@@ -8,8 +8,8 @@ $errors = [];
 $requiredFiles = [
     'public/interfacing/design/provider-baseline.css',
     'public/interfacing/design/provider-baseline-tokens.js',
-    'template/app-host/dashboard.html.twig',
-    'template/base.html.twig',
+    'templates/app-host/dashboard.html.twig',
+    'templates/base.html.twig',
 ];
 
 foreach ($requiredFiles as $file) {
@@ -19,9 +19,9 @@ foreach ($requiredFiles as $file) {
 }
 
 foreach ([
-    'template/interfacing/shell/base.html.twig',
-    'template/interfacing/access/base.html.twig',
-    'template/app-host/dashboard.html.twig',
+    'templates/interfacing/shell/base.html.twig',
+    'templates/interfacing/access/base.html.twig',
+    'templates/app-host/dashboard.html.twig',
     'templates/base.html.twig',
 ] as $template) {
     $content = is_file($root . '/' . $template) ? file_get_contents($root . '/' . $template) : '';
@@ -62,3 +62,4 @@ if ($errors !== []) {
 }
 
 echo "[provider-baseline-application-guard] PASS\n";
+
