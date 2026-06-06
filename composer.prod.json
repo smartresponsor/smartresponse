@@ -52,6 +52,7 @@
         "symfony/dependency-injection": "8.0.*",
         "symfony/dotenv": "8.0.*",
         "symfony/event-dispatcher": "8.0.*",
+        "symfony/expression-language": "8.0.*",
         "symfony/flex": "^2.4",
         "symfony/framework-bundle": "8.0.*",
         "symfony/http-foundation": "8.0.*",
@@ -106,10 +107,10 @@
                      },
     "scripts":  {
                     "auto-scripts":  {
-                                         "cache:clear":  "symfony-cmd",
-                                         "assets:install %PUBLIC_DIR%":  "symfony-cmd",
-                                         "importmap:install":  "symfony-cmd"
-                                     },
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd",
+            "importmap:install": "symfony-cmd"
+        },
                     "post-install-cmd":  [
                                              "@auto-scripts"
                                          ],
