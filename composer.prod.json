@@ -44,6 +44,14 @@
         },
         {
             "type": "path",
+            "url": "../Searching"
+        },
+        {
+            "type": "path",
+            "url": "../Applicating"
+        },
+        {
+            "type": "path",
             "url": "../Rolling"
         }
                      ],
@@ -59,16 +67,19 @@
         "doctrine/orm": "^3.3",
         "easycorp/easyadmin-bundle": "*",
         "interfacing/interface": "*@dev",
+        "applicating/application": "*@dev",
         "lexik/jwt-authentication-bundle": "*",
         "navigating/navigation": "*@dev",
         "nelmio/api-doc-bundle": "*",
         "objecting/object": "*@dev",
+        "searching/search": "*@dev",
         "rolling/role": "*@dev",
         "managing/manage": "dev-master",
         "scheb/2fa-bundle": "*",
         "symfony/asset": "8.1.*",
         "symfony/config": "8.1.*",
         "symfony/console": "8.1.*",
+        "symfony/contracts": "^3.7",
         "symfony/dependency-injection": "8.1.*",
         "symfony/dotenv": "8.1.*",
         "symfony/event-dispatcher": "8.1.*",

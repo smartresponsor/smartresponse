@@ -30,4 +30,6 @@ return [
     App\Viewing\ViewingBundle::class => ['all' => true],
     App\Navigating\NavigatingBundle::class => ['all' => true],
     App\Rolling\RollingBundle::class => ['all' => true],
+    App\Applicating\ApplicatingBundle::class => ['all' => true],
+    App\Searching\SearchingBundle::class => ['all' => true],
 ];

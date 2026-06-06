@@ -5,6 +5,9 @@
     "administering/administration": {
         "version": "dev-master"
     },
+    "applicating/application": {
+        "version": "dev-master"
+    },
     "cruding/crud": {
         "version": "dev-master"
     },
@@ -137,6 +140,9 @@
             "./config/packages/scheb_2fa.yaml",
             "./config/routes/scheb_2fa.yaml"
         ]
+    },
+    "searching/search": {
+        "version": "dev-main"
     },
     "symfony/asset-mapper": {
         "version": "8.1",
