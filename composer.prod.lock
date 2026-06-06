@@ -829,12 +829,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/smartresponsor/cruding.git",
-                "reference": "c293fe5348126eb13cd71db7cfa9a6a942b901b8"
+                "reference": "30d540675538065e3cb1c56537b48c856cc60ad0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smartresponsor/cruding/zipball/c293fe5348126eb13cd71db7cfa9a6a942b901b8",
-                "reference": "c293fe5348126eb13cd71db7cfa9a6a942b901b8",
+                "url": "https://api.github.com/repos/smartresponsor/cruding/zipball/30d540675538065e3cb1c56537b48c856cc60ad0",
+                "reference": "30d540675538065e3cb1c56537b48c856cc60ad0",
                 "shasum": ""
             },
             "require": {
@@ -885,7 +885,7 @@
                 "source": "https://github.com/smartresponsor/cruding/tree/master",
                 "issues": "https://github.com/smartresponsor/cruding/issues"
             },
-            "time": "2026-06-06T05:11:08+00:00"
+            "time": "2026-06-06T23:38:10+00:00"
         },
         {
             "name": "doctrine/collections",
@@ -2353,12 +2353,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/smartresponsor/interfacing.git",
-                "reference": "a3e07887f830d03a625a97be4456fff13fd343fe"
+                "reference": "cd70238ab23874f00a5ef126098e0fa2d635890e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smartresponsor/interfacing/zipball/a3e07887f830d03a625a97be4456fff13fd343fe",
-                "reference": "a3e07887f830d03a625a97be4456fff13fd343fe",
+                "url": "https://api.github.com/repos/smartresponsor/interfacing/zipball/cd70238ab23874f00a5ef126098e0fa2d635890e",
+                "reference": "cd70238ab23874f00a5ef126098e0fa2d635890e",
                 "shasum": ""
             },
             "require": {
@@ -2485,7 +2485,7 @@
                 "source": "https://github.com/smartresponsor/interfacing/tree/master",
                 "issues": "https://github.com/smartresponsor/interfacing/issues"
             },
-            "time": "2026-06-06T21:08:52+00:00"
+            "time": "2026-06-06T21:41:45+00:00"
         },
         {
             "name": "lcobucci/jwt",
@@ -2843,7 +2843,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Navigating",
-                "reference": "2645cb978b641b00659eaf75590b0b01b669fe25"
+                "reference": "a53e1adeba0d3e405cd39681a00600ac164b8f65"
             },
             "require": {
                 "php": "^8.4",
@@ -3966,7 +3966,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Rolling",
-                "reference": "820fbfcf04ed285698c9749aa2b0c8d3c47c1d43"
+                "reference": "75fd02729bbdcf3916f6f732aec5bc0afdad8027"
             },
             "require": {
                 "configuring/config": "*@dev",

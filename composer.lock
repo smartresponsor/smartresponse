@@ -236,7 +236,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Administering",
-                "reference": "d2b3ccd38b02fc6f50c651066a7bff3716878df2"
+                "reference": "5181462f940455f453f7986f799035a889cd53c7"
             },
             "require": {
                 "doctrine/doctrine-bundle": "^3.2",
@@ -862,7 +862,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Applicating",
-                "reference": "5a42f4a038f82ebad0db3b3c2266c30266bd0e0c"
+                "reference": "ade74cb40deda6e866a0e6afe6a9d998a5deaf4f"
             },
             "require": {
                 "doctrine/dbal": "^4.3",
@@ -4469,7 +4469,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Interfacing",
-                "reference": "353be89b4d308e93fc6bc3309efb77a5783aff70"
+                "reference": "cd70238ab23874f00a5ef126098e0fa2d635890e"
             },
             "require": {
                 "composer-runtime-api": "^2.2",
@@ -5515,7 +5515,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Messaging",
-                "reference": "47457e0ab49d8cef93b6c712c030381c5273443e"
+                "reference": "b5b0084636a75cec6b996780b103867fe8d66a2f"
             },
             "require": {
                 "administering/administration": "*@dev",
@@ -6024,7 +6024,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Navigating",
-                "reference": "2645cb978b641b00659eaf75590b0b01b669fe25"
+                "reference": "a53e1adeba0d3e405cd39681a00600ac164b8f65"
             },
             "require": {
                 "php": "^8.4",
@@ -9301,7 +9301,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Rolling",
-                "reference": "8688f6b67b6b8628e69d4f8ce1ef3c6828361793"
+                "reference": "75fd02729bbdcf3916f6f732aec5bc0afdad8027"
             },
             "require": {
                 "configuring/config": "*@dev",
@@ -18008,7 +18008,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Viewing",
-                "reference": "a4bc99077a5cd95be72c77be252a77e0ff2b6c04"
+                "reference": "f9d892995b086c92822e8c00eb7db95ff3074eb2"
             },
             "require": {
                 "php": "^8.4",
