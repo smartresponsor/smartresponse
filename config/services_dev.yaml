@@ -11,6 +11,8 @@ services:
     App\ServiceInterface\VendorApiKeyServiceInterface: '@App\Service\VendorApiKeyService'
     App\Service\Interfacing\Crud\Contribution\EcosystemCrudResourceContributionService:
         tags: ['app.interfacing.crud_resource_contribution']
+    App\Repository\Order\OrderRepository:
+        tags: [ 'doctrine.repository_service' ]
 
 imports:
     - { resource: '../../Administering/config/services.yaml' }
