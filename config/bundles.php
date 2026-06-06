@@ -23,4 +23,6 @@ return [
     Twig\Extra\TwigExtraBundle\TwigExtraBundle::class => ['all' => true],
     EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle::class => ['all' => true],
     Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle::class => ['all' => true],
+    App\Administering\AdministeringBundle::class => ['all' => true],
+    App\Managing\ManagingBundle::class => ['all' => true],
 ];

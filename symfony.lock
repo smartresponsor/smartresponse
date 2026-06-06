@@ -5,6 +5,9 @@
     "administering/admin": {
         "version": "dev-main"
     },
+    "administering/administration": {
+        "version": "dev-master"
+    },
     "analysing/analytics": {
         "version": "dev-master"
     },
@@ -154,6 +157,9 @@
             "./config/packages/lexik_jwt_authentication.yaml"
         ]
     },
+    "managing/manage": {
+        "version": "dev-master"
+    },
     "merchandising/merch": {
         "version": "0.1.0-dev"
     },
@@ -234,7 +240,7 @@
             "ref": "aac2bc5220e9ab5b9e3838a7a4da90e7f74e6148"
         }
     },
-    "smart-responsor/managing": {
+    "smart-responsor/manag": {
         "version": "dev-master"
     },
     "symfony/asset-mapper": {

@@ -1797,12 +1797,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/smartresponsor/interfacing.git",
-                "reference": "3958b6b9f8101caa693c996c9be43b77b9946385"
+                "reference": "3b114e450e91f766b4cd82ef9f30b8672606bd44"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smartresponsor/interfacing/zipball/3958b6b9f8101caa693c996c9be43b77b9946385",
-                "reference": "3958b6b9f8101caa693c996c9be43b77b9946385",
+                "url": "https://api.github.com/repos/smartresponsor/interfacing/zipball/3b114e450e91f766b4cd82ef9f30b8672606bd44",
+                "reference": "3b114e450e91f766b4cd82ef9f30b8672606bd44",
                 "shasum": ""
             },
             "require": {

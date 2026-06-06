@@ -1,4 +1,4 @@
-interface:
+interfacing:
     billing_meter:
         base_url: 'http://localhost'
         path: '/api/billing/meter'

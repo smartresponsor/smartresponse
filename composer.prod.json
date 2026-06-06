@@ -7,31 +7,29 @@
     "prefer-stable":  true,
     "repositories":  [
                          {
-            "name": "cruding",
             "type": "vcs",
             "url": "git@github.com:smartresponsor/cruding.git"
         },
         {
-                             "name":  "configuring",
-                             "type":  "vcs",
-                             "url":  "git@github.com:smartresponsor/configuring.git"
-                         },
-                         {
-                             "type":  "vcs",
-                             "url":  "git@github.com:smartresponsor/accessing.git"
-                         },
-                         {
-                             "type":  "vcs",
-                             "url":  "git@github.com:smartresponsor/interfacing.git"
-                         },
-                         {
-                             "type":  "vcs",
-                             "url":  "git@github.com:smartresponsor/viewing.git"
-                         },
-                         {
-                             "type":  "vcs",
-                             "url":  "git@github.com:smartresponsor/objecting.git"
-                         }
+			 "type":  "vcs",
+			 "url":  "git@github.com:smartresponsor/configuring.git"
+		 },
+		 {
+			 "type":  "vcs",
+			 "url":  "git@github.com:smartresponsor/accessing.git"
+		 },
+		 {
+			 "type":  "vcs",
+			 "url":  "https://github.com/smartresponsor/interfacing.git"
+		 },
+		 {
+			 "type":  "vcs",
+			 "url":  "git@github.com:smartresponsor/viewing.git"
+		 },
+		 {
+			 "type":  "vcs",
+			 "url":  "git@github.com:smartresponsor/objecting.git"
+		 }
                      ],
     "require":  {
         "php": "^8.4",

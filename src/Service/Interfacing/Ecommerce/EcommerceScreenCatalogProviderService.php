@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Service\Interfacing\Ecommerce;
 
 use App\Interfacing\Contract\View\CrudResourceLinkSetInterface;
-use App\Interfacing\Contract\View\EcommerceComponentSummary;
-use App\Interfacing\Contract\View\EcommerceScreenEntry;
+use App\Interfacing\Contract\View\InterfaceEcommerceComponentSummary;
+use App\Interfacing\Contract\View\InterfaceEcommerceScreenEntry;
 use App\Interfacing\ProviderInterface\Crud\InterfaceCrudResourceExplorerProviderInterface;
 use App\Interfacing\ProviderInterface\Ecommerce\InterfaceEcommerceScreenCatalogProviderInterface;
 
@@ -37,7 +37,7 @@ final readonly class EcommerceScreenCatalogProviderService implements InterfaceE
 
         usort(
             $entries,
-            static fn (EcommerceScreenEntry $left, EcommerceScreenEntry $right): int => [
+            static fn (InterfaceEcommerceScreenEntry $left, InterfaceEcommerceScreenEntry $right): int => [
                 self::zoneOrder($left->zone()),
                 $left->zone(),
                 $left->component(),
@@ -117,7 +117,7 @@ final readonly class EcommerceScreenCatalogProviderService implements InterfaceE
 
         $grouped = [];
         foreach ($summary as $row) {
-            $grouped[$row['zone']][] = new EcommerceComponentSummary(
+            $grouped[$row['zone']][] = new InterfaceEcommerceComponentSummary(
                 component: $row['component'],
                 zone: $row['zone'],
                 total: $row['total'],
@@ -130,7 +130,7 @@ final readonly class EcommerceScreenCatalogProviderService implements InterfaceE
         foreach ($grouped as &$components) {
             usort(
                 $components,
-                static fn (EcommerceComponentSummary $left, EcommerceComponentSummary $right): int => [
+                static fn (InterfaceEcommerceComponentSummary $left, InterfaceEcommerceComponentSummary $right): int => [
                     self::zoneOrder($left->zone()),
                     $left->component(),
                 ] <=> [
@@ -146,38 +146,38 @@ final readonly class EcommerceScreenCatalogProviderService implements InterfaceE
         return $cache = $grouped;
     }
 
-    /** @return list<EcommerceScreenEntry> */
+    /** @return list<InterfaceEcommerceScreenEntry> */
     private function platformEntries(): array
     {
         return [
-            new EcommerceScreenEntry('platform.workspace', 'Platform', 'Interfacing', 'Workspace dashboard', 'index', '/interfacing', 'connected', 'screen', 'Canonical shell dashboard; no business demo data.'),
-            new EcommerceScreenEntry('platform.admin-launchpad', 'Platform', 'Interfacing', 'Admin launchpad', 'index', '/interfacing/launchpad', 'connected', 'screen', 'Fast operator entry point for e-commerce zones, CRUD operations and component status.'),
-            new EcommerceScreenEntry('platform.screen-directory', 'Platform', 'Interfacing', 'Screen directory', 'index', '/interfacing/screens', 'connected', 'screen', 'Full screen/action directory grouped by e-commerce operating zone.'),
-            new EcommerceScreenEntry('platform.operation-workbench', 'Platform', 'Interfacing', 'Operation workbench', 'index', '/interfacing/operations', 'connected', 'screen', 'admin-provider-like command surface generated from the canonical CRUD registry.'),
-            new EcommerceScreenEntry('platform.admin-tables', 'Platform', 'Interfacing', 'Admin tables', 'index', '/interfacing/tables', 'connected', 'screen', 'Table-first admin surface for index-like CRUD browsing without Interfacing-owned business rows.'),
-            new EcommerceScreenEntry('platform.crud-frames', 'Platform', 'Interfacing', 'CRUD form frames', 'index', '/interfacing/forms', 'connected', 'screen', 'Shell-native New/Edit/Delete operation frames without Interfacing-owned business records.'),
-            new EcommerceScreenEntry('platform.crud-affordances', 'Platform', 'Interfacing', 'CRUD affordances', 'index', '/interfacing/affordances', 'connected', 'screen', 'Shell-native filter, search, sort, pagination and bulk-action affordances without Interfacing-owned records.'),
-            new EcommerceScreenEntry('platform.crud-readiness', 'Platform', 'Interfacing', 'CRUD readiness', 'index', '/interfacing/readiness', 'connected', 'screen', 'Compact readiness checklist across table, form, operation and affordance surfaces.'),
-            new EcommerceScreenEntry('platform.component-obligations', 'Platform', 'Interfacing', 'Component obligations', 'index', '/interfacing/obligations', 'connected', 'screen', 'Owning-component checklist for fixtures, contracts, runtime bridges and evidence without Interfacing-owned business rows.'),
-            new EcommerceScreenEntry('platform.runtime-bridges', 'Platform', 'Interfacing', 'Runtime bridges', 'index', '/interfacing/bridges', 'connected', 'screen', 'Runtime bridge catalog for route/controller/query/command/policy/evidence handoff from owning components.'),
-            new EcommerceScreenEntry('platform.promotion-gates', 'Platform', 'Interfacing', 'Promotion gates', 'index', '/interfacing/promotions', 'connected', 'screen', 'Promotion discipline for planned/canonical/connected component status changes without Interfacing-owned demo rows.'),
-            new EcommerceScreenEntry('platform.evidence-registry', 'Platform', 'Interfacing', 'Evidence registry', 'index', '/interfacing/evidence', 'connected', 'screen', 'Evidence checklist for route/data/operation/policy/audit proof supplied by owning components.'),
-            new EcommerceScreenEntry('platform.contract-registry', 'Platform', 'Interfacing', 'Contract registry', 'index', '/interfacing/contracts', 'connected', 'screen', 'Interface contract registry for screen, data, operation, policy and evidence obligations.'),
-            new EcommerceScreenEntry('platform.field-schema-registry', 'Platform', 'Interfacing', 'Field schema registry', 'index', '/interfacing/schemas', 'connected', 'screen', 'Field, identifier, validation and relationship schema obligations for CRUD tables and forms.'),
-            new EcommerceScreenEntry('platform.surface-audit', 'Platform', 'Interfacing', 'Surface audit', 'index', '/interfacing/surface', 'connected', 'screen', 'Transparency report for shell coverage, CRUD route grammar and data ownership boundaries.'),
-            new EcommerceScreenEntry('platform.component-roadmap', 'Platform', 'Interfacing', 'Component roadmap', 'index', '/interfacing/components', 'connected', 'screen', 'Full Smart Response component roadmap and e-commerce screen obligations.'),
-            new EcommerceScreenEntry('platform.crud-explorer', 'Platform', 'Interfacing', 'CRUD Explorer', 'index', '/interfacing/crud/explorer', 'connected', 'screen', 'Canonical index of CRUD route grammar across Smart Response.'),
-            new EcommerceScreenEntry('platform.doctor', 'Platform', 'Interfacing', 'Doctor', 'index', '/interfacing/interfacing-doctor', 'connected', 'screen', 'Operator diagnostics surface.'),
-            new EcommerceScreenEntry('platform.health', 'Platform', 'Interfacing', 'Health', 'index', '/interfacing/health', 'connected', 'screen', 'Health and smoke surface.'),
-            new EcommerceScreenEntry('messaging.notifications.inbox', 'Messaging', 'Messaging', 'Notifications inbox', 'index', '/interfacing/message.notifications.inbox', 'connected', 'screen', 'Connected screen; records must come from Messaging, not Interfacing.'),
-            new EcommerceScreenEntry('messaging.rooms.collection', 'Messaging', 'Messaging', 'Rooms collection', 'index', '/interfacing/message.rooms.collection', 'connected', 'screen', 'Connected screen; Interfacing owns only rendering contract.'),
-            new EcommerceScreenEntry('messaging.search.results', 'Messaging', 'Messaging', 'Search results', 'index', '/interfacing/message.search.results', 'connected', 'screen', 'Connected screen; Interfacing owns only rendering contract.'),
-            new EcommerceScreenEntry('billing.meter.screen', 'Billing and paying', 'Billing', 'Billing meter', 'index', '/interfacing/billing/meter', 'connected', 'screen', 'Connected workbench screen.'),
-            new EcommerceScreenEntry('ordering.summary.screen', 'Ordering', 'Ordering', 'Order summary', 'index', '/interfacing/order/summary', 'connected', 'screen', 'Connected workbench screen.'),
+            new InterfaceEcommerceScreenEntry('platform.workspace', 'Platform', 'Interfacing', 'Workspace dashboard', 'index', '/interfacing', 'connected', 'screen', 'Canonical shell dashboard; no business demo data.'),
+            new InterfaceEcommerceScreenEntry('platform.admin-launchpad', 'Platform', 'Interfacing', 'Admin launchpad', 'index', '/interfacing/launchpad', 'connected', 'screen', 'Fast operator entry point for e-commerce zones, CRUD operations and component status.'),
+            new InterfaceEcommerceScreenEntry('platform.screen-directory', 'Platform', 'Interfacing', 'Screen directory', 'index', '/interfacing/screens', 'connected', 'screen', 'Full screen/action directory grouped by e-commerce operating zone.'),
+            new InterfaceEcommerceScreenEntry('platform.operation-workbench', 'Platform', 'Interfacing', 'Operation workbench', 'index', '/interfacing/operations', 'connected', 'screen', 'admin-provider-like command surface generated from the canonical CRUD registry.'),
+            new InterfaceEcommerceScreenEntry('platform.admin-tables', 'Platform', 'Interfacing', 'Admin tables', 'index', '/interfacing/tables', 'connected', 'screen', 'Table-first admin surface for index-like CRUD browsing without Interfacing-owned business rows.'),
+            new InterfaceEcommerceScreenEntry('platform.crud-frames', 'Platform', 'Interfacing', 'CRUD form frames', 'index', '/interfacing/forms', 'connected', 'screen', 'Shell-native New/Edit/Delete operation frames without Interfacing-owned business records.'),
+            new InterfaceEcommerceScreenEntry('platform.crud-affordances', 'Platform', 'Interfacing', 'CRUD affordances', 'index', '/interfacing/affordances', 'connected', 'screen', 'Shell-native filter, search, sort, pagination and bulk-action affordances without Interfacing-owned records.'),
+            new InterfaceEcommerceScreenEntry('platform.crud-readiness', 'Platform', 'Interfacing', 'CRUD readiness', 'index', '/interfacing/readiness', 'connected', 'screen', 'Compact readiness checklist across table, form, operation and affordance surfaces.'),
+            new InterfaceEcommerceScreenEntry('platform.component-obligations', 'Platform', 'Interfacing', 'Component obligations', 'index', '/interfacing/obligations', 'connected', 'screen', 'Owning-component checklist for fixtures, contracts, runtime bridges and evidence without Interfacing-owned business rows.'),
+            new InterfaceEcommerceScreenEntry('platform.runtime-bridges', 'Platform', 'Interfacing', 'Runtime bridges', 'index', '/interfacing/bridges', 'connected', 'screen', 'Runtime bridge catalog for route/controller/query/command/policy/evidence handoff from owning components.'),
+            new InterfaceEcommerceScreenEntry('platform.promotion-gates', 'Platform', 'Interfacing', 'Promotion gates', 'index', '/interfacing/promotions', 'connected', 'screen', 'Promotion discipline for planned/canonical/connected component status changes without Interfacing-owned demo rows.'),
+            new InterfaceEcommerceScreenEntry('platform.evidence-registry', 'Platform', 'Interfacing', 'Evidence registry', 'index', '/interfacing/evidence', 'connected', 'screen', 'Evidence checklist for route/data/operation/policy/audit proof supplied by owning components.'),
+            new InterfaceEcommerceScreenEntry('platform.contract-registry', 'Platform', 'Interfacing', 'Contract registry', 'index', '/interfacing/contracts', 'connected', 'screen', 'Interface contract registry for screen, data, operation, policy and evidence obligations.'),
+            new InterfaceEcommerceScreenEntry('platform.field-schema-registry', 'Platform', 'Interfacing', 'Field schema registry', 'index', '/interfacing/schemas', 'connected', 'screen', 'Field, identifier, validation and relationship schema obligations for CRUD tables and forms.'),
+            new InterfaceEcommerceScreenEntry('platform.surface-audit', 'Platform', 'Interfacing', 'Surface audit', 'index', '/interfacing/surface', 'connected', 'screen', 'Transparency report for shell coverage, CRUD route grammar and data ownership boundaries.'),
+            new InterfaceEcommerceScreenEntry('platform.component-roadmap', 'Platform', 'Interfacing', 'Component roadmap', 'index', '/interfacing/components', 'connected', 'screen', 'Full Smart Response component roadmap and e-commerce screen obligations.'),
+            new InterfaceEcommerceScreenEntry('platform.crud-explorer', 'Platform', 'Interfacing', 'CRUD Explorer', 'index', '/interfacing/crud/explorer', 'connected', 'screen', 'Canonical index of CRUD route grammar across Smart Response.'),
+            new InterfaceEcommerceScreenEntry('platform.doctor', 'Platform', 'Interfacing', 'Doctor', 'index', '/interfacing/interfacing-doctor', 'connected', 'screen', 'Operator diagnostics surface.'),
+            new InterfaceEcommerceScreenEntry('platform.health', 'Platform', 'Interfacing', 'Health', 'index', '/interfacing/health', 'connected', 'screen', 'Health and smoke surface.'),
+            new InterfaceEcommerceScreenEntry('messaging.notifications.inbox', 'Messaging', 'Messaging', 'Notifications inbox', 'index', '/interfacing/message.notifications.inbox', 'connected', 'screen', 'Connected screen; records must come from Messaging, not Interfacing.'),
+            new InterfaceEcommerceScreenEntry('messaging.rooms.collection', 'Messaging', 'Messaging', 'Rooms collection', 'index', '/interfacing/message.rooms.collection', 'connected', 'screen', 'Connected screen; Interfacing owns only rendering contract.'),
+            new InterfaceEcommerceScreenEntry('messaging.search.results', 'Messaging', 'Messaging', 'Search results', 'index', '/interfacing/message.search.results', 'connected', 'screen', 'Connected screen; Interfacing owns only rendering contract.'),
+            new InterfaceEcommerceScreenEntry('billing.meter.screen', 'Billing and paying', 'Billing', 'Billing meter', 'index', '/interfacing/billing/meter', 'connected', 'screen', 'Connected workbench screen.'),
+            new InterfaceEcommerceScreenEntry('ordering.summary.screen', 'Ordering', 'Ordering', 'Order summary', 'index', '/interfacing/order/summary', 'connected', 'screen', 'Connected workbench screen.'),
         ];
     }
 
-    /** @return list<EcommerceScreenEntry> */
+    /** @return list<InterfaceEcommerceScreenEntry> */
     private function crudOperationEntries(CrudResourceLinkSetInterface $resource): array
     {
         $zone = $this->zoneForComponent($resource->component());
@@ -187,11 +187,11 @@ final readonly class EcommerceScreenCatalogProviderService implements InterfaceE
         $status = $resource->status();
 
         return [
-            new EcommerceScreenEntry($baseId.'.index', $zone, $component, $label, 'index', $resource->indexUrl(), $status, 'crud', $resource->note()),
-            new EcommerceScreenEntry($baseId.'.new', $zone, $component, $label, 'new', $resource->newUrl(), $status, 'crud', 'New form route follows the canonical CRUD bridge.'),
-            new EcommerceScreenEntry($baseId.'.show', $zone, $component, $label, 'show', $resource->showSampleUrl(), $status, 'crud-sample', 'Sample identifier is intentional; real id/slug comes from the owning component.'),
-            new EcommerceScreenEntry($baseId.'.edit', $zone, $component, $label, 'edit', $resource->editSampleUrl(), $status, 'crud-sample', 'Sample identifier is intentional; real id/slug comes from the owning component.'),
-            new EcommerceScreenEntry($baseId.'.delete', $zone, $component, $label, 'delete', $resource->deleteSampleUrl(), $status, 'crud-sample', 'Sample identifier is intentional; real id/slug comes from the owning component.'),
+            new InterfaceEcommerceScreenEntry($baseId.'.index', $zone, $component, $label, 'index', $resource->indexUrl(), $status, 'crud', $resource->note()),
+            new InterfaceEcommerceScreenEntry($baseId.'.new', $zone, $component, $label, 'new', $resource->newUrl(), $status, 'crud', 'New form route follows the canonical CRUD bridge.'),
+            new InterfaceEcommerceScreenEntry($baseId.'.show', $zone, $component, $label, 'show', $resource->showSampleUrl(), $status, 'crud-sample', 'Sample identifier is intentional; real id/slug comes from the owning component.'),
+            new InterfaceEcommerceScreenEntry($baseId.'.edit', $zone, $component, $label, 'edit', $resource->editSampleUrl(), $status, 'crud-sample', 'Sample identifier is intentional; real id/slug comes from the owning component.'),
+            new InterfaceEcommerceScreenEntry($baseId.'.delete', $zone, $component, $label, 'delete', $resource->deleteSampleUrl(), $status, 'crud-sample', 'Sample identifier is intentional; real id/slug comes from the owning component.'),
         ];
     }
 

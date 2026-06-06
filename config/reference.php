@@ -1673,8 +1673,71 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         cache?: scalar|Param|null, // Storage to track blocked tokens // Default: "cache.app"
  *     },
  * }
+ * @psalm-type ManagingConfig = array{
+ *     enabled_components?: list<scalar|Param|null>,
+ *     disabled_resources?: list<scalar|Param|null>,
+ *     menu_order?: list<scalar|Param|null>,
+ *     left_menu?: list<scalar|Param|null>,
+ *     menu_excluded_components?: list<scalar|Param|null>,
+ *     host_scan_source_roots?: list<scalar|Param|null>,
+ *     host_scan_namespace_prefixes?: list<scalar|Param|null>,
+ *     host_scan_excluded_namespaces?: list<scalar|Param|null>,
+ *     crud_primary_technical_keywords?: list<scalar|Param|null>,
+ *     crud_primary_business_keywords?: list<scalar|Param|null>,
+ *     crud_generated_attachment_migration_components?: list<scalar|Param|null>,
+ *     crud_behavior_search_fields?: list<scalar|Param|null>,
+ *     crud_behavior_status_fields?: list<scalar|Param|null>,
+ *     crud_behavior_publication_flag_fields?: list<scalar|Param|null>,
+ *     crud_behavior_publication_date_fields?: list<scalar|Param|null>,
+ *     crud_behavior_audit_date_fields?: list<scalar|Param|null>,
+ *     crud_behavior_default_sort_fields?: list<scalar|Param|null>,
+ *     crud_field_primary_identifier_candidates?: list<scalar|Param|null>,
+ *     crud_field_title_candidates?: list<scalar|Param|null>,
+ *     crud_field_identity_candidates?: list<scalar|Param|null>,
+ *     crud_field_description_candidates?: list<scalar|Param|null>,
+ *     crud_field_technical_excluded_fields?: list<scalar|Param|null>,
+ *     crud_field_email_keywords?: list<scalar|Param|null>,
+ *     crud_field_url_keywords?: list<scalar|Param|null>,
+ *     crud_field_long_text_keywords?: list<scalar|Param|null>,
+ *     admin_allowed_environments?: list<scalar|Param|null>,
+ *     component_root_names?: array<string, scalar|Param|null>,
+ *     component_root_aliases?: array<string, scalar|Param|null>,
+ *     host_scan_included_entity_suffixes_by_component?: array<string, list<scalar|Param|null>>,
+ *     crud_primary_entity_bonus_suffixes_by_component?: array<string, array<string, int|Param>>,
+ *     crud_primary_entity_penalty_suffixes_by_component?: array<string, array<string, int|Param>>,
+ *     crud_field_type_overrides?: array<string, array<string, scalar|Param|null>>,
+ *     crud_field_visibility?: mixed, // Default: {"defaults":[],"resources":[]}
+ *     crud_field_user_profiles?: mixed, // Default: {"subjects":[]}
+ *     host_scan_enabled?: bool|Param, // Default: true
+ *     admin_enabled?: bool|Param, // Default: true
+ *     admin_show_security_notes?: bool|Param, // Default: true
+ *     crud_field_user_profile_runtime_backend?: scalar|Param|null, // Default: "config"
+ *     crud_field_user_profile_reader_backend?: scalar|Param|null, // Default: "none"
+ *     crud_field_user_profile_writer_backend?: scalar|Param|null, // Default: "none"
+ *     crud_field_user_profile_entity_manager_service?: scalar|Param|null, // Default: "doctrine.orm.system_entity_manager"
+ *     crud_field_external_access_backend?: scalar|Param|null, // Default: "none"
+ *     crud_field_external_access_failure_effect?: scalar|Param|null, // Default: "deny"
+ *     crud_field_external_access_rolling_decision_service?: scalar|Param|null, // Default: "App\\Rolling\\ServiceInterface\\Administration\\RollingFieldAccessDecisionServiceInterface"
+ *     crud_field_external_access_permission_key?: scalar|Param|null, // Default: "managing.field.view"
+ *     admin_route_prefix?: scalar|Param|null, // Default: "/manage"
+ *     admin_required_role?: scalar|Param|null, // Default: "ROLE_ADMIN"
+ *     admin_logout_path?: scalar|Param|null, // Default: "/logout"
+ *     admin_logout_label?: scalar|Param|null, // Default: "Logout"
+ * }
  * @psalm-type CrudingConfig = array{
  *     resource_path_requirement?: scalar|Param|null, // Default: "(?!.*(?:^|/)(?:new|edit|delete|audit|visibility|attach|detach)(?:$|/))[a-z0-9](?:[a-z0-9/_-]*[a-z0-9])?"
+ *     route_guard?: array{
+ *         runtime_scope_env?: scalar|Param|null, // Default: "APP_RUNTIME_SCOPE"
+ *         runtime_entity_env?: scalar|Param|null, // Default: "APP_RUNTIME_ENTITY"
+ *         runtime_surface_token_env?: scalar|Param|null, // Default: "APP_RUNTIME_SURFACE_TOKEN"
+ *         runtime_reserved_env?: scalar|Param|null, // Default: "APP_RUNTIME_RESERVED"
+ *         reserved_tokens?: list<scalar|Param|null>,
+ *         surface_tokens?: list<scalar|Param|null>,
+ *         runtime_lock_glob?: scalar|Param|null, // Default: "config/kernel/runtime_scope.{env}.lock.php"
+ *         require_runtime_lock?: bool|Param, // Default: false
+ *         require_composer_packages?: bool|Param, // Default: false
+ *         scope_package_map?: array<string, scalar|Param|null>,
+ *     },
  *     capability_map?: array<string, mixed>,
  *     entity_class_alias_map?: array<string, scalar|Param|null>,
  *     form_type_map?: array<string, scalar|Param|null>,
@@ -1733,57 +1796,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         }>,
  *     }>,
  * }
- * @psalm-type AttachmentConfig = array{
- *     storage?: array{
- *         default?: scalar|Param|null, // Default: "local"
- *         local?: array{
- *             root_path?: scalar|Param|null, // Default: "%kernel.project_dir%/var/storage/attachment"
- *         },
- *     },
- *     upload?: array{
- *         max_size?: int|Param, // Default: 33554432
- *         allowed_media_mime_types?: list<scalar|Param|null>,
- *         allowed_document_mime_types?: list<scalar|Param|null>,
- *     },
- * }
- * @psalm-type BillingConfig = array{
- *     trust_identity_headers?: bool|Param, // Default: false
- *     rate_limit?: array{
- *         window_seconds?: int|Param, // Default: 60
- *         create?: int|Param, // Default: 60
- *         finalize?: int|Param, // Default: 60
- *     },
- *     storage?: array{
- *         file_state_path?: scalar|Param|null, // Default: "%kernel.project_dir%/var/billing/state.json"
- *     },
- *     telemetry?: array{
- *         log_path?: scalar|Param|null, // Default: "%kernel.project_dir%/var/billing/telemetry.log"
- *         metrics_path?: scalar|Param|null, // Default: "%kernel.project_dir%/var/billing/metrics.json"
- *     },
- *     alerts?: array{
- *         metrics_stale_after_seconds?: int|Param, // Default: 300
- *         errors_threshold?: int|Param, // Default: 1
- *         rate_limit_block_threshold?: int|Param, // Default: 10
- *         http_latency_max_ms?: int|Param, // Default: 1500
- *     },
- *     database?: array{
- *         dsn?: scalar|Param|null, // Default: ""
- *         user?: scalar|Param|null, // Default: ""
- *         password?: scalar|Param|null, // Default: ""
- *     },
- * }
- * @psalm-type CommissioningConfig = array{
- *     default_plan_code?: scalar|Param|null, // Default: "default"
- *     development_fallbacks?: bool|Param, // Default: true
- * }
- * @psalm-type RoleConfig = array{
- *     enabled?: bool|Param, // Default: true
- *     policy_namespace?: scalar|Param|null, // Default: "role"
- *     admin_namespace?: scalar|Param|null, // Default: "role-admin"
- *     audit_namespace?: scalar|Param|null, // Default: "role-audit"
- *     ops_dir?: scalar|Param|null, // Default: "%kernel.project_dir%/ops"
- *     sdk_namespace?: scalar|Param|null, // Default: "Rolling\\SDK\\V2"
- * }
  * @psalm-type ViewingConfig = array{
  *     enabled?: bool|Param, // Default: true
  *     bot_actor_values?: list<scalar|Param|null>,
@@ -1800,67 +1812,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     viewing_twig_namespace?: scalar|Param|null, // Default: "Viewing"
  *     local_component_fallback_enabled?: bool|Param, // Default: true
  *     json_fallback_status_code?: int|Param, // Default: 200
- * }
- * @psalm-type PageConfig = array{
- *     public_route_prefix?: scalar|Param|null, // Default: "/page"
- *     api_route_prefix?: scalar|Param|null, // Default: "/api/page"
- *     revision_lock_after_publish?: bool|Param, // Default: true
- *     standalone_runtime?: bool|Param, // Default: false
- * }
- * @psalm-type ManagingConfig = array{
- *     enabled_components?: list<scalar|Param|null>,
- *     disabled_resources?: list<scalar|Param|null>,
- *     menu_order?: list<scalar|Param|null>,
- *     left_menu?: list<scalar|Param|null>,
- *     menu_excluded_components?: list<scalar|Param|null>,
- *     host_scan_source_roots?: list<scalar|Param|null>,
- *     host_scan_namespace_prefixes?: list<scalar|Param|null>,
- *     host_scan_excluded_namespaces?: list<scalar|Param|null>,
- *     crud_primary_technical_keywords?: list<scalar|Param|null>,
- *     crud_primary_business_keywords?: list<scalar|Param|null>,
- *     crud_generated_attachment_migration_components?: list<scalar|Param|null>,
- *     crud_behavior_search_fields?: list<scalar|Param|null>,
- *     crud_behavior_status_fields?: list<scalar|Param|null>,
- *     crud_behavior_publication_flag_fields?: list<scalar|Param|null>,
- *     crud_behavior_publication_date_fields?: list<scalar|Param|null>,
- *     crud_behavior_audit_date_fields?: list<scalar|Param|null>,
- *     crud_behavior_default_sort_fields?: list<scalar|Param|null>,
- *     crud_field_primary_identifier_candidates?: list<scalar|Param|null>,
- *     crud_field_title_candidates?: list<scalar|Param|null>,
- *     crud_field_identity_candidates?: list<scalar|Param|null>,
- *     crud_field_description_candidates?: list<scalar|Param|null>,
- *     crud_field_technical_excluded_fields?: list<scalar|Param|null>,
- *     crud_field_email_keywords?: list<scalar|Param|null>,
- *     crud_field_url_keywords?: list<scalar|Param|null>,
- *     crud_field_long_text_keywords?: list<scalar|Param|null>,
- *     admin_allowed_environments?: list<scalar|Param|null>,
- *     component_root_names?: array<string, scalar|Param|null>,
- *     component_root_aliases?: array<string, scalar|Param|null>,
- *     host_scan_included_entity_suffixes_by_component?: array<string, list<scalar|Param|null>>,
- *     crud_primary_entity_bonus_suffixes_by_component?: array<string, array<string, int|Param>>,
- *     crud_primary_entity_penalty_suffixes_by_component?: array<string, array<string, int|Param>>,
- *     crud_field_type_overrides?: array<string, array<string, scalar|Param|null>>,
- *     crud_field_visibility?: mixed, // Default: {"defaults":[],"resources":[]}
- *     crud_field_user_profiles?: mixed, // Default: {"subjects":[]}
- *     host_scan_enabled?: bool|Param, // Default: true
- *     admin_enabled?: bool|Param, // Default: true
- *     admin_show_security_notes?: bool|Param, // Default: true
- *     crud_field_user_profile_runtime_backend?: scalar|Param|null, // Default: "config"
- *     crud_field_user_profile_reader_backend?: scalar|Param|null, // Default: "none"
- *     crud_field_user_profile_writer_backend?: scalar|Param|null, // Default: "none"
- *     crud_field_user_profile_entity_manager_service?: scalar|Param|null, // Default: "doctrine.orm.system_entity_manager"
- *     crud_field_external_access_backend?: scalar|Param|null, // Default: "none"
- *     crud_field_external_access_failure_effect?: scalar|Param|null, // Default: "deny"
- *     crud_field_external_access_rolling_decision_service?: scalar|Param|null, // Default: "App\\Rolling\\ServiceInterface\\Administration\\RollingFieldAccessDecisionServiceInterface"
- *     crud_field_external_access_permission_key?: scalar|Param|null, // Default: "managing.field.view"
- *     admin_route_prefix?: scalar|Param|null, // Default: "/manage"
- *     admin_required_role?: scalar|Param|null, // Default: "ROLE_ADMIN"
- *     admin_logout_path?: scalar|Param|null, // Default: "/logout"
- *     admin_logout_label?: scalar|Param|null, // Default: "Logout"
- * }
- * @psalm-type VendoringConfig = array{
- *     observability_dir?: scalar|Param|null, // Default: "%kernel.project_dir%/var/observability"
- *     fault_tolerance_dir?: scalar|Param|null, // Default: "%kernel.project_dir%/var/fault-tolerance"
  * }
  * @psalm-type SearchingConfig = array{
  *     enabled?: bool|Param, // Default: true
@@ -1908,25 +1859,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         }>,
  *     },
  * }
- * @psalm-type PayingConfig = array{
- *     storage?: array{
- *         data_server_version?: scalar|Param|null, // Default: "16.0"
- *         infra_server_version?: scalar|Param|null, // Default: "3.45.1"
- *     },
- *     messenger?: array{
- *         dsn?: scalar|Param|null, // Default: "%env(resolve:RABBITMQ_DSN)%"
- *     },
- * }
- * @psalm-type DomainingConfig = array{
- *     standalone_enabled?: bool|Param, // Default: false
- *     template_surface?: scalar|Param|null, // Default: "domain"
- *     raw_json_fallback?: bool|Param, // Default: true
- *     interfacing_template_candidates?: list<scalar|Param|null>,
- *     provider_recommendation?: array{
- *         primary?: scalar|Param|null, // Default: "Cloudflare"
- *         note?: scalar|Param|null, // Default: "Smart Responsor does not register, sell, transfer, or host domains as a registrar."
- *     },
- * }
  * @psalm-type ConfigType = array{
  *     imports?: ImportsConfig,
  *     parameters?: ParametersConfig,
@@ -1948,19 +1880,11 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     nelmio_api_doc?: NelmioApiDocConfig,
  *     twig_extra?: TwigExtraConfig,
  *     lexik_jwt_authentication?: LexikJwtAuthenticationConfig,
+ *     managing?: ManagingConfig,
  *     cruding?: CrudingConfig,
  *     navigation?: NavigationConfig,
- *     attachment?: AttachmentConfig,
- *     billing?: BillingConfig,
- *     commissioning?: CommissioningConfig,
- *     role?: RoleConfig,
  *     viewing?: ViewingConfig,
- *     page?: PageConfig,
- *     managing?: ManagingConfig,
- *     vendoring?: VendoringConfig,
  *     searching?: SearchingConfig,
- *     paying?: PayingConfig,
- *     domaining?: DomainingConfig,
  *     "when@dev"?: array{
  *         imports?: ImportsConfig,
  *         parameters?: ParametersConfig,
@@ -1983,6 +1907,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         nelmio_api_doc?: NelmioApiDocConfig,
  *         twig_extra?: TwigExtraConfig,
  *         lexik_jwt_authentication?: LexikJwtAuthenticationConfig,
+ *         managing?: ManagingConfig,
  *     },
  *     "when@prod"?: array{
  *         imports?: ImportsConfig,
@@ -2005,6 +1930,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         nelmio_api_doc?: NelmioApiDocConfig,
  *         twig_extra?: TwigExtraConfig,
  *         lexik_jwt_authentication?: LexikJwtAuthenticationConfig,
+ *         managing?: ManagingConfig,
  *     },
  *     "when@test"?: array{
  *         imports?: ImportsConfig,
@@ -2027,6 +1953,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         nelmio_api_doc?: NelmioApiDocConfig,
  *         twig_extra?: TwigExtraConfig,
  *         lexik_jwt_authentication?: LexikJwtAuthenticationConfig,
+ *         managing?: ManagingConfig,
  *     },
  *     ...<string, ExtensionType|array{ // extra keys must follow the when@%env% pattern or match an extension alias
  *         imports?: ImportsConfig,
