@@ -1,2 +1,2 @@
 imports:
-    - { resource: '../../../Paying/config/packages/payment_messenger.yaml' }
+    - { resource: '../../../../Paying/config/packages/payment_messenger.yaml' }

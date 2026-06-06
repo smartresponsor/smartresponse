@@ -7,7 +7,7 @@ return [
 
     'enabledBundles' => [
         App\Cruding\CrudingBundle::class,
-        App\Interfacing\InterfacingBundle::class,
+        App\Interfacing\InterfaceBundle::class,
         App\Managing\ManagingBundle::class,
         App\Navigating\NavigatingBundle::class,
         App\Viewing\ViewingBundle::class,

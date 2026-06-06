@@ -1,2 +1,2 @@
 imports:
-    - { resource: '../../../Navigating/config/packages/navigation.yaml' }
+    - { resource: '../../../../Navigating/config/packages/navigation.yaml' }
