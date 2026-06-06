@@ -1,37 +1,39 @@
 twig:
     file_name_pattern: '*.twig'
-    paths:
-        '%kernel.project_dir%/../Accessing/templates': Accessing
-        '%kernel.project_dir%/../Addressing/templates': Addressing
-        '%kernel.project_dir%/../Adjudicating/templates': Adjudicating
-        '%kernel.project_dir%/../Administering/templates': Administering
-        '%kernel.project_dir%/../Applicating/templates': Applicating
-        '%kernel.project_dir%/../Cataloging/templates': Cataloging
-        '%kernel.project_dir%/../Complying/templates': Complying
-        '%kernel.project_dir%/../Containerizing/templates': Containerizing
-        '%kernel.project_dir%/../Cruding/templates': Cruding
-        '%kernel.project_dir%/../Currencing/templates': Currencing
-        '%kernel.project_dir%/../Managing/templates': ~
-        '%kernel.project_dir%/../Discovering/templates': Discovering
-        '%kernel.project_dir%/../Domaining/templates': Domaining
-        '%kernel.project_dir%/../Faceting/templates': Faceting
-        '%kernel.project_dir%/../Interfacing/templates/': ~
-        '%kernel.project_dir%/../Interfacing/templates': Interfacing
-        '%kernel.project_dir%/../Messaging/templates': Messaging
-        '%kernel.project_dir%/../Navigating/templates': Navigating
-        '%kernel.project_dir%/../Ordering/templates': Ordering
-        '%kernel.project_dir%/../Paging/templates': Paging
-        '%kernel.project_dir%/../Paying/templates': Paying
-        '%kernel.project_dir%/../Projecting/templates': Projecting
-        '%kernel.project_dir%/../Searching/templates': Searching
-        '%kernel.project_dir%/../Shipping/templates': Shipping
-        '%kernel.project_dir%/../Taxating/templates': Taxating
-        '%kernel.project_dir%/../Vendoring/templates': Vendoring
-        '%kernel.project_dir%/../Viewing/templates': Viewing
 
 when@test:
     twig:
         strict_variables: true
 
+when@dev:
+    twig:
+        paths:
+            '%kernel.project_dir%/../Accessing/templates': Accessing
+            '%kernel.project_dir%/../Addressing/templates': Addressing
+            '%kernel.project_dir%/../Adjudicating/templates': Adjudicating
+            '%kernel.project_dir%/../Administering/templates': Administering
+            '%kernel.project_dir%/../Applicating/templates': Applicating
+            '%kernel.project_dir%/../Cataloging/templates': Cataloging
+            '%kernel.project_dir%/../Complying/templates': Complying
+            '%kernel.project_dir%/../Containerizing/templates': Containerizing
+            '%kernel.project_dir%/../Cruding/templates': Cruding
+            '%kernel.project_dir%/../Currencing/templates': Currencing
+            '%kernel.project_dir%/../Managing/templates': ~
+            '%kernel.project_dir%/../Discovering/templates': Discovering
+            '%kernel.project_dir%/../Domaining/templates': Domaining
+            '%kernel.project_dir%/../Faceting/templates': Faceting
+            '%kernel.project_dir%/../Interfacing/templates/': ~
+            '%kernel.project_dir%/../Interfacing/templates': Interfacing
+            '%kernel.project_dir%/../Messaging/templates': Messaging
+            '%kernel.project_dir%/../Navigating/templates': Navigating
+            '%kernel.project_dir%/../Ordering/templates': Ordering
+            '%kernel.project_dir%/../Paging/templates': Paging
+            '%kernel.project_dir%/../Paying/templates': Paying
+            '%kernel.project_dir%/../Projecting/templates': Projecting
+            '%kernel.project_dir%/../Searching/templates': Searching
+            '%kernel.project_dir%/../Shipping/templates': Shipping
+            '%kernel.project_dir%/../Taxating/templates': Taxating
+            '%kernel.project_dir%/../Vendoring/templates': Vendoring
+            '%kernel.project_dir%/../Viewing/templates': Viewing
 
 

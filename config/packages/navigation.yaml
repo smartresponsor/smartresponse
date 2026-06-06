@@ -1,2 +1,3 @@
-imports:
-    - { resource: '../../../Navigating/config/packages/navigation.yaml' }
+when@dev:
+    imports:
+        - { resource: '../../../Navigating/config/packages/navigation.yaml' }

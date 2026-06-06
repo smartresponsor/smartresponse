@@ -1,6 +1,3 @@
-imports:
-    - { resource: '../../../Paying/config/packages/payment_messenger.yaml' }
-
 framework:
     messenger:
         # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
@@ -23,3 +20,7 @@ framework:
 #                # replace with your transport name here (e.g., my_transport: 'in-memory://')
 #                # For more Messenger testing tools, see https://github.com/zenstruck/messenger-test
 #                async: 'in-memory://'
+
+when@dev:
+    imports:
+        - { resource: '../../../Paying/config/packages/payment_messenger.yaml' }

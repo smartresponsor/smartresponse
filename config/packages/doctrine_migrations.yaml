@@ -3,9 +3,15 @@ doctrine_migrations:
         # namespace is arbitrary but should be different from App\Migrations
         # as migrations classes should NOT be autoloaded
         'DoctrineMigrations': '%kernel.project_dir%/migrations'
-        'App\Administering\Migrations': '%kernel.project_dir%/../Administering/migrations'
-        'App\Commercializing\Migrations': '%kernel.project_dir%/../Commercializing/migrations'
-        'App\Exchanging\Migrations': '%kernel.project_dir%/../Exchanging/migrations'
-        'App\Tagging\Migrations': '%kernel.project_dir%/../Tagging/migrations'
-        'App\Commissioning\Migrations': '%kernel.project_dir%/../Commissioning/migrations'
     enable_profiler: false
+
+when@dev:
+    doctrine_migrations:
+        migrations_paths:
+            # namespace is arbitrary but should be different from App\Migrations
+            # as migrations classes should NOT be autoloaded
+            'App\Administering\Migrations': '%kernel.project_dir%/../Administering/migrations'
+            'App\Commercializing\Migrations': '%kernel.project_dir%/../Commercializing/migrations'
+            'App\Exchanging\Migrations': '%kernel.project_dir%/../Exchanging/migrations'
+            'App\Tagging\Migrations': '%kernel.project_dir%/../Tagging/migrations'
+            'App\Commissioning\Migrations': '%kernel.project_dir%/../Commissioning/migrations'
