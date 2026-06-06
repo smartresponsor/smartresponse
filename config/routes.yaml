@@ -21,21 +21,3 @@ notification_index:
 
 cruding:
     resource: '@CrudingBundle/config/routes.yaml'
-
-when@dev:
-    administering_admin_attribute:
-        resource: '../../Administering/src/Controller/Admin/'
-        type: attribute
-
-    manage_easyadmin_routes:
-        resource: '../../Managing/config/routes/managing.yaml'
-
-    # Interfacing and Viewing are platform layers, not producer route owners.
-    interfacing_routes:
-        resource: '../../Interfacing/config/routes/interfacing_attributes.yaml'
-
-    viewing_routes:
-        resource: '../../Viewing/Resources/config/routes.php'
-
-    accessing_routes:
-        resource: '../../Accessing/config/component/routes.yaml'

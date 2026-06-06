@@ -1,0 +1,24 @@
+services:
+    Doctrine\Bundle\FixturesBundle\Loader\SymfonyFixturesLoader: '@doctrine.fixtures.loader'
+
+imports:
+    - { resource: '../../Administering/config/services.yaml' }
+    - { resource: '../../Cruding/config/services.yaml' }
+    - { resource: '../../Accessing/config/services.yaml' }
+    - { resource: '../../Shipping/config/component/services.yaml' }
+    - { resource: '../../Carting/config/services.yaml' }
+    - { resource: '../../Observabiliting/config/services.yaml' }
+    - { resource: '../../Vendoring/config/component/services.yaml' }
+    - { resource: '../../Searching/config/packages/searching.yaml' }
+    - { resource: '../../Navigating/config/services.yaml' }
+    - { resource: '../../Ordering/config/component/services.yaml' }
+    - { resource: '../../Ordering/config/packages/rate_limiter.php' }
+    - { resource: '../../Paying/config/services.yaml' }
+    - { resource: '../../Domaining/config/services.yaml' }
+    - { resource: '../../Billing/config/component/services.yaml' }
+    - { resource: '../../Currencing/config/packages/currencing.yaml' }
+    - { resource: '../../Currencing/config/services/currencing.yaml' }
+    - { resource: '../../Discovering/config/services.yaml' }
+    - { resource: '../../Complying/config/services.yaml' }
+    - { resource: '../../Subscripting/config/packages/subscription_runtime_prep.yaml' }
+    - { resource: '../../Subscripting/config/services.yaml' }
