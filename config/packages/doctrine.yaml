@@ -26,7 +26,6 @@ doctrine:
                 profiling_collect_backtrace: '%kernel.debug%'
 
     orm:
-        enable_native_lazy_objects: true
         default_entity_manager: postgres
         resolve_target_entities:
             App\Taxating\Interface\Order\OrderTaxationInterface: App\Taxating\Entity\Taxation\TaxationOrderEntity
