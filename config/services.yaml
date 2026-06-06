@@ -25,11 +25,6 @@ services:
             - '../src/DataFixtures/'
             - '../src/Kernel.php'
 
-    App\Service\Demo\FacetingDemoDatasetService: ~
-    App\ServiceInterface\Demo\FacetingDemoDatasetServiceInterface: '@App\Service\Demo\FacetingDemoDatasetService'
-    App\Service\Demo\OrderDemoDataService: ~
-
-    App\ServiceInterface\VendorApiKeyServiceInterface: '@App\Service\VendorApiKeyService'
     App\Navigating\ServiceInterface\Navigation\NavigationRendererInterface: '@App\Service\Navigation\InterfacingNavigationRendererService'
     App\Service\Dashboard\AppDashboardBuilderService:
         public: true

@@ -1,6 +1,14 @@
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
     Doctrine\Bundle\FixturesBundle\Loader\SymfonyFixturesLoader: '@doctrine.fixtures.loader'
     App\Fixture\GovernanceDemoSeeder: ~
+    App\Service\Demo\FacetingDemoDatasetService: ~
+    App\ServiceInterface\Demo\FacetingDemoDatasetServiceInterface: '@App\Service\Demo\FacetingDemoDatasetService'
+    App\Service\Demo\OrderDemoDataService: ~
+    App\ServiceInterface\VendorApiKeyServiceInterface: '@App\Service\VendorApiKeyService'
 
 imports:
     - { resource: '../../Administering/config/services.yaml' }
