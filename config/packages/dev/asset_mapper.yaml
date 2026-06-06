@@ -6,8 +6,3 @@ framework:
             vendor/symfony/ux-turbo/assets/dist/: '@symfony/ux-turbo'
         server: false
         missing_import_mode: strict
-
-when@prod:
-    framework:
-        asset_mapper:
-            missing_import_mode: warn
