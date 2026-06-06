@@ -1,5 +1,5 @@
 navigation:
-    schema: 2
+    schema: 3
     slots:
         roots: shell.left.middle
         active_root_sections: shell.context.middle

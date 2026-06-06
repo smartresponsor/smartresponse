@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "19696e0e2fb21383d738b9ba9874ae6b",
+    "content-hash": "b05cf669f368ebf22ec74297ef130377",
     "packages": [
         {
             "name": "accessing/access",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/smartresponsor/accessing.git",
-                "reference": "474dcd6af5cce007ace84adc55dd28b954cb16b9"
+                "reference": "bb3f043c32f89487014195845f3b2f020bbfcd80"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smartresponsor/accessing/zipball/474dcd6af5cce007ace84adc55dd28b954cb16b9",
-                "reference": "474dcd6af5cce007ace84adc55dd28b954cb16b9",
+                "url": "https://api.github.com/repos/smartresponsor/accessing/zipball/bb3f043c32f89487014195845f3b2f020bbfcd80",
+                "reference": "bb3f043c32f89487014195845f3b2f020bbfcd80",
                 "shasum": ""
             },
             "require": {
@@ -133,7 +133,372 @@
                 "source": "https://github.com/smartresponsor/accessing/tree/master",
                 "issues": "https://github.com/smartresponsor/accessing/issues"
             },
-            "time": "2026-06-06T06:01:53+00:00"
+            "time": "2026-06-06T08:33:48+00:00"
+        },
+        {
+            "name": "administering/administration",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/smartresponsor/administering.git",
+                "reference": "d2b3ccd38b02fc6f50c651066a7bff3716878df2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/smartresponsor/administering/zipball/d2b3ccd38b02fc6f50c651066a7bff3716878df2",
+                "reference": "d2b3ccd38b02fc6f50c651066a7bff3716878df2",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/doctrine-bundle": "^3.2",
+                "doctrine/doctrine-migrations-bundle": "^4.0",
+                "doctrine/orm": "^3.3",
+                "easycorp/easyadmin-bundle": "^5.0",
+                "ext-ctype": "*",
+                "ext-iconv": "*",
+                "ext-json": "*",
+                "ext-pdo": "*",
+                "php": "^8.4",
+                "symfony/asset-mapper": "^8.0",
+                "symfony/config": "^8.0",
+                "symfony/console": "^8.0",
+                "symfony/dotenv": "^8.0",
+                "symfony/filesystem": "^8.0",
+                "symfony/finder": "^8.0",
+                "symfony/form": "^8.0",
+                "symfony/framework-bundle": "^8.0",
+                "symfony/lock": "^8.0",
+                "symfony/messenger": "^8.0",
+                "symfony/process": "^8.0",
+                "symfony/runtime": "^8.0",
+                "symfony/scheduler": "^8.0",
+                "symfony/security-bundle": "^8.0",
+                "symfony/security-csrf": "^8.0",
+                "symfony/serializer": "^8.0",
+                "symfony/stimulus-bundle": "^2.35",
+                "symfony/twig-bundle": "^8.0",
+                "symfony/ux-turbo": "^3.0",
+                "symfony/validator": "^8.0",
+                "symfony/yaml": "^8.0",
+                "twig/twig": "^3.15"
+            },
+            "require-dev": {
+                "ergebnis/composer-normalize": "^2.47",
+                "friendsofphp/php-cs-fixer": "^3.94",
+                "icanhazstring/composer-unused": "^0.9.6",
+                "phpstan/phpstan": "^2.1",
+                "phpstan/phpstan-doctrine": "^2.0",
+                "phpstan/phpstan-symfony": "^2.0",
+                "phpunit/phpunit": "^11.5",
+                "rector/rector": "^2.0",
+                "symfony/maker-bundle": "^1.64",
+                "symfony/phpunit-bridge": "^8.0"
+            },
+            "suggest": {
+                "configuring/config": "Optional runtime-scope evidence package. Administering discovers it through composer inventory and runtime-scope locks; it must not be required for standalone installation."
+            },
+            "default-branch": true,
+            "type": "symfony-bundle",
+            "extra": {
+                "public-dir": "public",
+                "product-name": "Administering",
+                "core-entity": "Administration"
+            },
+            "autoload": {
+                "psr-4": {
+                    "App\\Administering\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "App\\Administering\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "lint:composer": [
+                    "composer validate --strict"
+                ],
+                "lint:yaml": [
+                    "@php bin/console lint:yaml config"
+                ],
+                "lint:container": [
+                    "@php bin/console lint:container"
+                ],
+                "stan": [
+                    "vendor/bin/phpstan analyse -c phpstan.neon --memory-limit=1G"
+                ],
+                "cs:check": [
+                    "vendor/bin/php-cs-fixer fix --dry-run --diff --verbose"
+                ],
+                "cs:fix": [
+                    "vendor/bin/php-cs-fixer fix --verbose"
+                ],
+                "test": [
+                    "vendor/bin/phpunit -c phpunit.xml.dist"
+                ],
+                "quality": [
+                    "@lint:composer",
+                    "@lint:yaml",
+                    "@lint:container",
+                    "@stan",
+                    "@cs:check",
+                    "@test"
+                ],
+                "rc:proof": [
+                    "@php bin/console administering:rc:proof --operation-type=administration.configuration.scan --target-prefix=administering:rc-proof --output-file=delivery/rc/runtime-proof-results/administering-rc-proof.json --json"
+                ],
+                "rc:proof:validate": [
+                    "@php bin/console administering:rc:proof-artifact:validate --proof-file=delivery/rc/runtime-proof-results/administering-rc-proof.json --index-file=delivery/rc/runtime-proof-results/administering-rc-proof-index.json --manifest-file=delivery/rc/manifest.yaml --output-file=delivery/rc/runtime-proof-results/administering-rc-proof-validation.json --json"
+                ],
+                "rc:owner-review": [
+                    "@php bin/console administering:rc:owner-review --proof-file=delivery/rc/runtime-proof-results/administering-rc-proof.json --index-file=delivery/rc/runtime-proof-results/administering-rc-proof-index.json --validation-file=delivery/rc/runtime-proof-results/administering-rc-proof-validation.json --manifest-file=delivery/rc/manifest.yaml --output-file=delivery/rc/runtime-proof-results/administering-rc-owner-review.json --json"
+                ],
+                "rc:final-seal": [
+                    "@php bin/console administering:rc:final-seal --proof-file=delivery/rc/runtime-proof-results/administering-rc-proof.json --index-file=delivery/rc/runtime-proof-results/administering-rc-proof-index.json --validation-file=delivery/rc/runtime-proof-results/administering-rc-proof-validation.json --owner-review-file=delivery/rc/runtime-proof-results/administering-rc-owner-review.json --manifest-file=delivery/rc/manifest.yaml --output-file=delivery/rc/runtime-proof-results/administering-rc-final-seal.json --json"
+                ],
+                "quality:rc-3rc": [
+                    "@rc:contract:validate",
+                    "@rc:proof",
+                    "@rc:proof:index",
+                    "@rc:proof:validate",
+                    "@rc:owner-review",
+                    "@rc:final-seal",
+                    "@rc:final-seal:validate",
+                    "@rc:status",
+                    "@rc:receipt",
+                    "@rc:receipt:validate",
+                    "@rc:status:final",
+                    "@rc:status:final:validate",
+                    "@rc:handoff-index",
+                    "@rc:handoff-index:validate",
+                    "@rc:status:terminal",
+                    "@rc:status:terminal:validate",
+                    "@rc:handoff-bundle",
+                    "@rc:handoff-bundle:validate",
+                    "@rc:status:bundle",
+                    "@rc:acceptance"
+                ],
+                "rc:proof:index": [
+                    "@php bin/console administering:rc:proof-index --proof-file=delivery/rc/runtime-proof-results/administering-rc-proof.json --manifest-file=delivery/rc/manifest.yaml --output-file=delivery/rc/runtime-proof-results/administering-rc-proof-index.json --operation-type=administration.configuration.scan --target-prefix=administering:rc-proof --json"
+                ],
+                "rc:final-seal:validate": [
+                    "@php bin/console administering:rc:final-seal:validate --final-seal-file=delivery/rc/runtime-proof-results/administering-rc-final-seal.json --proof-file=delivery/rc/runtime-proof-results/administering-rc-proof.json --index-file=delivery/rc/runtime-proof-results/administering-rc-proof-index.json --validation-file=delivery/rc/runtime-proof-results/administering-rc-proof-validation.json --owner-review-file=delivery/rc/runtime-proof-results/administering-rc-owner-review.json --manifest-file=delivery/rc/manifest.yaml --output-file=delivery/rc/runtime-proof-results/administering-rc-final-seal-validation.json --json"
+                ],
+                "rc:status": [
+                    "@php bin/console administering:rc:status --manifest-file=delivery/rc/manifest.yaml --proof-file=delivery/rc/runtime-proof-results/administering-rc-proof.json --index-file=delivery/rc/runtime-proof-results/administering-rc-proof-index.json --validation-file=delivery/rc/runtime-proof-results/administering-rc-proof-validation.json --owner-review-file=delivery/rc/runtime-proof-results/administering-rc-owner-review.json --final-seal-file=delivery/rc/runtime-proof-results/administering-rc-final-seal.json --final-seal-validation-file=delivery/rc/runtime-proof-results/administering-rc-final-seal-validation.json --output-file=delivery/rc/runtime-proof-results/administering-rc-status.json --summary-file=delivery/rc/runtime-proof-results/administering-rc-status-summary.txt --json"
+                ],
+                "rc:receipt": [
+                    "@php bin/console administering:rc:receipt --manifest-file=delivery/rc/manifest.yaml --status-file=delivery/rc/runtime-proof-results/administering-rc-status.json --status-summary-file=delivery/rc/runtime-proof-results/administering-rc-status-summary.txt --final-seal-validation-file=delivery/rc/runtime-proof-results/administering-rc-final-seal-validation.json --output-file=delivery/rc/runtime-proof-results/administering-rc-receipt.json --text-file=delivery/rc/runtime-proof-results/administering-rc-receipt.txt --json"
+                ],
+                "rc:receipt:validate": [
+                    "@php bin/console administering:rc:receipt:validate --manifest-file=delivery/rc/manifest.yaml --status-file=delivery/rc/runtime-proof-results/administering-rc-status.json --status-summary-file=delivery/rc/runtime-proof-results/administering-rc-status-summary.txt --final-seal-validation-file=delivery/rc/runtime-proof-results/administering-rc-final-seal-validation.json --receipt-file=delivery/rc/runtime-proof-results/administering-rc-receipt.json --receipt-text-file=delivery/rc/runtime-proof-results/administering-rc-receipt.txt --output-file=delivery/rc/runtime-proof-results/administering-rc-receipt-validation.json --json"
+                ],
+                "rc:status:final": [
+                    "@php bin/console administering:rc:status --manifest-file=delivery/rc/manifest.yaml --proof-file=delivery/rc/runtime-proof-results/administering-rc-proof.json --index-file=delivery/rc/runtime-proof-results/administering-rc-proof-index.json --validation-file=delivery/rc/runtime-proof-results/administering-rc-proof-validation.json --owner-review-file=delivery/rc/runtime-proof-results/administering-rc-owner-review.json --final-seal-file=delivery/rc/runtime-proof-results/administering-rc-final-seal.json --final-seal-validation-file=delivery/rc/runtime-proof-results/administering-rc-final-seal-validation.json --receipt-file=delivery/rc/runtime-proof-results/administering-rc-receipt.json --receipt-text-file=delivery/rc/runtime-proof-results/administering-rc-receipt.txt --receipt-validation-file=delivery/rc/runtime-proof-results/administering-rc-receipt-validation.json --include-receipt-artifacts --output-file=delivery/rc/runtime-proof-results/administering-rc-final-status.json --summary-file=delivery/rc/runtime-proof-results/administering-rc-final-status-summary.txt --json"
+                ],
+                "rc:status:final:validate": [
+                    "@php bin/console administering:rc:final-status:validate --manifest-file=delivery/rc/manifest.yaml --final-status-file=delivery/rc/runtime-proof-results/administering-rc-final-status.json --final-status-summary-file=delivery/rc/runtime-proof-results/administering-rc-final-status-summary.txt --receipt-file=delivery/rc/runtime-proof-results/administering-rc-receipt.json --receipt-text-file=delivery/rc/runtime-proof-results/administering-rc-receipt.txt --receipt-validation-file=delivery/rc/runtime-proof-results/administering-rc-receipt-validation.json --final-seal-validation-file=delivery/rc/runtime-proof-results/administering-rc-final-seal-validation.json --output-file=delivery/rc/runtime-proof-results/administering-rc-final-status-validation.json --json"
+                ],
+                "rc:handoff-index": [
+                    "@php bin/console administering:rc:handoff-index --manifest-file=delivery/rc/manifest.yaml --final-status-file=delivery/rc/runtime-proof-results/administering-rc-final-status.json --final-status-summary-file=delivery/rc/runtime-proof-results/administering-rc-final-status-summary.txt --final-status-validation-file=delivery/rc/runtime-proof-results/administering-rc-final-status-validation.json --receipt-file=delivery/rc/runtime-proof-results/administering-rc-receipt.json --receipt-text-file=delivery/rc/runtime-proof-results/administering-rc-receipt.txt --receipt-validation-file=delivery/rc/runtime-proof-results/administering-rc-receipt-validation.json --final-seal-validation-file=delivery/rc/runtime-proof-results/administering-rc-final-seal-validation.json --output-file=delivery/rc/runtime-proof-results/administering-rc-handoff-index.json --text-file=delivery/rc/runtime-proof-results/administering-rc-handoff-index.txt --json"
+                ],
+                "rc:handoff-index:validate": [
+                    "@php bin/console administering:rc:handoff-index:validate --manifest-file=delivery/rc/manifest.yaml --final-status-file=delivery/rc/runtime-proof-results/administering-rc-final-status.json --final-status-summary-file=delivery/rc/runtime-proof-results/administering-rc-final-status-summary.txt --final-status-validation-file=delivery/rc/runtime-proof-results/administering-rc-final-status-validation.json --receipt-file=delivery/rc/runtime-proof-results/administering-rc-receipt.json --receipt-text-file=delivery/rc/runtime-proof-results/administering-rc-receipt.txt --receipt-validation-file=delivery/rc/runtime-proof-results/administering-rc-receipt-validation.json --final-seal-validation-file=delivery/rc/runtime-proof-results/administering-rc-final-seal-validation.json --handoff-index-file=delivery/rc/runtime-proof-results/administering-rc-handoff-index.json --handoff-index-text-file=delivery/rc/runtime-proof-results/administering-rc-handoff-index.txt --output-file=delivery/rc/runtime-proof-results/administering-rc-handoff-index-validation.json --json"
+                ],
+                "rc:status:terminal": [
+                    "@php bin/console administering:rc:status --include-receipt-artifacts --include-handoff-artifacts --output-file=delivery/rc/runtime-proof-results/administering-rc-terminal-status.json --summary-file=delivery/rc/runtime-proof-results/administering-rc-terminal-status-summary.txt --json"
+                ],
+                "rc:status:terminal:validate": [
+                    "@php bin/console administering:rc:terminal-status:validate --manifest-file=delivery/rc/manifest.yaml --terminal-status-file=delivery/rc/runtime-proof-results/administering-rc-terminal-status.json --terminal-status-summary-file=delivery/rc/runtime-proof-results/administering-rc-terminal-status-summary.txt --handoff-index-file=delivery/rc/runtime-proof-results/administering-rc-handoff-index.json --handoff-index-text-file=delivery/rc/runtime-proof-results/administering-rc-handoff-index.txt --handoff-index-validation-file=delivery/rc/runtime-proof-results/administering-rc-handoff-index-validation.json --final-status-validation-file=delivery/rc/runtime-proof-results/administering-rc-final-status-validation.json --final-seal-validation-file=delivery/rc/runtime-proof-results/administering-rc-final-seal-validation.json --output-file=delivery/rc/runtime-proof-results/administering-rc-terminal-status-validation.json --json"
+                ],
+                "rc:handoff-bundle": [
+                    "@php bin/console administering:rc:handoff-bundle --manifest-file=delivery/rc/manifest.yaml --terminal-status-file=delivery/rc/runtime-proof-results/administering-rc-terminal-status.json --terminal-status-summary-file=delivery/rc/runtime-proof-results/administering-rc-terminal-status-summary.txt --terminal-status-validation-file=delivery/rc/runtime-proof-results/administering-rc-terminal-status-validation.json --handoff-index-file=delivery/rc/runtime-proof-results/administering-rc-handoff-index.json --handoff-index-text-file=delivery/rc/runtime-proof-results/administering-rc-handoff-index.txt --handoff-index-validation-file=delivery/rc/runtime-proof-results/administering-rc-handoff-index-validation.json --final-seal-validation-file=delivery/rc/runtime-proof-results/administering-rc-final-seal-validation.json --output-file=delivery/rc/runtime-proof-results/administering-rc-handoff-bundle.json --text-file=delivery/rc/runtime-proof-results/administering-rc-handoff-bundle.txt --json"
+                ],
+                "rc:handoff-bundle:validate": [
+                    "@php bin/console administering:rc:handoff-bundle:validate --manifest-file=delivery/rc/manifest.yaml --terminal-status-file=delivery/rc/runtime-proof-results/administering-rc-terminal-status.json --terminal-status-summary-file=delivery/rc/runtime-proof-results/administering-rc-terminal-status-summary.txt --terminal-status-validation-file=delivery/rc/runtime-proof-results/administering-rc-terminal-status-validation.json --handoff-index-file=delivery/rc/runtime-proof-results/administering-rc-handoff-index.json --handoff-index-text-file=delivery/rc/runtime-proof-results/administering-rc-handoff-index.txt --handoff-index-validation-file=delivery/rc/runtime-proof-results/administering-rc-handoff-index-validation.json --final-seal-validation-file=delivery/rc/runtime-proof-results/administering-rc-final-seal-validation.json --handoff-bundle-file=delivery/rc/runtime-proof-results/administering-rc-handoff-bundle.json --handoff-bundle-text-file=delivery/rc/runtime-proof-results/administering-rc-handoff-bundle.txt --output-file=delivery/rc/runtime-proof-results/administering-rc-handoff-bundle-validation.json --json"
+                ],
+                "rc:status:bundle": [
+                    "@php bin/console administering:rc:status --include-receipt-artifacts --include-handoff-artifacts --include-handoff-bundle-artifacts --output-file=delivery/rc/runtime-proof-results/administering-rc-bundle-status.json --summary-file=delivery/rc/runtime-proof-results/administering-rc-bundle-status-summary.txt --json"
+                ],
+                "rc:acceptance": [
+                    "@php bin/console administering:rc:acceptance --manifest-file=delivery/rc/manifest.yaml --bundle-status-file=delivery/rc/runtime-proof-results/administering-rc-bundle-status.json --bundle-status-summary-file=delivery/rc/runtime-proof-results/administering-rc-bundle-status-summary.txt --handoff-bundle-file=delivery/rc/runtime-proof-results/administering-rc-handoff-bundle.json --handoff-bundle-text-file=delivery/rc/runtime-proof-results/administering-rc-handoff-bundle.txt --handoff-bundle-validation-file=delivery/rc/runtime-proof-results/administering-rc-handoff-bundle-validation.json --terminal-status-file=delivery/rc/runtime-proof-results/administering-rc-terminal-status.json --terminal-status-summary-file=delivery/rc/runtime-proof-results/administering-rc-terminal-status-summary.txt --terminal-status-validation-file=delivery/rc/runtime-proof-results/administering-rc-terminal-status-validation.json --handoff-index-file=delivery/rc/runtime-proof-results/administering-rc-handoff-index.json --handoff-index-text-file=delivery/rc/runtime-proof-results/administering-rc-handoff-index.txt --handoff-index-validation-file=delivery/rc/runtime-proof-results/administering-rc-handoff-index-validation.json --final-seal-validation-file=delivery/rc/runtime-proof-results/administering-rc-final-seal-validation.json --output-file=delivery/rc/runtime-proof-results/administering-rc-acceptance.json --text-file=delivery/rc/runtime-proof-results/administering-rc-acceptance.txt --json"
+                ],
+                "rc:contract:validate": [
+                    "@php bin/console administering:rc:contract:validate --json"
+                ],
+                "console": [
+                    "@php bin/console"
+                ],
+                "lint:php": [
+                    "powershell -ExecutionPolicy Bypass -File tools/inspection/administering-php-lint.ps1"
+                ],
+                "inspect:standalone": [
+                    "php tools/inspection/AdministeringStandaloneReadinessReport.php"
+                ],
+                "inspect:zero-foreign": [
+                    "@php tools/inspection/administering-zero-foreign-coupling-guard.php"
+                ],
+                "inspect:runtime-scope-boundary": [
+                    "@php tools/inspection/administering-runtime-scope-decision-boundary-guard.php"
+                ],
+                "inspect:no-admin-surface": [
+                    "@php tools/inspection/administering-no-excluded-admin-controller-surface-guard.php"
+                ],
+                "inspect:architecture": [
+                    "@php tools/inspection/administering-architecture-guard-suite.php"
+                ],
+                "quality:architecture": [
+                    "@inspect:architecture"
+                ],
+                "quality:local": [
+                    "@quality:architecture",
+                    "@inspect:standalone-boundary",
+                    "powershell -ExecutionPolicy Bypass -File tools/inspection/administering-local-check.ps1"
+                ],
+                "stan:export": [
+                    "powershell -NoProfile -ExecutionPolicy Bypass -File tools/inspection/administering-phpstan-export.ps1"
+                ],
+                "stan:export:raw": [
+                    "powershell -NoProfile -ExecutionPolicy Bypass -File tools/inspection/administering-phpstan-export.ps1 -Raw"
+                ],
+                "stan:export:json": [
+                    "powershell -NoProfile -ExecutionPolicy Bypass -File tools/inspection/administering-phpstan-export.ps1 -Json"
+                ],
+                "stan:export:fail": [
+                    "powershell -NoProfile -ExecutionPolicy Bypass -File tools/inspection/administering-phpstan-export.ps1 -Raw -FailOnPhpStanError"
+                ],
+                "stan:integrated:export": [
+                    "powershell -NoProfile -ExecutionPolicy Bypass -File tools/inspection/administering-phpstan-export.ps1 -Config phpstan.neon -ReportPrefix phpstan-integrated"
+                ],
+                "stan:standalone:export:json": [
+                    "powershell -NoProfile -ExecutionPolicy Bypass -File tools/inspection/administering-phpstan-export.ps1 -Config phpstan.standalone.neon -ReportPrefix phpstan-standalone -Json"
+                ],
+                "stan:integrated:export:raw": [
+                    "powershell -NoProfile -ExecutionPolicy Bypass -File tools/inspection/administering-phpstan-export.ps1 -Config phpstan.neon -ReportPrefix phpstan-integrated -Raw"
+                ],
+                "stan:integrated:export:json": [
+                    "powershell -NoProfile -ExecutionPolicy Bypass -File tools/inspection/administering-phpstan-export.ps1 -Config phpstan.neon -ReportPrefix phpstan-integrated -Json"
+                ],
+                "stan:standalone:export:raw": [
+                    "powershell -NoProfile -ExecutionPolicy Bypass -File tools/inspection/administering-phpstan-export.ps1 -Config phpstan.standalone.neon -ReportPrefix phpstan-standalone -Raw"
+                ],
+                "stan:standalone:export": [
+                    "powershell -NoProfile -ExecutionPolicy Bypass -File tools/inspection/administering-phpstan-export.ps1 -Config phpstan.standalone.neon -ReportPrefix phpstan-standalone"
+                ],
+                "stan:standalone:export:fail": [
+                    "powershell -NoProfile -ExecutionPolicy Bypass -File tools/inspection/administering-phpstan-export.ps1 -Config phpstan.standalone.neon -ReportPrefix phpstan-standalone -Raw -FailOnPhpStanError"
+                ],
+                "stan:integrated:export:fail": [
+                    "powershell -NoProfile -ExecutionPolicy Bypass -File tools/inspection/administering-phpstan-export.ps1 -Config phpstan.neon -ReportPrefix phpstan-integrated -Raw -FailOnPhpStanError"
+                ],
+                "inspect:standalone-boundary": [
+                    "powershell -NoProfile -ExecutionPolicy Bypass -File tools/inspection/administering-standalone-boundary.ps1"
+                ],
+                "runtime-scope:capability-index": [
+                    "@php bin/console administering:runtime-scope:capability-index --json"
+                ],
+                "inspect:standalone-env": [
+                    "powershell -NoProfile -ExecutionPolicy Bypass -File tools/inspection/administering-standalone-env.ps1"
+                ],
+                "inspect:composer-package-boundary": [
+                    "@php tools/inspection/administering-composer-package-boundary-guard.php"
+                ],
+                "inspect:composer-inventory-evidence": [
+                    "@php tools/inspection/administering-composer-inventory-evidence-guard.php"
+                ],
+                "inspect:runtime-decision-row-surface": [
+                    "@php tools/inspection/administering-runtime-decision-row-surface-guard.php"
+                ],
+                "inspect:runtime-output-schema": [
+                    "@php tools/inspection/administering-runtime-output-schema-guard.php"
+                ]
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Administering administrative governance component for Symfony host applications.",
+            "support": {
+                "source": "https://github.com/smartresponsor/administering/tree/master",
+                "issues": "https://github.com/smartresponsor/administering/issues"
+            },
+            "time": "2026-06-06T05:13:01+00:00"
+        },
+        {
+            "name": "composer/semver",
+            "version": "3.4.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/composer/semver.git",
+                "reference": "198166618906cb2de69b95d7d47e5fa8aa1b2b95"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/composer/semver/zipball/198166618906cb2de69b95d7d47e5fa8aa1b2b95",
+                "reference": "198166618906cb2de69b95d7d47e5fa8aa1b2b95",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3.2 || ^7.0 || ^8.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^1.11",
+                "symfony/phpunit-bridge": "^3 || ^7"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Composer\\Semver\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nils Adermann",
+                    "email": "naderman@naderman.de",
+                    "homepage": "http://www.naderman.de"
+                },
+                {
+                    "name": "Jordi Boggiano",
+                    "email": "j.boggiano@seld.be",
+                    "homepage": "http://seld.be"
+                },
+                {
+                    "name": "Rob Bast",
+                    "email": "rob.bast@gmail.com",
+                    "homepage": "http://robbast.nl"
+                }
+            ],
+            "description": "Semver library that offers utilities, version constraint parsing and validation.",
+            "keywords": [
+                "semantic",
+                "semver",
+                "validation",
+                "versioning"
+            ],
+            "support": {
+                "irc": "ircs://irc.libera.chat:6697/composer",
+                "issues": "https://github.com/composer/semver/issues",
+                "source": "https://github.com/composer/semver/tree/3.4.4"
+            },
+            "funding": [
+                {
+                    "url": "https://packagist.com",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/composer",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-08-20T19:15:30+00:00"
         },
         {
             "name": "configuring/config",
@@ -1542,16 +1907,16 @@
         },
         {
             "name": "easycorp/easyadmin-bundle",
-            "version": "v5.0.12",
+            "version": "v5.0.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EasyCorp/EasyAdminBundle.git",
-                "reference": "08dbdb2ae4f02f052828b024235ba2f645621c50"
+                "reference": "11b06ef648b6d5fccb3e62ccd8f67f59534e006a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EasyCorp/EasyAdminBundle/zipball/08dbdb2ae4f02f052828b024235ba2f645621c50",
-                "reference": "08dbdb2ae4f02f052828b024235ba2f645621c50",
+                "url": "https://api.github.com/repos/EasyCorp/EasyAdminBundle/zipball/11b06ef648b6d5fccb3e62ccd8f67f59534e006a",
+                "reference": "11b06ef648b6d5fccb3e62ccd8f67f59534e006a",
                 "shasum": ""
             },
             "require": {
@@ -1637,7 +2002,7 @@
             ],
             "support": {
                 "issues": "https://github.com/EasyCorp/EasyAdminBundle/issues",
-                "source": "https://github.com/EasyCorp/EasyAdminBundle/tree/v5.0.12"
+                "source": "https://github.com/EasyCorp/EasyAdminBundle/tree/v5.0.13"
             },
             "funding": [
                 {
@@ -1645,7 +2010,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-06-03T19:33:41+00:00"
+            "time": "2026-06-04T06:25:35+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -2037,6 +2402,64 @@
             "time": "2025-12-20T17:47:00+00:00"
         },
         {
+            "name": "managing/manage",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/smartresponsor/Managing.git",
+                "reference": "a23ad4645081acfdd15bc662241fe4615bde77e0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/smartresponsor/Managing/zipball/a23ad4645081acfdd15bc662241fe4615bde77e0",
+                "reference": "a23ad4645081acfdd15bc662241fe4615bde77e0",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/doctrine-bundle": "^3.0",
+                "doctrine/orm": "^3.3",
+                "easycorp/easyadmin-bundle": "^5.0",
+                "php": "^8.4",
+                "symfony/config": "^8.0",
+                "symfony/dependency-injection": "^8.0",
+                "symfony/form": "^8.0",
+                "symfony/framework-bundle": "^8.0",
+                "symfony/routing": "^8.0",
+                "symfony/ux-live-component": "^3.0",
+                "symfony/ux-turbo": "^3.0",
+                "symfony/yaml": "^8.0",
+                "twig/html-extra": "^3.24"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.65",
+                "phpstan/phpstan": "^2.1",
+                "phpunit/phpunit": "^12.0",
+                "symfony/browser-kit": "^8.0",
+                "symfony/css-selector": "^8.0"
+            },
+            "default-branch": true,
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "App\\Managing\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "App\\Managing\\Tests\\": "tests/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Managing process app",
+            "support": {
+                "source": "https://github.com/smartresponsor/Managing/tree/master",
+                "issues": "https://github.com/smartresponsor/Managing/issues"
+            },
+            "time": "2026-06-06T08:34:55+00:00"
+        },
+        {
             "name": "monolog/monolog",
             "version": "3.10.0",
             "source": {
@@ -2138,6 +2561,66 @@
                 }
             ],
             "time": "2026-01-02T08:56:05+00:00"
+        },
+        {
+            "name": "navigating/navigation",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "../Navigating",
+                "reference": "fd2ef8b46b6d6a6a5aa70ad105cb02dbcb8e167c"
+            },
+            "require": {
+                "php": "^8.4",
+                "psr/log": "^3.0",
+                "symfony/config": "^8.0",
+                "symfony/console": "^8.0",
+                "symfony/dependency-injection": "^8.0",
+                "symfony/framework-bundle": "^8.0",
+                "symfony/http-foundation": "^8.0",
+                "symfony/http-kernel": "^8.0",
+                "symfony/routing": "^8.0",
+                "symfony/twig-bundle": "^8.0",
+                "symfony/yaml": "^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^11.0"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "symfony": {
+                    "allow-contrib": false,
+                    "require": "8.0.*",
+                    "bundles": {
+                        "App\\Navigating\\NavigatingBundle": [
+                            "all"
+                        ]
+                    }
+                },
+                "smart-responsor": {
+                    "component": "navigation",
+                    "surface": "navigation",
+                    "standalone": true,
+                    "host_attachable": true
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "App\\Navigating\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "App\\Navigating\\Tests\\": "tests/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Navigating process app",
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "nelmio/api-doc-bundle",
@@ -3089,6 +3572,57 @@
             "time": "2024-09-11T13:17:53+00:00"
         },
         {
+            "name": "psr/simple-cache",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/simple-cache.git",
+                "reference": "764e0b3939f5ca87cb904f570ef9be2d78a07865"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/simple-cache/zipball/764e0b3939f5ca87cb904f570ef9be2d78a07865",
+                "reference": "764e0b3939f5ca87cb904f570ef9be2d78a07865",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\SimpleCache\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interfaces for simple caching",
+            "keywords": [
+                "cache",
+                "caching",
+                "psr",
+                "psr-16",
+                "simple-cache"
+            ],
+            "support": {
+                "source": "https://github.com/php-fig/simple-cache/tree/3.0.0"
+            },
+            "time": "2021-10-29T13:26:27+00:00"
+        },
+        {
             "name": "radebatz/type-info-extras",
             "version": "1.0.7",
             "source": {
@@ -3149,6 +3683,111 @@
                 "source": "https://github.com/DerManoMann/type-info-extras/tree/1.0.7"
             },
             "time": "2026-03-06T22:40:29+00:00"
+        },
+        {
+            "name": "rolling/role",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "../Rolling",
+                "reference": "8688f6b67b6b8628e69d4f8ce1ef3c6828361793"
+            },
+            "require": {
+                "configuring/config": "*@dev",
+                "doctrine/dbal": "^4.0",
+                "doctrine/doctrine-bundle": "^3.0",
+                "doctrine/doctrine-migrations-bundle": "^4.0",
+                "doctrine/orm": "^3.0",
+                "ext-ctype": "*",
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "ext-openssl": "*",
+                "ext-pdo": "*",
+                "objecting/object": "*@dev",
+                "php": "^8.4",
+                "psr/simple-cache": "^3.0",
+                "symfony/config": "^8.0",
+                "symfony/dependency-injection": "^8.0",
+                "symfony/error-handler": "^8.0",
+                "symfony/event-dispatcher": "^8.0",
+                "symfony/framework-bundle": "^8.0",
+                "symfony/http-foundation": "^8.0",
+                "symfony/http-kernel": "^8.0",
+                "symfony/routing": "^8.0",
+                "symfony/security-csrf": "^8.0",
+                "symfony/twig-bundle": "^8.0",
+                "symfony/validator": "^8.0",
+                "symfony/yaml": "^8.0",
+                "twig/twig": "^3.24"
+            },
+            "require-dev": {
+                "dbrekelmans/bdi": "^1.4.1",
+                "friendsofphp/php-cs-fixer": "^3.94",
+                "phpstan/phpstan": "^2.1",
+                "phpunit/phpunit": "^11.5",
+                "symfony/browser-kit": "^8.0",
+                "symfony/css-selector": "^8.0",
+                "symfony/panther": "^2.2",
+                "symfony/var-dumper": "^8.0"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "App\\Rolling\\": "src/",
+                    "Role\\SDK\\V2\\": "SDK/php/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Tests\\": "tests/",
+                    "App\\Rolling\\Tests\\": "tests/"
+                },
+                "files": [
+                    "tests/SDK/PHP/psr_stubs.php"
+                ]
+            },
+            "scripts": {
+                "canon:scan": [
+                    "@php bin/canon-scan.php"
+                ],
+                "canon:namespace-audit": [
+                    "@php bin/namespace-audit.php"
+                ],
+                "canon:no-namespace-audit": [
+                    "@php bin/no-namespace-audit.php"
+                ],
+                "canon:autoload-audit": [
+                    "@php bin/autoload-continuity-audit.php"
+                ],
+                "test": [
+                    "vendor/bin/phpunit --testsuite=default --testdox"
+                ],
+                "lint": [
+                    "@php tools/qa/php-lint.php"
+                ],
+                "phpstan": [
+                    "vendor/bin/phpstan analyse --memory-limit=1G"
+                ],
+                "cs:check": [
+                    "vendor/bin/php-cs-fixer fix --allow-risky=yes --dry-run --diff --verbose"
+                ],
+                "cs:fix": [
+                    "vendor/bin/php-cs-fixer fix --allow-risky=yes --verbose"
+                ],
+                "qa": [
+                    "@lint",
+                    "@phpstan",
+                    "@test"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Rolling role Symfony bundle package",
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "scheb/2fa-bundle",
@@ -3410,6 +4049,87 @@
                 }
             ],
             "time": "2026-03-30T15:14:47+00:00"
+        },
+        {
+            "name": "symfony/asset-mapper",
+            "version": "v8.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/asset-mapper.git",
+                "reference": "74b1b7b7019c728cb1f8672b502260e683b6374e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/asset-mapper/zipball/74b1b7b7019c728cb1f8672b502260e683b6374e",
+                "reference": "74b1b7b7019c728cb1f8672b502260e683b6374e",
+                "shasum": ""
+            },
+            "require": {
+                "composer/semver": "^3.0",
+                "php": ">=8.4.1",
+                "symfony/filesystem": "^7.4|^8.0",
+                "symfony/http-client": "^7.4|^8.0"
+            },
+            "require-dev": {
+                "symfony/asset": "^7.4|^8.0",
+                "symfony/browser-kit": "^7.4|^8.0",
+                "symfony/console": "^7.4|^8.0",
+                "symfony/event-dispatcher-contracts": "^3.0",
+                "symfony/finder": "^7.4|^8.0",
+                "symfony/framework-bundle": "^7.4|^8.0",
+                "symfony/http-foundation": "^7.4|^8.0",
+                "symfony/http-kernel": "^7.4|^8.0",
+                "symfony/process": "^7.4|^8.0",
+                "symfony/runtime": "^7.4|^8.0",
+                "symfony/web-link": "^7.4|^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\AssetMapper\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Maps directories of assets & makes them available in a public directory with versioned filenames.",
+            "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/asset-mapper/tree/v8.1.0"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2026-05-29T05:06:50+00:00"
         },
         {
             "name": "symfony/cache",
@@ -6855,6 +7575,71 @@
             "time": "2026-04-10T16:19:22+00:00"
         },
         {
+            "name": "symfony/process",
+            "version": "v8.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/process.git",
+                "reference": "c4a9e58f235a6bf7f97ffbfedae2687353ac79e5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/process/zipball/c4a9e58f235a6bf7f97ffbfedae2687353ac79e5",
+                "reference": "c4a9e58f235a6bf7f97ffbfedae2687353ac79e5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.4.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Process\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Executes commands in sub-processes",
+            "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/process/tree/v8.1.0"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2026-05-29T05:06:50+00:00"
+        },
+        {
             "name": "symfony/property-access",
             "version": "v8.1.0",
             "source": {
@@ -8629,54 +9414,52 @@
         },
         {
             "name": "symfony/ux-live-component",
-            "version": "v2.36.0",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ux-live-component.git",
-                "reference": "a3fb5f24ff430db6a78019294086c16f70c86192"
+                "reference": "9ad6223e00922c17e26ce111c3ced31a9c2e7210"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-live-component/zipball/a3fb5f24ff430db6a78019294086c16f70c86192",
-                "reference": "a3fb5f24ff430db6a78019294086c16f70c86192",
+                "url": "https://api.github.com/repos/symfony/ux-live-component/zipball/9ad6223e00922c17e26ce111c3ced31a9c2e7210",
+                "reference": "9ad6223e00922c17e26ce111c3ced31a9c2e7210",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.1",
+                "php": ">=8.4",
                 "symfony/deprecation-contracts": "^2.5|^3.0",
-                "symfony/property-access": "^5.4.5|^6.0|^7.0|^8.0",
-                "symfony/property-info": "^5.4|^6.0|^7.0|^8.0",
+                "symfony/property-access": "^7.4|^8.0",
+                "symfony/property-info": "^7.4|^8.0",
                 "symfony/stimulus-bundle": "^2.9|^3.0",
+                "symfony/type-info": "^7.4|^8.0",
                 "symfony/ux-twig-component": "^2.33.0|^3.0",
                 "twig/twig": "^3.10.3"
             },
             "conflict": {
-                "symfony/config": "<5.4.0",
-                "symfony/property-info": "~7.0.0",
-                "symfony/type-info": "<7.2"
+                "symfony/config": "<6.4"
             },
             "require-dev": {
                 "doctrine/annotations": "^1.0|^2.0",
                 "doctrine/collections": "^1.6.8|^2.0",
-                "doctrine/doctrine-bundle": "^2.4.3|^3.0|^4.0",
+                "doctrine/doctrine-bundle": "^2.14|^3.0|^4.0",
                 "doctrine/orm": "^2.9.4|^3.0",
                 "doctrine/persistence": "^2.5.2|^3.0|^4.0",
                 "phpdocumentor/reflection-docblock": "^5.6.2",
-                "symfony/config": "^6.3|^7.0|^8.0",
-                "symfony/dependency-injection": "^5.4|^6.0|^7.0|^8.0",
-                "symfony/expression-language": "^5.4|^6.0|^7.0|^8.0",
-                "symfony/form": "^5.4|^6.0|^7.0|^8.0",
-                "symfony/framework-bundle": "^5.4|^6.1|^7.0|^8.0",
-                "symfony/http-kernel": "^6.1|^7.0|^8.0",
-                "symfony/options-resolver": "^5.4|^6.0|^7.0|^8.0",
-                "symfony/phpunit-bridge": "^6.1|^7.0|^8.0",
-                "symfony/security-bundle": "^5.4|^6.0|^7.0|^8.0",
-                "symfony/serializer": "^5.4|^6.0|^7.0|^8.0",
-                "symfony/twig-bundle": "^5.4|^6.0|^7.0|^8.0",
-                "symfony/uid": "^5.4|^6.0|^7.0|^8.0",
-                "symfony/validator": "^5.4|^6.0|^7.0|^8.0",
-                "zenstruck/browser": "^1.2.0",
-                "zenstruck/foundry": "^2.0"
+                "phpunit/phpunit": "^11.1|^12.0",
+                "symfony/config": "^7.4|^8.0",
+                "symfony/dependency-injection": "^7.4|^8.0",
+                "symfony/expression-language": "^7.4|^8.0",
+                "symfony/form": "^7.4|^8.0",
+                "symfony/framework-bundle": "^7.4|^8.0",
+                "symfony/options-resolver": "^7.4|^8.0",
+                "symfony/security-bundle": "^7.4|^8.0",
+                "symfony/serializer": "^7.4|^8.0",
+                "symfony/twig-bundle": "^7.4|^8.0",
+                "symfony/uid": "^7.4|^8.0",
+                "symfony/validator": "^7.4|^8.0",
+                "zenstruck/browser": "^1.9",
+                "zenstruck/foundry": "^2.7"
             },
             "type": "symfony-bundle",
             "extra": {
@@ -8708,7 +9491,7 @@
                 "twig"
             ],
             "support": {
-                "source": "https://github.com/symfony/ux-live-component/tree/v2.36.0"
+                "source": "https://github.com/symfony/ux-live-component/tree/v3.1.0"
             },
             "funding": [
                 {
@@ -8728,51 +9511,48 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-05-29T06:59:30+00:00"
+            "time": "2026-05-29T07:08:56+00:00"
         },
         {
             "name": "symfony/ux-turbo",
-            "version": "v2.36.0",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ux-turbo.git",
-                "reference": "c16f0fdcc8eb22d80a02949447e561c145fa1bc8"
+                "reference": "50faf143c13154dd928cfedb96f951bbecad4c73"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-turbo/zipball/c16f0fdcc8eb22d80a02949447e561c145fa1bc8",
-                "reference": "c16f0fdcc8eb22d80a02949447e561c145fa1bc8",
+                "url": "https://api.github.com/repos/symfony/ux-turbo/zipball/50faf143c13154dd928cfedb96f951bbecad4c73",
+                "reference": "50faf143c13154dd928cfedb96f951bbecad4c73",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.1",
+                "php": ">=8.4",
                 "symfony/stimulus-bundle": "^2.9.1|^3.0"
             },
             "conflict": {
                 "symfony/flex": "<1.13"
             },
             "require-dev": {
-                "dbrekelmans/bdi": "dev-main",
-                "doctrine/doctrine-bundle": "^2.4.3|^3.0|^4.0",
+                "doctrine/doctrine-bundle": "^2.14|^3.0|^4.0",
                 "doctrine/orm": "^2.8|^3.0",
-                "php-webdriver/webdriver": "^1.15",
                 "phpstan/phpstan": "^2.1.17",
-                "symfony/asset-mapper": "^6.4|^7.0|^8.0",
-                "symfony/debug-bundle": "^5.4|^6.0|^7.0|^8.0",
-                "symfony/expression-language": "^5.4|^6.0|^7.0|^8.0",
-                "symfony/form": "^5.4|^6.0|^7.0|^8.0",
-                "symfony/framework-bundle": "^6.4|^7.0|^8.0",
+                "phpunit/phpunit": "^11.1|^12.0",
+                "symfony/asset-mapper": "^7.4|^8.0",
+                "symfony/browser-kit": "^7.4|^8.0",
+                "symfony/debug-bundle": "^7.4|^8.0",
+                "symfony/expression-language": "^7.4|^8.0",
+                "symfony/form": "^7.4|^8.0",
+                "symfony/framework-bundle": "^7.4|^8.0",
                 "symfony/mercure-bundle": "^0.3.7|^0.4.1",
-                "symfony/messenger": "^5.4|^6.0|^7.0|^8.0",
-                "symfony/panther": "^2.2",
-                "symfony/phpunit-bridge": "^5.4|^6.0|^7.0|^8.0",
-                "symfony/process": "^5.4|6.3.*|^7.0|^8.0",
-                "symfony/property-access": "^5.4|^6.0|^7.0|^8.0",
-                "symfony/security-core": "^5.4|^6.0|^7.0|^8.0",
-                "symfony/stopwatch": "^5.4|^6.0|^7.0|^8.0",
-                "symfony/twig-bundle": "^6.4|^7.0|^8.0",
+                "symfony/messenger": "^7.4|^8.0",
+                "symfony/property-access": "^7.4|^8.0",
+                "symfony/security-core": "^7.4|^8.0",
+                "symfony/stopwatch": "^7.4|^8.0",
+                "symfony/twig-bundle": "^7.4|^8.0",
                 "symfony/ux-twig-component": "^2.21|^3.0",
-                "symfony/web-profiler-bundle": "^5.4|^6.0|^7.0|^8.0"
+                "symfony/web-profiler-bundle": "^7.4|^8.0"
             },
             "type": "symfony-bundle",
             "extra": {
@@ -8811,7 +9591,7 @@
                 "turbo-stream"
             ],
             "support": {
-                "source": "https://github.com/symfony/ux-turbo/tree/v2.36.0"
+                "source": "https://github.com/symfony/ux-turbo/tree/v3.1.0"
             },
             "funding": [
                 {
@@ -8831,7 +9611,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-05-06T04:31:36+00:00"
+            "time": "2026-05-22T05:04:55+00:00"
         },
         {
             "name": "symfony/ux-twig-component",
@@ -10110,83 +10890,6 @@
                 }
             ],
             "time": "2024-11-12T16:29:46+00:00"
-        },
-        {
-            "name": "composer/semver",
-            "version": "3.4.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/composer/semver.git",
-                "reference": "198166618906cb2de69b95d7d47e5fa8aa1b2b95"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/composer/semver/zipball/198166618906cb2de69b95d7d47e5fa8aa1b2b95",
-                "reference": "198166618906cb2de69b95d7d47e5fa8aa1b2b95",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.3.2 || ^7.0 || ^8.0"
-            },
-            "require-dev": {
-                "phpstan/phpstan": "^1.11",
-                "symfony/phpunit-bridge": "^3 || ^7"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "3.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Composer\\Semver\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Nils Adermann",
-                    "email": "naderman@naderman.de",
-                    "homepage": "http://www.naderman.de"
-                },
-                {
-                    "name": "Jordi Boggiano",
-                    "email": "j.boggiano@seld.be",
-                    "homepage": "http://seld.be"
-                },
-                {
-                    "name": "Rob Bast",
-                    "email": "rob.bast@gmail.com",
-                    "homepage": "http://robbast.nl"
-                }
-            ],
-            "description": "Semver library that offers utilities, version constraint parsing and validation.",
-            "keywords": [
-                "semantic",
-                "semver",
-                "validation",
-                "versioning"
-            ],
-            "support": {
-                "irc": "ircs://irc.libera.chat:6697/composer",
-                "issues": "https://github.com/composer/semver/issues",
-                "source": "https://github.com/composer/semver/tree/3.4.4"
-            },
-            "funding": [
-                {
-                    "url": "https://packagist.com",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/composer",
-                    "type": "github"
-                }
-            ],
-            "time": "2025-08-20T19:15:30+00:00"
         },
         {
             "name": "composer/xdebug-handler",
@@ -12865,71 +13568,6 @@
             "time": "2026-05-26T12:45:58+00:00"
         },
         {
-            "name": "symfony/process",
-            "version": "v8.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/process.git",
-                "reference": "c4a9e58f235a6bf7f97ffbfedae2687353ac79e5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/c4a9e58f235a6bf7f97ffbfedae2687353ac79e5",
-                "reference": "c4a9e58f235a6bf7f97ffbfedae2687353ac79e5",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.4.1"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Process\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Executes commands in sub-processes",
-            "homepage": "https://symfony.com",
-            "support": {
-                "source": "https://github.com/symfony/process/tree/v8.1.0"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://github.com/nicolas-grekas",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2026-05-29T05:06:50+00:00"
-        },
-        {
             "name": "theseer/tokenizer",
             "version": "2.0.1",
             "source": {
@@ -12984,9 +13622,13 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "accessing/access": 20,
+        "administering/administration": 20,
         "cruding/crud": 20,
         "interfacing/interface": 20,
+        "managing/manage": 20,
+        "navigating/navigation": 20,
         "objecting/object": 20,
+        "rolling/role": 20,
         "viewing/view": 20
     },
     "prefer-stable": true,
@@ -12994,6 +13636,6 @@
     "platform": {
         "php": "^8.4"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "plugin-api-version": "2.9.0"
 }

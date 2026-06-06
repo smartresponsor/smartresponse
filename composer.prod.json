@@ -11,6 +11,10 @@
             "url": "git@github.com:smartresponsor/cruding.git"
         },
         {
+            "type": "vcs",
+            "url": "git@github.com:smartresponsor/administering.git"
+        },
+        {
 			 "type":  "vcs",
 			 "url":  "git@github.com:smartresponsor/configuring.git"
 		 },
@@ -22,6 +26,10 @@
 			 "type":  "vcs",
 			 "url":  "https://github.com/smartresponsor/interfacing.git"
 		 },
+        {
+            "type": "vcs",
+            "url": "git@github.com:smartresponsor/Managing.git"
+        },
 		 {
 			 "type":  "vcs",
 			 "url":  "git@github.com:smartresponsor/viewing.git"
@@ -29,11 +37,20 @@
 		 {
 			 "type":  "vcs",
 			 "url":  "git@github.com:smartresponsor/objecting.git"
-		 }
+		 },
+        {
+            "type": "path",
+            "url": "../Navigating"
+        },
+        {
+            "type": "path",
+            "url": "../Rolling"
+        }
                      ],
     "require":  {
         "php": "^8.4",
         "accessing/access": "dev-master",
+        "administering/administration": "dev-master",
         "cruding/crud": "*@dev",
         "doctrine/dbal": "^4.3",
         "doctrine/doctrine-bundle": "^3.2",
@@ -43,8 +60,11 @@
         "easycorp/easyadmin-bundle": "*",
         "interfacing/interface": "*@dev",
         "lexik/jwt-authentication-bundle": "*",
+        "navigating/navigation": "*@dev",
         "nelmio/api-doc-bundle": "*",
         "objecting/object": "*@dev",
+        "rolling/role": "*@dev",
+        "managing/manage": "dev-master",
         "scheb/2fa-bundle": "*",
         "symfony/asset": "8.0.*",
         "symfony/config": "8.0.*",
@@ -68,8 +88,8 @@
         "symfony/stimulus-bundle": "^2.32",
         "symfony/translation": "8.0.*",
         "symfony/twig-bundle": "8.0.*",
-        "symfony/ux-live-component": "^2.35",
-        "symfony/ux-turbo": "^2.32",
+        "symfony/ux-live-component": "^3.0",
+        "symfony/ux-turbo": "^3.0",
         "symfony/ux-twig-component": "^2.35",
         "symfony/validator": "8.0.*",
         "symfony/var-exporter": "8.0.*",

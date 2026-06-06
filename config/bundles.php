@@ -25,4 +25,10 @@ return [
     Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle::class => ['all' => true],
     App\Administering\AdministeringBundle::class => ['all' => true],
     App\Managing\ManagingBundle::class => ['all' => true],
+    App\Interfacing\InterfacingBundle::class => ['all' => true],
+    App\Accessing\AccessingBundle::class => ['all' => true],
+    App\Cruding\CrudingBundle::class => ['all' => true],
+    App\Viewing\ViewingBundle::class => ['all' => true],
+    App\Navigating\NavigatingBundle::class => ['all' => true],
+    App\Rolling\RollingBundle::class => ['all' => true],
 ];
