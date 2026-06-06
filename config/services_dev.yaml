@@ -1,5 +1,6 @@
 services:
     Doctrine\Bundle\FixturesBundle\Loader\SymfonyFixturesLoader: '@doctrine.fixtures.loader'
+    App\Fixture\GovernanceDemoSeeder: ~
 
 imports:
     - { resource: '../../Administering/config/services.yaml' }
