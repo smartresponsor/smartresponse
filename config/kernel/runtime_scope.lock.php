@@ -6,6 +6,7 @@ return [
     'strict' => true,
 
     'enabledBundles' => [
+        App\Accessing\AccessingBundle::class,
         App\Cruding\CrudingBundle::class,
         App\Interfacing\InterfaceBundle::class,
         App\Managing\ManagingBundle::class,
@@ -17,13 +18,13 @@ return [
     ],
 
     'scope' => [
+        'accessing',
         'cruding',
         'viewing',
         'interfacing',
         'managing',
         'navigating',
         'administering',
-        'accessing',
         'searching',
         'rolling',
         'applicating',
@@ -53,13 +54,13 @@ return [
     ],
 
     'packages' => [
+        'accessing/access',
         'cruding/crud',
         'viewing/view',
         'interfacing/interface',
         'managing/manage',
         'navigating/navigation',
         'administering/admin',
-        'accessing/access',
         'searching/search',
         'rolling/role',
         'applicating/application',
