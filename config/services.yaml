@@ -47,9 +47,6 @@ services:
     App\Interfacing\ProviderInterface\Shell\InterfaceShellNavigationMapProviderInterface: '@App\Service\Interfacing\Shell\ShellNavigationMapProviderService'
     App\Interfacing\ProviderInterface\Shell\InterfaceShellScreenCatalogProviderInterface: '@App\Service\Interfacing\Shell\ShellScreenCatalogProviderService'
 
-    App\Service\Interfacing\Crud\Contribution\EcosystemCrudResourceContributionService:
-        tags: ['app.interfacing.crud_resource_contribution']
-
     App\Repository\Order\OrderRepository:
         tags: [ 'doctrine.repository_service' ]
 

@@ -9,6 +9,8 @@ services:
     App\ServiceInterface\Demo\FacetingDemoDatasetServiceInterface: '@App\Service\Demo\FacetingDemoDatasetService'
     App\Service\Demo\OrderDemoDataService: ~
     App\ServiceInterface\VendorApiKeyServiceInterface: '@App\Service\VendorApiKeyService'
+    App\Service\Interfacing\Crud\Contribution\EcosystemCrudResourceContributionService:
+        tags: ['app.interfacing.crud_resource_contribution']
 
 imports:
     - { resource: '../../Administering/config/services.yaml' }
