@@ -8,10 +8,27 @@ framework:
             # async: '%env(MESSENGER_TRANSPORT_DSN)%'
             # failed: 'doctrine://default?queue_name=failed'
             sync: 'sync://'
+            payment_outbox:
+                dsn: '%paying.messenger.dsn%'
+                options:
+                    exchange:
+                        name: 'payment.events'
+                        type: 'topic'
+                    queues:
+                        payment_outbox:
+                            binding_keys: ['payment.*']
+            payment_outbox_failed:
+                dsn: '%paying.messenger.dsn%'
+                options:
+                    exchange:
+                        name: 'payment.events.dlq'
+                        type: 'fanout'
+                    queues: { payment_outbox_failed: ~ }
 
         routing:
             # Route your messages to the transports
             # 'App\Message\YourMessage': async
+        failure_transport: payment_outbox_failed
 
 # when@test:
 #    framework:

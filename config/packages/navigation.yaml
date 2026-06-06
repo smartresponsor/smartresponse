@@ -1,0 +1,22 @@
+navigation:
+    schema: 2
+    slots:
+        roots: shell.left.middle
+        active_root_sections: shell.context.middle
+        footer_left: shell.footer.left
+        footer_context: shell.footer.context
+        footer_main: shell.footer.main
+        footer_right: shell.footer.right
+    roots:
+        workspace:
+            label: Workspace
+            icon: workspace
+            priority: 10
+            target:
+                type: path
+                path: /
+            sections: { }
+            visible: true
+    runtime_roles:
+        fallback_roles:
+            - ROLE_USER
