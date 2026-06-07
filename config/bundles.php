@@ -32,4 +32,6 @@ return [
     App\Rolling\RollingBundle::class => ['all' => true],
     App\Applicating\ApplicatingBundle::class => ['all' => true],
     App\Searching\SearchingBundle::class => ['all' => true],
+    ApiPlatform\Symfony\Bundle\ApiPlatformBundle::class => ['all' => true],
+    App\Cataloging\CatalogingBundle::class => ['all' => true],
 ];

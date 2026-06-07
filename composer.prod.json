@@ -52,6 +52,10 @@
         },
         {
             "type": "path",
+            "url": "../Cataloging"
+        },
+        {
+            "type": "path",
             "url": "../Rolling"
         }
                      ],
@@ -68,6 +72,7 @@
         "easycorp/easyadmin-bundle": "*",
         "interfacing/interface": "*@dev",
         "applicating/application": "*@dev",
+        "cataloging/catalog": "*@dev",
         "lexik/jwt-authentication-bundle": "*",
         "navigating/navigation": "*@dev",
         "nelmio/api-doc-bundle": "*",

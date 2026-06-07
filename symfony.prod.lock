@@ -5,7 +5,24 @@
     "administering/administration": {
         "version": "dev-master"
     },
+    "api-platform/symfony": {
+        "version": "4.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "4.0",
+            "ref": "e9952e9f393c2d048f10a78f272cd35e807d972b"
+        },
+        "files": [
+            "./config/packages/api_platform.yaml",
+            "./config/routes/api_platform.yaml",
+            "./src/ApiResource/.gitignore"
+        ]
+    },
     "applicating/application": {
+        "version": "dev-master"
+    },
+    "cataloging/catalog": {
         "version": "dev-master"
     },
     "cruding/crud": {
