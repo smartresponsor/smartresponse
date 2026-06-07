@@ -131,7 +131,7 @@ final class AppDashboardBuilderService implements AppDashboardContract
     public function __invoke(Request $request): Response
     {
         return $this->navigationRenderer->render(
-            'guest',
+            'showcase',
             'index',
             $this->buildDashboard($request)->toArray(),
         );
