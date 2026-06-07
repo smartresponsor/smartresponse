@@ -3928,12 +3928,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/smartresponsor/interfacing.git",
-                "reference": "cd70238ab23874f00a5ef126098e0fa2d635890e"
+                "reference": "be64f83bbb396bdfa2f6446b3d10cca93cd0b7f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smartresponsor/interfacing/zipball/cd70238ab23874f00a5ef126098e0fa2d635890e",
-                "reference": "cd70238ab23874f00a5ef126098e0fa2d635890e",
+                "url": "https://api.github.com/repos/smartresponsor/interfacing/zipball/be64f83bbb396bdfa2f6446b3d10cca93cd0b7f0",
+                "reference": "be64f83bbb396bdfa2f6446b3d10cca93cd0b7f0",
                 "shasum": ""
             },
             "require": {
@@ -4060,7 +4060,7 @@
                 "source": "https://github.com/smartresponsor/interfacing/tree/master",
                 "issues": "https://github.com/smartresponsor/interfacing/issues"
             },
-            "time": "2026-06-06T21:41:45+00:00"
+            "time": "2026-06-07T07:50:46+00:00"
         },
         {
             "name": "lcobucci/jwt",

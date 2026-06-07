@@ -10,11 +10,11 @@ homepage_redirect:
     path: /
     controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction
     defaults:
-        path: /showcase/
+        path: /app/index
         permanent: false
 
 app_guest_index:
-    path: /showcase/
+    path: /app/index
     controller: App\Service\Dashboard\AppDashboardBuilderService::__invoke
     methods: [GET]
 

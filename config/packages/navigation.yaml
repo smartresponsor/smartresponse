@@ -14,7 +14,7 @@ navigation:
                     priority: 10
                     target:
                         type: path
-                        path: /showcase/
+                        path: /app/index
     runtime_roles:
         fallback_roles:
             - ROLE_USER
