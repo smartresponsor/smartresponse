@@ -204,7 +204,7 @@ final readonly class EcommerceScreenCatalogProviderService implements InterfaceE
             'Ordering', 'Consuming' => 'Ordering',
             'Billing', 'Paying', 'Currencing', 'Exchanging', 'Subscripting', 'Commissioning' => 'Billing and paying',
             'Taxating', 'Complying', 'Governancing', 'Adjudicating', 'Evaluating', 'Facting' => 'Tax and governance',
-            'Shipping', 'Addressing', 'Locating' => 'Fulfillment and location',
+            'Shipping', 'Locating' => 'Fulfillment and location',
             'Messaging' => 'Messaging',
             'Documenting', 'Attaching' => 'Documents and attachments',
             'Bridging', 'Harvesting', 'Applicating', 'Runtiming', 'Rolling', 'Projecting', 'Analysing', 'Anchoring' => 'Platform operations',

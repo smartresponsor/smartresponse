@@ -141,13 +141,6 @@
     },
     {
       "type": "path",
-      "url": "../Addressing",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
       "url": "../Locating",
       "options": {
         "symlink": true

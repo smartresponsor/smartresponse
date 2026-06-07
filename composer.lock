@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5da6702dc2815a0e0793b9c015e53d3b",
+    "content-hash": "399213aa818bdfa28b769b722bfe4b8c",
     "packages": [
         {
             "name": "accessing/access",
@@ -12,7 +12,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Accessing",
-                "reference": "bb3f043c32f89487014195845f3b2f020bbfcd80"
+                "reference": "e5ee0babc09ceeadd0c0438936561d33288d9d2a"
             },
             "require": {
                 "configuring/config": "*@dev",
@@ -63,7 +63,7 @@
             "extra": {
                 "public-dir": "public",
                 "product-name": "Accessing",
-                "core-entity": "Account"
+                "core-entity": "User"
             },
             "autoload": {
                 "psr-4": {
@@ -236,7 +236,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Administering",
-                "reference": "5181462f940455f453f7986f799035a889cd53c7"
+                "reference": "44db2f740633f1cfdb703713d7dea0fa7654186c"
             },
             "require": {
                 "doctrine/doctrine-bundle": "^3.2",
@@ -310,7 +310,7 @@
                     "composer validate --strict"
                 ],
                 "lint:yaml": [
-                    "@php bin/console lint:yaml config"
+                    "@php bin/console lint:yaml config --parse-tags"
                 ],
                 "lint:container": [
                     "@php bin/console lint:container"
@@ -1435,7 +1435,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Cataloging",
-                "reference": "a1c87c4f310201e997aad7f7c3ea68f8a4cf9421"
+                "reference": "62516e16c42034ec402d4d549339f65772bf61ea"
             },
             "require": {
                 "api-platform/doctrine-orm": "^4.3",
@@ -1820,7 +1820,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Cruding",
-                "reference": "c293fe5348126eb13cd71db7cfa9a6a942b901b8"
+                "reference": "30d540675538065e3cb1c56537b48c856cc60ad0"
             },
             "require": {
                 "doctrine/doctrine-bundle": "^3.2",
@@ -4469,7 +4469,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Interfacing",
-                "reference": "cd70238ab23874f00a5ef126098e0fa2d635890e"
+                "reference": "be64f83bbb396bdfa2f6446b3d10cca93cd0b7f0"
             },
             "require": {
                 "composer-runtime-api": "^2.2",
@@ -6024,9 +6024,10 @@
             "dist": {
                 "type": "path",
                 "url": "../Navigating",
-                "reference": "a53e1adeba0d3e405cd39681a00600ac164b8f65"
+                "reference": "0082c08e60e31e725f9f12aaba240a2680ef1b17"
             },
             "require": {
+                "easycorp/easyadmin-bundle": "^5.0",
                 "php": "^8.4",
                 "psr/log": "^3.0",
                 "symfony/config": "^8.0",
@@ -6036,6 +6037,7 @@
                 "symfony/http-foundation": "^8.0",
                 "symfony/http-kernel": "^8.0",
                 "symfony/routing": "^8.0",
+                "symfony/security-bundle": "^8.0",
                 "symfony/twig-bundle": "^8.0",
                 "symfony/yaml": "^8.0"
             },
@@ -6333,7 +6335,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Objecting",
-                "reference": "1b4b0e8fab3e41c6e8423a1a8e98e08f84c1ab87"
+                "reference": "d5cbb80b27f3efd38ead73785883267308eb3abb"
             },
             "require": {
                 "doctrine/orm": "^3.3",
@@ -9301,7 +9303,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Rolling",
-                "reference": "75fd02729bbdcf3916f6f732aec5bc0afdad8027"
+                "reference": "62f65d0b18aa4988e97636409c6c32931b755b9b"
             },
             "require": {
                 "configuring/config": "*@dev",
@@ -17121,13 +17123,14 @@
             "dist": {
                 "type": "path",
                 "url": "../Taxating",
-                "reference": "685c9baf4f4bb0817dc5e772d467804d4887d90f"
+                "reference": "016a6af46e67e8062720bcc8273f3dd707fdebf2"
             },
             "require": {
                 "doctrine/dbal": "^4.0",
                 "doctrine/doctrine-bundle": "^3.0",
                 "doctrine/doctrine-migrations-bundle": "4.0",
                 "doctrine/orm": "^3.3",
+                "easycorp/easyadmin-bundle": "^5.0",
                 "ext-curl": "*",
                 "ext-openssl": "*",
                 "ext-pdo": "*",

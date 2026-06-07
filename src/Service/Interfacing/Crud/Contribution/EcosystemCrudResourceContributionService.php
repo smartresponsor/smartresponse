@@ -16,7 +16,6 @@ final class EcosystemCrudResourceContributionService extends InterfaceAbstractCr
             $this->genericResource('accessing.account', 'Accessing', 'Account', 'account', 'Planned fallback entry; the Accessing contribution should be preferred when present.'),
             $this->genericResource('accessing.session', 'Accessing', 'Session', 'session', 'Planned fallback entry; the Accessing contribution should be preferred when present.'),
             $this->genericResource('accessing.security-event', 'Accessing', 'Security event', 'security-event', 'Planned fallback entry; the Accessing contribution should be preferred when present.'),
-            $this->genericResource('addressing.address', 'Addressing', 'Address', 'address', 'Planned canonical CRUD resource for the Addressing component.'),
             $this->genericResource('adjudicating.adjudication', 'Adjudicating', 'Adjudication', 'adjudication', 'Planned canonical CRUD resource for the Adjudicating/Adjudication component.'),
             $this->genericResource('analysing.analytics-report', 'Analysing', 'Analytics report', 'analytics-report', 'Planned canonical CRUD resource for analysis/report screens.'),
             $this->genericResource('anchoring.anchor', 'Anchoring', 'Anchor', 'anchor', 'Planned canonical CRUD resource for Anchoring.'),
