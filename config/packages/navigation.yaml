@@ -14,7 +14,7 @@ navigation:
                     priority: 10
                     target:
                         type: path
-                        path: /app/
+                        path: /
     runtime_roles:
         fallback_roles:
             - ROLE_USER

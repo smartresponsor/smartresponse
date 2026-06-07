@@ -6,15 +6,13 @@
 # Cruding owns generic CRUD/catch-all route grammar; Viewing handles returned payloads;
 # Interfacing provides rendering surfaces/templates.
 
-homepage_redirect:
+homepage_guest_index:
     path: /
-    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction
-    defaults:
-        path: /app/
-        permanent: false
+    controller: App\Service\Dashboard\AppDashboardBuilderService::__invoke
+    methods: [GET]
 
 app_guest_index:
-    path: /app/
+    path: /guest/
     controller: App\Service\Dashboard\AppDashboardBuilderService::__invoke
     methods: [GET]
 
