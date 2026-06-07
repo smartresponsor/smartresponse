@@ -41,7 +41,6 @@ services:
     App\Interfacing\ServiceInterface\Rendering\InterfaceRendererInterface: '@App\Interfacing\Service\Rendering\InterfaceTwigRendererService'
     App\Interfacing\ProviderInterface\Localization\InterfaceLocaleTemplateSelectorProviderInterface: '@App\Interfacing\Provider\Localization\InterfaceDefaultLocaleTemplateSelectorProvider'
     App\Interfacing\ProviderInterface\Shell\InterfaceShellChromeProviderInterface: '@App\Service\Interfacing\Shell\ShellChromeProviderService'
-    App\Interfacing\ProviderInterface\Commerce\InterfaceProjectShowcaseProviderInterface: '@App\Service\Interfacing\Commerce\DemoProjectShowcaseProviderService'
     App\Interfacing\ProviderInterface\Crud\InterfaceCrudResourceExplorerProviderInterface: '@App\Service\Interfacing\Crud\CrudResourceExplorerProviderService'
     App\Interfacing\ProviderInterface\Ecommerce\InterfaceEcommerceScreenCatalogProviderInterface: '@App\Service\Interfacing\Ecommerce\EcommerceScreenCatalogProviderService'
     App\Interfacing\ProviderInterface\Shell\InterfaceShellLayoutPreviewProviderInterface: '@App\Service\Interfacing\Shell\ShellLayoutPreviewProviderService'
