@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity\Review;
 
-use App\EntityTrait\TimestampableTrait;
 use App\Objecting\EntityInterface\ObjectAuditedInterface;
 use App\Objecting\EntityInterface\ObjectIdentifiedInterface;
 use App\Objecting\EntityInterface\ObjectScopedInterface;
@@ -23,7 +22,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\UniqueConstraint(name: 'uniq_review_tenant_slug', columns: ['object_tenant', 'object_slug'])]
 final class ReviewEntity implements ObjectAuditedInterface, ObjectIdentifiedInterface, ObjectScopedInterface, ObjectStatefulInterface, ObjectTitledInterface
 {
-    use TimestampableTrait;
     use ObjectIdentityEmbeddableTrait;
     use ObjectScopeEmbeddableTrait;
     use ObjectStateEmbeddableTrait;
@@ -61,6 +59,18 @@ final class ReviewEntity implements ObjectAuditedInterface, ObjectIdentifiedInte
     #[ORM\Column(type: 'json', nullable: true)]
     private ?array $payload = null;
 
+    #[ORM\Column(name: 'object_created_at', type: 'datetime_immutable')]
+    private \DateTimeImmutable $objectCreatedAt;
+
+    #[ORM\Column(name: 'object_updated_at', type: 'datetime_immutable', nullable: true)]
+    private ?\DateTimeImmutable $objectUpdatedAt = null;
+
+    #[ORM\Column(name: 'object_created_by', type: 'string', length: 190, nullable: true)]
+    private ?string $objectCreatedBy = null;
+
+    #[ORM\Column(name: 'object_updated_by', type: 'string', length: 190, nullable: true)]
+    private ?string $objectUpdatedBy = null;
+
     public function __construct(
         string $tenantId,
         string $slug,
@@ -91,7 +101,7 @@ final class ReviewEntity implements ObjectAuditedInterface, ObjectIdentifiedInte
         $this->subjectSlug = $subjectSlug;
         $this->metadata = $metadata;
         $this->payload = $payload;
-        $this->initializeTimestamps();
+        $this->initializeAudit();
     }
 
     public function id(): ?int
@@ -189,5 +199,39 @@ final class ReviewEntity implements ObjectAuditedInterface, ObjectIdentifiedInte
     public function payload(): ?array
     {
         return $this->payload;
+    }
+
+    public function getObjectCreatedAt(): \DateTimeImmutable
+    {
+        return $this->objectCreatedAt;
+    }
+
+    public function getObjectUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->objectUpdatedAt;
+    }
+
+    public function getObjectCreatedBy(): ?string
+    {
+        return $this->objectCreatedBy;
+    }
+
+    public function getObjectUpdatedBy(): ?string
+    {
+        return $this->objectUpdatedBy;
+    }
+
+    public function touchObject(?\DateTimeImmutable $updatedAt = null, ?string $updatedBy = null): void
+    {
+        $this->objectUpdatedAt = $updatedAt ?? new \DateTimeImmutable();
+        $this->objectUpdatedBy = $updatedBy;
+    }
+
+    private function initializeAudit(?\DateTimeImmutable $createdAt = null, ?string $createdBy = null): void
+    {
+        $this->objectCreatedAt = $createdAt ?? new \DateTimeImmutable();
+        $this->objectCreatedBy = $createdBy;
+        $this->objectUpdatedAt = null;
+        $this->objectUpdatedBy = null;
     }
 }
