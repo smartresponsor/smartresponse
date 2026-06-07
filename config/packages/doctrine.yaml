@@ -48,11 +48,24 @@ doctrine:
                 auto_mapping: false
                 validate_xml_mapping: false
                 naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+                mappings:
+                    Objecting:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Objecting/src/Embeddable'
+                        prefix: 'App\Objecting\Embeddable'
+                        alias: Objecting
             review:
                 connection: review
                 auto_mapping: false
                 naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
                 mappings:
+                    Objecting:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Objecting/src/Embeddable'
+                        prefix: 'App\Objecting\Embeddable'
+                        alias: Objecting
                     Review:
                         is_bundle: false
                         type: attribute
@@ -63,6 +76,12 @@ doctrine:
                 connection: sqlite
                 auto_mapping: false
                 mappings:
+                    Objecting:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Objecting/src/Embeddable'
+                        prefix: 'App\Objecting\Embeddable'
+                        alias: Objecting
                     Module:
                         is_bundle: false
                         type: attribute

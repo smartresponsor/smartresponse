@@ -7,6 +7,7 @@
 parameters:
     redis.dsn: 'redis://127.0.0.1:6379/0'
     paying.messenger.dsn: 'sync://'
+    app.back_uri_token: '%env(APP_BACK_URI_TOKEN)%'
 
 services:
     # default configuration for services in *this* file
@@ -46,6 +47,14 @@ services:
     App\Interfacing\ProviderInterface\Shell\InterfaceShellLayoutPreviewProviderInterface: '@App\Service\Interfacing\Shell\ShellLayoutPreviewProviderService'
     App\Interfacing\ProviderInterface\Shell\InterfaceShellNavigationMapProviderInterface: '@App\Service\Interfacing\Shell\ShellNavigationMapProviderService'
     App\Interfacing\ProviderInterface\Shell\InterfaceShellScreenCatalogProviderInterface: '@App\Service\Interfacing\Shell\ShellScreenCatalogProviderService'
+    App\Fixture\GovernanceDemoSeeder: ~
+    App\Service\Demo\FacetingDemoDatasetService: ~
+    App\ServiceInterface\Demo\FacetingDemoDatasetServiceInterface: '@App\Service\Demo\FacetingDemoDatasetService'
+    App\Service\Demo\OrderDemoDataService: ~
+    App\Vendoring\Repository\Vendor\VendorRepository: ~
+    App\Vendoring\RepositoryInterface\Vendor\VendorRepositoryInterface: '@App\Vendoring\Repository\Vendor\VendorRepository'
+    App\Vendoring\Repository\Vendor\VendorProfileRepository: ~
+    App\Vendoring\RepositoryInterface\Vendor\VendorProfileRepositoryInterface: '@App\Vendoring\Repository\Vendor\VendorProfileRepository'
 
     App\Twig\LocaleSelectorTwigExtension:
         tags: ['twig.extension']

@@ -1,6 +1,7 @@
 administering_admin_attribute:
     resource: '../../Administering/src/Controller/Admin/'
     type: attribute
+    prefix: '/%app.back_uri_token%'
 
 manage_easyadmin_routes:
     resource: '../../Managing/config/routes/managing.yaml'

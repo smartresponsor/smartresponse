@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "81fce9d40389473ef2a8090f50d05eb0",
+    "content-hash": "d674954cf452a6bb0c63466282e48abf",
     "packages": [
         {
             "name": "accessing/access",
@@ -1944,7 +1944,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Cataloging",
-                "reference": "a1c87c4f310201e997aad7f7c3ea68f8a4cf9421"
+                "reference": "62516e16c42034ec402d4d549339f65772bf61ea"
             },
             "require": {
                 "api-platform/doctrine-orm": "^4.3",
@@ -4415,12 +4415,19 @@
         {
             "name": "navigating/navigation",
             "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/smartresponsor/navigating.git",
+                "reference": "0082c08e60e31e725f9f12aaba240a2680ef1b17"
+            },
             "dist": {
-                "type": "path",
-                "url": "../Navigating",
-                "reference": "a53e1adeba0d3e405cd39681a00600ac164b8f65"
+                "type": "zip",
+                "url": "https://api.github.com/repos/smartresponsor/navigating/zipball/0082c08e60e31e725f9f12aaba240a2680ef1b17",
+                "reference": "0082c08e60e31e725f9f12aaba240a2680ef1b17",
+                "shasum": ""
             },
             "require": {
+                "easycorp/easyadmin-bundle": "^5.0",
                 "php": "^8.4",
                 "psr/log": "^3.0",
                 "symfony/config": "^8.0",
@@ -4430,6 +4437,7 @@
                 "symfony/http-foundation": "^8.0",
                 "symfony/http-kernel": "^8.0",
                 "symfony/routing": "^8.0",
+                "symfony/security-bundle": "^8.0",
                 "symfony/twig-bundle": "^8.0",
                 "symfony/yaml": "^8.0"
             },
@@ -4437,6 +4445,7 @@
                 "friendsofphp/php-cs-fixer": "3.94",
                 "phpunit/phpunit": "^11.0"
             },
+            "default-branch": true,
             "type": "symfony-bundle",
             "extra": {
                 "symfony": {
@@ -4469,9 +4478,11 @@
                 "proprietary"
             ],
             "description": "Navigating process app",
-            "transport-options": {
-                "relative": true
-            }
+            "support": {
+                "source": "https://github.com/smartresponsor/navigating/tree/master",
+                "issues": "https://github.com/smartresponsor/navigating/issues"
+            },
+            "time": "2026-06-07T04:33:59+00:00"
         },
         {
             "name": "nelmio/api-doc-bundle",

@@ -39,8 +39,8 @@
 			 "url":  "git@github.com:smartresponsor/objecting.git"
 		 },
         {
-            "type": "path",
-            "url": "../Navigating"
+            "type": "vcs",
+            "url": "git@github.com:smartresponsor/navigating.git"
         },
         {
             "type": "path",
