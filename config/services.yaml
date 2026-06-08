@@ -26,7 +26,7 @@ services:
             - '../src/DataFixtures/'
             - '../src/Kernel.php'
 
-    App\Navigating\ServiceInterface\Navigation\Render\NavigationTemplateRenderServiceInterface: '@App\Service\Navigation\InterfacingNavigationRendererService'
+    App\Navigating\ServiceInterface\Navigation\NavigationRendererInterface: '@App\Service\Navigation\InterfacingNavigationRendererService'
     App\Service\Dashboard\AppDashboardBuilderService:
         public: true
     App\Service\Diagnostics\AppRouteAuditService:
