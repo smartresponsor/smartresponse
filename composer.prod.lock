@@ -4257,12 +4257,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/smartresponsor/Managing.git",
-                "reference": "a23ad4645081acfdd15bc662241fe4615bde77e0"
+                "reference": "37f637a5175f1a9791060d3fd3392d6ce52e9925"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smartresponsor/Managing/zipball/a23ad4645081acfdd15bc662241fe4615bde77e0",
-                "reference": "a23ad4645081acfdd15bc662241fe4615bde77e0",
+                "url": "https://api.github.com/repos/smartresponsor/Managing/zipball/37f637a5175f1a9791060d3fd3392d6ce52e9925",
+                "reference": "37f637a5175f1a9791060d3fd3392d6ce52e9925",
                 "shasum": ""
             },
             "require": {
@@ -4307,7 +4307,7 @@
                 "source": "https://github.com/smartresponsor/Managing/tree/master",
                 "issues": "https://github.com/smartresponsor/Managing/issues"
             },
-            "time": "2026-06-06T08:34:55+00:00"
+            "time": "2026-06-08T21:33:21+00:00"
         },
         {
             "name": "monolog/monolog",
