@@ -2313,27 +2313,27 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/smartresponsor/cruding.git",
-                "reference": "30d540675538065e3cb1c56537b48c856cc60ad0"
+                "reference": "0cde341ea439ec5c71ec9345f22e23b76a87141c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smartresponsor/cruding/zipball/30d540675538065e3cb1c56537b48c856cc60ad0",
-                "reference": "30d540675538065e3cb1c56537b48c856cc60ad0",
+                "url": "https://api.github.com/repos/smartresponsor/cruding/zipball/0cde341ea439ec5c71ec9345f22e23b76a87141c",
+                "reference": "0cde341ea439ec5c71ec9345f22e23b76a87141c",
                 "shasum": ""
             },
             "require": {
                 "doctrine/doctrine-bundle": "^3.2",
                 "php": "^8.4",
-                "symfony/config": "^8.0",
-                "symfony/dependency-injection": "^8.0",
-                "symfony/form": "^8.0",
-                "symfony/framework-bundle": "^8.0",
-                "symfony/http-foundation": "^8.0",
-                "symfony/http-kernel": "^8.0",
-                "symfony/routing": "^8.0",
-                "symfony/security-bundle": "^8.0",
-                "symfony/twig-bundle": "^8.0",
-                "symfony/validator": "^8.0"
+                "symfony/config": "^8.1",
+                "symfony/dependency-injection": "^8.1",
+                "symfony/form": "^8.1",
+                "symfony/framework-bundle": "^8.1",
+                "symfony/http-foundation": "^8.1",
+                "symfony/http-kernel": "^8.1",
+                "symfony/routing": "^8.1",
+                "symfony/security-bundle": "^8.1",
+                "symfony/twig-bundle": "^8.1",
+                "symfony/validator": "^8.1"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.95",
@@ -2369,7 +2369,7 @@
                 "source": "https://github.com/smartresponsor/cruding/tree/master",
                 "issues": "https://github.com/smartresponsor/cruding/issues"
             },
-            "time": "2026-06-06T23:38:10+00:00"
+            "time": "2026-06-08T18:37:54+00:00"
         },
         {
             "name": "doctrine/collections",
