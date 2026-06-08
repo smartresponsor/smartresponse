@@ -8,9 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 require_once dirname(__DIR__).'/vendor/autoload.php';
 
-if (!isset($_SERVER['APP_ENV'])) {
-    (new Dotenv())->bootEnv(dirname(__DIR__).'/.env');
-}
+(new Dotenv())->bootEnv(dirname(__DIR__).'/.env');
 
 $appEnv = (string) ($_SERVER['APP_ENV'] ?? $_ENV['APP_ENV'] ?? 'dev');
 if (!isset($_SERVER['DEFAULT_URI']) && !isset($_ENV['DEFAULT_URI'])) {
