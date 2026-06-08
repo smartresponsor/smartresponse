@@ -1,0 +1,4 @@
+imports:
+    - { resource: '../../../../Ordering/config/packages/rate_limiter.yaml' }
+    - { resource: '../../../../Ordering/config/workflow/order.yaml' }
+    - { resource: '../../../../Ordering/config/packages/messenger.yaml' }

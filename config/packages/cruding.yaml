@@ -5,6 +5,7 @@
 # /api/attachments, or /api/vendors. Business commands remain producer-owned.
 cruding:
     entity_class_alias_map:
+        vendor: 'App\Vendoring\Entity\Vendor\VendorEntity'
         attachment: 'App\Attaching\Entity\Attachment\Attachment'
         message: 'App\Messaging\Entity\Message\MessageEntity'
         order: 'App\Entity\Order\OrderEntity'

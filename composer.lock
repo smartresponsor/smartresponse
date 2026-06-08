@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "399213aa818bdfa28b769b722bfe4b8c",
+    "content-hash": "e80155f59b27d5a961592acd50d369b3",
     "packages": [
         {
             "name": "accessing/access",
@@ -12,7 +12,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Accessing",
-                "reference": "e5ee0babc09ceeadd0c0438936561d33288d9d2a"
+                "reference": "965cd47b32db6b11d3278259f4e7e3a0b2d264d8"
             },
             "require": {
                 "configuring/config": "*@dev",
@@ -518,7 +518,7 @@
             ],
             "description": "Administering administrative governance component for Symfony host applications.",
             "transport-options": {
-                "symlink": true,
+                "symlink": false,
                 "relative": true
             }
         },
@@ -4514,7 +4514,6 @@
             "autoload": {
                 "psr-4": {
                     "App\\Interfacing\\": "src/",
-                    "Symfony\\Contracts\\Cache\\": "vendor/symfony/cache-contracts/",
                     "Symfony\\Contracts\\EventDispatcher\\": "vendor/symfony/event-dispatcher-contracts/",
                     "Symfony\\Contracts\\Service\\": "vendor/symfony/service-contracts/",
                     "Symfony\\Contracts\\Translation\\": "vendor/symfony/translation-contracts/"
@@ -4591,7 +4590,7 @@
             ],
             "description": "Interfacing Symfony package bundle",
             "transport-options": {
-                "symlink": true,
+                "symlink": false,
                 "relative": true
             }
         },
@@ -6024,7 +6023,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Navigating",
-                "reference": "0082c08e60e31e725f9f12aaba240a2680ef1b17"
+                "reference": "599738e350b561e84d3b72fec3660fb739a76af3"
             },
             "require": {
                 "easycorp/easyadmin-bundle": "^5.0",
@@ -17521,7 +17520,9 @@
             "type": "symfony-bundle",
             "autoload": {
                 "psr-4": {
-                    "App\\Vendoring\\": "src/"
+                    "App\\Vendoring\\": "src/",
+                    "App\\Service\\Http\\": "src/Service/Http/",
+                    "App\\": "src/"
                 }
             },
             "autoload-dev": {
@@ -17612,7 +17613,7 @@
                     "@test:repository",
                     "@test:fixtures-stack",
                     "@test:unit",
-                    "@test:surface-builder",
+                    "@test:http-service-coverage",
                     "@test:entity",
                     "@test:transaction-persistence",
                     "@test:transaction-amount",
@@ -17649,7 +17650,8 @@
                     "@test:composer-guard-parity",
                     "@test:composer-root-guard-parity",
                     "@test:composer-quality-parity",
-                    "@test:composer-script-invocation-parity"
+                    "@test:composer-script-invocation-parity",
+                    "@test:zero-controller-hardening"
                 ],
                 "quality:api": [
                     "@test:mail",
@@ -17675,7 +17677,7 @@
                     "@test:repository",
                     "@test:fixtures-stack",
                     "@test:unit",
-                    "@test:surface-builder",
+                    "@test:http-service-coverage",
                     "@test:entity"
                 ],
                 "quality:docs": [
@@ -17792,9 +17794,6 @@
                 ],
                 "test:contract": [
                     "php vendor/bin/phpunit --configuration phpunit.xml.dist --testsuite contract"
-                ],
-                "test:surface-builder": [
-                    "php vendor/bin/phpunit --configuration phpunit.xml.dist --testsuite unit --filter Controller"
                 ],
                 "test:di": [
                     "php tests/bin/interface-alias-smoke.php",
@@ -17921,7 +17920,7 @@
                 ],
                 "test:symfony-stack": [
                     "php tests/bin/smoke.php",
-                    "php vendor/bin/phpunit --configuration phpunit.xml.dist --testsuite unit --filter ControllerInfrastructureContractTest"
+                    "php tests/bin/vendor-route-map-coverage-smoke.php"
                 ],
                 "test:transaction": [
                     "php vendor/bin/phpunit --configuration phpunit.xml.dist --testsuite integration --filter VendorTransactionEntity"
@@ -17994,6 +17993,30 @@
                 ],
                 "test:canary-rollout": [
                     "php tests/bin/canary-rollout-contract-smoke.php"
+                ],
+                "test:http-service-coverage": [
+                    "php tests/bin/vendor-route-map-coverage-smoke.php",
+                    "php tests/bin/vendor-business-route-map-smoke.php",
+                    "php tests/bin/vendor-attachment-route-map-smoke.php"
+                ],
+                "test:zero-controller-hardening": [
+                    "php tools/smoke/vendoring-zero-controller-audit.php",
+                    "php tests/bin/vendoring-zero-controller-hardening-smoke.php",
+                    "php tests/bin/vendor-route-map-coverage-smoke.php",
+                    "php tests/bin/symfony-stack-smoke.php",
+                    "php tests/bin/transaction-route-smoke.php",
+                    "@test:active-docs-zero-controller",
+                    "php tests/bin/vendor-runtime-service-contract-smoke.php",
+                    "php tests/bin/vendor-runtime-artifact-inventory-smoke.php",
+                    "php tests/bin/vendor-http-support-service-smoke.php"
+                ],
+                "test:active-docs-zero-controller": [
+                    "php tests/bin/vendor-active-docs-zero-controller-smoke.php"
+                ],
+                "test:runtime-service-contract": [
+                    "php tests/bin/vendor-runtime-service-contract-smoke.php",
+                    "php tests/bin/vendor-runtime-artifact-inventory-smoke.php",
+                    "php tests/bin/vendor-http-support-service-smoke.php"
                 ]
             },
             "license": [

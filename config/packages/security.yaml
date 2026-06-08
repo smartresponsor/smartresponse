@@ -35,11 +35,11 @@ security:
             security: false
 
         public_auth:
-            pattern: ^/(access|register|sign-up|recover|forgot-password|reset-password|login|verify)(?:/|$)
+            pattern: ^/(access|register|signup|recover|forgot-password|reset-password|login|verify)(?:/|$)
             security: false
 
         main:
-            pattern: ^/(?!(access|register|sign-up|recover|forgot-password|reset-password|login|verify)(?:/|$))
+            pattern: ^/(?!(access|register|signup|recover|forgot-password|reset-password|login|verify)(?:/|$))
             lazy: true
             provider: accessing_account_provider
             entry_point: App\Accessing\Authenticator\AccessAuthenticationEntryPoint
@@ -57,7 +57,7 @@ security:
         - { path: ^/health$, roles: PUBLIC_ACCESS }
         - { path: ^/ready$, roles: PUBLIC_ACCESS }
         - { path: ^/access, roles: PUBLIC_ACCESS }
-        - { path: '^/accessing/(sign-in|sign-up|login|recover|forgot-password|reset-password|verify)(?:/|$)', roles: PUBLIC_ACCESS }
+        - { path: '^/accessing/(signin|signup|login|recover|forgot-password|reset-password|verify)(?:/|$)', roles: PUBLIC_ACCESS }
         - { path: ^/register, roles: PUBLIC_ACCESS }
         - { path: ^/recover, roles: PUBLIC_ACCESS }
         - { path: ^/reset-password, roles: PUBLIC_ACCESS }

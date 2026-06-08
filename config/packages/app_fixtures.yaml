@@ -1,2 +1,27 @@
 parameters:
-    app.sibling_fixtures_allowlist: []
+    app.sibling_fixtures_allowlist:
+        - Accessing
+        - Analysing
+        - Applicating
+        - Attaching
+        - Billing
+        - Bridging
+        - Cataloging
+        - Commissioning
+        - Cruding
+        - Currencing
+        - Exchanging
+        - Indexing
+        - Interfacing
+        - Localizing
+        - Managing
+        - Messaging
+        - Ordering
+        - Paging
+        - Paying
+        - Rolling
+        - Shipping
+        - Subscripting
+        - Tagging
+        - Taxating
+        - Vendoring

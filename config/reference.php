@@ -1747,6 +1747,8 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         runtime_reserved_env?: scalar|Param|null, // Default: "APP_RUNTIME_RESERVED"
  *         reserved_tokens?: list<scalar|Param|null>,
  *         surface_tokens?: list<scalar|Param|null>,
+ *         operation_tokens?: list<scalar|Param|null>,
+ *         resource_path_reserved_tokens?: list<scalar|Param|null>,
  *         runtime_lock_glob?: scalar|Param|null, // Default: "config/kernel/runtime_scope.{env}.lock.php"
  *         require_runtime_lock?: bool|Param, // Default: false
  *         require_composer_packages?: bool|Param, // Default: false
@@ -1787,7 +1789,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     shell_groups?: array<string, array{ // Default: []
  *         label?: scalar|Param|null, // Default: null
  *         location?: scalar|Param|null,
- *         type?: scalar|Param|null, // Default: "menu"
+ *         type?: scalar|Param|null, // Default: "navigation"
  *         priority?: int|Param, // Default: 100
  *         enabled?: bool|Param, // Default: true
  *         visible?: bool|Param, // Default: true

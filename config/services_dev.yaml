@@ -1,0 +1,3 @@
+imports:
+    - { resource: '../../Ordering/config/services.yaml' }
+    - { resource: '../../Vendoring/config/component/services.yaml' }

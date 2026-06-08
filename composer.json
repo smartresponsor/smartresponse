@@ -178,7 +178,7 @@
       "type": "path",
       "url": "../Interfacing",
       "options": {
-        "symlink": true
+        "symlink": false
       }
     },
     {
@@ -192,7 +192,7 @@
       "type": "path",
       "url": "../Administering",
       "options": {
-        "symlink": true
+        "symlink": false
       }
     },
     {
@@ -404,16 +404,19 @@
     },
     "sort-packages": true
   },
-  "autoload": {
-    "classmap": [
-      "../Complying/src/",
-      "../Complying/Command/"
-    ],
+    "autoload": {
+      "classmap": [
+        "../Complying/src/",
+        "../Complying/Command/",
+        "../Vendoring/src/Service/Http/",
+        "../Vendoring/src/Form/"
+      ],
     "psr-4": {
       "App\\": [
         "src/",
         "../Complying/src/"
       ],
+      "App\\Service\\Http\\": "../Vendoring/src/Service/Http/",
       "EasyCorp\\Bundle\\EasyAdminBundle\\": "../EasyAdminBundle/src/"
     }
   },

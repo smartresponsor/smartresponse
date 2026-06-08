@@ -43,7 +43,6 @@ return [
 
     'surface_token' => [
         'show',
-        'index',
         'card',
         'table',
         'gallery',

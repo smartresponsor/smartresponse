@@ -1,6 +1,5 @@
 administering_admin_attribute:
-    resource: '../../Administering/src/Controller/Admin/'
-    type: attribute
+    resource: '@AdministeringBundle/config/routes/administering_admin.yaml'
     prefix: '/%app.back_uri_token%'
 
 manage_easyadmin_routes:
@@ -12,6 +11,3 @@ interfacing_routes:
 
 viewing_routes:
     resource: '../../Viewing/Resources/config/routes.php'
-
-accessing_routes:
-    resource: '../../Accessing/config/component/routes.yaml'

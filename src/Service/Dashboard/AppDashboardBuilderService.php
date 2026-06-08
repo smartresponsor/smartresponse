@@ -10,7 +10,7 @@ namespace App\Service\Dashboard;
 
 use App\Contract\Ui\AppDashboardContract;
 use App\Dto\Dashboard\AppDashboardPayload;
-use App\Navigating\ServiceInterface\Navigation\NavigationRendererInterface;
+use App\Navigating\ServiceInterface\Navigation\Render\NavigationTemplateRenderServiceInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -24,7 +24,7 @@ use Symfony\Component\HttpFoundation\Response;
 final class AppDashboardBuilderService implements AppDashboardContract
 {
     public function __construct(
-        private readonly NavigationRendererInterface $navigationRenderer,
+        private readonly NavigationTemplateRenderServiceInterface $navigationRenderer,
     ) {
     }
 
@@ -131,7 +131,7 @@ final class AppDashboardBuilderService implements AppDashboardContract
     public function __invoke(Request $request): Response
     {
         return $this->navigationRenderer->render(
-            'app',
+            'dashboard',
             'index',
             $this->buildDashboard($request)->toArray(),
         );

@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Service\Navigation;
 
 use App\Interfacing\ServiceInterface\Rendering\InterfaceRendererInterface;
-use App\Navigating\ServiceInterface\Navigation\NavigationRendererInterface;
+use App\Navigating\ServiceInterface\Navigation\Render\NavigationTemplateRenderServiceInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-final readonly class InterfacingNavigationRendererService implements NavigationRendererInterface
+final readonly class InterfacingNavigationRendererService implements NavigationTemplateRenderServiceInterface
 {
     public function __construct(
         private InterfaceRendererInterface $interfacingRenderer,
