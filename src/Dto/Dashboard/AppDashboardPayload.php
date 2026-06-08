@@ -29,4 +29,20 @@ final readonly class AppDashboardPayload
     {
         return $this->data;
     }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function toTemplateContext(): array
+    {
+        return $this->data;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function toFallbackData(): array
+    {
+        return $this->data;
+    }
 }

@@ -26,7 +26,6 @@ services:
             - '../src/DataFixtures/'
             - '../src/Kernel.php'
 
-    App\Navigating\ServiceInterface\Navigation\NavigationRendererInterface: '@App\Service\Navigation\InterfacingNavigationRendererService'
     App\Service\Dashboard\AppDashboardBuilderService:
         public: true
     App\Service\Diagnostics\AppRouteAuditService:
@@ -51,10 +50,6 @@ services:
 
     doctrine.orm.infrastructure_entity_manager:
         alias: doctrine.orm.sqlite_entity_manager
-
-    App\Service\Navigation\InterfacingNavigationRendererService:
-        arguments:
-            $interfacingRenderer: '@App\Interfacing\ServiceInterface\Rendering\InterfaceRendererInterface'
 
     App\Routing\SiblingRoutesLoader:
         arguments:

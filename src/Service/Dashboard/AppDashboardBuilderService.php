@@ -10,9 +10,7 @@ namespace App\Service\Dashboard;
 
 use App\Contract\Ui\AppDashboardContract;
 use App\Dto\Dashboard\AppDashboardPayload;
-use App\Navigating\ServiceInterface\Navigation\NavigationRendererInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Builds the App-owned dashboard composition contract.
@@ -23,11 +21,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 final class AppDashboardBuilderService implements AppDashboardContract
 {
-    public function __construct(
-        private readonly NavigationRendererInterface $navigationRenderer,
-    ) {
-    }
-
     public function buildDashboard(Request $request): AppDashboardPayload
     {
         $locale = $request->query->get('contentLocale', $request->getLocale());
@@ -41,6 +34,7 @@ final class AppDashboardBuilderService implements AppDashboardContract
             'secondaryProvider' => 'primereact',
             'shellMode' => 'provider-page',
             'routeContext' => [
+                'surfacePath' => 'dashboard',
                 'resourcePath' => 'app-dashboard',
                 'resourceLabel' => 'Commerce Control Center',
                 'resourceCollectionLabel' => 'Application dashboard',
@@ -128,12 +122,8 @@ final class AppDashboardBuilderService implements AppDashboardContract
         return new AppDashboardPayload($data);
     }
 
-    public function __invoke(Request $request): Response
+    public function __invoke(Request $request): AppDashboardPayload
     {
-        return $this->navigationRenderer->render(
-            'dashboard',
-            'index',
-            $this->buildDashboard($request)->toArray(),
-        );
+        return $this->buildDashboard($request);
     }
 }
