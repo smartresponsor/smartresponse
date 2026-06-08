@@ -2313,12 +2313,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/smartresponsor/cruding.git",
-                "reference": "0cde341ea439ec5c71ec9345f22e23b76a87141c"
+                "reference": "0162b1d683176a380eb660b61844fecd07c53d2c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smartresponsor/cruding/zipball/0cde341ea439ec5c71ec9345f22e23b76a87141c",
-                "reference": "0cde341ea439ec5c71ec9345f22e23b76a87141c",
+                "url": "https://api.github.com/repos/smartresponsor/cruding/zipball/0162b1d683176a380eb660b61844fecd07c53d2c",
+                "reference": "0162b1d683176a380eb660b61844fecd07c53d2c",
                 "shasum": ""
             },
             "require": {
@@ -2369,7 +2369,7 @@
                 "source": "https://github.com/smartresponsor/cruding/tree/master",
                 "issues": "https://github.com/smartresponsor/cruding/issues"
             },
-            "time": "2026-06-08T18:37:54+00:00"
+            "time": "2026-06-08T20:34:55+00:00"
         },
         {
             "name": "doctrine/collections",
