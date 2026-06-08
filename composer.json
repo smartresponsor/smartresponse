@@ -414,8 +414,10 @@
     "psr-4": {
       "App\\": [
         "src/",
-        "../Complying/src/"
+        "../Complying/src/",
+        "../Ordering/src/"
       ],
+      "App\\Vendoring\\": "../Vendoring/src/",
       "App\\Service\\Http\\": "../Vendoring/src/Service/Http/",
       "EasyCorp\\Bundle\\EasyAdminBundle\\": "../EasyAdminBundle/src/"
     }
