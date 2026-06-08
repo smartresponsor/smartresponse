@@ -6,6 +6,7 @@ namespace App\Service\Interfacing\Shell;
 
 use App\Interfacing\Contract\ValueObject\InterfaceShellSlot;
 use App\Interfacing\ProviderInterface\Shell\InterfaceShellChromeProviderInterface;
+use App\Navigating\ServiceInterface\Navigation\Provide\NavigationShellProvideServiceInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Cache\CacheInterface;
@@ -20,6 +21,7 @@ final class ShellChromeProviderService implements InterfaceShellChromeProviderIn
         private readonly ShellQuickMenuRegistryService $quickMenuRegistry,
         private readonly ShellRightPanelRegistryService $rightPanelRegistry,
         private readonly ShellApplicationDashboardService $applicationDashboardService,
+        private readonly NavigationShellProvideServiceInterface $navigationShellProvideService,
         #[Autowire(service: 'cache.app.recorder_inner')]
         private readonly CacheInterface $cache,
     ) {
@@ -32,6 +34,7 @@ final class ShellChromeProviderService implements InterfaceShellChromeProviderIn
     public function provide(?string $activeId = null, bool $includeResourceSummaries = false, bool $includeApplicationDashboard = false): array
     {
         $request = $this->requestStack->getCurrentRequest();
+        $navigationRequest = $request ?? \Symfony\Component\HttpFoundation\Request::create('/');
         $query = null !== $request ? (string) $request->query->get('q', '') : '';
 
         $staticChrome = $this->cache->get('interfacing.shell.chrome.static.v14', function (ItemInterface $item): array {
@@ -50,7 +53,10 @@ final class ShellChromeProviderService implements InterfaceShellChromeProviderIn
         $shell = $staticChrome + [
             'activeId' => $activeId,
             'query' => $query,
-            'navigation' => [],
+            'navigation' => [
+                'locations' => $this->navigationShellProvideService->provideShell($navigationRequest)->toLocationsArray(),
+                'active' => $this->navigationShellProvideService->provideActiveState($navigationRequest),
+            ],
         ];
 
         if ($includeResourceSummaries) {
