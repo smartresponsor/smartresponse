@@ -408,6 +408,7 @@
       "classmap": [
         "../Complying/src/",
         "../Complying/Command/",
+        "../Managing/src/Controller/Crud/Generated/",
         "../Vendoring/src/Service/Http/",
         "../Vendoring/src/Form/"
       ],

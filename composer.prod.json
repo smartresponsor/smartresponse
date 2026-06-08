@@ -132,6 +132,13 @@
                    "sort-packages":  true
                },
     "autoload":  {
+                     "classmap":  [
+                                     "../Complying/src/",
+                                     "../Complying/Command/",
+                                     "../Managing/src/Controller/Crud/Generated/",
+                                     "../Vendoring/src/Service/Http/",
+                                     "../Vendoring/src/Form/"
+                                 ],
                      "psr-4":  {
                                    "App\\":  [
                                                     "src/",
