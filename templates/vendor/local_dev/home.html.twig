@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vendoring Local Dev{% endblock %}
+
+{% block shell_eyebrow %}Vendoring workspace{% endblock %}
+{% block shell_title %}Vendoring Local Dev{% endblock %}
+{% block shell_subtitle %}Local runtime and entry points{% endblock %}
+
+{% block shell_note %}Quick entry points for the Vendoring runtime, operator surface, and transaction API. This page is rendered through the shared commerce shell, not a standalone layout.{% endblock %}
+
+{% block shell_actions %}
+    <a class="crud-app-button is-primary" href="/ops/vendor-transactions/vendor-demo">Open operator surface</a>
+    <a class="crud-app-button" href="/healthz">Health</a>
+{% endblock %}
+
+{% block body %}
+    <div class="crud-app-surface-grid">
+        <section class="crud-app-surface">
+            <h2 class="crud-app-surface-title">Runtime entry points</h2>
+            <div class="crud-app-link-list">
+                <a class="crud-app-link" href="/healthz">
+                    <strong>Health endpoint</strong>
+                    <span>GET /healthz</span>
+                </a>
+                <a class="crud-app-link" href="/ops/vendor-transactions/vendor-demo">
+                    <strong>Operator page</strong>
+                    <span>HTML operator surface for vendor demo</span>
+                </a>
+                <a class="crud-app-link" href="/api/vendor-transactions/vendor/vendor-demo">
+                    <strong>Vendor transactions API</strong>
+                    <span>JSON runtime endpoint for transaction data</span>
+                </a>
+            </div>
+        </section>
+
+        <section class="crud-app-surface">
+            <h2 class="crud-app-surface-title">Workspace state</h2>
+            <div class="crud-app-meta-list">
+                <div class="crud-app-meta-item">
+                    <strong>Layout</strong>
+                    <span>Shared shell from the Vendoring base template</span>
+                </div>
+                <div class="crud-app-meta-item">
+                    <strong>Mode</strong>
+                    <span>Local development</span>
+                </div>
+                <div class="crud-app-meta-item">
+                    <strong>API sample</strong>
+                    <span>Vendor demo transaction surface</span>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}

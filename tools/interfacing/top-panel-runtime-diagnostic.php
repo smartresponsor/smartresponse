@@ -19,14 +19,14 @@ foreach ($dirs as $dir) {
         if (!$file->isFile() || $file->getSize() > 2_000_000) {
             continue;
         }
-        $name = $file->getPathname();
-        $text = @file_get_contents($name);
+        $nameEntity = $file->getPathname();
+        $text = @file_get_contents($nameEntity);
         if (!is_string($text)) {
             continue;
         }
         foreach ($staleHeaderNeedles as $needle) {
             if (str_contains($text, $needle)) {
-                $found[] = [$dir, str_replace($root . DIRECTORY_SEPARATOR, '', $name), $needle];
+                $found[] = [$dir, str_replace($root . DIRECTORY_SEPARATOR, '', $nameEntity), $needle];
             }
         }
     }

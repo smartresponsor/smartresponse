@@ -21,6 +21,11 @@ use Symfony\Component\HttpFoundation\Request;
  */
 final class AppDashboardBuilderService implements AppDashboardContract
 {
+    public function __construct(
+        private readonly object $interfaceLocationProjectionProvider,
+    ) {
+    }
+
     public function buildDashboard(Request $request): AppDashboardPayload
     {
         $locale = $request->query->get('contentLocale', $request->getLocale());
@@ -86,7 +91,7 @@ final class AppDashboardBuilderService implements AppDashboardContract
             ],
             'filters' => [
                 [
-                    'name' => 'q',
+                    'nameEntity' => 'q',
                     'label' => 'Search',
                     'type' => 'text',
                     'value' => $request->query->get('q'),
@@ -94,7 +99,7 @@ final class AppDashboardBuilderService implements AppDashboardContract
                     'options' => [],
                 ],
                 [
-                    'name' => 'status',
+                    'nameEntity' => 'status',
                     'label' => 'Status',
                     'type' => 'select',
                     'value' => $request->query->get('status'),
@@ -107,8 +112,8 @@ final class AppDashboardBuilderService implements AppDashboardContract
                 ],
             ],
             'formFields' => [
-                ['name' => 'title', 'label' => 'Dashboard item', 'type' => 'text', 'value' => null, 'placeholder' => null, 'helpText' => null, 'required' => false, 'validationState' => null, 'errorText' => null, 'options' => []],
-                ['name' => 'status', 'label' => 'Status', 'type' => 'text', 'value' => null, 'placeholder' => null, 'helpText' => null, 'required' => false, 'validationState' => null, 'errorText' => null, 'options' => []],
+                ['nameEntity' => 'title', 'label' => 'Dashboard item', 'type' => 'text', 'value' => null, 'placeholder' => null, 'helpText' => null, 'required' => false, 'validationState' => null, 'errorText' => null, 'options' => []],
+                ['nameEntity' => 'status', 'label' => 'Status', 'type' => 'text', 'value' => null, 'placeholder' => null, 'helpText' => null, 'required' => false, 'validationState' => null, 'errorText' => null, 'options' => []],
             ],
             'formSections' => [],
             'headerActions' => [
@@ -117,9 +122,31 @@ final class AppDashboardBuilderService implements AppDashboardContract
                 ['label' => 'CRUD Explorer', 'href' => '/interfacing/crud/explorer', 'variant' => 'default', 'operation' => 'index', 'enabled' => true, 'visibility' => 'visible'],
             ],
             'paginationLabel' => 'App-owned dashboard sections rendered through the shared Interfacing shell',
+            'interface' => $this->provideInterfacePayload($request),
         ];
 
         return new AppDashboardPayload($data);
+    }
+
+    /**
+     * @return array{locations: array<string, mixed>, active?: array<string, mixed>}
+     */
+    private function provideInterfacePayload(Request $request): array
+    {
+        if (!method_exists($this->interfaceLocationProjectionProvider, 'provideInterfacePayload')) {
+            throw new \LogicException(sprintf('The service injected as navigating.interface_location_projection_provider must be App\\Navigating\\Service\\Navigation\\Provide\\NavigationInterfaceLocationProjectionProvider-compatible and expose provideInterfacePayload(Request): array; got %s.', $this->interfaceLocationProjectionProvider::class));
+        }
+
+        $payload = $this->interfaceLocationProjectionProvider->provideInterfacePayload($request);
+
+        if (!\is_array($payload)) {
+            throw new \LogicException('Navigation interface location projection provider must return an array payload.');
+        }
+
+        $locations = \is_array($payload['locations'] ?? null) ? $payload['locations'] : [];
+        $active = \is_array($payload['active'] ?? null) ? $payload['active'] : [];
+
+        return ['locations' => $locations, 'active' => $active];
     }
 
     public function __invoke(Request $request): AppDashboardPayload

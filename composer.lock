@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e80155f59b27d5a961592acd50d369b3",
+    "content-hash": "ccf89d4ea03d4e7431b72085607d8a25",
     "packages": [
         {
             "name": "accessing/access",
@@ -121,110 +121,6 @@
                 "proprietary"
             ],
             "description": "Accessing process app",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
-        {
-            "name": "adjudicating/adjudication",
-            "version": "dev-main",
-            "dist": {
-                "type": "path",
-                "url": "../Adjudicating",
-                "reference": "2453caf5df3983ec12240124afb871da1cda4ffd"
-            },
-            "require": {
-                "doctrine/dbal": "^4.2",
-                "doctrine/doctrine-bundle": "^3.0",
-                "doctrine/doctrine-migrations-bundle": "^4.0",
-                "doctrine/orm": "^3.3",
-                "ext-json": "*",
-                "nelmio/api-doc-bundle": "^5.0",
-                "objecting/object": "*@dev",
-                "php": ">=8.4",
-                "symfony/console": "^8.1",
-                "symfony/dotenv": "^8.1",
-                "symfony/flex": "^2.8",
-                "symfony/form": "^8.1",
-                "symfony/framework-bundle": "^8.1",
-                "symfony/http-foundation": "^8.1",
-                "symfony/http-kernel": "^8.1",
-                "symfony/monolog-bundle": "^4.0",
-                "symfony/property-access": "^8.1",
-                "symfony/property-info": "^8.1",
-                "symfony/runtime": "^8.1",
-                "symfony/security-bundle": "^8.1",
-                "symfony/security-csrf": "^8.1",
-                "symfony/serializer": "^8.1",
-                "symfony/twig-bundle": "^8.1",
-                "symfony/uid": "^8.1",
-                "symfony/validator": "^8.1",
-                "twig/twig": "^3.0",
-                "zircote/swagger-php": "^5.0"
-            },
-            "require-dev": {
-                "doctrine/doctrine-fixtures-bundle": "^4.0",
-                "fakerphp/faker": "^1.24",
-                "phpunit/phpunit": "^12.1",
-                "symfony/browser-kit": "^8.1",
-                "symfony/css-selector": "^8.1",
-                "symfony/panther": "^2.3",
-                "symfony/phpunit-bridge": "^8.1",
-                "symfony/test-pack": "^2.2",
-                "symfony/web-profiler-bundle": "^8.1"
-            },
-            "type": "project",
-            "extra": {
-                "symfony": {
-                    "allow-contrib": false,
-                    "require": "^8.0"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "App\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "App\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "post-install-cmd": [
-                    "@php bin/console cache:clear"
-                ],
-                "post-update-cmd": [
-                    "@php bin/console cache:clear"
-                ],
-                "test:unit": [
-                    "php bin/phpunit --testsuite=unit"
-                ],
-                "test:functional": [
-                    "php bin/phpunit --testsuite=functional"
-                ],
-                "test:e2e:panther": [
-                    "PANTHER_BASE_URI=${PANTHER_BASE_URI:-http://127.0.0.1:8000} php bin/phpunit --testsuite=e2e-panther"
-                ],
-                "test:e2e:playwright": [
-                    "PLAYWRIGHT_BASE_URL=${PLAYWRIGHT_BASE_URL:-http://127.0.0.1:8000} npx playwright test"
-                ],
-                "docs:openapi": [
-                    "@php bin/console app:docs:openapi:export"
-                ],
-                "qa": [
-                    "@test:unit",
-                    "@test:functional"
-                ],
-                "test:bootstrap-db": [
-                    "@php bin/console app:test:database:bootstrap --env=test"
-                ]
-            },
-            "license": [
-                "proprietary"
-            ],
-            "description": "Adjudicating process app",
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -518,7 +414,7 @@
             ],
             "description": "Administering administrative governance component for Symfony host applications.",
             "transport-options": {
-                "symlink": false,
+                "symlink": true,
                 "relative": true
             }
         },
@@ -640,16 +536,16 @@
         },
         {
             "name": "api-platform/core",
-            "version": "v4.3.10",
+            "version": "v4.3.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/api-platform/core.git",
-                "reference": "77c87883e02dceeb34eb49eb8b0a888ce57e2916"
+                "reference": "17b18315adece264ac3720af45f5ea2fa6775c37"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/api-platform/core/zipball/77c87883e02dceeb34eb49eb8b0a888ce57e2916",
-                "reference": "77c87883e02dceeb34eb49eb8b0a888ce57e2916",
+                "url": "https://api.github.com/repos/api-platform/core/zipball/17b18315adece264ac3720af45f5ea2fa6775c37",
+                "reference": "17b18315adece264ac3720af45f5ea2fa6775c37",
                 "shasum": ""
             },
             "require": {
@@ -852,9 +748,9 @@
             ],
             "support": {
                 "issues": "https://github.com/api-platform/core/issues",
-                "source": "https://github.com/api-platform/core/tree/v4.3.10"
+                "source": "https://github.com/api-platform/core/tree/v4.3.11"
             },
-            "time": "2026-06-05T15:24:51+00:00"
+            "time": "2026-06-12T07:28:43+00:00"
         },
         {
             "name": "applicating/application",
@@ -1820,7 +1716,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Cruding",
-                "reference": "30d540675538065e3cb1c56537b48c856cc60ad0"
+                "reference": "0162b1d683176a380eb660b61844fecd07c53d2c"
             },
             "require": {
                 "doctrine/doctrine-bundle": "^3.2",
@@ -1853,6 +1749,7 @@
             },
             "autoload-dev": {
                 "psr-4": {
+                    "App\\Cruding\\Tests\\": "tests/",
                     "App\\Tests\\": "tests/"
                 }
             },
@@ -1917,12 +1814,12 @@
             },
             "autoload": {
                 "psr-4": {
-                    "App\\": "src/"
+                    "App\\Currencing": "src/"
                 }
             },
             "autoload-dev": {
                 "psr-4": {
-                    "App\\Tests\\": "tests/"
+                    "App\\Currencing\\Tests\\": "tests/"
                 }
             },
             "scripts": {
@@ -1995,12 +1892,12 @@
             "type": "project",
             "autoload": {
                 "psr-4": {
-                    "App\\": "src/"
+                    "App\\Discovering": "src/"
                 }
             },
             "autoload-dev": {
                 "psr-4": {
-                    "App\\Tests\\": "tests/"
+                    "App\\Discovering\\Tests\\": "tests/"
                 }
             },
             "scripts": {
@@ -3620,12 +3517,12 @@
             "type": "project",
             "autoload": {
                 "psr-4": {
-                    "App\\": "src/"
+                    "App\\Faceting": "src/"
                 }
             },
             "autoload-dev": {
                 "psr-4": {
-                    "App\\Tests\\": "tests/"
+                    "App\\Faceting\\Tests\\": "tests/"
                 }
             },
             "scripts": {
@@ -3678,16 +3575,16 @@
         },
         {
             "name": "firebase/php-jwt",
-            "version": "v7.0.5",
+            "version": "v7.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/php-jwt.git",
-                "reference": "47ad26bab5e7c70ae8a6f08ed25ff83631121380"
+                "reference": "b374a5d1a4f1f67fadc2165cdb284645945e2fc0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/php-jwt/zipball/47ad26bab5e7c70ae8a6f08ed25ff83631121380",
-                "reference": "47ad26bab5e7c70ae8a6f08ed25ff83631121380",
+                "url": "https://api.github.com/repos/googleapis/php-jwt/zipball/b374a5d1a4f1f67fadc2165cdb284645945e2fc0",
+                "reference": "b374a5d1a4f1f67fadc2165cdb284645945e2fc0",
                 "shasum": ""
             },
             "require": {
@@ -3696,6 +3593,7 @@
             "require-dev": {
                 "guzzlehttp/guzzle": "^7.4",
                 "phpfastcache/phpfastcache": "^9.2",
+                "phpseclib/phpseclib": "~3.0",
                 "phpspec/prophecy-phpunit": "^2.0",
                 "phpunit/phpunit": "^9.5",
                 "psr/cache": "^2.0||^3.0",
@@ -3704,7 +3602,8 @@
             },
             "suggest": {
                 "ext-sodium": "Support EdDSA (Ed25519) signatures",
-                "paragonie/sodium_compat": "Support EdDSA (Ed25519) signatures when libsodium is not present"
+                "paragonie/sodium_compat": "Support EdDSA (Ed25519) signatures when libsodium is not present",
+                "phpseclib/phpseclib": "Support PS256 (RSASSA-PSS) signatures"
             },
             "type": "library",
             "autoload": {
@@ -3729,16 +3628,16 @@
                 }
             ],
             "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
-            "homepage": "https://github.com/firebase/php-jwt",
+            "homepage": "https://github.com/googleapis/php-jwt",
             "keywords": [
                 "jwt",
                 "php"
             ],
             "support": {
                 "issues": "https://github.com/googleapis/php-jwt/issues",
-                "source": "https://github.com/googleapis/php-jwt/tree/v7.0.5"
+                "source": "https://github.com/googleapis/php-jwt/tree/v7.1.0"
             },
-            "time": "2026-04-01T20:38:03+00:00"
+            "time": "2026-06-11T17:54:14+00:00"
         },
         {
             "name": "google/apiclient",
@@ -3813,16 +3712,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.443.0",
+            "version": "v0.444.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "102aba0523d5105adaffdcac6c0c74a527f2bbfc"
+                "reference": "b38b3329e67bf68ef184997c047e6ff5952feca5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/102aba0523d5105adaffdcac6c0c74a527f2bbfc",
-                "reference": "102aba0523d5105adaffdcac6c0c74a527f2bbfc",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/b38b3329e67bf68ef184997c047e6ff5952feca5",
+                "reference": "b38b3329e67bf68ef184997c047e6ff5952feca5",
                 "shasum": ""
             },
             "require": {
@@ -3851,22 +3750,22 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.443.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.444.0"
             },
-            "time": "2026-05-29T01:56:23+00:00"
+            "time": "2026-06-08T01:52:31+00:00"
         },
         {
             "name": "google/auth",
-            "version": "v1.50.2",
+            "version": "v1.51.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-auth-library-php.git",
-                "reference": "58788f86d47e59de692c0dae0bb0c006bd0b6018"
+                "reference": "4c4776e398ff255e81b3b8c4373983f5e1b765bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-auth-library-php/zipball/58788f86d47e59de692c0dae0bb0c006bd0b6018",
-                "reference": "58788f86d47e59de692c0dae0bb0c006bd0b6018",
+                "url": "https://api.github.com/repos/googleapis/google-auth-library-php/zipball/4c4776e398ff255e81b3b8c4373983f5e1b765bf",
+                "reference": "4c4776e398ff255e81b3b8c4373983f5e1b765bf",
                 "shasum": ""
             },
             "require": {
@@ -3913,9 +3812,9 @@
             "support": {
                 "docs": "https://cloud.google.com/php/docs/reference/auth/latest",
                 "issues": "https://github.com/googleapis/google-auth-library-php/issues",
-                "source": "https://github.com/googleapis/google-auth-library-php/tree/v1.50.2"
+                "source": "https://github.com/googleapis/google-auth-library-php/tree/v1.51.0"
             },
-            "time": "2026-05-29T19:22:31+00:00"
+            "time": "2026-06-10T00:39:33+00:00"
         },
         {
             "name": "google/protobuf",
@@ -3963,16 +3862,16 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "7.11.0",
+            "version": "7.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "c987f8ce84b8434fa430795eca0f3430663da72b"
+                "reference": "5af96f374e0ab4ebd747b8310888c99d3adb0a8c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/c987f8ce84b8434fa430795eca0f3430663da72b",
-                "reference": "c987f8ce84b8434fa430795eca0f3430663da72b",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/5af96f374e0ab4ebd747b8310888c99d3adb0a8c",
+                "reference": "5af96f374e0ab4ebd747b8310888c99d3adb0a8c",
                 "shasum": ""
             },
             "require": {
@@ -3991,7 +3890,7 @@
                 "bamarni/composer-bin-plugin": "^1.8.2",
                 "ext-curl": "*",
                 "guzzle/client-integration-tests": "3.0.2",
-                "guzzlehttp/test-server": "^0.4",
+                "guzzlehttp/test-server": "^0.5",
                 "php-http/message-factory": "^1.1",
                 "phpunit/phpunit": "^8.5.52 || ^9.6.34",
                 "psr/log": "^1.1 || ^2.0 || ^3.0"
@@ -4071,7 +3970,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/guzzle/issues",
-                "source": "https://github.com/guzzle/guzzle/tree/7.11.0"
+                "source": "https://github.com/guzzle/guzzle/tree/7.11.1"
             },
             "funding": [
                 {
@@ -4087,7 +3986,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-06-02T12:40:51+00:00"
+            "time": "2026-06-07T22:54:06+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -4590,7 +4489,7 @@
             ],
             "description": "Interfacing Symfony package bundle",
             "transport-options": {
-                "symlink": false,
+                "symlink": true,
                 "relative": true
             }
         },
@@ -4875,12 +4774,12 @@
             "type": "project",
             "autoload": {
                 "psr-4": {
-                    "App\\": "src/"
+                    "App\\Localizing": "src/"
                 }
             },
             "autoload-dev": {
                 "psr-4": {
-                    "App\\Tests\\": "tests/"
+                    "App\\Localizing\\Tests\\": "tests/"
                 }
             },
             "scripts": {
@@ -5078,7 +4977,7 @@
                     "php -l src/Service/Address/Location/AddressSuggestLegacyService.php",
                     "php -l .gate/check/location-service-locator-address-canonicalizer-path-canon.php",
                     "php -l tools/canon/location-service-locator-address-canonicalizer-path-audit.php",
-                    "php -l src/Service/Address/Location/AddressCanonicalizerLegacyService.php",
+                    "php -l src/Service/Address/Location/AddressCanonicalizerService.php",
                     "php -l .gate/check/location-service-locator-address-hint-bias-path-canon.php",
                     "php -l tools/canon/location-service-locator-address-hint-bias-path-audit.php",
                     "php -l src/Service/Address/Location/AddressHintBiasService.php",
@@ -5090,8 +4989,8 @@
                     "php -l src/Service/Http/Location/SmartresponsorLocationQuotaGuardBackend.php",
                     "php -l .gate/check/location-service-locator-address-normalizer-path-canon.php",
                     "php -l tools/canon/location-service-locator-address-normalizer-path-audit.php",
-                    "php -l src/Service/Address/Location/AddressNormalizerLegacyService.php",
-                    "php -l src/ServiceInterface/Address/Location/AddressNormalizerLegacyServiceInterface.php",
+                    "php -l src/Service/Address/Location/AddressNormalizerService.php",
+                    "php -l src/ServiceInterface/Address/Location/AddressNormalizerServiceInterface.php",
                     "php -l .gate/check/location-service-locator-address-reverse-path-canon.php",
                     "php -l tools/canon/location-service-locator-address-reverse-path-audit.php",
                     "php -l src/Service/Address/Location/AddressReverseLegacyService.php",
@@ -5101,45 +5000,45 @@
                     "php -l src/ServiceInterface/Address/Location/AddressSuggestRankerLegacyServiceInterface.php",
                     "php -l .gate/check/location-service-locator-address-hint-bias-legacy-path-canon.php",
                     "php -l tools/canon/location-service-locator-address-hint-bias-legacy-path-audit.php",
-                    "php -l src/Service/Address/Location/AddressHintBiasLegacyService.php",
-                    "php -l src/ServiceInterface/Address/Location/AddressHintBiasLegacyServiceInterface.php",
+                    "php -l src/Service/Address/Location/AddressHintBiasService.php",
+                    "php -l src/ServiceInterface/Address/Location/AddressHintBiasServiceInterface.php",
                     "php -l .gate/check/location-service-locator-provider-ranker-legacy-path-canon.php",
                     "php -l tools/canon/location-service-locator-provider-ranker-legacy-path-audit.php",
-                    "php -l src/Service/Provider/Location/ProviderRankerLegacyService.php",
-                    "php -l src/ServiceInterface/Provider/Location/ProviderRankerLegacyServiceInterface.php",
+                    "php -l src/Service/Provider/Location/ProviderRankerService.php",
+                    "php -l src/ServiceInterface/Provider/Location/ProviderRankerServiceInterface.php",
                     "php -l src/Service/Locator/Provider/ProviderRouter.php",
                     "php -l .gate/check/location-service-locator-provider-here-legacy-path-canon.php",
                     "php -l tools/canon/location-service-locator-provider-here-legacy-path-audit.php",
-                    "php -l src/Service/Provider/Location/HereProviderLegacyService.php",
+                    "php -l src/Service/Provider/Location/HereProviderService.php",
                     "php -l .gate/check/location-service-locator-provider-mapbox-legacy-path-canon.php",
                     "php -l tools/canon/location-service-locator-provider-mapbox-legacy-path-audit.php",
-                    "php -l src/Service/Provider/Location/MapboxProviderLegacyService.php",
+                    "php -l src/Service/Provider/Location/MapboxProviderService.php",
                     "php -l .gate/check/location-service-locator-provider-nominatim-legacy-path-canon.php",
                     "php -l tools/canon/location-service-locator-provider-nominatim-legacy-path-audit.php",
-                    "php -l src/Service/Provider/Location/NominatimProviderLegacyService.php",
+                    "php -l src/Service/Provider/Location/NominatimProviderService.php",
                     "php -l .gate/check/location-service-locator-provider-authz-policy-legacy-path-canon.php",
                     "php -l tools/canon/location-service-locator-provider-authz-policy-legacy-path-audit.php",
-                    "php -l src/Service/Provider/Location/ProviderAuthzPolicyLegacyService.php",
+                    "php -l src/Service/Provider/Location/ProviderAuthzPolicyService.php",
                     "php -l .gate/check/location-service-locator-provider-order-legacy-path-canon.php",
                     "php -l tools/canon/location-service-locator-provider-order-legacy-path-audit.php",
-                    "php -l src/Service/Provider/Location/ProviderOrderLegacyService.php",
+                    "php -l src/Service/Provider/Location/ProviderOrderService.php",
                     "php -l .gate/check/location-service-locator-health-ewma-legacy-path-canon.php",
                     "php -l tools/canon/location-service-locator-health-ewma-legacy-path-audit.php",
-                    "php -l src/Service/Provider/Location/HealthEwmaLegacyService.php",
+                    "php -l src/Service/Provider/Location/HealthEwmaService.php",
                     "php -l src/Service/Locator/RouterOrchestrator.php",
                     "php -l .gate/check/location-service-locator-score-ensemble-legacy-path-canon.php",
                     "php -l tools/canon/location-service-locator-score-ensemble-legacy-path-audit.php",
-                    "php -l src/Service/Provider/Location/ScoreEnsembleLegacyService.php",
-                    "php -l src/ServiceInterface/Provider/Location/ScoreEnsembleLegacyServiceInterface.php",
+                    "php -l src/Service/Provider/Location/ScoreEnsembleService.php",
+                    "php -l src/ServiceInterface/Provider/Location/ScoreEnsembleServiceInterface.php",
                     "php -l .gate/check/location-service-locator-provider-stat-aggregator-legacy-path-canon.php",
                     "php -l tools/canon/location-service-locator-provider-stat-aggregator-legacy-path-audit.php",
-                    "php -l src/Service/Provider/Location/ProviderStatAggregatorLegacyService.php",
+                    "php -l src/Service/Provider/Location/ProviderStatAggregatorService.php",
                     "php -l .gate/check/location-service-locator-provider-key-vault-legacy-path-canon.php",
                     "php -l tools/canon/location-service-locator-provider-key-vault-legacy-path-audit.php",
-                    "php -l src/Service/Provider/Location/ProviderKeyVaultLegacyService.php",
+                    "php -l src/Service/Provider/Location/ProviderKeyVaultService.php",
                     "php -l .gate/check/location-service-locator-provider-key-rotation-legacy-path-canon.php",
                     "php -l tools/canon/location-service-locator-provider-key-rotation-legacy-path-audit.php",
-                    "php -l src/Service/Provider/Location/ProviderKeyRotationLegacyService.php",
+                    "php -l src/Service/Provider/Location/ProviderKeyRotationService.php",
                     "php -l tools/canon/location-service-locator-provider-cost-catalog-legacy-path-audit.php",
                     "php -l .gate/check/location-service-locator-provider-cost-catalog-legacy-path-canon.php",
                     "php -l .gate/check/location-service-locator-provider-failover-router-legacy-path-canon.php",
@@ -5147,10 +5046,10 @@
                     "php -l src/Service/Provider/Location/ProviderFailoverRouterLegacyService.php",
                     "php -l .gate/check/location-service-locator-budget-guard-legacy-path-canon.php",
                     "php -l tools/canon/location-service-locator-budget-guard-legacy-path-audit.php",
-                    "php -l src/Service/Provider/Location/BudgetGuardLegacyService.php",
+                    "php -l src/Service/Provider/Location/BudgetGuardService.php",
                     "php -l .gate/check/location-service-locator-cost-cap-policy-legacy-path-canon.php",
                     "php -l tools/canon/location-service-locator-cost-cap-policy-legacy-path-audit.php",
-                    "php -l src/Service/Provider/Location/CostCapPolicyLegacyService.php"
+                    "php -l src/Service/Provider/Location/CostCapPolicyService.php"
                 ],
                 "stan": [
                     "phpstan analyse -c phpstan.neon"
@@ -5390,7 +5289,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Managing",
-                "reference": "a23ad4645081acfdd15bc662241fe4615bde77e0"
+                "reference": "37f637a5175f1a9791060d3fd3392d6ce52e9925"
             },
             "require": {
                 "doctrine/doctrine-bundle": "^3.0",
@@ -6023,7 +5922,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Navigating",
-                "reference": "599738e350b561e84d3b72fec3660fb739a76af3"
+                "reference": "a86b09745247a20aa00af1ed198d05c5ec2e1121"
             },
             "require": {
                 "easycorp/easyadmin-bundle": "^5.0",
@@ -6496,10 +6395,11 @@
             "dist": {
                 "type": "path",
                 "url": "../Observabiliting",
-                "reference": "cc47fe53dbfb4a991d73d510e46e86dd71859ae2"
+                "reference": "376b9ccc22046f9b01ec2960fae535a8beededab"
             },
             "require": {
                 "doctrine/dbal": "^4.0",
+                "doctrine/orm": "^3.0",
                 "objecting/object": "*@dev",
                 "php": ">=8.2",
                 "symfony/http-foundation": "^7.0 || ^8.0",
@@ -6989,13 +6889,17 @@
             },
             "type": "project",
             "autoload": {
+                "classmap": [
+                    "src/"
+                ],
                 "psr-4": {
-                    "App\\": "src/"
+                    "App\\": "src/",
+                    "App\\Ordering": "src/"
                 }
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Tests\\": "tests/"
+                    "App\\Ordering\\Tests\\": "tests/"
                 }
             },
             "scripts": {
@@ -8030,8 +7934,11 @@
             },
             "type": "library",
             "autoload": {
+                "classmap": [
+                    "src/"
+                ],
                 "psr-4": {
-                    "App\\": "src/"
+                    "App\\Progecting": "src/"
                 },
                 "files": [
                     "src/bootstrap.php"
@@ -9595,16 +9502,16 @@
         },
         {
             "name": "sentry/sentry",
-            "version": "4.27.0",
+            "version": "4.28.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-php.git",
-                "reference": "1f0544cff8443ac1d25d6521487118e28381a1c2"
+                "reference": "662cb7a01a342a7f33780fc955ff4a028d8b785a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/1f0544cff8443ac1d25d6521487118e28381a1c2",
-                "reference": "1f0544cff8443ac1d25d6521487118e28381a1c2",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/662cb7a01a342a7f33780fc955ff4a028d8b785a",
+                "reference": "662cb7a01a342a7f33780fc955ff4a028d8b785a",
                 "shasum": ""
             },
             "require": {
@@ -9621,16 +9528,14 @@
                 "raven/raven": "*"
             },
             "require-dev": {
-                "carthage-software/mago": "^1.13.3",
+                "carthage-software/mago": "1.30.0",
                 "friendsofphp/php-cs-fixer": "^3.4",
                 "guzzlehttp/promises": "^2.0.3",
-                "guzzlehttp/psr7": "^1.8.4|^2.1.1",
                 "monolog/monolog": "^1.6|^2.0|^3.0",
                 "nyholm/psr7": "^1.8",
                 "open-telemetry/api": "^1.0",
                 "open-telemetry/exporter-otlp": "^1.0",
                 "open-telemetry/sdk": "^1.0",
-                "phpbench/phpbench": "^1.0",
                 "phpstan/phpstan": "^1.3",
                 "phpunit/phpunit": "^8.5.52|^9.6.34",
                 "spiral/roadrunner-http": "^3.6",
@@ -9674,7 +9579,7 @@
             ],
             "support": {
                 "issues": "https://github.com/getsentry/sentry-php/issues",
-                "source": "https://github.com/getsentry/sentry-php/tree/4.27.0"
+                "source": "https://github.com/getsentry/sentry-php/tree/4.28.0"
             },
             "funding": [
                 {
@@ -9686,7 +9591,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2026-05-06T14:32:16+00:00"
+            "time": "2026-06-11T12:22:38+00:00"
         },
         {
             "name": "sentry/sentry-symfony",
@@ -10034,16 +9939,16 @@
         },
         {
             "name": "spomky-labs/otphp",
-            "version": "11.4.3",
+            "version": "11.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Spomky-Labs/otphp.git",
-                "reference": "46663316285bf1f001a31584213b327494b00ae7"
+                "reference": "877683d6352b80cdc7020fd43a725629c2524435"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Spomky-Labs/otphp/zipball/46663316285bf1f001a31584213b327494b00ae7",
-                "reference": "46663316285bf1f001a31584213b327494b00ae7",
+                "url": "https://api.github.com/repos/Spomky-Labs/otphp/zipball/877683d6352b80cdc7020fd43a725629c2524435",
+                "reference": "877683d6352b80cdc7020fd43a725629c2524435",
                 "shasum": ""
             },
             "require": {
@@ -10088,7 +9993,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Spomky-Labs/otphp/issues",
-                "source": "https://github.com/Spomky-Labs/otphp/tree/11.4.3"
+                "source": "https://github.com/Spomky-Labs/otphp/tree/11.5.0"
             },
             "funding": [
                 {
@@ -10100,7 +10005,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2026-05-31T12:42:43+00:00"
+            "time": "2026-06-06T23:41:24+00:00"
         },
         {
             "name": "subscripting/subscription",
@@ -13210,16 +13115,16 @@
         },
         {
             "name": "symfony/polyfill-deepclone",
-            "version": "v1.37.0",
+            "version": "v1.40.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-deepclone.git",
-                "reference": "2ca9e9e75ead5174f2b44613a646bdc9338b8eb4"
+                "reference": "dca4ccba5f360070b574414dce4c1e7a559844fa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-deepclone/zipball/2ca9e9e75ead5174f2b44613a646bdc9338b8eb4",
-                "reference": "2ca9e9e75ead5174f2b44613a646bdc9338b8eb4",
+                "url": "https://api.github.com/repos/symfony/polyfill-deepclone/zipball/dca4ccba5f360070b574414dce4c1e7a559844fa",
+                "reference": "dca4ccba5f360070b574414dce4c1e7a559844fa",
                 "shasum": ""
             },
             "require": {
@@ -13273,7 +13178,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-deepclone/tree/v1.37.0"
+                "source": "https://github.com/symfony/polyfill-deepclone/tree/v1.40.0"
             },
             "funding": [
                 {
@@ -13293,7 +13198,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-04-26T13:03:27+00:00"
+            "time": "2026-06-12T07:27:17+00:00"
         },
         {
             "name": "symfony/polyfill-intl-grapheme",
@@ -13639,16 +13544,16 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.38.1",
+            "version": "v1.38.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "14c5439eec4ccff081ac14eca2dc57feb2a66d92"
+                "reference": "d3d318bad5e7a1bfbd026009c8bfb8d8f99ae6b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/14c5439eec4ccff081ac14eca2dc57feb2a66d92",
-                "reference": "14c5439eec4ccff081ac14eca2dc57feb2a66d92",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/d3d318bad5e7a1bfbd026009c8bfb8d8f99ae6b6",
+                "reference": "d3d318bad5e7a1bfbd026009c8bfb8d8f99ae6b6",
                 "shasum": ""
             },
             "require": {
@@ -13700,7 +13605,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.38.1"
+                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.38.2"
             },
             "funding": [
                 {
@@ -13720,7 +13625,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-05-26T12:51:13+00:00"
+            "time": "2026-05-27T06:59:30+00:00"
         },
         {
             "name": "symfony/polyfill-php80",
@@ -16882,7 +16787,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Tagging",
-                "reference": "e4b4d66166e86ee2c826596a98dd2ae2221259b0"
+                "reference": "5021ab4cf5ddf1a9ba9361562ab36d30183347ab"
             },
             "require": {
                 "ext-ctype": "*",
@@ -16893,16 +16798,21 @@
                 "objecting/object": "*@dev",
                 "php": "^8.4",
                 "symfony/config": "^8.1",
+                "symfony/console": "^8.1",
                 "symfony/dependency-injection": "^8.1",
+                "symfony/form": "^8.1",
                 "symfony/http-kernel": "^8.1",
+                "symfony/options-resolver": "^8.1",
                 "symfony/routing": "^8.1",
+                "symfony/validator": "^8.1",
                 "symfony/yaml": "^8.1"
             },
             "require-dev": {
-                "doctrine/doctrine-fixtures-bundle": "^3.6",
-                "doctrine/doctrine-migrations-bundle": "^3.4",
+                "doctrine/doctrine-fixtures-bundle": "^4.3",
+                "doctrine/doctrine-migrations-bundle": "^4.0",
                 "friendsofphp/php-cs-fixer": "^3.94",
-                "phpmd/phpmd": "^2.15",
+                "pdepend/pdepend": "3.x-dev",
+                "phpmd/phpmd": "3.x-dev",
                 "phpstan/phpstan": "^2.1",
                 "phpunit/phpunit": "^10.5",
                 "symfony/panther": "^2.2"
@@ -17520,17 +17430,12 @@
             "type": "symfony-bundle",
             "autoload": {
                 "psr-4": {
-                    "App\\Vendoring\\": "src/",
-                    "App\\Service\\Http\\": "src/Service/Http/",
-                    "App\\": "src/"
+                    "App\\Vendoring\\": "src/"
                 }
             },
             "autoload-dev": {
                 "psr-4": {
-                    "App\\Vendoring\\Tests\\": "tests/",
-                    "Doctrine\\Bundle\\FixturesBundle\\": "stubs/Doctrine/Bundle/FixturesBundle/",
-                    "Faker\\": "stubs/Faker/",
-                    "Symfony\\Component\\Panther\\": "stubs/Symfony/Component/Panther/"
+                    "App\\Vendoring\\Tests\\": "tests/"
                 }
             },
             "scripts": {
@@ -18367,28 +18272,29 @@
         },
         {
             "name": "composer/pcre",
-            "version": "3.3.2",
+            "version": "3.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/pcre.git",
-                "reference": "b2bed4734f0cc156ee1fe9c0da2550420d99a21e"
+                "reference": "d5a341b3fb61f3001970940afb1d332968a183ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/pcre/zipball/b2bed4734f0cc156ee1fe9c0da2550420d99a21e",
-                "reference": "b2bed4734f0cc156ee1fe9c0da2550420d99a21e",
+                "url": "https://api.github.com/repos/composer/pcre/zipball/d5a341b3fb61f3001970940afb1d332968a183ed",
+                "reference": "d5a341b3fb61f3001970940afb1d332968a183ed",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.4 || ^8.0"
             },
             "conflict": {
-                "phpstan/phpstan": "<1.11.10"
+                "phpstan/phpstan": "<2.2.2"
             },
             "require-dev": {
-                "phpstan/phpstan": "^1.12 || ^2",
-                "phpstan/phpstan-strict-rules": "^1 || ^2",
-                "phpunit/phpunit": "^8 || ^9"
+                "phpstan/phpstan": "^2",
+                "phpstan/phpstan-deprecation-rules": "^2",
+                "phpstan/phpstan-strict-rules": "^2",
+                "phpunit/phpunit": "^9"
             },
             "type": "library",
             "extra": {
@@ -18426,7 +18332,7 @@
             ],
             "support": {
                 "issues": "https://github.com/composer/pcre/issues",
-                "source": "https://github.com/composer/pcre/tree/3.3.2"
+                "source": "https://github.com/composer/pcre/tree/3.4.0"
             },
             "funding": [
                 {
@@ -18436,13 +18342,9 @@
                 {
                     "url": "https://github.com/composer",
                     "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/composer/composer",
-                    "type": "tidelift"
                 }
             ],
-            "time": "2024-11-12T16:29:46+00:00"
+            "time": "2026-06-07T11:47:49+00:00"
         },
         {
             "name": "composer/xdebug-handler",
@@ -18876,16 +18778,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.95.4",
+            "version": "v3.95.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "3f8f68856837a77e1f1d870354eca3c8747f2f72"
+                "reference": "7f86d8763063f5d2e2e2d0e1e45bb2f15895361d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/3f8f68856837a77e1f1d870354eca3c8747f2f72",
-                "reference": "3f8f68856837a77e1f1d870354eca3c8747f2f72",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/7f86d8763063f5d2e2e2d0e1e45bb2f15895361d",
+                "reference": "7f86d8763063f5d2e2e2d0e1e45bb2f15895361d",
                 "shasum": ""
             },
             "require": {
@@ -18903,7 +18805,7 @@
                 "react/event-loop": "^1.5",
                 "react/socket": "^1.16",
                 "react/stream": "^1.4",
-                "sebastian/diff": "^4.0.6 || ^5.1.1 || ^6.0.2 || ^7.0 || ^8.0",
+                "sebastian/diff": "^4.0.6 || ^5.1.1 || ^6.0.2 || ^7.0 || ^8.0 || ^9.0",
                 "symfony/console": "^5.4.47 || ^6.4.24 || ^7.0 || ^8.0",
                 "symfony/event-dispatcher": "^5.4.45 || ^6.4.24 || ^7.0 || ^8.0",
                 "symfony/filesystem": "^5.4.45 || ^6.4.24 || ^7.0 || ^8.0",
@@ -18969,7 +18871,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.95.4"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.95.5"
             },
             "funding": [
                 {
@@ -18977,7 +18879,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-06-03T18:02:44+00:00"
+            "time": "2026-06-09T14:55:16+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -21158,8 +21060,6 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "accessing/access": 20,
-        "adjudicating/adjudication": 20,
-        "administering/administration": 20,
         "analysing/analytics": 20,
         "anchoring/anchor": 20,
         "applicating/application": 20,

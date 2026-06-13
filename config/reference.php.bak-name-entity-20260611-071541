@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 // This file is auto-generated and is for apps only. Bundles SHOULD NOT rely on its content.
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
@@ -38,7 +36,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  * @psalm-type ParametersConfig = array<string, scalar|\UnitEnum|array<scalar|\UnitEnum|array<mixed>|Param|null>|Param|null>
  * @psalm-type ArgumentsType = list<mixed>|array<string, mixed>
  * @psalm-type CallType = array<string, ArgumentsType>|array{0:string, 1?:ArgumentsType, 2?:bool}|array{method:string, arguments?:ArgumentsType, returns_clone?:bool}
- * @psalm-type TagsType = list<string|array<string, array<string, mixed>>> // arrays inside the list must have only one element, with the tag name as the key
+ * @psalm-type TagsType = list<string|array<string, array<string, mixed>>> // arrays inside the list must have only one element, with the tag nameEntity as the key
  * @psalm-type CallbackType = string|array{0:string|ReferenceConfigurator,1:string}|\Closure|ReferenceConfigurator|ExpressionConfigurator
  * @psalm-type DeprecationType = array{package: string, version: string, message?: string}
  * @psalm-type DefaultsType = array{
@@ -153,7 +151,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         enabled?: scalar|Param|null, // Default: null
  *         stateless_token_ids?: list<scalar|Param|null>,
  *         check_header?: scalar|Param|null, // Whether to check the CSRF token in a header in addition to a cookie when using stateless protection. // Default: false
- *         cookie_name?: scalar|Param|null, // The name of the cookie to use when using stateless protection. // Default: "csrf-token"
+ *         cookie_name?: scalar|Param|null, // The nameEntity of the cookie to use when using stateless protection. // Default: "csrf-token"
  *     },
  *     form?: bool|array{ // Form configuration
  *         enabled?: bool|Param, // Default: true
@@ -192,7 +190,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     profiler?: bool|array{ // Profiler configuration
  *         enabled?: bool|Param, // Default: false
  *         collect?: bool|Param, // Default: true
- *         collect_parameter?: scalar|Param|null, // The name of the parameter to use to enable or disable collection on a per request basis. // Default: null
+ *         collect_parameter?: scalar|Param|null, // The nameEntity of the parameter to use to enable or disable collection on a per request basis. // Default: null
  *         only_exceptions?: bool|Param, // Default: false
  *         only_main_requests?: bool|Param, // Default: false
  *         dsn?: scalar|Param|null, // Default: "file:%kernel.cache_dir%/profiler"
@@ -216,11 +214,11 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             initial_marking?: \BackedEnum|string|list<scalar|Param|null>,
  *             events_to_dispatch?: null|list<string|Param>,
  *             places?: string|list<array{ // Default: []
- *                 name?: scalar|Param|null,
+ *                 nameEntity?: scalar|Param|null,
  *                 metadata?: array<string, mixed>,
  *             }>,
  *             transitions?: list<array{ // Default: []
- *                 name?: string|Param,
+ *                 nameEntity?: string|Param,
  *                 guard?: string|Param, // An expression to block the transition.
  *                 from?: \BackedEnum|string|list<array{ // Default: []
  *                     place?: string|Param,
@@ -250,7 +248,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         enabled?: bool|Param, // Default: false
  *         storage_factory_id?: scalar|Param|null, // Default: "session.storage.factory.native"
  *         handler_id?: scalar|Param|null, // Defaults to using the native session handler, or to the native *file* session handler if "save_path" is not null.
- *         name?: scalar|Param|null,
+ *         nameEntity?: scalar|Param|null,
  *         cookie_lifetime?: scalar|Param|null,
  *         cookie_path?: scalar|Param|null,
  *         cookie_domain?: scalar|Param|null,
@@ -297,7 +295,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         missing_import_mode?: "strict"|"warn"|"ignore"|Param, // Behavior if an asset cannot be found when imported from JavaScript or CSS files - e.g. "import './non-existent.js'". "strict" means an exception is thrown, "warn" means a warning is logged, "ignore" means the import is left as-is. // Default: "warn"
  *         extensions?: array<string, scalar|Param|null>,
  *         importmap_path?: scalar|Param|null, // The path of the importmap.php file. // Default: "%kernel.project_dir%/importmap.php"
- *         importmap_polyfill?: scalar|Param|null, // The importmap name that will be used to load the polyfill. Set to false to disable. // Default: "es-module-shims"
+ *         importmap_polyfill?: scalar|Param|null, // The importmap nameEntity that will be used to load the polyfill. Set to false to disable. // Default: "es-module-shims"
  *         importmap_script_attributes?: array<string, scalar|Param|null>,
  *         vendor_dir?: scalar|Param|null, // The directory to store JavaScript vendors. // Default: "%kernel.project_dir%/assets/vendor"
  *         precompress?: bool|array{ // Precompress assets with Brotli, Zstandard and gzip.
@@ -442,7 +440,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             dsn?: scalar|Param|null,
  *             serializer?: scalar|Param|null, // Service id of a custom serializer to use. // Default: null
  *             options?: array<string, mixed>,
- *             failure_transport?: scalar|Param|null, // Transport name to send failed messages to (after all retries have failed). // Default: null
+ *             failure_transport?: scalar|Param|null, // Transport nameEntity to send failed messages to (after all retries have failed). // Default: null
  *             retry_strategy?: string|array{
  *                 service?: scalar|Param|null, // Service id to override the retry strategy entirely. // Default: null
  *                 max_retries?: int|Param, // Default: 3
@@ -451,9 +449,9 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *                 max_delay?: int|Param, // Max time in ms that a retry should ever be delayed (0 = infinite). // Default: 0
  *                 jitter?: float|Param, // Randomness to apply to the delay (between 0 and 1). // Default: 0.1
  *             },
- *             rate_limiter?: scalar|Param|null, // Rate limiter name to use when processing messages. // Default: null
+ *             rate_limiter?: scalar|Param|null, // Rate limiter nameEntity to use when processing messages. // Default: null
  *         }>,
- *         failure_transport?: scalar|Param|null, // Transport name to send failed messages to (after all retries have failed). // Default: null
+ *         failure_transport?: scalar|Param|null, // Transport nameEntity to send failed messages to (after all retries have failed). // Default: null
  *         stop_worker_on_signals?: int|string|list<scalar|Param|null>,
  *         default_bus?: scalar|Param|null, // Default: null
  *         buses?: array<string, array{ // Default: {"messenger.bus.default":{"default_middleware":{"enabled":true,"allow_no_handlers":false,"allow_no_senders":true},"middleware":[]}}
@@ -485,9 +483,9 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             no_proxy?: scalar|Param|null, // A comma separated list of hosts that do not require a proxy to be reached.
  *             timeout?: float|Param, // The idle timeout, defaults to the "default_socket_timeout" ini parameter.
  *             max_duration?: float|Param, // The maximum execution time for the request+response as a whole.
- *             bindto?: scalar|Param|null, // A network interface name, IP address, a host name or a UNIX socket to bind to.
+ *             bindto?: scalar|Param|null, // A network interface nameEntity, IP address, a host nameEntity or a UNIX socket to bind to.
  *             verify_peer?: bool|Param, // Indicates if the peer should be verified in a TLS context.
- *             verify_host?: bool|Param, // Indicates if the host should exist as a certificate common name.
+ *             verify_host?: bool|Param, // Indicates if the host should exist as a certificate common nameEntity.
  *             cafile?: scalar|Param|null, // A certificate authority file.
  *             capath?: scalar|Param|null, // A directory that contains multiple certificate authority files.
  *             local_cert?: scalar|Param|null, // A PEM formatted certificate file.
@@ -501,7 +499,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             },
  *             crypto_method?: scalar|Param|null, // The minimum version of TLS to accept; must be one of STREAM_CRYPTO_METHOD_TLSv*_CLIENT constants.
  *             extra?: array<string, mixed>,
- *             rate_limiter?: scalar|Param|null, // Rate limiter name to use for throttling requests. // Default: null
+ *             rate_limiter?: scalar|Param|null, // Rate limiter nameEntity to use for throttling requests. // Default: null
  *             caching?: bool|array{ // Caching configuration.
  *                 enabled?: bool|Param, // Default: false
  *                 cache_pool?: string|Param, // The taggable cache pool to use for storing the responses. // Default: "cache.http_client"
@@ -538,9 +536,9 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             no_proxy?: scalar|Param|null, // A comma separated list of hosts that do not require a proxy to be reached.
  *             timeout?: float|Param, // The idle timeout, defaults to the "default_socket_timeout" ini parameter.
  *             max_duration?: float|Param, // The maximum execution time for the request+response as a whole.
- *             bindto?: scalar|Param|null, // A network interface name, IP address, a host name or a UNIX socket to bind to.
+ *             bindto?: scalar|Param|null, // A network interface nameEntity, IP address, a host nameEntity or a UNIX socket to bind to.
  *             verify_peer?: bool|Param, // Indicates if the peer should be verified in a TLS context.
- *             verify_host?: bool|Param, // Indicates if the host should exist as a certificate common name.
+ *             verify_host?: bool|Param, // Indicates if the host should exist as a certificate common nameEntity.
  *             cafile?: scalar|Param|null, // A certificate authority file.
  *             capath?: scalar|Param|null, // A directory that contains multiple certificate authority files.
  *             local_cert?: scalar|Param|null, // A PEM formatted certificate file.
@@ -555,7 +553,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             crypto_method?: scalar|Param|null, // The minimum version of TLS to accept; must be one of STREAM_CRYPTO_METHOD_TLSv*_CLIENT constants.
  *             mock_response_factory?: scalar|Param|null, // `true` to always return empty 200 responses, `false` to disable mocking, or the id of the service to use to generate mock responses (invokable or iterable).
  *             extra?: array<string, mixed>,
- *             rate_limiter?: scalar|Param|null, // Rate limiter name to use for throttling requests. // Default: null
+ *             rate_limiter?: scalar|Param|null, // Rate limiter nameEntity to use for throttling requests. // Default: null
  *             caching?: bool|array{ // Caching configuration.
  *                 enabled?: bool|Param, // Default: false
  *                 cache_pool?: string|Param, // The taggable cache pool to use for storing the responses. // Default: "cache.http_client"
@@ -784,7 +782,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             password_attribute?: scalar|Param|null, // Default: null
  *         },
  *         entity?: array{
- *             class?: scalar|Param|null, // The full entity class name of your user class.
+ *             class?: scalar|Param|null, // The full entity class nameEntity of your user class.
  *             property?: scalar|Param|null, // Default: null
  *             manager_name?: scalar|Param|null, // Default: null
  *         },
@@ -801,7 +799,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         request_matcher?: scalar|Param|null,
  *         access_denied_url?: scalar|Param|null,
  *         access_denied_handler?: scalar|Param|null,
- *         entry_point?: scalar|Param|null, // An enabled authenticator name or a service id that implements "Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface".
+ *         entry_point?: scalar|Param|null, // An enabled authenticator nameEntity or a service id that implements "Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface".
  *         provider?: scalar|Param|null,
  *         stateless?: bool|Param, // Default: false
  *         lazy?: bool|Param, // Default: false
@@ -1025,7 +1023,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *                 },
  *             },
  *             token_verifier?: scalar|Param|null, // The service ID of a custom rememberme token verifier.
- *             name?: scalar|Param|null, // Default: "REMEMBERME"
+ *             nameEntity?: scalar|Param|null, // Default: "REMEMBERME"
  *             lifetime?: int|Param, // Default: 31536000
  *             path?: scalar|Param|null, // Default: "/"
  *             domain?: scalar|Param|null, // Default: null
@@ -1289,7 +1287,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             port?: scalar|Param|null, // Defaults to null at runtime.
  *             user?: scalar|Param|null, // Defaults to "root" at runtime.
  *             password?: scalar|Param|null, // Defaults to null at runtime.
- *             dbname_suffix?: scalar|Param|null, // Adds the given suffix to the configured database name, this option has no effects for the SQLite platform
+ *             dbname_suffix?: scalar|Param|null, // Adds the given suffix to the configured database nameEntity, this option has no effects for the SQLite platform
  *             application_name?: scalar|Param|null,
  *             charset?: scalar|Param|null,
  *             path?: scalar|Param|null,
@@ -1300,16 +1298,16 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             service?: bool|Param, // True to use SERVICE_NAME as connection parameter instead of SID for Oracle
  *             servicename?: scalar|Param|null, // Overrules dbname parameter if given and used as SERVICE_NAME or SID connection parameter for Oracle depending on the service parameter.
  *             sessionMode?: scalar|Param|null, // The session mode to use for the oci8 driver
- *             server?: scalar|Param|null, // The name of a running database server to connect to for SQL Anywhere.
+ *             server?: scalar|Param|null, // The nameEntity of a running database server to connect to for SQL Anywhere.
  *             default_dbname?: scalar|Param|null, // Override the default database (postgres) to connect to for PostgreSQL connexion.
  *             sslmode?: scalar|Param|null, // Determines whether or with what priority a SSL TCP/IP connection will be negotiated with the server for PostgreSQL.
- *             sslrootcert?: scalar|Param|null, // The name of a file containing SSL certificate authority (CA) certificate(s). If the file exists, the server's certificate will be verified to be signed by one of these authorities.
+ *             sslrootcert?: scalar|Param|null, // The nameEntity of a file containing SSL certificate authority (CA) certificate(s). If the file exists, the server's certificate will be verified to be signed by one of these authorities.
  *             sslcert?: scalar|Param|null, // The path to the SSL client certificate file for PostgreSQL.
  *             sslkey?: scalar|Param|null, // The path to the SSL client key file for PostgreSQL.
- *             sslcrl?: scalar|Param|null, // The file name of the SSL certificate revocation list for PostgreSQL.
+ *             sslcrl?: scalar|Param|null, // The file nameEntity of the SSL certificate revocation list for PostgreSQL.
  *             pooled?: bool|Param, // True to use a pooled server with the oci8/pdo_oracle driver
  *             MultipleActiveResultSets?: bool|Param, // Configuring MultipleActiveResultSets for the pdo_sqlsrv driver
- *             instancename?: scalar|Param|null, // Optional parameter, complete whether to add the INSTANCE_NAME parameter in the connection. It is generally used to connect to an Oracle RAC server to select the name of a particular instance.
+ *             instancename?: scalar|Param|null, // Optional parameter, complete whether to add the INSTANCE_NAME parameter in the connection. It is generally used to connect to an Oracle RAC server to select the nameEntity of a particular instance.
  *             connectstring?: scalar|Param|null, // Complete Easy Connect connection descriptor, see https://docs.oracle.com/database/121/NETAG/naming.htm.When using this option, you will still need to provide the user and password parameters, but the other parameters will no longer be used. Note that when using this parameter, the getHost and getPort methods from Doctrine\DBAL\Connection will no longer function as expected.
  *             driver?: scalar|Param|null, // Default: "pdo_mysql"
  *             auto_commit?: bool|Param,
@@ -1335,7 +1333,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *                 port?: scalar|Param|null, // Defaults to null at runtime.
  *                 user?: scalar|Param|null, // Defaults to "root" at runtime.
  *                 password?: scalar|Param|null, // Defaults to null at runtime.
- *                 dbname_suffix?: scalar|Param|null, // Adds the given suffix to the configured database name, this option has no effects for the SQLite platform
+ *                 dbname_suffix?: scalar|Param|null, // Adds the given suffix to the configured database nameEntity, this option has no effects for the SQLite platform
  *                 application_name?: scalar|Param|null,
  *                 charset?: scalar|Param|null,
  *                 path?: scalar|Param|null,
@@ -1346,16 +1344,16 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *                 service?: bool|Param, // True to use SERVICE_NAME as connection parameter instead of SID for Oracle
  *                 servicename?: scalar|Param|null, // Overrules dbname parameter if given and used as SERVICE_NAME or SID connection parameter for Oracle depending on the service parameter.
  *                 sessionMode?: scalar|Param|null, // The session mode to use for the oci8 driver
- *                 server?: scalar|Param|null, // The name of a running database server to connect to for SQL Anywhere.
+ *                 server?: scalar|Param|null, // The nameEntity of a running database server to connect to for SQL Anywhere.
  *                 default_dbname?: scalar|Param|null, // Override the default database (postgres) to connect to for PostgreSQL connexion.
  *                 sslmode?: scalar|Param|null, // Determines whether or with what priority a SSL TCP/IP connection will be negotiated with the server for PostgreSQL.
- *                 sslrootcert?: scalar|Param|null, // The name of a file containing SSL certificate authority (CA) certificate(s). If the file exists, the server's certificate will be verified to be signed by one of these authorities.
+ *                 sslrootcert?: scalar|Param|null, // The nameEntity of a file containing SSL certificate authority (CA) certificate(s). If the file exists, the server's certificate will be verified to be signed by one of these authorities.
  *                 sslcert?: scalar|Param|null, // The path to the SSL client certificate file for PostgreSQL.
  *                 sslkey?: scalar|Param|null, // The path to the SSL client key file for PostgreSQL.
- *                 sslcrl?: scalar|Param|null, // The file name of the SSL certificate revocation list for PostgreSQL.
+ *                 sslcrl?: scalar|Param|null, // The file nameEntity of the SSL certificate revocation list for PostgreSQL.
  *                 pooled?: bool|Param, // True to use a pooled server with the oci8/pdo_oracle driver
  *                 MultipleActiveResultSets?: bool|Param, // Configuring MultipleActiveResultSets for the pdo_sqlsrv driver
- *                 instancename?: scalar|Param|null, // Optional parameter, complete whether to add the INSTANCE_NAME parameter in the connection. It is generally used to connect to an Oracle RAC server to select the name of a particular instance.
+ *                 instancename?: scalar|Param|null, // Optional parameter, complete whether to add the INSTANCE_NAME parameter in the connection. It is generally used to connect to an Oracle RAC server to select the nameEntity of a particular instance.
  *                 connectstring?: scalar|Param|null, // Complete Easy Connect connection descriptor, see https://docs.oracle.com/database/121/NETAG/naming.htm.When using this option, you will still need to provide the user and password parameters, but the other parameters will no longer be used. Note that when using this parameter, the getHost and getPort methods from Doctrine\DBAL\Connection will no longer function as expected.
  *             }>,
  *         }>,
@@ -1365,7 +1363,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         enable_native_lazy_objects?: bool|Param, // Deprecated: The "enable_native_lazy_objects" option is deprecated and will be removed in DoctrineBundle 4.0, as native lazy objects are now always enabled. // Default: true
  *         controller_resolver?: bool|array{
  *             enabled?: bool|Param, // Default: true
- *             auto_mapping?: bool|Param, // Deprecated: The "doctrine.orm.controller_resolver.auto_mapping.auto_mapping" option is deprecated and will be removed in DoctrineBundle 4.0, as it only accepts `false` since 3.0. // Set to true to enable using route placeholders as lookup criteria when the primary key doesn't match the argument name // Default: false
+ *             auto_mapping?: bool|Param, // Deprecated: The "doctrine.orm.controller_resolver.auto_mapping.auto_mapping" option is deprecated and will be removed in DoctrineBundle 4.0, as it only accepts `false` since 3.0. // Set to true to enable using route placeholders as lookup criteria when the primary key doesn't match the argument nameEntity // Default: false
  *             evict_cache?: bool|Param, // Set to true to fetch the entity from the database instead of using the cache, if any // Default: false
  *         },
  *         entity_managers?: array<string, array{ // Default: []
@@ -1428,10 +1426,10 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *                     type?: scalar|Param|null, // Default: "default"
  *                     lifetime?: scalar|Param|null, // Default: 0
  *                     service?: scalar|Param|null,
- *                     name?: scalar|Param|null,
+ *                     nameEntity?: scalar|Param|null,
  *                 }>,
  *                 loggers?: array<string, array{ // Default: []
- *                     name?: scalar|Param|null,
+ *                     nameEntity?: scalar|Param|null,
  *                     service?: scalar|Param|null,
  *                 }>,
  *             },
@@ -1474,8 +1472,8 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         },
  *     },
  *     migrations?: list<scalar|Param|null>,
- *     connection?: scalar|Param|null, // Connection name to use for the migrations database. // Default: null
- *     em?: scalar|Param|null, // Entity manager name to use for the migrations database (available when doctrine/orm is installed). // Default: null
+ *     connection?: scalar|Param|null, // Connection nameEntity to use for the migrations database. // Default: null
+ *     em?: scalar|Param|null, // Entity manager nameEntity to use for the migrations database (available when doctrine/orm is installed). // Default: null
  *     all_or_nothing?: scalar|Param|null, // Run all migrations in a transaction. // Default: false
  *     check_database_platform?: scalar|Param|null, // Adds an extra check in the generated migrations to allow execution only on the same platform as they were initially generated on. // Default: true
  *     custom_template?: scalar|Param|null, // Custom template path for generated migration classes. // Default: null
@@ -1530,7 +1528,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             type?: scalar|Param|null,
  *             scheme?: scalar|Param|null,
  *             in?: scalar|Param|null,
- *             name?: scalar|Param|null,
+ *             nameEntity?: scalar|Param|null,
  *             description?: scalar|Param|null,
  *             openIdConnectUrl?: scalar|Param|null,
  *             ...<string, mixed>
@@ -1619,15 +1617,15 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         authorization_header?: bool|array{
  *             enabled?: bool|Param, // Default: true
  *             prefix?: scalar|Param|null, // Default: "Bearer"
- *             name?: scalar|Param|null, // Default: "Authorization"
+ *             nameEntity?: scalar|Param|null, // Default: "Authorization"
  *         },
  *         cookie?: bool|array{
  *             enabled?: bool|Param, // Default: false
- *             name?: scalar|Param|null, // Default: "BEARER"
+ *             nameEntity?: scalar|Param|null, // Default: "BEARER"
  *         },
  *         query_parameter?: bool|array{
  *             enabled?: bool|Param, // Default: false
- *             name?: scalar|Param|null, // Default: "bearer"
+ *             nameEntity?: scalar|Param|null, // Default: "bearer"
  *         },
  *         split_cookie?: bool|array{
  *             enabled?: bool|Param, // Default: false

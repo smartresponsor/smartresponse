@@ -1,12 +1,12 @@
 {
-    "name":  "smartresponsing/app",
-    "description":  "Minimal production runtime host",
-    "type":  "project",
-    "license":  "proprietary",
-    "minimum-stability":  "dev",
-    "prefer-stable":  true,
-    "repositories":  [
-                         {
+    "name": "smartresponsing/app",
+    "description": "Minimal production runtime host",
+    "type": "project",
+    "license": "proprietary",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "repositories": [
+        {
             "type": "vcs",
             "url": "git@github.com:smartresponsor/cruding.git"
         },
@@ -15,54 +15,56 @@
             "url": "git@github.com:smartresponsor/administering.git"
         },
         {
-			 "type":  "vcs",
-			 "url":  "git@github.com:smartresponsor/configuring.git"
-		 },
-		 {
-			 "type":  "vcs",
-			 "url":  "git@github.com:smartresponsor/accessing.git"
-		 },
-		 {
-			 "type":  "vcs",
-			 "url":  "https://github.com/smartresponsor/interfacing.git"
-		 },
+            "type": "vcs",
+            "url": "git@github.com:smartresponsor/configuring.git"
+        },
         {
             "type": "vcs",
-            "url": "git@github.com:smartresponsor/Managing.git"
+            "url": "git@github.com:smartresponsor/accessing.git"
         },
-		 {
-			 "type":  "vcs",
-			 "url":  "git@github.com:smartresponsor/viewing.git"
-		 },
-		 {
-			 "type":  "vcs",
-			 "url":  "git@github.com:smartresponsor/objecting.git"
-		 },
+        {
+            "type": "vcs",
+            "url": "git@github.com:smartresponsor/interfacing.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:smartresponsor/managing.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:smartresponsor/viewing.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:smartresponsor/objecting.git"
+        },
         {
             "type": "vcs",
             "url": "git@github.com:smartresponsor/navigating.git"
         },
         {
-            "type": "path",
-            "url": "../Searching"
+            "type": "vcs",
+            "url": "git@github.com:smartresponsor/searching.git"
         },
         {
-            "type": "path",
-            "url": "../Applicating"
+            "type": "vcs",
+            "url": "git@github.com:smartresponsor/applicating.git"
         },
         {
-            "type": "path",
-            "url": "../Cataloging"
+            "type": "vcs",
+            "url": "git@github.com:smartresponsor/cataloging.git"
         },
         {
-            "type": "path",
-            "url": "../Rolling"
+            "type": "vcs",
+            "url": "git@github.com:smartresponsor/rolling.git"
         }
-                     ],
-    "require":  {
+    ],
+    "require": {
         "php": "^8.4",
         "accessing/access": "dev-master",
         "administering/administration": "dev-master",
+        "applicating/application": "*@dev",
+        "cataloging/catalog": "*@dev",
         "cruding/crud": "*@dev",
         "doctrine/dbal": "^4.3",
         "doctrine/doctrine-bundle": "^3.2",
@@ -71,16 +73,14 @@
         "doctrine/orm": "^3.3",
         "easycorp/easyadmin-bundle": "*",
         "interfacing/interface": "*@dev",
-        "applicating/application": "*@dev",
-        "cataloging/catalog": "*@dev",
         "lexik/jwt-authentication-bundle": "*",
+        "managing/manage": "dev-master",
         "navigating/navigation": "*@dev",
         "nelmio/api-doc-bundle": "*",
         "objecting/object": "*@dev",
-        "searching/search": "*@dev",
         "rolling/role": "*@dev",
-        "managing/manage": "dev-master",
         "scheb/2fa-bundle": "*",
+        "searching/search": "*@dev",
         "symfony/asset": "8.1.*",
         "symfony/config": "8.1.*",
         "symfony/console": "8.1.*",
@@ -117,63 +117,50 @@
         "twig/html-extra": "3.24",
         "viewing/view": "*@dev"
     },
-	"require-dev": {
-    "friendsofphp/php-cs-fixer": ">=3.95 <4.0",
-    "phpstan/phpstan": "^2.0",
-    "phpunit/phpunit": "^11.0 || ^12.0"
-  },
-    "config":  {
-                   "allow-plugins":  {
-                                         "php-http/discovery":  true,
-                                         "symfony/flex":  true,
-                                         "symfony/runtime":  true,
-                                         "tbachert/spi":  true
-                                     },
-                   "sort-packages":  true
-               },
-    "autoload":  {
-                     "classmap":  [
-                                     "../Complying/src/",
-                                     "../Complying/Command/",
-                                     "../Managing/src/Controller/Crud/Generated/",
-                                     "../Vendoring/src/Service/Http/",
-                                     "../Vendoring/src/Form/"
-                                 ],
-                     "psr-4":  {
-                                   "App\\":  [
-                                                    "src/",
-                                                    "../Complying/src/",
-                                                    "../Ordering/src/"
-                                                ],
-                                   "App\\Vendoring\\":  "../Vendoring/src/",
-                                   "App\\Service\\Http\\":  "../Vendoring/src/Service/Http/"
-                               }
-                 },
-    "autoload-dev":  {
-                         "psr-4":  {
-                                       "App\\Tests\\":  "tests/"
-                                   }
-                     },
-    "scripts":  {
-                    "auto-scripts":  {
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": ">=3.95 <4.0",
+        "phpstan/phpstan": "^2.0",
+        "phpunit/phpunit": "^11.0 || ^12.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true,
+            "symfony/flex": true,
+            "symfony/runtime": true,
+            "tbachert/spi": true
+        },
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd",
             "importmap:install": "symfony-cmd"
         },
-                    "post-install-cmd":  [
-                                             "@auto-scripts"
-                                         ],
-                    "post-update-cmd":  [
-                                            "@auto-scripts"
-                                        ]
-                },
-    "conflict":  {
-                     "symfony/symfony":  "*"
-                 },
-    "extra":  {
-                  "symfony":  {
-                                  "allow-contrib":  false,
-                                  "require":  "^8.0"
-                              }
-              }
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ]
+    },
+    "conflict": {
+        "symfony/symfony": "*"
+    },
+    "extra": {
+        "symfony": {
+            "allow-contrib": false,
+            "require": "^8.0"
+        }
+    }
 }

@@ -10,7 +10,6 @@ return [
     'strict' => true,
     'enabledBundles' => [
         App\Cruding\CrudingBundle::class,
-        App\Interfacing\InterfaceBundle::class,
         App\Viewing\ViewingBundle::class,
         App\Accessing\AccessingBundle::class,
     ],

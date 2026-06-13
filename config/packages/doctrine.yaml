@@ -72,12 +72,6 @@ doctrine:
                         dir: '%kernel.project_dir%/../Objecting/src/Embeddable'
                         prefix: 'App\Objecting\Embeddable'
                         alias: Objecting
-                    Review:
-                        is_bundle: false
-                        type: attribute
-                        dir: '%kernel.project_dir%/src/Entity/Review'
-                        prefix: 'App\Entity\Review'
-                        alias: Review
             sqlite:
                 connection: sqlite
                 auto_mapping: false
@@ -88,42 +82,6 @@ doctrine:
                         dir: '%kernel.project_dir%/../Objecting/src/Embeddable'
                         prefix: 'App\Objecting\Embeddable'
                         alias: Objecting
-                    Module:
-                        is_bundle: false
-                        type: attribute
-                        dir: '%kernel.project_dir%/src/Entity/Module'
-                        prefix: 'App\Entity\Module'
-                        alias: Module
-                    Category:
-                        is_bundle: false
-                        type: attribute
-                        dir: '%kernel.project_dir%/src/Entity/Category'
-                        prefix: 'App\Entity\Category'
-                        alias: Category
-                    Menu:
-                        is_bundle: false
-                        type: attribute
-                        dir: '%kernel.project_dir%/src/Entity/Menu'
-                        prefix: 'App\Entity\Menu'
-                        alias: Menu
-                    Featured:
-                        is_bundle: false
-                        type: attribute
-                        dir: '%kernel.project_dir%/src/Entity/Featured'
-                        prefix: 'App\Entity\Featured'
-                        alias: Featured
-                    ProjectType:
-                        is_bundle: false
-                        type: attribute
-                        dir: '%kernel.project_dir%/src/Entity/Project'
-                        prefix: 'App\Entity\Project'
-                        alias: ProjectType
-                    ProductType:
-                        is_bundle: false
-                        type: attribute
-                        dir: '%kernel.project_dir%/src/Entity/Product'
-                        prefix: 'App\Entity\Product'
-                        alias: ProductType
             system:
                 connection: sqlite
                 auto_mapping: false

@@ -28,6 +28,9 @@ services:
 
     App\Service\Dashboard\AppDashboardBuilderService:
         public: true
+        arguments:
+            $interfaceLocationProjectionProvider: '@navigating.interface_location_projection_provider'
+        tags: ['controller.service_arguments']
     App\Service\Diagnostics\AppRouteAuditService:
         public: true
         tags: ['controller.service_arguments']
@@ -35,26 +38,3 @@ services:
         alias: doctrine.dbal.postgres_connection
 
     App\Contract\Ui\AppDashboardContract: '@App\Service\Dashboard\AppDashboardBuilderService'
-    App\Interfacing\Provider\Localization\InterfaceDefaultLocaleTemplateSelectorProvider: ~
-    App\Interfacing\Service\Rendering\InterfaceTwigRendererService: ~
-    App\Interfacing\ServiceInterface\Rendering\InterfaceRendererInterface: '@App\Interfacing\Service\Rendering\InterfaceTwigRendererService'
-    App\Interfacing\ProviderInterface\Localization\InterfaceLocaleTemplateSelectorProviderInterface: '@App\Interfacing\Provider\Localization\InterfaceDefaultLocaleTemplateSelectorProvider'
-    App\Interfacing\ProviderInterface\Shell\InterfaceShellChromeProviderInterface: '@App\Service\Interfacing\Shell\ShellChromeProviderService'
-    App\Interfacing\ProviderInterface\Crud\InterfaceCrudResourceExplorerProviderInterface: '@App\Service\Interfacing\Crud\CrudResourceExplorerProviderService'
-    App\Interfacing\ProviderInterface\Ecommerce\InterfaceEcommerceScreenCatalogProviderInterface: '@App\Service\Interfacing\Ecommerce\EcommerceScreenCatalogProviderService'
-    App\Interfacing\ProviderInterface\Shell\InterfaceShellLayoutPreviewProviderInterface: '@App\Service\Interfacing\Shell\ShellLayoutPreviewProviderService'
-    App\Interfacing\ProviderInterface\Shell\InterfaceShellNavigationMapProviderInterface: '@App\Service\Interfacing\Shell\ShellNavigationMapProviderService'
-    App\Interfacing\ProviderInterface\Shell\InterfaceShellScreenCatalogProviderInterface: '@App\Service\Interfacing\Shell\ShellScreenCatalogProviderService'
-    App\Twig\LocaleSelectorTwigExtension:
-        tags: ['twig.extension']
-
-    doctrine.orm.infrastructure_entity_manager:
-        alias: doctrine.orm.sqlite_entity_manager
-
-    App\Routing\SiblingRoutesLoader:
-        arguments:
-            $projectDir: '%kernel.project_dir%'
-            $connectedComponents: '%app.connected_components%'
-        tags:
-            - { name: 'routing.loader', type: 'sibling_routes' }
-
