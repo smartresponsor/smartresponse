@@ -16,7 +16,7 @@ return [
         App\Navigating\NavigatingBundle::class,
         App\Vendoring\VendoringBundle::class,
         App\Rolling\RollingBundle::class,
-        App\Localising\LocalisingBundle::class,
+        App\Localizing\LocalizingBundle::class,
     ],
     'disabledComponents' => [
         'analysing',
