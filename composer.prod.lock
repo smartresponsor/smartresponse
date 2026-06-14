@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ec630e3c0ca18d4e8338755ae7dcc0ea",
+    "content-hash": "1203d26d9150e1b9f441f88b396f4bbc",
     "packages": [
         {
             "name": "accessing/access",
@@ -425,6 +425,101 @@
             ],
             "description": "Administering administrative governance component for Symfony host applications.",
             "time": "2026-06-13T07:11:47+00:00"
+        },
+        {
+            "name": "analysing/analytics",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:smartresponsor/analysing.git",
+                "reference": "660a464baca234cae72af78719b0c4f9956d7e4e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/smartresponsor/analysing/zipball/660a464baca234cae72af78719b0c4f9956d7e4e",
+                "reference": "660a464baca234cae72af78719b0c4f9956d7e4e",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/dbal": "^4.3",
+                "doctrine/orm": "^3.3",
+                "ext-zlib": "*",
+                "php": "^8.4",
+                "psr/log": "^3.0",
+                "symfony/console": "^8.0",
+                "symfony/dependency-injection": "^8.0",
+                "symfony/framework-bundle": "^8.0",
+                "symfony/http-client": "^8.0",
+                "symfony/http-foundation": "^8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.20",
+                "phpstan/phpstan": "^2.1",
+                "phpunit/phpunit": "^11.5",
+                "symfony/var-dumper": "^8.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "App\\Analysing\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "App\\Analysing\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "scan": [
+                    "php tools/analytics-scan-layer-map.php"
+                ],
+                "lint:canon": [
+                    "php tools/analytics-scan-layer-map.php"
+                ],
+                "guard:interfaceinterface": [
+                    "php tools/analytics-interfaceinterface-guard.php"
+                ],
+                "guard:namespace": [
+                    "php tools/analytics-namespace-guard.php --mode=report"
+                ],
+                "qa:env": [
+                    "php tools/qa/AnalyticsQaEnvironmentCheck.php"
+                ],
+                "test": [
+                    "@qa:env",
+                    "phpunit"
+                ],
+                "analyse": [
+                    "phpstan analyse src --level=max"
+                ],
+                "fix": [
+                    "php-cs-fixer fix --allow-risky=yes"
+                ],
+                "clean:config-garbage": [
+                    "php tools/analytics-config-garbage-clean.php"
+                ],
+                "purge:interfaceinterface": [
+                    "php tools/analytics-interfaceinterface-purge.php"
+                ],
+                "guard:domain-hygiene": [
+                    "php tools/analytics-domain-hygiene-guard.php"
+                ],
+                "guard:php-header": [
+                    "php tools/analytics-php-header-guard.php"
+                ]
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "Oleksandr Tishchenko",
+                    "email": "dev@highhopesamerica.com"
+                }
+            ],
+            "description": "Analysing process package",
+            "time": "2026-04-21T04:05:57+00:00"
         },
         {
             "name": "api-platform/doctrine-common",
@@ -3934,12 +4029,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:smartresponsor/interfacing.git",
-                "reference": "bd9a730e08b417c31d792be0cd2f40c8cbf435c6"
+                "reference": "efabeb17f30eadd119eb578cf88e5c14937851aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smartresponsor/interfacing/zipball/bd9a730e08b417c31d792be0cd2f40c8cbf435c6",
-                "reference": "bd9a730e08b417c31d792be0cd2f40c8cbf435c6",
+                "url": "https://api.github.com/repos/smartresponsor/interfacing/zipball/efabeb17f30eadd119eb578cf88e5c14937851aa",
+                "reference": "efabeb17f30eadd119eb578cf88e5c14937851aa",
                 "shasum": ""
             },
             "require": {
@@ -3985,10 +4080,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "App\\Interfacing\\": "src/",
-                    "Symfony\\Contracts\\EventDispatcher\\": "vendor/symfony/event-dispatcher-contracts/",
-                    "Symfony\\Contracts\\Service\\": "vendor/symfony/service-contracts/",
-                    "Symfony\\Contracts\\Translation\\": "vendor/symfony/translation-contracts/"
+                    "App\\Interfacing\\": "src/"
                 }
             },
             "autoload-dev": {
@@ -4061,7 +4153,7 @@
                 "proprietary"
             ],
             "description": "Interfacing Symfony package bundle",
-            "time": "2026-06-13T07:30:40+00:00"
+            "time": "2026-06-14T02:51:02+00:00"
         },
         {
             "name": "lcobucci/jwt",
@@ -4253,17 +4345,84 @@
             "time": "2025-12-20T17:47:00+00:00"
         },
         {
+            "name": "localizing/locale",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:smartresponsor/localizing.git",
+                "reference": "585b8bb154539dfced6f036f23160d3b74c52a99"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/smartresponsor/localizing/zipball/585b8bb154539dfced6f036f23160d3b74c52a99",
+                "reference": "585b8bb154539dfced6f036f23160d3b74c52a99",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/doctrine-bundle": "^3.0",
+                "doctrine/doctrine-migrations-bundle": "^4.0",
+                "doctrine/orm": "^3.3",
+                "ext-intl": "*",
+                "objecting/object": "*@dev",
+                "php": ">=8.4",
+                "symfony/console": "^8.0",
+                "symfony/dotenv": "^8.0",
+                "symfony/framework-bundle": "^8.0",
+                "symfony/intl": "^8.0",
+                "symfony/runtime": "^8.0",
+                "symfony/translation": "^8.0",
+                "symfony/validator": "^8.0",
+                "symfony/yaml": "^8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.94",
+                "phpstan/phpstan": "^2.1",
+                "phpunit/phpunit": "^12.0",
+                "symfony/maker-bundle": "^1.67"
+            },
+            "default-branch": true,
+            "type": "project",
+            "autoload": {
+                "psr-4": {
+                    "App\\Localizing\\": "src/Localizing/",
+                    "App\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "App\\Localizing\\Tests\\": "tests/",
+                    "App\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "check:syntax": [
+                    "find src tests -name '*.php' -print0 | xargs -0 -n1 php -l"
+                ],
+                "localizing:audit": [
+                    "bin/console localizing:audit-catalogs"
+                ],
+                "localizing:export": [
+                    "bin/console localizing:export-catalogs"
+                ]
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Localizing process app",
+            "time": "2026-06-14T02:26:49+00:00"
+        },
+        {
             "name": "managing/manage",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "git@github.com:smartresponsor/managing.git",
-                "reference": "6e25f60ddee73ef04e0b2f34caa7a0edf255fde7"
+                "reference": "f2f72f81eac4faa391ef0e4886455425d43ba17b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smartresponsor/managing/zipball/6e25f60ddee73ef04e0b2f34caa7a0edf255fde7",
-                "reference": "6e25f60ddee73ef04e0b2f34caa7a0edf255fde7",
+                "url": "https://api.github.com/repos/smartresponsor/managing/zipball/f2f72f81eac4faa391ef0e4886455425d43ba17b",
+                "reference": "f2f72f81eac4faa391ef0e4886455425d43ba17b",
                 "shasum": ""
             },
             "require": {
@@ -4304,7 +4463,7 @@
                 "proprietary"
             ],
             "description": "Managing process app",
-            "time": "2026-06-13T07:33:44+00:00"
+            "time": "2026-06-14T02:45:20+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -15801,10 +15960,13 @@
     "stability-flags": {
         "accessing/access": 20,
         "administering/administration": 20,
+        "analysing/analytics": 20,
         "applicating/application": 20,
         "cataloging/catalog": 20,
+        "configuring/config": 20,
         "cruding/crud": 20,
         "interfacing/interface": 20,
+        "localizing/locale": 20,
         "managing/manage": 20,
         "navigating/navigation": 20,
         "objecting/object": 20,

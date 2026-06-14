@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
     Symfony\Bundle\TwigBundle\TwigBundle::class => ['all' => true],
@@ -30,4 +32,5 @@ return [
     App\Searching\SearchingBundle::class => ['all' => true],
     App\Vendoring\VendoringBundle::class => ['all' => true],
     App\Viewing\ViewingBundle::class => ['all' => true],
+    App\Analysing\AnalysingBundle::class => ['all' => true],
 ];

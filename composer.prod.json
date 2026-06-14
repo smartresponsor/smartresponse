@@ -18,6 +18,16 @@
         },
         {
             "type": "vcs",
+            "url": "git@github.com:smartresponsor/analysing.git",
+            "no-api": true
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:smartresponsor/currencing.git",
+            "no-api": true
+        },
+        {
+            "type": "vcs",
             "url": "git@github.com:smartresponsor/accessing.git",
             "no-api": true
         },
@@ -87,8 +97,10 @@
         "vendoring/vendor": "dev-master",
         "accessing/access": "dev-master",
         "administering/administration": "dev-master",
+        "analysing/analytics": "*@dev",
         "applicating/application": "dev-master",
         "cataloging/catalog": "dev-master",
+        "configuring/config": "*@dev",
         "cruding/crud": "dev-master",
         "doctrine/dbal": "^4.3",
         "doctrine/doctrine-bundle": "^3.2",

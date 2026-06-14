@@ -18,6 +18,14 @@ final class RuntimeBundleIterator
     /**
      * @return iterable<BundleInterface>
      */
+    public static function fromProjectDir(string $projectDir, string $environment): iterable
+    {
+        yield from self::fromProject($projectDir, $environment);
+    }
+
+    /**
+     * @return iterable<BundleInterface>
+     */
     public static function fromProject(string $projectDir, string $environment): iterable
     {
         $yieldedBundleClassList = [];

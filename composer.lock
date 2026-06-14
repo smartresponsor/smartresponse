@@ -1814,7 +1814,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "App\\Currencing": "src/"
+                    "App\\Currencing\\": "src/"
                 }
             },
             "autoload-dev": {
@@ -1892,7 +1892,7 @@
             "type": "project",
             "autoload": {
                 "psr-4": {
-                    "App\\Discovering": "src/"
+                    "App\\Discovering\\": "src/"
                 }
             },
             "autoload-dev": {
@@ -3517,7 +3517,7 @@
             "type": "project",
             "autoload": {
                 "psr-4": {
-                    "App\\Faceting": "src/"
+                    "App\\Faceting\\": "src/"
                 }
             },
             "autoload-dev": {
@@ -4771,7 +4771,7 @@
             "type": "project",
             "autoload": {
                 "psr-4": {
-                    "App\\Localizing": "src/"
+                    "App\\Localizing\\": "src/"
                 }
             },
             "autoload-dev": {
@@ -6891,7 +6891,7 @@
                 ],
                 "psr-4": {
                     "App\\": "src/",
-                    "App\\Ordering": "src/"
+                    "App\\Ordering\\": "src/"
                 }
             },
             "autoload-dev": {
@@ -7935,7 +7935,7 @@
                     "src/"
                 ],
                 "psr-4": {
-                    "App\\Progecting": "src/"
+                    "App\\Progecting\\": "src/"
                 },
                 "files": [
                     "src/bootstrap.php"
