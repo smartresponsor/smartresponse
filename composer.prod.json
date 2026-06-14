@@ -28,6 +28,11 @@
         },
         {
             "type": "vcs",
+            "url": "git@github.com:smartresponsor/localizing.git",
+            "no-api": true
+        },
+        {
+            "type": "vcs",
             "url": "git@github.com:smartresponsor/managing.git",
             "no-api": true
         },
@@ -92,6 +97,7 @@
         "doctrine/orm": "^3.3",
         "easycorp/easyadmin-bundle": "^5.0",
         "interfacing/interface": "dev-master",
+        "localizing/locale": "dev-master",
         "lexik/jwt-authentication-bundle": "^3.2",
         "managing/manage": "dev-master",
         "navigating/navigation": "dev-master",

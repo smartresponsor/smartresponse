@@ -23,6 +23,7 @@ return [
     App\Cataloging\CatalogingBundle::class => ['all' => true],
     App\Cruding\CrudingBundle::class => ['all' => true],
     App\Interfacing\InterfacingBundle::class => ['all' => true],
+    App\Localizing\LocalizingBundle::class => ['all' => true],
     App\Managing\ManagingBundle::class => ['all' => true],
     App\Navigating\NavigatingBundle::class => ['all' => true],
     App\Rolling\RollingBundle::class => ['all' => true],
