@@ -77,3 +77,5 @@ composer.phar
 /phpunit.xml
 /.phpunit.cache/
 ###< phpunit/phpunit ###
+
+/config/jwt/*.pem

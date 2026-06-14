@@ -13,6 +13,11 @@ PREFER="${PREFER:-dist}"
 APP_ARCHIVE_URL="${APP_ARCHIVE_URL:-https://codeload.github.com/smartresponsor/smartresponse/tar.gz/refs/heads/master}"
 APP_SYNC="${APP_SYNC:-1}"
 
+NPM_SYNC="${NPM_SYNC:-1}"
+NPM_MODE="${NPM_MODE:-auto}"
+NPM_BUILD="${NPM_BUILD:-1}"
+NPM_BUILD_SCRIPT="${NPM_BUILD_SCRIPT:-build}"
+
 cd "$PROJECT_DIR"
 
 fail() {
@@ -41,6 +46,11 @@ case "$PREFER" in
     *) fail "PREFER must be 'dist' or 'source', got: $PREFER" ;;
 esac
 
+case "$NPM_MODE" in
+    auto|ci|install|update) ;;
+    *) fail "NPM_MODE must be 'auto', 'ci', 'install', or 'update', got: $NPM_MODE" ;;
+esac
+
 COMPOSER_LOCK="${COMPOSER_FILE%.json}.lock"
 
 echo "Project:       $PROJECT_DIR"
@@ -50,6 +60,9 @@ echo "Lock:          $COMPOSER_LOCK"
 echo "Mode:          $MODE"
 echo "Preference:    $PREFER"
 echo "App sync:      $APP_SYNC"
+echo "NPM sync:      $NPM_SYNC"
+echo "NPM mode:      $NPM_MODE"
+echo "NPM build:     $NPM_BUILD"
 echo
 
 if [[ "$APP_SYNC" == "1" ]]; then
@@ -146,6 +159,49 @@ else
 
     COMPOSER="$PROJECT_DIR/$COMPOSER_FILE" \
     "$PHP_BIN" "$COMPOSER_PHAR" install "${COMMON_ARGS[@]}"
+fi
+
+if [[ "$NPM_SYNC" == "1" && -f "$PROJECT_DIR/package.json" ]]; then
+    command -v npm >/dev/null 2>&1 || fail "package.json exists, but npm is not available"
+
+    EFFECTIVE_NPM_MODE="$NPM_MODE"
+
+    if [[ "$EFFECTIVE_NPM_MODE" == "auto" ]]; then
+        if [[ -f "$PROJECT_DIR/package-lock.json" ]]; then
+            EFFECTIVE_NPM_MODE="ci"
+        else
+            EFFECTIVE_NPM_MODE="install"
+        fi
+    fi
+
+    echo
+    echo "Installing frontend dependencies with npm $EFFECTIVE_NPM_MODE..."
+
+    case "$EFFECTIVE_NPM_MODE" in
+        ci)
+            [[ -f "$PROJECT_DIR/package-lock.json" ]] \
+                || fail "NPM_MODE=ci requires package-lock.json"
+            npm ci --omit=dev
+            ;;
+        install)
+            npm install --omit=dev
+            ;;
+        update)
+            npm update --omit=dev
+            ;;
+    esac
+
+    if [[ "$NPM_BUILD" == "1" ]]; then
+        if npm run | grep -Eq "^[[:space:]]+$NPM_BUILD_SCRIPT([[:space:]]|$)"; then
+            echo "Building frontend assets with npm run $NPM_BUILD_SCRIPT..."
+            npm run "$NPM_BUILD_SCRIPT"
+        else
+            echo "No npm script named '$NPM_BUILD_SCRIPT'; skipping frontend build."
+        fi
+    fi
+elif [[ "$NPM_SYNC" == "1" ]]; then
+    echo
+    echo "No package.json found; skipping npm."
 fi
 
 echo

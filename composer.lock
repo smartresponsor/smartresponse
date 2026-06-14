@@ -1861,7 +1861,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Discovering",
-                "reference": "f564434c29a078eb9fa118e6aff8ac326d335d63"
+                "reference": "f95b411ff613609429444adb0c07ff11372bfdce"
             },
             "require": {
                 "doctrine/doctrine-bundle": "3.2",
@@ -3517,7 +3517,7 @@
             "type": "project",
             "autoload": {
                 "psr-4": {
-                    "App\\Faceting\\": "src/"
+                    "App\\Faceting": "src/"
                 }
             },
             "autoload-dev": {
@@ -4368,7 +4368,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Interfacing",
-                "reference": "bd9a730e08b417c31d792be0cd2f40c8cbf435c6"
+                "reference": "b232a8d5a926b3e496a9a6755318819c019ce1d7"
             },
             "require": {
                 "composer-runtime-api": "^2.2",
@@ -4624,128 +4624,12 @@
             "time": "2025-10-17T11:30:53+00:00"
         },
         {
-            "name": "lexik/jwt-authentication-bundle",
-            "version": "v3.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/lexik/LexikJWTAuthenticationBundle.git",
-                "reference": "60df75dc70ee6f597929cb2f0812adda591dfa4b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/lexik/LexikJWTAuthenticationBundle/zipball/60df75dc70ee6f597929cb2f0812adda591dfa4b",
-                "reference": "60df75dc70ee6f597929cb2f0812adda591dfa4b",
-                "shasum": ""
-            },
-            "require": {
-                "ext-openssl": "*",
-                "lcobucci/jwt": "^5.0",
-                "php": ">=8.2",
-                "symfony/clock": "^6.4|^7.0|^8.0",
-                "symfony/config": "^6.4|^7.0|^8.0",
-                "symfony/dependency-injection": "^6.4|^7.0|^8.0",
-                "symfony/deprecation-contracts": "^2.4|^3.0",
-                "symfony/event-dispatcher": "^6.4|^7.0|^8.0",
-                "symfony/http-foundation": "^6.4|^7.0|^8.0",
-                "symfony/http-kernel": "^6.4|^7.0|^8.0",
-                "symfony/property-access": "^6.4|^7.0|^8.0",
-                "symfony/security-bundle": "^6.4|^7.0|^8.0",
-                "symfony/translation-contracts": "^1.0|^2.0|^3.0"
-            },
-            "require-dev": {
-                "api-platform/core": "^3.0|^4.0",
-                "rector/rector": "^1.2",
-                "symfony/browser-kit": "^6.4|^7.0|^8.0",
-                "symfony/console": "^6.4|^7.0|^8.0",
-                "symfony/dom-crawler": "^6.4|^7.0|^8.0",
-                "symfony/filesystem": "^6.4|^7.0|^8.0",
-                "symfony/framework-bundle": "^6.4|^7.0|^8.0",
-                "symfony/phpunit-bridge": "^6.4|^7.0|^8.0",
-                "symfony/var-dumper": "^6.4|^7.0|^8.0",
-                "symfony/yaml": "^6.4|^7.0|^8.0"
-            },
-            "suggest": {
-                "gesdinet/jwt-refresh-token-bundle": "Implements a refresh token system over Json Web Tokens in Symfony",
-                "spomky-labs/lexik-jose-bridge": "Provides a JWT Token encoder with encryption support"
-            },
-            "type": "symfony-bundle",
-            "autoload": {
-                "psr-4": {
-                    "Lexik\\Bundle\\JWTAuthenticationBundle\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jeremy Barthe",
-                    "email": "j.barthe@lexik.fr",
-                    "homepage": "https://github.com/jeremyb"
-                },
-                {
-                    "name": "Nicolas Cabot",
-                    "email": "n.cabot@lexik.fr",
-                    "homepage": "https://github.com/slashfan"
-                },
-                {
-                    "name": "Cedric Girard",
-                    "email": "c.girard@lexik.fr",
-                    "homepage": "https://github.com/cedric-g"
-                },
-                {
-                    "name": "Dev Lexik",
-                    "email": "dev@lexik.fr",
-                    "homepage": "https://github.com/lexik"
-                },
-                {
-                    "name": "Robin Chalas",
-                    "email": "robin.chalas@gmail.com",
-                    "homepage": "https://github.com/chalasr"
-                },
-                {
-                    "name": "Lexik Community",
-                    "homepage": "https://github.com/lexik/LexikJWTAuthenticationBundle/graphs/contributors"
-                }
-            ],
-            "description": "This bundle provides JWT authentication for your Symfony REST API",
-            "homepage": "https://github.com/lexik/LexikJWTAuthenticationBundle",
-            "keywords": [
-                "Authentication",
-                "JWS",
-                "api",
-                "bundle",
-                "jwt",
-                "rest",
-                "symfony"
-            ],
-            "support": {
-                "issues": "https://github.com/lexik/LexikJWTAuthenticationBundle/issues",
-                "source": "https://github.com/lexik/LexikJWTAuthenticationBundle/tree/v3.2.0"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/chalasr",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/lexik/jwt-authentication-bundle",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2025-12-20T17:47:00+00:00"
-        },
-        {
             "name": "localizing/locale",
             "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "../Localizing",
-                "reference": "b264e06fe3f277aa99b5d570c1d5cea3137eec3e"
+                "reference": "768c047170a190f2894573ab63db08348ce16bb6"
             },
             "require": {
                 "doctrine/doctrine-bundle": "^3.0",
@@ -5286,7 +5170,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Managing",
-                "reference": "6e25f60ddee73ef04e0b2f34caa7a0edf255fde7"
+                "reference": "f2f72f81eac4faa391ef0e4886455425d43ba17b"
             },
             "require": {
                 "doctrine/doctrine-bundle": "^3.0",
@@ -6159,6 +6043,84 @@
             "time": "2025-12-06T11:56:16+00:00"
         },
         {
+            "name": "nyholm/psr7",
+            "version": "1.8.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Nyholm/psr7.git",
+                "reference": "a71f2b11690f4b24d099d6b16690a90ae14fc6f3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Nyholm/psr7/zipball/a71f2b11690f4b24d099d6b16690a90ae14fc6f3",
+                "reference": "a71f2b11690f4b24d099d6b16690a90ae14fc6f3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2",
+                "psr/http-factory": "^1.0",
+                "psr/http-message": "^1.1 || ^2.0"
+            },
+            "provide": {
+                "php-http/message-factory-implementation": "1.0",
+                "psr/http-factory-implementation": "1.0",
+                "psr/http-message-implementation": "1.0"
+            },
+            "require-dev": {
+                "http-interop/http-factory-tests": "^0.9",
+                "php-http/message-factory": "^1.0",
+                "php-http/psr7-integration-tests": "^1.0",
+                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.4",
+                "symfony/error-handler": "^4.4"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.8-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Nyholm\\Psr7\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tobias Nyholm",
+                    "email": "tobias.nyholm@gmail.com"
+                },
+                {
+                    "name": "Martijn van der Ven",
+                    "email": "martijn@vanderven.se"
+                }
+            ],
+            "description": "A fast PHP7 implementation of PSR-7",
+            "homepage": "https://tnyholm.se",
+            "keywords": [
+                "psr-17",
+                "psr-7"
+            ],
+            "support": {
+                "issues": "https://github.com/Nyholm/psr7/issues",
+                "source": "https://github.com/Nyholm/psr7/tree/1.8.2"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/Zegnat",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nyholm",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-09-09T07:06:30+00:00"
+        },
+        {
             "name": "nyholm/psr7-server",
             "version": "1.1.0",
             "source": {
@@ -6848,7 +6810,6 @@
                 "ext-sodium": "*",
                 "ext-zlib": "*",
                 "interfacing/interface": "*@dev",
-                "lexik/jwt-authentication-bundle": "^3.0",
                 "objecting/object": "*@dev",
                 "php": "^8.4",
                 "psr/simple-cache": "3.0",
@@ -6891,7 +6852,7 @@
                 ],
                 "psr-4": {
                     "App\\": "src/",
-                    "App\\Ordering\\": "src/"
+                    "App\\Ordering": "src/"
                 }
             },
             "autoload-dev": {
@@ -7906,10 +7867,11 @@
             "require": {
                 "doctrine/collections": "^2.2",
                 "doctrine/dbal": "^4.0",
+                "doctrine/doctrine-bundle": "^2.13 || ^3.0",
                 "doctrine/migrations": "^3.6",
                 "doctrine/orm": "^3.3",
                 "ext-json": "*",
-                "lexik/jwt-authentication-bundle": "^3.0",
+                "nyholm/psr7": "^1.8",
                 "objecting/object": "*@dev",
                 "open-telemetry/exporter-otlp": "^1.0",
                 "open-telemetry/sdk": "^1.0",
@@ -7917,7 +7879,9 @@
                 "psr/log": "^3.0",
                 "symfony/cache": "^8.1",
                 "symfony/console": "^7.1 || ^8.0",
+                "symfony/form": "^7.1 || ^8.0",
                 "symfony/framework-bundle": "^7.1 || ^8.0",
+                "symfony/http-client": "^8.1",
                 "symfony/messenger": "^8.1",
                 "symfony/rate-limiter": "^8.1",
                 "symfony/runtime": "^7.1 || ^8.0",
@@ -7929,11 +7893,8 @@
                 "friendsofphp/php-cs-fixer": "^3.94",
                 "phpunit/phpunit": "^10.5"
             },
-            "type": "library",
+            "type": "symfony-bundle",
             "autoload": {
-                "classmap": [
-                    "src/"
-                ],
                 "psr-4": {
                     "App\\Progecting\\": "src/"
                 },
@@ -7958,7 +7919,7 @@
                     "php -r \"passthru('php bin/console messenger:failed:retry --force', $e); exit($e);\""
                 ]
             },
-            "description": "Progecting process app",
+            "description": "Progecting standalone Symfony application and reusable Symfony bundle",
             "transport-options": {
                 "symlink": true,
                 "relative": true
