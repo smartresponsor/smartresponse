@@ -41,6 +41,6 @@ services:
 
     App\Contract\Ui\AppDashboardContract: '@App\Service\Dashboard\AppDashboardBuilderService'
     App\Interfacing\ProviderInterface\Localization\InterfaceLocaleTemplateSelectorProviderInterface:
-        alias: App\ServiceInterface\Template\LocaleTemplateSelectorProviderInterface
+        alias: App\Localizing\ServiceInterface\Template\LocaleTemplateSelectorProviderInterface
     App\Interfacing\ProviderInterface\Localization\InterfaceLocaleTemplateContextProviderInterface:
-        alias: App\ServiceInterface\Template\LocaleTemplateContextProviderInterface
+        alias: App\Localizing\ServiceInterface\Template\LocaleTemplateContextProviderInterface
