@@ -40,9 +40,3 @@ services:
         alias: doctrine.dbal.postgres_connection
 
     App\Contract\Ui\AppDashboardContract: '@App\Service\Dashboard\AppDashboardBuilderService'
-    App\Interfacing\Provider\Localization\InterfaceDefaultLocaleTemplateSelectorProvider: ~
-    App\Interfacing\Provider\Localization\InterfaceDefaultLocaleTemplateContextProvider: ~
-    App\Interfacing\ProviderInterface\Localization\InterfaceLocaleTemplateSelectorProviderInterface:
-        alias: App\Interfacing\Provider\Localization\InterfaceDefaultLocaleTemplateSelectorProvider
-    App\Interfacing\ProviderInterface\Localization\InterfaceLocaleTemplateContextProviderInterface:
-        alias: App\Interfacing\Provider\Localization\InterfaceDefaultLocaleTemplateContextProvider
