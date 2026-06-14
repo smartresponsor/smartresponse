@@ -7,6 +7,12 @@ component:
   route_owner_root: app
   route_owner_roots:
     - app
+    - interfacing
+    - applicating
+    - notification
+  route_excluded_names:
+    - 2fa_login
+    - 2fa_login_check
   typed_layers_required: true
   service_interface_mirror: true
   mutation_mode: forbidden
