@@ -1,0 +1,7 @@
+{
+  "project": "App",
+  "tool": "codex-cli",
+  "scope": "changed",
+  "context": "repo=;branch=;commit=;base=",
+  "request": "operation=changed-review;environment=dev;profile=review;user=;request="
+}

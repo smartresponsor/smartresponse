@@ -1,4 +1,8 @@
-.PHONY: infra-up infra-down infra-logs app-up app-stop dev-up dev-down
+.DEFAULT_GOAL := dev-up
+
+AI_REVIEW_RESULT ?= var\\gating\\review-result.json
+
+.PHONY: infra-up infra-down infra-logs app-up app-stop dev-up dev-down ai-review-validate gating-check
 
 infra-up:
 	powershell -ExecutionPolicy Bypass -File .\\deploy\\docker\\up.ps1
@@ -20,3 +24,9 @@ dev-up:
 
 dev-down:
 	powershell -ExecutionPolicy Bypass -File .\\deploy\\dev\\down.ps1
+
+ai-review-validate:
+	php .\\tools\\gating\\validate-ai-review.php --result "$(AI_REVIEW_RESULT)"
+
+gating-check:
+	php .\\bin\\console gating:check --target=.

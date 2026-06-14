@@ -1216,27 +1216,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         },
  *     }>,
  * }
- * @psalm-type MercureConfig = array{
- *     hubs?: array<string, array{ // Default: []
- *         url?: scalar|Param|null, // URL of the hub's publish endpoint
- *         public_url?: scalar|Param|null, // URL of the hub's public endpoint // Default: null
- *         jwt?: string|array{ // JSON Web Token configuration.
- *             value?: scalar|Param|null, // JSON Web Token to use to publish to this hub.
- *             provider?: scalar|Param|null, // The ID of a service to call to provide the JSON Web Token.
- *             factory?: scalar|Param|null, // The ID of a service to call to create the JSON Web Token.
- *             publish?: list<scalar|Param|null>,
- *             subscribe?: list<scalar|Param|null>,
- *             secret?: scalar|Param|null, // The JWT Secret to use.
- *             passphrase?: scalar|Param|null, // The JWT secret passphrase. // Default: ""
- *             algorithm?: scalar|Param|null, // The algorithm to use to sign the JWT // Default: "hmac.sha256"
- *         },
- *         jwt_provider?: scalar|Param|null, // Deprecated: The child node "jwt_provider" at path "mercure.hubs..jwt_provider" is deprecated, use "jwt.provider" instead. // The ID of a service to call to generate the JSON Web Token.
- *         bus?: scalar|Param|null, // Name of the Messenger bus where the handler for this hub must be registered. Default to the default bus if Messenger is enabled.
- *     }>,
- *     default_hub?: scalar|Param|null,
- *     default_cookie_lifetime?: int|Param, // Default lifetime of the cookie containing the JWT, in seconds. Defaults to the value of "framework.session.cookie_lifetime". // Default: null
- *     enable_profiler?: bool|Param, // Deprecated: The child node "enable_profiler" at path "mercure.enable_profiler" is deprecated. // Enable Symfony Web Profiler integration.
- * }
  * @psalm-type SymfonycastsVerifyEmailConfig = array{
  *     lifetime?: int|Param, // The length of time in seconds that a signed URI is valid for after it is created. // Default: 3600
  * }
@@ -1264,16 +1243,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  * @psalm-type LiveComponentConfig = array{
  *     secret?: scalar|Param|null, // The secret used to compute fingerprints and checksums // Default: "%kernel.secret%"
  *     fetch_credentials?: "same-origin"|"include"|"omit"|Param, // The default fetch credentials mode for all Live Components ('same-origin', 'include', 'omit') // Default: "same-origin"
- * }
- * @psalm-type TurboConfig = array{
- *     broadcast?: bool|array{
- *         enabled?: bool|Param, // Default: true
- *         entity_template_prefixes?: list<scalar|Param|null>,
- *         doctrine_orm?: bool|array{ // Enable the Doctrine ORM integration
- *             enabled?: bool|Param, // Default: true
- *         },
- *     },
- *     default_transport?: scalar|Param|null, // Default: "default"
  * }
  * @psalm-type DoctrineConfig = array{
  *     dbal?: array{
@@ -1946,13 +1915,11 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     twig?: TwigConfig,
  *     security?: SecurityConfig,
  *     monolog?: MonologConfig,
- *     mercure?: MercureConfig,
  *     symfonycasts_verify_email?: SymfonycastsVerifyEmailConfig,
  *     symfonycasts_reset_password?: SymfonycastsResetPasswordConfig,
  *     twig_component?: TwigComponentConfig,
  *     stimulus?: StimulusConfig,
  *     live_component?: LiveComponentConfig,
- *     turbo?: TurboConfig,
  *     doctrine?: DoctrineConfig,
  *     doctrine_migrations?: DoctrineMigrationsConfig,
  *     scheb_two_factor?: SchebTwoFactorConfig,
@@ -1978,13 +1945,11 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         twig?: TwigConfig,
  *         security?: SecurityConfig,
  *         monolog?: MonologConfig,
- *         mercure?: MercureConfig,
  *         symfonycasts_verify_email?: SymfonycastsVerifyEmailConfig,
  *         symfonycasts_reset_password?: SymfonycastsResetPasswordConfig,
  *         twig_component?: TwigComponentConfig,
  *         stimulus?: StimulusConfig,
  *         live_component?: LiveComponentConfig,
- *         turbo?: TurboConfig,
  *         doctrine?: DoctrineConfig,
  *         doctrine_migrations?: DoctrineMigrationsConfig,
  *         scheb_two_factor?: SchebTwoFactorConfig,
@@ -2011,13 +1976,11 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         twig?: TwigConfig,
  *         security?: SecurityConfig,
  *         monolog?: MonologConfig,
- *         mercure?: MercureConfig,
  *         symfonycasts_verify_email?: SymfonycastsVerifyEmailConfig,
  *         symfonycasts_reset_password?: SymfonycastsResetPasswordConfig,
  *         twig_component?: TwigComponentConfig,
  *         stimulus?: StimulusConfig,
  *         live_component?: LiveComponentConfig,
- *         turbo?: TurboConfig,
  *         doctrine?: DoctrineConfig,
  *         doctrine_migrations?: DoctrineMigrationsConfig,
  *         scheb_two_factor?: SchebTwoFactorConfig,
@@ -2044,13 +2007,11 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         twig?: TwigConfig,
  *         security?: SecurityConfig,
  *         monolog?: MonologConfig,
- *         mercure?: MercureConfig,
  *         symfonycasts_verify_email?: SymfonycastsVerifyEmailConfig,
  *         symfonycasts_reset_password?: SymfonycastsResetPasswordConfig,
  *         twig_component?: TwigComponentConfig,
  *         stimulus?: StimulusConfig,
  *         live_component?: LiveComponentConfig,
- *         turbo?: TurboConfig,
  *         doctrine?: DoctrineConfig,
  *         doctrine_migrations?: DoctrineMigrationsConfig,
  *         scheb_two_factor?: SchebTwoFactorConfig,

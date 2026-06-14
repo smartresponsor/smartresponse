@@ -1,0 +1,30 @@
+name: AI Review Gate
+
+on:
+  workflow_dispatch:
+    inputs:
+      review_result_path:
+        description: Path to the AI review JSON result
+        required: true
+        default: var/gating/review-result.json
+  workflow_call:
+    inputs:
+      review_result_path:
+        description: Path to the AI review JSON result
+        required: true
+        type: string
+
+jobs:
+  validate-ai-review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+
+      - name: Validate AI review result
+        run: php tools/gating/validate-ai-review.php --result "${{ inputs.review_result_path }}"

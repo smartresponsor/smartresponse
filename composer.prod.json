@@ -8,79 +8,98 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "git@github.com:smartresponsor/cruding.git"
+            "url": "git@github.com:smartresponsor/cruding.git",
+            "no-api": true
         },
         {
             "type": "vcs",
-            "url": "git@github.com:smartresponsor/administering.git"
+            "url": "git@github.com:smartresponsor/administering.git",
+            "no-api": true
         },
         {
             "type": "vcs",
-            "url": "git@github.com:smartresponsor/configuring.git"
+            "url": "git@github.com:smartresponsor/accessing.git",
+            "no-api": true
         },
         {
             "type": "vcs",
-            "url": "git@github.com:smartresponsor/accessing.git"
+            "url": "git@github.com:smartresponsor/interfacing.git",
+            "no-api": true
         },
         {
             "type": "vcs",
-            "url": "git@github.com:smartresponsor/interfacing.git"
+            "url": "git@github.com:smartresponsor/managing.git",
+            "no-api": true
         },
         {
             "type": "vcs",
-            "url": "git@github.com:smartresponsor/managing.git"
+            "url": "git@github.com:smartresponsor/viewing.git",
+            "no-api": true
         },
         {
             "type": "vcs",
-            "url": "git@github.com:smartresponsor/viewing.git"
+            "url": "git@github.com:smartresponsor/objecting.git",
+            "no-api": true
         },
         {
             "type": "vcs",
-            "url": "git@github.com:smartresponsor/objecting.git"
+            "url": "git@github.com:smartresponsor/navigating.git",
+            "no-api": true
         },
         {
             "type": "vcs",
-            "url": "git@github.com:smartresponsor/navigating.git"
+            "url": "git@github.com:smartresponsor/searching.git",
+            "no-api": true
         },
         {
             "type": "vcs",
-            "url": "git@github.com:smartresponsor/searching.git"
+            "url": "git@github.com:smartresponsor/applicating.git",
+            "no-api": true
         },
         {
             "type": "vcs",
-            "url": "git@github.com:smartresponsor/applicating.git"
+            "url": "git@github.com:smartresponsor/cataloging.git",
+            "no-api": true
         },
         {
             "type": "vcs",
-            "url": "git@github.com:smartresponsor/cataloging.git"
+            "url": "git@github.com:smartresponsor/rolling.git",
+            "no-api": true
         },
         {
             "type": "vcs",
-            "url": "git@github.com:smartresponsor/rolling.git"
+            "url": "git@github.com:smartresponsor/configuring.git",
+            "no-api": true
+        },
+		        {
+            "type": "vcs",
+            "url": "git@github.com:smartresponsor/vendoring.git",
+            "no-api": true
         }
     ],
     "require": {
         "php": "^8.4",
+        "vendoring/vendor": "dev-master",
         "accessing/access": "dev-master",
         "administering/administration": "dev-master",
-        "applicating/application": "*@dev",
-        "cataloging/catalog": "*@dev",
-        "cruding/crud": "*@dev",
+        "applicating/application": "dev-master",
+        "cataloging/catalog": "dev-master",
+        "cruding/crud": "dev-master",
         "doctrine/dbal": "^4.3",
         "doctrine/doctrine-bundle": "^3.2",
         "doctrine/doctrine-fixtures-bundle": "*",
         "doctrine/doctrine-migrations-bundle": "^4.0",
         "doctrine/orm": "^3.3",
         "easycorp/easyadmin-bundle": "*",
-        "interfacing/interface": "*@dev",
+        "interfacing/interface": "dev-master",
         "lexik/jwt-authentication-bundle": "*",
         "managing/manage": "dev-master",
-        "navigating/navigation": "*@dev",
+        "navigating/navigation": "dev-master",
         "nelmio/api-doc-bundle": "*",
-        "objecting/object": "*@dev",
-        "rolling/role": "*@dev",
+        "objecting/object": "dev-master",
+        "rolling/role": "dev-master",
         "scheb/2fa-bundle": "*",
-        "searching/search": "*@dev",
+        "searching/search": "dev-master",
         "symfony/asset": "8.1.*",
         "symfony/config": "8.1.*",
         "symfony/console": "8.1.*",
@@ -115,7 +134,7 @@
         "symfonycasts/verify-email-bundle": "*",
         "twig/extra-bundle": "^3.0",
         "twig/html-extra": "3.24",
-        "viewing/view": "*@dev"
+        "viewing/view": "dev-master"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": ">=3.95 <4.0",

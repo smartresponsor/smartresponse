@@ -34,6 +34,8 @@ services:
     App\Service\Diagnostics\AppRouteAuditService:
         public: true
         tags: ['controller.service_arguments']
+    App\Command\GatingCheckCommand:
+        tags: ['console.command']
     doctrine.dbal.default_connection:
         alias: doctrine.dbal.postgres_connection
 
