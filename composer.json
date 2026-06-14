@@ -349,7 +349,6 @@
     "symfony/expression-language": "^8.1",
     "symfony/flex": "^2.4",
     "symfony/framework-bundle": "^8.1",
-    "symfony/mercure-bundle": "*",
     "symfony/messenger": "^8.1",
     "symfony/runtime": "^8.1",
     "symfony/translation": "^8.1",
@@ -359,12 +358,12 @@
     "symfony/yaml": "^8.1",
     "tagging/tag": "*@dev",
     "taxating/taxation": "*@dev",
-    "twig/html-extra": "3.24",
+    "twig/html-extra": "^3.24",
     "vendoring/vendor": "*@dev",
     "viewing/view": "*@dev"
   },
   "require-dev": {
-    "doctrine/doctrine-fixtures-bundle": "*",
+    "doctrine/doctrine-fixtures-bundle": "^4.3",
     "fakerphp/faker": "1.24",
     "friendsofphp/php-cs-fixer": "^3.95",
     "gating/gate": "*@dev",
