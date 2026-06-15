@@ -1,397 +1,397 @@
 {
-  "name": "smartresponsing/app",
-  "description": "smartresponsing platform",
-  "type": "project",
-  "license": "proprietary",
-  "minimum-stability": "dev",
-  "prefer-stable": true,
-  "repositories": [
-    {
-      "type": "path",
-      "url": "../Gating",
-      "options": {
-        "symlink": true
-      }
+    "name": "smartresponsing/app",
+    "description": "smartresponsing platform",
+    "type": "project",
+    "license": "proprietary",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../Gating",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Carting",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Searching",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Domaining",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Merchandising",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Objecting",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Tagging",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Billing",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Vendoring",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Analysing",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Configuring",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Indexing",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Attaching",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Messaging",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Navigating",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Cataloging",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Accessing",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Rolling",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Taxating",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Shipping",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Locating",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Ordering",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Paying",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Cruding",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Applicating",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Interfacing",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Viewing",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Administering",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Anchoring/sdk/php",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Adjudicating",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Commissioning",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Discovering",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Currencing",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Exchanging",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Faceting",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Facting",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Localizing",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Managing",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Observabiliting",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Paging",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Projecting",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../Subscripting",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
+    "require": {
+        "php": "^8.4",
+        "accessing/access": "*@dev",
+        "administering/administration": "*",
+        "analysing/analytics": "*@dev",
+        "anchoring/anchor": "*@dev",
+        "applicating/application": "*@dev",
+        "attaching/attachment": "*@dev",
+        "billing/billing": "*@dev",
+        "carting/cart": "*@dev",
+        "cataloging/catalog": "*@dev",
+        "commissioning/commission": "*@dev",
+        "configuring/config": "*@dev",
+        "cruding/crud": "*@dev",
+        "currencing/currency": "*@dev",
+        "discovering/discovery": "*@dev",
+        "doctrine/dbal": "^4.3",
+        "doctrine/doctrine-bundle": "^3.2",
+        "doctrine/doctrine-migrations-bundle": "^4.0",
+        "doctrine/orm": "^3.3",
+        "domaining/domain": "*@dev",
+        "easycorp/easyadmin-bundle": "^5.0",
+        "exchanging/exchange": "*@dev",
+        "faceting/facet": "*@dev",
+        "indexing/index": "*@dev",
+        "interfacing/interface": "*@dev",
+        "localizing/locale": "*@dev",
+        "locating/location": "*@dev",
+        "managing/manage": "*@dev",
+        "merchandising/merch": "*@dev",
+        "messaging/message": "*@dev",
+        "navigating/navigation": "*@dev",
+        "objecting/object": "*@dev",
+        "observabiliting/observability": "*@dev",
+        "ordering/order": "*@dev",
+        "paging/page": "*@dev",
+        "paying/payment": "*@dev",
+        "projecting/project": "*@dev",
+        "rolling/role": "*@dev",
+        "searching/search": "*@dev",
+        "shipping/shipment": "*@dev",
+        "subscripting/subscription": "*@dev",
+        "symfony/asset": "^8.1",
+        "symfony/console": "^8.1",
+        "symfony/dotenv": "^8.1",
+        "symfony/expression-language": "^8.1",
+        "symfony/flex": "^2.4",
+        "symfony/framework-bundle": "^8.1",
+        "symfony/messenger": "^8.1",
+        "symfony/runtime": "^8.1",
+        "symfony/translation": "^8.1",
+        "symfony/twig-bundle": "^8.1",
+        "symfony/validator": "^8.1",
+        "symfony/var-exporter": "^8.1",
+        "symfony/yaml": "^8.1",
+        "tagging/tag": "*@dev",
+        "taxating/taxation": "*@dev",
+        "twig/html-extra": "^3.24",
+        "vendoring/vendor": "*@dev",
+        "viewing/view": "*@dev"
     },
-    {
-      "type": "path",
-      "url": "../Carting",
-      "options": {
-        "symlink": true
-      }
+    "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^4.3",
+        "fakerphp/faker": "1.24",
+        "friendsofphp/php-cs-fixer": "^3.95",
+        "gating/gate": "*@dev",
+        "phpunit/phpunit": "^11.5",
+        "symfony/browser-kit": "^8.1",
+        "symfony/css-selector": "^8.1",
+        "symfony/phpunit-bridge": "^8.1",
+        "symfony/var-dumper": "^8.1"
     },
-    {
-      "type": "path",
-      "url": "../Searching",
-      "options": {
-        "symlink": true
-      }
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true,
+            "symfony/flex": true,
+            "symfony/runtime": true,
+            "tbachert/spi": true
+        },
+        "sort-packages": true
     },
-    {
-      "type": "path",
-      "url": "../Domaining",
-      "options": {
-        "symlink": true
-      }
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
     },
-    {
-      "type": "path",
-      "url": "../Merchandising",
-      "options": {
-        "symlink": true
-      }
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests/"
+        }
     },
-    {
-      "type": "path",
-      "url": "../Objecting",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../Tagging",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../Billing",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../Vendoring",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../Analysing",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../Configuring",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../Indexing",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../Attaching",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../Messaging",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../Navigating",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../Cataloging",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../Accessing",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../Rolling",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../Taxating",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../Shipping",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../Locating",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../Ordering",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../Paying",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../Cruding",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../Applicating",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../Interfacing",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../Viewing",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../Administering",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../Anchoring/sdk/php",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../Adjudicating",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../Commissioning",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../Discovering",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../Currencing",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../Exchanging",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../Faceting",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../Facting",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../Localizing",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../Managing",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../Observabiliting",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../Paging",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../Projecting",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../Subscripting",
-      "options": {
-        "symlink": true
-      }
-    }
-  ],
-  "require": {
-    "php": "^8.4",
-    "accessing/access": "*@dev",
-    "administering/administration": "*",
-    "analysing/analytics": "*@dev",
-    "anchoring/anchor": "*@dev",
-    "applicating/application": "*@dev",
-    "attaching/attachment": "*@dev",
-    "billing/billing": "*@dev",
-    "carting/cart": "*@dev",
-    "cataloging/catalog": "*@dev",
-    "commissioning/commission": "*@dev",
-    "configuring/config": "*@dev",
-    "cruding/crud": "*@dev",
-    "currencing/currency": "*@dev",
-    "discovering/discovery": "*@dev",
-    "doctrine/dbal": "^4.3",
-    "doctrine/doctrine-bundle": "^3.2",
-    "doctrine/doctrine-migrations-bundle": "^4.0",
-    "doctrine/orm": "^3.3",
-    "domaining/domain": "*@dev",
-    "easycorp/easyadmin-bundle": "^5.0",
-    "exchanging/exchange": "*@dev",
-    "faceting/facet": "*@dev",
-    "indexing/index": "*@dev",
-    "interfacing/interface": "*@dev",
-    "localizing/locale": "*@dev",
-    "locating/location": "*@dev",
-    "managing/manage": "*@dev",
-    "merchandising/merch": "*@dev",
-    "messaging/message": "*@dev",
-    "navigating/navigation": "*@dev",
-    "objecting/object": "*@dev",
-    "observabiliting/observability": "*@dev",
-    "ordering/order": "*@dev",
-    "paging/page": "*@dev",
-    "paying/payment": "*@dev",
-    "projecting/project": "*@dev",
-    "rolling/role": "*@dev",
-    "searching/search": "*@dev",
-    "shipping/shipment": "*@dev",
-    "subscripting/subscription": "*@dev",
-    "symfony/asset": "^8.1",
-    "symfony/console": "^8.1",
-    "symfony/dotenv": "^8.1",
-    "symfony/expression-language": "^8.1",
-    "symfony/flex": "^2.4",
-    "symfony/framework-bundle": "^8.1",
-    "symfony/messenger": "^8.1",
-    "symfony/runtime": "^8.1",
-    "symfony/translation": "^8.1",
-    "symfony/twig-bundle": "^8.1",
-    "symfony/validator": "^8.1",
-    "symfony/var-exporter": "^8.1",
-    "symfony/yaml": "^8.1",
-    "tagging/tag": "*@dev",
-    "taxating/taxation": "*@dev",
-    "twig/html-extra": "^3.24",
-    "vendoring/vendor": "*@dev",
-    "viewing/view": "*@dev"
-  },
-  "require-dev": {
-    "doctrine/doctrine-fixtures-bundle": "^4.3",
-    "fakerphp/faker": "1.24",
-    "friendsofphp/php-cs-fixer": "^3.95",
-    "gating/gate": "*@dev",
-    "phpunit/phpunit": "^11.5",
-    "symfony/browser-kit": "^8.1",
-    "symfony/css-selector": "^8.1",
-    "symfony/phpunit-bridge": "^8.1",
-    "symfony/var-dumper": "^8.1"
-  },
-  "config": {
-    "allow-plugins": {
-      "php-http/discovery": true,
-      "symfony/flex": true,
-      "symfony/runtime": true,
-      "tbachert/spi": true
-    },
-    "sort-packages": true
-  },
-  "autoload": {
-    "psr-4": {
-      "App\\": "src/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "App\\Tests\\": "tests/"
-    }
-  },
     "scripts": {
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
@@ -403,17 +403,17 @@
         "post-install-cmd": [
             "@auto-scripts"
         ],
-    "post-update-cmd": [
-      "@auto-scripts"
-    ]
-  },
-  "conflict": {
-    "symfony/symfony": "*"
-  },
-  "extra": {
-    "symfony": {
-      "allow-contrib": false,
-      "require": "^8.0"
+        "post-update-cmd": [
+            "@auto-scripts"
+        ]
+    },
+    "conflict": {
+        "symfony/symfony": "*"
+    },
+    "extra": {
+        "symfony": {
+            "allow-contrib": false,
+            "require": "^8.0"
+        }
     }
-  }
 }
