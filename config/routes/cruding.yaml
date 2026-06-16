@@ -1,2 +1,2 @@
 cruding_routes:
-    resource: '@CrudingBundle/config/routes.php'
+    resource: '@CrudingBundle/config/routes.yaml'
