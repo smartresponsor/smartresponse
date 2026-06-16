@@ -60,12 +60,6 @@ doctrine:
                         dir: '%kernel.project_dir%/../Vendoring/src/Entity/Vendor'
                         prefix: 'App\Vendoring\Entity\Vendor'
                         alias: Vendoring
-                    Cataloging:
-                        is_bundle: false
-                        type: attribute
-                        dir: '%kernel.project_dir%/../Cataloging/src/Entity/Catalog'
-                        prefix: 'App\Cataloging\Entity\Catalog'
-                        alias: Cataloging
                     Objecting:
                         is_bundle: false
                         type: attribute
