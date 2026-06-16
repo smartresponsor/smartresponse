@@ -1,3 +1,8 @@
+parameters:
+    app.platform_data_database_default: 'postgresql://app:!ChangeMe!@127.0.0.1:5432/app?serverVersion=16&charset=utf8'
+    app.object_review_database_default: 'postgresql://app:!ChangeMe!@127.0.0.1:5432/app_review?serverVersion=16&charset=utf8'
+    app.platform_system_database_default: 'sqlite:///%kernel.project_dir%/var/data/platform_system.sqlite'
+
 doctrine:
     dbal:
         default_connection: postgres
@@ -5,7 +10,7 @@ doctrine:
             ltree: App\Cataloging\Doctrine\Type\LtreeType
         connections:
             postgres:
-                url: '%env(resolve:PLATFORM_DATA_DATABASE)%'
+                url: '%env(default:app.platform_data_database_default:PLATFORM_DATA_DATABASE)%'
                 driver: 'pdo_pgsql'
                 server_version: '16'
                 charset: utf8
@@ -13,13 +18,13 @@ doctrine:
                 mapping_types:
                     ltree: ltree
             review:
-                url: '%env(resolve:OBJECT_REVIEW_DATABASE)%'
+                url: '%env(default:app.object_review_database_default:OBJECT_REVIEW_DATABASE)%'
                 driver: 'pdo_pgsql'
                 server_version: '16'
                 charset: utf8
                 profiling_collect_backtrace: '%kernel.debug%'
             sqlite:
-                url: '%env(resolve:PLATFORM_SYSTEM_DATABASE)%'
+                url: '%env(default:app.platform_system_database_default:PLATFORM_SYSTEM_DATABASE)%'
                 driver: 'pdo_sqlite'
                 server_version: '3.21'
                 charset: utf8mb4
@@ -55,6 +60,12 @@ doctrine:
                         dir: '%kernel.project_dir%/../Vendoring/src/Entity/Vendor'
                         prefix: 'App\Vendoring\Entity\Vendor'
                         alias: Vendoring
+                    Cataloging:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Cataloging/src/Entity/Catalog'
+                        prefix: 'App\Cataloging\Entity\Catalog'
+                        alias: Cataloging
                     Objecting:
                         is_bundle: false
                         type: attribute

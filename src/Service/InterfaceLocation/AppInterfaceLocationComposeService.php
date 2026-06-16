@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service\InterfaceLocation;
 
 use App\Navigating\ServiceInterface\Navigation\Provide\NavigationTemplateDataProvideServiceInterface;
+use App\ServiceInterface\InterfaceLocation\AppInterfaceLocationComposeServiceInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -14,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
  * components stay decoupled from each other: Viewing does not know Navigating,
  * Interfacing does not know Navigating, and Navigating does not know Viewing.
  */
-final readonly class AppInterfaceLocationComposeService
+final readonly class AppInterfaceLocationComposeService implements AppInterfaceLocationComposeServiceInterface
 {
     public function __construct(
         private ?NavigationTemplateDataProvideServiceInterface $navigationTemplateDataProvider = null,

@@ -7,7 +7,8 @@
 parameters:
     redis.dsn: 'redis://127.0.0.1:6379/0'
     paying.messenger.dsn: 'sync://'
-    app.back_uri_token: '%env(APP_BACK_URI_TOKEN)%'
+    app.back_uri_token_default: 'ea'
+    app.back_uri_token: '%env(default:app.back_uri_token_default:APP_BACK_URI_TOKEN)%'
 
 services:
     # default configuration for services in *this* file
@@ -44,3 +45,5 @@ services:
         alias: App\Localizing\ServiceInterface\Template\LocaleTemplateSelectorProviderInterface
     App\Interfacing\ProviderInterface\Localization\InterfaceLocaleTemplateContextProviderInterface:
         alias: App\Localizing\ServiceInterface\Template\LocaleTemplateContextProviderInterface
+    App\ServiceInterface\InterfaceLocation\AppInterfaceLocationComposeServiceInterface:
+        alias: App\Service\InterfaceLocation\AppInterfaceLocationComposeService

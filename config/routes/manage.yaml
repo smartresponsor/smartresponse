@@ -1,0 +1,12 @@
+manage_index:
+    path: /manage/
+    controller: App\Managing\Controller\Admin\ManageDashboardController::index
+    methods: [GET]
+
+manage_index_redirect:
+    path: /manage/index
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction
+    defaults:
+        path: /manage/
+        permanent: false
+    methods: [GET]
