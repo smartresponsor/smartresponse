@@ -41,6 +41,9 @@ final readonly class AppInterfaceLocationComposeService implements AppInterfaceL
     }
 
     /**
+     * Only populated component projections cross the App composition boundary.
+     * Empty canonical buckets stay out so they cannot erase page-owned locations.
+     *
      * @return array<string, list<array<string, mixed>>>
      */
     private function extractLocations(mixed $value): array
@@ -64,6 +67,10 @@ final readonly class AppInterfaceLocationComposeService implements AppInterfaceL
                 /** @var array<string, mixed> $normalizedBlock */
                 $normalizedBlock = $block;
                 $normalizedBlocks[] = $normalizedBlock;
+            }
+
+            if ([] === $normalizedBlocks) {
+                continue;
             }
 
             $locations[$location] = $normalizedBlocks;
