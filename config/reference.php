@@ -788,9 +788,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             property?: scalar|Param|null, // Default: null
  *             manager_name?: scalar|Param|null, // Default: null
  *         },
- *         lexik_jwt?: array{
- *             class?: scalar|Param|null, // Default: "Lexik\\Bundle\\JWTAuthenticationBundle\\Security\\User\\JWTUser"
- *         },
  *     }>,
  *     firewalls?: array<string, array{ // Default: []
  *         pattern?: scalar|Param|null,
@@ -848,10 +845,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         remote_user?: array{
  *             provider?: scalar|Param|null,
  *             user?: scalar|Param|null, // Default: "REMOTE_USER"
- *         },
- *         jwt?: array{
- *             provider?: scalar|Param|null, // Default: null
- *             authenticator?: scalar|Param|null, // Default: "lexik_jwt_authentication.security.jwt_authenticator"
  *         },
  *         login_link?: array{
  *             check_route?: scalar|Param|null, // Route that will validate the login link - e.g. "app_login_link_verify".
@@ -1236,6 +1229,16 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         collect_components?: bool|Param, // Collect components instances // Default: true
  *     },
  * }
+ * @psalm-type TurboConfig = array{
+ *     broadcast?: bool|array{
+ *         enabled?: bool|Param, // Default: true
+ *         entity_template_prefixes?: list<scalar|Param|null>,
+ *         doctrine_orm?: bool|array{ // Enable the Doctrine ORM integration
+ *             enabled?: bool|Param, // Default: true
+ *         },
+ *     },
+ *     default_transport?: scalar|Param|null, // Default: "default"
+ * }
  * @psalm-type StimulusConfig = array{
  *     controller_paths?: list<scalar|Param|null>,
  *     controllers_json?: scalar|Param|null, // Default: "%kernel.project_dir%/assets/controllers.json"
@@ -1474,56 +1477,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         template?: scalar|Param|null, // Default: "@SchebTwoFactor/Authentication/form.html.twig"
  *     },
  * }
- * @psalm-type NelmioApiDocConfig = array{
- *     type_info?: bool|Param, // Use the symfony/type-info component for determining types. // Default: true
- *     use_validation_groups?: bool|Param, // If true, `groups` passed to #[Model] attributes will be used to limit validation constraints // Default: false
- *     operation_id_generation?: \Nelmio\ApiDocBundle\Describer\OperationIdGeneration::ALWAYS_PREPEND|\Nelmio\ApiDocBundle\Describer\OperationIdGeneration::CONDITIONALLY_PREPEND|\Nelmio\ApiDocBundle\Describer\OperationIdGeneration::NO_PREPEND|"always_prepend"|"conditionally_prepend"|"no_prepend"|Param, // How to generate operation ids // Default: "always_prepend"
- *     cache?: array{
- *         pool?: scalar|Param|null, // define cache pool to use // Default: null
- *         item_id?: scalar|Param|null, // define cache item id // Default: null
- *     },
- *     documentation?: array<string, mixed>,
- *     media_types?: list<scalar|Param|null>,
- *     html_config?: array{ // UI configuration options
- *         assets_mode?: scalar|Param|null, // Default: "cdn"
- *         swagger_ui_config?: array<mixed>,
- *         redocly_config?: array<mixed>,
- *         scalar_config?: array<mixed>,
- *         stoplight_config?: array<mixed>,
- *     },
- *     areas?: array<string, array{ // Default: {"default":{"path_patterns":[],"host_patterns":[],"with_attribute":false,"documentation":[],"name_patterns":[],"disable_default_routes":false,"cache":[],"security":[]}}
- *         path_patterns?: list<scalar|Param|null>,
- *         host_patterns?: list<scalar|Param|null>,
- *         name_patterns?: list<scalar|Param|null>,
- *         security?: array<string, array{ // Default: []
- *             type?: scalar|Param|null,
- *             scheme?: scalar|Param|null,
- *             in?: scalar|Param|null,
- *             name?: scalar|Param|null,
- *             description?: scalar|Param|null,
- *             openIdConnectUrl?: scalar|Param|null,
- *             ...<string, mixed>
- *         }>,
- *         with_attribute?: bool|Param, // whether to filter by attributes // Default: false
- *         disable_default_routes?: bool|Param, // if set disables default routes without attributes // Default: false
- *         documentation?: array<string, mixed>,
- *         cache?: array{
- *             pool?: scalar|Param|null, // define cache pool to use // Default: null
- *             item_id?: scalar|Param|null, // define cache item id // Default: null
- *         },
- *     }>,
- *     models?: array{
- *         use_jms?: bool|Param, // Default: false
- *         names?: list<array{ // Default: []
- *             alias?: scalar|Param|null,
- *             type?: scalar|Param|null,
- *             groups?: mixed, // Default: null
- *             options?: mixed, // Default: null
- *             serializationContext?: list<mixed>,
- *             areas?: list<scalar|Param|null>,
- *         }>,
- *     },
- * }
  * @psalm-type TwigExtraConfig = array{
  *     cache?: bool|array{
  *         enabled?: bool|Param, // Default: false
@@ -1571,134 +1524,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         ...<string, mixed>
  *     },
  * }
- * @psalm-type LexikJwtAuthenticationConfig = array{
- *     public_key?: scalar|Param|null, // The key used to sign tokens (useless for HMAC). If not set, the key will be automatically computed from the secret key. // Default: null
- *     additional_public_keys?: list<scalar|Param|null>,
- *     secret_key?: scalar|Param|null, // The key used to sign tokens. It can be a raw secret (for HMAC), a raw RSA/ECDSA key or the path to a file itself being plaintext or PEM. // Default: null
- *     pass_phrase?: scalar|Param|null, // The key passphrase (useless for HMAC) // Default: ""
- *     token_ttl?: scalar|Param|null, // Default: 3600
- *     allow_no_expiration?: bool|Param, // Allow tokens without "exp" claim (i.e. indefinitely valid, no lifetime) to be considered valid. Caution: usage of this should be rare. // Default: false
- *     clock_skew?: scalar|Param|null, // Default: 0
- *     encoder?: array{
- *         service?: scalar|Param|null, // Default: "lexik_jwt_authentication.encoder.lcobucci"
- *         signature_algorithm?: scalar|Param|null, // Default: "RS256"
- *     },
- *     user_id_claim?: scalar|Param|null, // Default: "username"
- *     token_extractors?: array{
- *         authorization_header?: bool|array{
- *             enabled?: bool|Param, // Default: true
- *             prefix?: scalar|Param|null, // Default: "Bearer"
- *             name?: scalar|Param|null, // Default: "Authorization"
- *         },
- *         cookie?: bool|array{
- *             enabled?: bool|Param, // Default: false
- *             name?: scalar|Param|null, // Default: "BEARER"
- *         },
- *         query_parameter?: bool|array{
- *             enabled?: bool|Param, // Default: false
- *             name?: scalar|Param|null, // Default: "bearer"
- *         },
- *         split_cookie?: bool|array{
- *             enabled?: bool|Param, // Default: false
- *             cookies?: list<scalar|Param|null>,
- *         },
- *     },
- *     remove_token_from_body_when_cookies_used?: scalar|Param|null, // Default: true
- *     set_cookies?: array<string, array{ // Default: []
- *         lifetime?: scalar|Param|null, // The cookie lifetime. If null, the "token_ttl" option value will be used // Default: null
- *         samesite?: "none"|"lax"|"strict"|Param, // Default: "lax"
- *         path?: scalar|Param|null, // Default: "/"
- *         domain?: scalar|Param|null, // Default: null
- *         secure?: scalar|Param|null, // Default: true
- *         httpOnly?: scalar|Param|null, // Default: true
- *         partitioned?: scalar|Param|null, // Default: false
- *         split?: list<scalar|Param|null>,
- *     }>,
- *     api_platform?: bool|array{ // API Platform compatibility: add check_path in OpenAPI documentation.
- *         enabled?: bool|Param, // Default: false
- *         check_path?: scalar|Param|null, // The login check path to add in OpenAPI. // Default: null
- *         username_path?: scalar|Param|null, // The path to the username in the JSON body. // Default: null
- *         password_path?: scalar|Param|null, // The path to the password in the JSON body. // Default: null
- *     },
- *     access_token_issuance?: bool|array{
- *         enabled?: bool|Param, // Default: false
- *         signature?: array{
- *             algorithm?: scalar|Param|null, // The algorithm use to sign the access tokens.
- *             key?: scalar|Param|null, // The signature key. It shall be JWK encoded.
- *         },
- *         encryption?: bool|array{
- *             enabled?: bool|Param, // Default: false
- *             key_encryption_algorithm?: scalar|Param|null, // The key encryption algorithm is used to encrypt the token.
- *             content_encryption_algorithm?: scalar|Param|null, // The key encryption algorithm is used to encrypt the token.
- *             key?: scalar|Param|null, // The encryption key. It shall be JWK encoded.
- *         },
- *     },
- *     access_token_verification?: bool|array{
- *         enabled?: bool|Param, // Default: false
- *         signature?: array{
- *             header_checkers?: list<scalar|Param|null>,
- *             claim_checkers?: list<scalar|Param|null>,
- *             mandatory_claims?: list<scalar|Param|null>,
- *             allowed_algorithms?: list<scalar|Param|null>,
- *             keyset?: scalar|Param|null, // The signature keyset. It shall be JWKSet encoded.
- *         },
- *         encryption?: bool|array{
- *             enabled?: bool|Param, // Default: false
- *             continue_on_decryption_failure?: bool|Param, // If enable, non-encrypted tokens or tokens that failed during decryption or verification processes are accepted. // Default: false
- *             header_checkers?: list<scalar|Param|null>,
- *             allowed_key_encryption_algorithms?: list<scalar|Param|null>,
- *             allowed_content_encryption_algorithms?: list<scalar|Param|null>,
- *             keyset?: scalar|Param|null, // The encryption keyset. It shall be JWKSet encoded.
- *         },
- *     },
- *     blocklist_token?: bool|array{
- *         enabled?: bool|Param, // Default: false
- *         cache?: scalar|Param|null, // Storage to track blocked tokens // Default: "cache.app"
- *     },
- * }
- * @psalm-type AttachmentConfig = array{
- *     storage?: array{
- *         default?: scalar|Param|null, // Default: "local"
- *         local?: array{
- *             root_path?: scalar|Param|null, // Default: "%kernel.project_dir%/var/storage/attachment"
- *         },
- *     },
- *     upload?: array{
- *         max_size?: int|Param, // Default: 33554432
- *         allowed_media_mime_types?: list<scalar|Param|null>,
- *         allowed_document_mime_types?: list<scalar|Param|null>,
- *     },
- * }
- * @psalm-type BillingConfig = array{
- *     trust_identity_headers?: bool|Param, // Default: false
- *     rate_limit?: array{
- *         window_seconds?: int|Param, // Default: 60
- *         create?: int|Param, // Default: 60
- *         finalize?: int|Param, // Default: 60
- *     },
- *     storage?: array{
- *         file_state_path?: scalar|Param|null, // Default: "%kernel.project_dir%/var/billing/state.json"
- *     },
- *     telemetry?: array{
- *         log_path?: scalar|Param|null, // Default: "%kernel.project_dir%/var/billing/telemetry.log"
- *         metrics_path?: scalar|Param|null, // Default: "%kernel.project_dir%/var/billing/metrics.json"
- *     },
- *     alerts?: array{
- *         metrics_stale_after_seconds?: int|Param, // Default: 300
- *         errors_threshold?: int|Param, // Default: 1
- *         rate_limit_block_threshold?: int|Param, // Default: 10
- *         http_latency_max_ms?: int|Param, // Default: 1500
- *     },
- *     database?: array{
- *         dsn?: scalar|Param|null, // Default: ""
- *         user?: scalar|Param|null, // Default: ""
- *         password?: scalar|Param|null, // Default: ""
- *     },
- * }
- * @psalm-type CommissioningConfig = array{
- *     default_plan_code?: scalar|Param|null, // Default: "default"
- *     development_fallbacks?: bool|Param, // Default: true
- * }
  * @psalm-type CrudingConfig = array{
  *     resource_path_requirement?: scalar|Param|null, // Default: "[a-z][a-z0-9_-]*(?:/(?!(?:new|edit|delete|audit|visibility|attach|detach)$)[a-z0-9][a-z0-9_-]*)*"
  *     route_guard?: array{
@@ -1718,16 +1543,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     capability_map?: array<string, mixed>,
  *     entity_class_alias_map?: array<string, scalar|Param|null>,
  *     form_type_map?: array<string, scalar|Param|null>,
- * }
- * @psalm-type DomainingConfig = array{
- *     standalone_enabled?: bool|Param, // Default: false
- *     template_surface?: scalar|Param|null, // Default: "domain"
- *     raw_json_fallback?: bool|Param, // Default: true
- *     interfacing_template_candidates?: list<scalar|Param|null>,
- *     provider_recommendation?: array{
- *         primary?: scalar|Param|null, // Default: "Cloudflare"
- *         note?: scalar|Param|null, // Default: "Smart Responsor does not register, sell, transfer, or host domains as a registrar."
- *     },
  * }
  * @psalm-type ManagingConfig = array{
  *     enabled_components?: list<scalar|Param|null>,
@@ -1831,15 +1646,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         }>,
  *     }>,
  * }
- * @psalm-type PayingConfig = array{
- *     storage?: array{
- *         data_server_version?: scalar|Param|null, // Default: "16.0"
- *         infra_server_version?: scalar|Param|null, // Default: "3.45.1"
- *     },
- *     messenger?: array{
- *         dsn?: scalar|Param|null, // Default: "%env(resolve:RABBITMQ_DSN)%"
- *     },
- * }
  * @psalm-type SearchingConfig = array{
  *     enabled?: bool|Param, // Default: true
  *     default_provider?: scalar|Param|null, // Default: "null"
@@ -1907,6 +1713,68 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     local_component_fallback_enabled?: bool|Param, // Default: true
  *     json_fallback_status_code?: int|Param, // Default: 200
  * }
+ * @psalm-type AttachmentConfig = array{
+ *     storage?: array{
+ *         default?: scalar|Param|null, // Default: "local"
+ *         local?: array{
+ *             root_path?: scalar|Param|null, // Default: "%kernel.project_dir%/var/storage/attachment"
+ *         },
+ *     },
+ *     upload?: array{
+ *         max_size?: int|Param, // Default: 33554432
+ *         allowed_media_mime_types?: list<scalar|Param|null>,
+ *         allowed_document_mime_types?: list<scalar|Param|null>,
+ *     },
+ * }
+ * @psalm-type BillingConfig = array{
+ *     trust_identity_headers?: bool|Param, // Default: false
+ *     rate_limit?: array{
+ *         window_seconds?: int|Param, // Default: 60
+ *         create?: int|Param, // Default: 60
+ *         finalize?: int|Param, // Default: 60
+ *     },
+ *     storage?: array{
+ *         file_state_path?: scalar|Param|null, // Default: "%kernel.project_dir%/var/billing/state.json"
+ *     },
+ *     telemetry?: array{
+ *         log_path?: scalar|Param|null, // Default: "%kernel.project_dir%/var/billing/telemetry.log"
+ *         metrics_path?: scalar|Param|null, // Default: "%kernel.project_dir%/var/billing/metrics.json"
+ *     },
+ *     alerts?: array{
+ *         metrics_stale_after_seconds?: int|Param, // Default: 300
+ *         errors_threshold?: int|Param, // Default: 1
+ *         rate_limit_block_threshold?: int|Param, // Default: 10
+ *         http_latency_max_ms?: int|Param, // Default: 1500
+ *     },
+ *     database?: array{
+ *         dsn?: scalar|Param|null, // Default: ""
+ *         user?: scalar|Param|null, // Default: ""
+ *         password?: scalar|Param|null, // Default: ""
+ *     },
+ * }
+ * @psalm-type CommissioningConfig = array{
+ *     default_plan_code?: scalar|Param|null, // Default: "default"
+ *     development_fallbacks?: bool|Param, // Default: true
+ * }
+ * @psalm-type DomainingConfig = array{
+ *     standalone_enabled?: bool|Param, // Default: false
+ *     template_surface?: scalar|Param|null, // Default: "domain"
+ *     raw_json_fallback?: bool|Param, // Default: true
+ *     interfacing_template_candidates?: list<scalar|Param|null>,
+ *     provider_recommendation?: array{
+ *         primary?: scalar|Param|null, // Default: "Cloudflare"
+ *         note?: scalar|Param|null, // Default: "Smart Responsor does not register, sell, transfer, or host domains as a registrar."
+ *     },
+ * }
+ * @psalm-type PayingConfig = array{
+ *     storage?: array{
+ *         data_server_version?: scalar|Param|null, // Default: "16.0"
+ *         infra_server_version?: scalar|Param|null, // Default: "3.45.1"
+ *     },
+ *     messenger?: array{
+ *         dsn?: scalar|Param|null, // Default: "%env(resolve:RABBITMQ_DSN)%"
+ *     },
+ * }
  * @psalm-type ConfigType = array{
  *     imports?: ImportsConfig,
  *     parameters?: ParametersConfig,
@@ -1918,25 +1786,24 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     symfonycasts_verify_email?: SymfonycastsVerifyEmailConfig,
  *     symfonycasts_reset_password?: SymfonycastsResetPasswordConfig,
  *     twig_component?: TwigComponentConfig,
+ *     turbo?: TurboConfig,
  *     stimulus?: StimulusConfig,
  *     live_component?: LiveComponentConfig,
  *     doctrine?: DoctrineConfig,
  *     doctrine_migrations?: DoctrineMigrationsConfig,
  *     scheb_two_factor?: SchebTwoFactorConfig,
- *     nelmio_api_doc?: NelmioApiDocConfig,
  *     twig_extra?: TwigExtraConfig,
- *     lexik_jwt_authentication?: LexikJwtAuthenticationConfig,
- *     attachment?: AttachmentConfig,
- *     billing?: BillingConfig,
- *     commissioning?: CommissioningConfig,
  *     cruding?: CrudingConfig,
- *     domaining?: DomainingConfig,
  *     managing?: ManagingConfig,
  *     navigation?: NavigationConfig,
- *     paying?: PayingConfig,
  *     searching?: SearchingConfig,
  *     vendoring?: VendoringConfig,
  *     viewing?: ViewingConfig,
+ *     attachment?: AttachmentConfig,
+ *     billing?: BillingConfig,
+ *     commissioning?: CommissioningConfig,
+ *     domaining?: DomainingConfig,
+ *     paying?: PayingConfig,
  *     "when@dev"?: array{
  *         imports?: ImportsConfig,
  *         parameters?: ParametersConfig,
@@ -1948,22 +1815,16 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         symfonycasts_verify_email?: SymfonycastsVerifyEmailConfig,
  *         symfonycasts_reset_password?: SymfonycastsResetPasswordConfig,
  *         twig_component?: TwigComponentConfig,
+ *         turbo?: TurboConfig,
  *         stimulus?: StimulusConfig,
  *         live_component?: LiveComponentConfig,
  *         doctrine?: DoctrineConfig,
  *         doctrine_migrations?: DoctrineMigrationsConfig,
  *         scheb_two_factor?: SchebTwoFactorConfig,
- *         nelmio_api_doc?: NelmioApiDocConfig,
  *         twig_extra?: TwigExtraConfig,
- *         lexik_jwt_authentication?: LexikJwtAuthenticationConfig,
- *         attachment?: AttachmentConfig,
- *         billing?: BillingConfig,
- *         commissioning?: CommissioningConfig,
  *         cruding?: CrudingConfig,
- *         domaining?: DomainingConfig,
  *         managing?: ManagingConfig,
  *         navigation?: NavigationConfig,
- *         paying?: PayingConfig,
  *         searching?: SearchingConfig,
  *         vendoring?: VendoringConfig,
  *         viewing?: ViewingConfig,
@@ -1979,22 +1840,16 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         symfonycasts_verify_email?: SymfonycastsVerifyEmailConfig,
  *         symfonycasts_reset_password?: SymfonycastsResetPasswordConfig,
  *         twig_component?: TwigComponentConfig,
+ *         turbo?: TurboConfig,
  *         stimulus?: StimulusConfig,
  *         live_component?: LiveComponentConfig,
  *         doctrine?: DoctrineConfig,
  *         doctrine_migrations?: DoctrineMigrationsConfig,
  *         scheb_two_factor?: SchebTwoFactorConfig,
- *         nelmio_api_doc?: NelmioApiDocConfig,
  *         twig_extra?: TwigExtraConfig,
- *         lexik_jwt_authentication?: LexikJwtAuthenticationConfig,
- *         attachment?: AttachmentConfig,
- *         billing?: BillingConfig,
- *         commissioning?: CommissioningConfig,
  *         cruding?: CrudingConfig,
- *         domaining?: DomainingConfig,
  *         managing?: ManagingConfig,
  *         navigation?: NavigationConfig,
- *         paying?: PayingConfig,
  *         searching?: SearchingConfig,
  *         vendoring?: VendoringConfig,
  *         viewing?: ViewingConfig,
@@ -2010,22 +1865,16 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         symfonycasts_verify_email?: SymfonycastsVerifyEmailConfig,
  *         symfonycasts_reset_password?: SymfonycastsResetPasswordConfig,
  *         twig_component?: TwigComponentConfig,
+ *         turbo?: TurboConfig,
  *         stimulus?: StimulusConfig,
  *         live_component?: LiveComponentConfig,
  *         doctrine?: DoctrineConfig,
  *         doctrine_migrations?: DoctrineMigrationsConfig,
  *         scheb_two_factor?: SchebTwoFactorConfig,
- *         nelmio_api_doc?: NelmioApiDocConfig,
  *         twig_extra?: TwigExtraConfig,
- *         lexik_jwt_authentication?: LexikJwtAuthenticationConfig,
- *         attachment?: AttachmentConfig,
- *         billing?: BillingConfig,
- *         commissioning?: CommissioningConfig,
  *         cruding?: CrudingConfig,
- *         domaining?: DomainingConfig,
  *         managing?: ManagingConfig,
  *         navigation?: NavigationConfig,
- *         paying?: PayingConfig,
  *         searching?: SearchingConfig,
  *         vendoring?: VendoringConfig,
  *         viewing?: ViewingConfig,

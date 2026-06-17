@@ -1,10 +1,3 @@
-administering_admin_attribute:
-    resource: '@AdministeringBundle/config/routes/administering_admin.yaml'
-    prefix: '/%app.back_uri_token%'
-
-manage_easyadmin_routes:
-    resource: '../../Managing/config/routes/managing.yaml'
-
 # Interfacing and Viewing are platform layers, not producer route owners.
 interfacing_routes:
     resource: '../../Interfacing/config/routes/interfacing_attributes.yaml'
