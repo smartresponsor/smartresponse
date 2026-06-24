@@ -79,3 +79,4 @@ composer.phar
 ###< phpunit/phpunit ###
 
 /config/jwt/*.pem
+config/reference.php
