@@ -1,0 +1,4 @@
+navigation_mobile_shell:
+    path: /api/navigation/mobile/shell
+    controller: App\Navigating\Service\Http\Navigation\NavigationHttpService::mobileShell
+    methods: [GET]
