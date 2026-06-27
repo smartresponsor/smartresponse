@@ -573,6 +573,24 @@ navigation:
       - ROLE_ADMIN
       - ROLE_SUPER_ADMIN
       items:
+        administering:
+          type: link
+          label: Administering
+          icon: SafetyCertificateOutlined
+          priority: 20
+          path: /ea
+          metadata:
+            business_visible: true
+            route_name: administration_admin_index
+            domain: administering
+            resource: dashboard
+            operation: index
+            navigation_scope: system
+            easyadmin_dashboard: true
+            admin_only: true
+          visible_for_roles:
+          - ROLE_ADMIN
+          - ROLE_SUPER_ADMIN
         access:
           type: link
           label: Access
@@ -635,16 +653,16 @@ navigation:
           label: Role
           icon: RocketOutlined
           priority: 60
-          path: /role/index
+          path: /ea/role/permission/catalog
           metadata:
             business_visible: true
-            route_name: role.index
+            route_name: administration_rolling_permission_catalog
             domain: role
-            resource: role
-            operation: index
+            resource: permission
+            operation: catalog
             navigation_scope: system
-            root_only: true
-            crud_index_only: true
+            admin_business_surface: true
+            crud_index_only: false
             admin_only: true
           visible_for_roles:
           - ROLE_ADMIN
