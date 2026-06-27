@@ -596,16 +596,16 @@ navigation:
           label: Access
           icon: LockOutlined
           priority: 30
-          path: /access/index
+          path: /ea/accessing/accounts
           metadata:
             business_visible: true
-            route_name: access.index
+            route_name: administration_accessing_accounts
             domain: access
-            resource: user
+            resource: account
             operation: index
             navigation_scope: system
-            root_only: true
-            crud_index_only: true
+            admin_business_surface: true
+            crud_index_only: false
             admin_only: true
           visible_for_roles:
           - ROLE_ADMIN
@@ -672,16 +672,16 @@ navigation:
           label: Config
           icon: SettingOutlined
           priority: 70
-          path: /configuration/index
+          path: /ea/config
           metadata:
             business_visible: true
-            route_name: configuration.index
-            domain: configuration
+            route_name: administration_config_center_index
+            domain: config
             resource: configuration
             operation: index
             navigation_scope: system
-            root_only: true
-            crud_index_only: true
+            admin_business_surface: true
+            crud_index_only: false
             admin_only: true
           visible_for_roles:
           - ROLE_ADMIN
@@ -729,16 +729,16 @@ navigation:
           label: Command
           icon: CodeOutlined
           priority: 100
-          path: /command/index
+          path: /ea/command/index
           metadata:
             business_visible: true
-            route_name: command.index
+            route_name: administration_command_index
             domain: command
             resource: command
             operation: index
             navigation_scope: system
-            root_only: true
-            crud_index_only: true
+            admin_business_surface: true
+            crud_index_only: false
             admin_only: true
           visible_for_roles:
           - ROLE_ADMIN
@@ -805,16 +805,16 @@ navigation:
           label: Runtime
           icon: CloudServerOutlined
           priority: 140
-          path: /runtime/index
+          path: /ea/runtime/scope/application/index
           metadata:
             business_visible: true
-            route_name: runtime.index
+            route_name: administration_runtime_scope_index
             domain: runtime
-            resource: runtime
+            resource: scope
             operation: index
             navigation_scope: system
-            root_only: true
-            crud_index_only: true
+            admin_business_surface: true
+            crud_index_only: false
             admin_only: true
           visible_for_roles:
           - ROLE_ADMIN
@@ -824,16 +824,16 @@ navigation:
           label: Operation
           icon: ToolOutlined
           priority: 150
-          path: /operation/index
+          path: /ea/operation
           metadata:
             business_visible: true
-            route_name: operation.index
+            route_name: administration_operations
             domain: operation
             resource: operation
             operation: index
             navigation_scope: system
-            root_only: true
-            crud_index_only: true
+            admin_business_surface: true
+            crud_index_only: false
             admin_only: true
           visible_for_roles:
           - ROLE_ADMIN
