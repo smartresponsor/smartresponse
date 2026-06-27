@@ -1,5 +1,20 @@
 # AGENTS.md
 
+# App Runtime And Host Navigation Canon
+
+- Canonical runtime locks: prod uses `config/kernel/runtime_scope.prod.lock.php`; dev/test use `config/kernel/runtime_scope.lock.php`.
+- App owns active `APP_RUNTIME_SCOPE` and `APP_RUNTIME_ENTITY` values.
+- Navigating owns menu ownership through `namespace_provider` / `namespace` and fails closed when ownership or active scope is missing.
+- Interfacing only renders `interface.locations`; do not patch Twig, CSS, or shell geometry to fix empty menu data.
+- Empty `shell.left.middle` with working quick menu usually means `APP_RUNTIME_SCOPE` has `accessing`/`interfacing` but lacks business scopes such as `vendoring`, `cataloging`, `ordering`, `paying`, `shipping`, `attaching`, `addressing`, `locating`, or `analysing`.
+- Do not add App-side `config/packages/dev/navigation.yaml` ownership overlays as a workaround. Fix active runtime scope or Navigating ownership data.
+
+Pipeline:
+
+```text
+App runtime scope -> Navigating projection -> interface.locations -> Interfacing shell
+```
+
 # SmartResponsor Platform Rules
 
 Этот файл находится в корне репозитория и является постоянным контекстом для Codex CLI.

@@ -12,7 +12,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Accessing",
-                "reference": "6a531bc84e7ddd3f68fe93c4a14c6ed31168a927"
+                "reference": "7c1feb72211bd5749212ff5b81138773218dc26d"
             },
             "require": {
                 "configuring/config": "*@dev",
@@ -1216,23 +1216,22 @@
         },
         {
             "name": "brick/math",
-            "version": "0.14.8",
+            "version": "0.18.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/brick/math.git",
-                "reference": "63422359a44b7f06cae63c3b429b59e8efcc0629"
+                "reference": "82944324d1c1bdb2c2618e89978d4e2ad78d69ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/brick/math/zipball/63422359a44b7f06cae63c3b429b59e8efcc0629",
-                "reference": "63422359a44b7f06cae63c3b429b59e8efcc0629",
+                "url": "https://api.github.com/repos/brick/math/zipball/82944324d1c1bdb2c2618e89978d4e2ad78d69ad",
+                "reference": "82944324d1c1bdb2c2618e89978d4e2ad78d69ad",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.2"
             },
             "require-dev": {
-                "php-coveralls/php-coveralls": "^2.2",
                 "phpstan/phpstan": "2.1.22",
                 "phpunit/phpunit": "^11.5"
             },
@@ -1264,7 +1263,7 @@
             ],
             "support": {
                 "issues": "https://github.com/brick/math/issues",
-                "source": "https://github.com/brick/math/tree/0.14.8"
+                "source": "https://github.com/brick/math/tree/0.18.0"
             },
             "funding": [
                 {
@@ -1272,7 +1271,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-02-10T14:33:43+00:00"
+            "time": "2026-06-14T18:21:03+00:00"
         },
         {
             "name": "carting/cart",
@@ -1331,7 +1330,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Cataloging",
-                "reference": "b6f411b47530434ce2dd7b337972fe26aea6116e"
+                "reference": "33a9921ecd4eaba4134fc1fa8a5026f8829195dd"
             },
             "require": {
                 "api-platform/doctrine-orm": "^4.3",
@@ -1716,7 +1715,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Cruding",
-                "reference": "167df96cc8992f8e8f792216bab7d25cbacccb11"
+                "reference": "fd9d846cc6acc62ed0d92e98436e2366e876ae10"
             },
             "require": {
                 "doctrine/doctrine-bundle": "^3.2",
@@ -1756,6 +1755,36 @@
             "scripts": {
                 "canon:cruding": [
                     "php tools/cruding/interfacing-provider-rendering-guard.php"
+                ],
+                "smoke:cruding": [
+                    "@php tools/smoke/cruding-catch-all-resource-boundary-smoke.php",
+                    "@php tools/smoke/cruding-composer-autoload-dev-psr4-smoke.php",
+                    "@php tools/smoke/cruding-config-declarative-only-smoke.php",
+                    "@php tools/smoke/cruding-config-driven-operation-token-router-smoke.php",
+                    "@php tools/smoke/cruding-direct-entity-fqcn-canon-smoke.php",
+                    "@php tools/smoke/cruding-entrypoint-contract-finalization-smoke.php",
+                    "@php tools/smoke/cruding-entrypoint-migration-contract-smoke.php",
+                    "@php tools/smoke/cruding-entrypoint-operation-method-parity-smoke.php",
+                    "@php tools/smoke/cruding-entrypoint-readonly-inheritance-smoke.php",
+                    "@php tools/smoke/cruding-entrypoint-safe-hook-invocation-smoke.php",
+                    "@php tools/smoke/cruding-entrypoint-trace-diagnostics-smoke.php",
+                    "@php tools/smoke/cruding-index-operation-grammar-smoke.php",
+                    "@php tools/smoke/cruding-legacy-invokable-entrypoint-bridge-smoke.php",
+                    "@php tools/smoke/cruding-my-actor-scope-tokenized-resolver-smoke.php",
+                    "@php tools/smoke/cruding-operation-token-route-coverage-smoke.php",
+                    "@php tools/smoke/cruding-positional-operation-token-grammar-smoke.php",
+                    "@php tools/smoke/cruding-reserved-identity-token-guard.php",
+                    "@php tools/smoke/cruding-resource-path-operation-suffix-regex-smoke.php",
+                    "@php tools/smoke/cruding-route-parameter-fallback-smoke.php",
+                    "@php tools/smoke/cruding-single-route-runtime-smoke.php",
+                    "@php tools/smoke/cruding-tokenized-before-legacy-surface-route-order-smoke.php",
+                    "@php tools/smoke/cruding-tokenized-controller-service-registration-smoke.php",
+                    "@php tools/smoke/cruding-tokenized-route-resolver-smoke.php",
+                    "@php tools/smoke/cruding-uri-entrypoint-extension-smoke.php"
+                ],
+                "check:cruding": [
+                    "@canon:cruding",
+                    "@smoke:cruding"
                 ]
             },
             "license": [
@@ -3517,7 +3546,7 @@
             "type": "project",
             "autoload": {
                 "psr-4": {
-                    "App\\Faceting\\": "src/"
+                    "App\\Faceting": "src/"
                 }
             },
             "autoload-dev": {
@@ -4229,7 +4258,16 @@
             "type": "symfony-bundle",
             "autoload": {
                 "psr-4": {
-                    "App\\Indexing\\": "src/"
+                    "App\\Indexing\\": "src/",
+                    "App\\Indexing\\Console\\": "src/Console/",
+                    "App\\Indexing\\DependencyInjection\\": "src/DependencyInjection/",
+                    "App\\Indexing\\Http\\": "src/Http/",
+                    "App\\Indexing\\HttpInterface\\": "src/HttpInterface/",
+                    "App\\Indexing\\Infrastructure\\": "src/Infrastructure/",
+                    "App\\Indexing\\InfrastructureInterface\\": "src/InfrastructureInterface/",
+                    "App\\Indexing\\Service\\": "src/Service/",
+                    "App\\Indexing\\ServiceInterface\\": "src/ServiceInterface/",
+                    "App\\Indexing\\Tests\\": "tests/"
                 }
             },
             "autoload-dev": {
@@ -4359,7 +4397,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Interfacing",
-                "reference": "b232a8d5a926b3e496a9a6755318819c019ce1d7"
+                "reference": "5ff9204ec921701625728b23cafa04fb81193684"
             },
             "require": {
                 "composer-runtime-api": "^2.2",
@@ -4620,7 +4658,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Localizing",
-                "reference": "768c047170a190f2894573ab63db08348ce16bb6"
+                "reference": "7b77d9d2502354d3b4ee7e03f8b147972d7882bb"
             },
             "require": {
                 "doctrine/doctrine-bundle": "^3.0",
@@ -4707,7 +4745,7 @@
                 "smartresponsor-canon": {
                     "workspace_name": "Locating",
                     "entity_name": "Location",
-                    "root_namespace": "App\\Locating\\",
+                    "root_namespace": "App\\",
                     "transition_namespace_compat": "Smartresponsor\\",
                     "author": "Oleksandr Tishchenko",
                     "author_email": "dev@highhopesamerica.com",
@@ -4716,7 +4754,8 @@
             },
             "autoload": {
                 "psr-4": {
-                    "App\\Locating\\": "src/"
+                    "App\\": "src/",
+                    "Smartresponsor\\": "src/"
                 },
                 "classmap": [
                     "src/"
@@ -5354,6 +5393,7 @@
             },
             "autoload": {
                 "psr-4": {
+                    "App\\": "src/",
                     "App\\Messaging\\": "src/"
                 }
             },
@@ -5788,11 +5828,11 @@
         },
         {
             "name": "navigating/navigation",
-            "version": "dev-master",
+            "version": "dev-w30-access-lifecycle-quick-menu",
             "dist": {
                 "type": "path",
                 "url": "../Navigating",
-                "reference": "39ca647f09d369d98bbca82dd40225cb2a1ae0b2"
+                "reference": "3d04bbe975768d8c1818b3218417ed329edc0af4"
             },
             "require": {
                 "easycorp/easyadmin-bundle": "^5.0",
@@ -5840,6 +5880,18 @@
                 "psr-4": {
                     "App\\Navigating\\Tests\\": "tests/"
                 }
+            },
+            "scripts": {
+                "qa:navigating-easyadmin": [
+                    "@php vendor/bin/phpunit tests/NavigationEasyAdminSurfaceTest.php tests/NavigationEasyAdminSymfonyTypeTest.php tests/NavigationEasyAdminBoundaryTest.php"
+                ],
+                "qa:navigating-runtime": [
+                    "@php vendor/bin/phpunit tests/NavigationRuntimeActivationTest.php tests/NavigationRuntimeActivationConfigTest.php"
+                ],
+                "qa": [
+                    "@qa:navigating-easyadmin",
+                    "@qa:navigating-runtime"
+                ]
             },
             "license": [
                 "proprietary"
@@ -6181,7 +6233,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Objecting",
-                "reference": "ecf07fca5c8fcc4430a96113b9bbca744e636845"
+                "reference": "d232919c26470c2ccd9e158a83aa3f5995abc620"
             },
             "require": {
                 "doctrine/orm": "^3.3",
@@ -6217,6 +6269,9 @@
                 "test:canon": [
                     "@php tools/test/objecting_canon_check.php"
                 ],
+                "test:lifecycle-identity-canon": [
+                    "@php tools/test/objecting_lifecycle_identity_canon_check.php"
+                ],
                 "test:package-surface": [
                     "@php tools/test/objecting_package_surface_check.php"
                 ],
@@ -6225,6 +6280,8 @@
                 ],
                 "test:quality": [
                     "@test:canon",
+                    "@test:lifecycle-identity-canon",
+                    "@test:internal-types",
                     "@test:layer-suffix",
                     "@test:package-surface",
                     "@test:platform-constraints",
@@ -6319,6 +6376,9 @@
                 ],
                 "test:layer-suffix": [
                     "@php tools/test/objecting_layer_suffix_check.php"
+                ],
+                "test:internal-types": [
+                    "@php tools/test/objecting_internal_type_resolution_check.php"
                 ]
             },
             "license": [
@@ -6784,7 +6844,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Ordering",
-                "reference": "bd0d922c6f4f75e84454cd3a682362ea49013d87"
+                "reference": "1394847ad8a0070750180cb4821edbe77deb9324"
             },
             "require": {
                 "api-platform/core": "^4.0",
@@ -6827,7 +6887,6 @@
                 "doctrine/doctrine-migrations-bundle": "^4.0",
                 "fakerphp/faker": "^1.24",
                 "friendsofphp/php-cs-fixer": "^3.94",
-                "phpmd/phpmd": "^2.15",
                 "phpstan/phpstan": "^1.12",
                 "phpunit/phpunit": "^10.5",
                 "symfony/browser-kit": "^8.1",
@@ -6836,9 +6895,6 @@
             },
             "type": "project",
             "autoload": {
-                "classmap": [
-                    "src/"
-                ],
                 "psr-4": {
                     "App\\Ordering\\": "src/"
                 }
@@ -6893,9 +6949,6 @@
                 ],
                 "analyse": [
                     "php vendor/bin/phpstan analyse"
-                ],
-                "mess:detect": [
-                    "php vendor/bin/phpmd src,tests text phpmd.xml"
                 ],
                 "pipeline:local:full": [
                     "php bin/qa-local.php"
@@ -7846,11 +7899,11 @@
         },
         {
             "name": "projecting/project",
-            "version": "dev-master",
+            "version": "dev-w48-projecting-app-namespace",
             "dist": {
                 "type": "path",
                 "url": "../Projecting",
-                "reference": "5295d00b466cacedcb9b119ffb3725724d9069fc"
+                "reference": "aaf7b45845720ed0cfe74247527159b8c778b9b7"
             },
             "require": {
                 "doctrine/collections": "^2.2",
@@ -7884,11 +7937,8 @@
             "type": "symfony-bundle",
             "autoload": {
                 "psr-4": {
-                    "App\\Progecting\\": "src/"
-                },
-                "files": [
-                    "src/bootstrap.php"
-                ]
+                    "App\\Projecting\\": "src/"
+                }
             },
             "scripts": {
                 "test": [
@@ -8622,20 +8672,20 @@
         },
         {
             "name": "ramsey/uuid",
-            "version": "4.9.2",
+            "version": "4.9.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ramsey/uuid.git",
-                "reference": "8429c78ca35a09f27565311b98101e2826affde0"
+                "reference": "1df15849d00943a67d677dc9cfd80795f038c9f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ramsey/uuid/zipball/8429c78ca35a09f27565311b98101e2826affde0",
-                "reference": "8429c78ca35a09f27565311b98101e2826affde0",
+                "url": "https://api.github.com/repos/ramsey/uuid/zipball/1df15849d00943a67d677dc9cfd80795f038c9f8",
+                "reference": "1df15849d00943a67d677dc9cfd80795f038c9f8",
                 "shasum": ""
             },
             "require": {
-                "brick/math": "^0.8.16 || ^0.9 || ^0.10 || ^0.11 || ^0.12 || ^0.13 || ^0.14",
+                "brick/math": ">=0.8.16 <=0.18",
                 "php": "^8.0",
                 "ramsey/collection": "^1.2 || ^2.0"
             },
@@ -8694,9 +8744,9 @@
             ],
             "support": {
                 "issues": "https://github.com/ramsey/uuid/issues",
-                "source": "https://github.com/ramsey/uuid/tree/4.9.2"
+                "source": "https://github.com/ramsey/uuid/tree/4.9.3"
             },
-            "time": "2025-12-14T04:43:48+00:00"
+            "time": "2026-06-18T03:57:49+00:00"
         },
         {
             "name": "react/cache",
@@ -9163,7 +9213,6 @@
                 "doctrine/doctrine-bundle": "^3.0",
                 "doctrine/doctrine-migrations-bundle": "^4.0",
                 "doctrine/orm": "^3.0",
-                "easycorp/easyadmin-bundle": "^5.0",
                 "ext-ctype": "*",
                 "ext-curl": "*",
                 "ext-json": "*",
@@ -9253,9 +9302,6 @@
                 ],
                 "checkbox-form:audit": [
                     "@php tools/qa/rolling-checkbox-form-audit.php"
-                ],
-                "easyadmin-surface:audit": [
-                    "@php tools/qa/rolling-easyadmin-surface-audit.php"
                 ],
                 "solid-canon:audit": [
                     "@php tools/qa/rolling-solid-canon-audit.php"
@@ -16981,7 +17027,6 @@
                 "doctrine/doctrine-bundle": "^3.0",
                 "doctrine/doctrine-migrations-bundle": "4.0",
                 "doctrine/orm": "^3.3",
-                "easycorp/easyadmin-bundle": "^5.0",
                 "ext-curl": "*",
                 "ext-openssl": "*",
                 "ext-pdo": "*",
@@ -17008,6 +17053,7 @@
                 "symfony/security-bundle": "^8.1",
                 "symfony/serializer": "^8.1",
                 "symfony/twig-bundle": "^8.1",
+                "symfony/validator": "8.1",
                 "symfony/yaml": "^8.1"
             },
             "require-dev": {
@@ -17334,7 +17380,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Vendoring",
-                "reference": "b6616c308795836104590021fcdada514cb6681c"
+                "reference": "ecd9a77725ab145d8f7aada17957d8552fcb4191"
             },
             "require": {
                 "cruding/crud": "*@dev",
@@ -17882,7 +17928,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Viewing",
-                "reference": "deb98165254d45ad7edcefc1fe8603ef47a82573"
+                "reference": "5bf2bbaef9111c7b87760f05421043ecc4208215"
             },
             "require": {
                 "php": "^8.4",
@@ -17933,16 +17979,16 @@
         },
         {
             "name": "webmozart/assert",
-            "version": "2.4.0",
+            "version": "2.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webmozarts/assert.git",
-                "reference": "9007ea6f45ecf352a9422b36644e4bfc039b9155"
+                "reference": "2ccb7c2e821038c03a3e6e1700c570c158c55f70"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozarts/assert/zipball/9007ea6f45ecf352a9422b36644e4bfc039b9155",
-                "reference": "9007ea6f45ecf352a9422b36644e4bfc039b9155",
+                "url": "https://api.github.com/repos/webmozarts/assert/zipball/2ccb7c2e821038c03a3e6e1700c570c158c55f70",
+                "reference": "2ccb7c2e821038c03a3e6e1700c570c158c55f70",
                 "shasum": ""
             },
             "require": {
@@ -17993,9 +18039,9 @@
             ],
             "support": {
                 "issues": "https://github.com/webmozarts/assert/issues",
-                "source": "https://github.com/webmozarts/assert/tree/2.4.0"
+                "source": "https://github.com/webmozarts/assert/tree/2.4.1"
             },
-            "time": "2026-05-20T13:07:01+00:00"
+            "time": "2026-06-15T15:31:57+00:00"
         },
         {
             "name": "willdurand/negotiation",

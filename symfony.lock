@@ -173,6 +173,9 @@
             "./config/routes/nelmio_api_doc.yaml"
         ]
     },
+    "ordering/order": {
+        "version": "dev-master"
+    },
     "paying/payment": {
         "version": "dev-master"
     },
@@ -202,6 +205,9 @@
             "./tests/bootstrap.php",
             "./bin/phpunit"
         ]
+    },
+    "projecting/project": {
+        "version": "dev-w48-projecting-app-namespace"
     },
     "rolling/role": {
         "version": "dev-master"

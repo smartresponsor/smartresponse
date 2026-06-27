@@ -33,7 +33,9 @@ final class CloudflareAiGatewayScriptTest extends TestCase
         self::assertStringContainsString('event:', $verify);
         self::assertStringContainsString('CLOUDFLARE_BILLING', $verify);
         self::assertStringContainsString('CLOUDFLARE_REQUEST_SCHEMA', $verify);
-        self::assertStringContainsString('CLOUDFLARE_STREAMING', $verify);
+        self::assertStringContainsString('CLOUDFLARE_API_RESPONSE', $verify);
+        self::assertStringContainsString('max_output_tokens', $verify);
+        self::assertStringContainsString('max_output_tokens must be at least 16', $verify);
         self::assertStringContainsString('Redact-Text', $verify);
 
         self::assertStringContainsString('codex_smoke_ok auth=ChatGPT baseline=unchanged', $smoke);

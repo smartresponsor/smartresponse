@@ -1,3 +1,4 @@
 imports:
+    - { resource: '../../Localizing/config/services.yaml' }
     - { resource: '../../Ordering/config/services.yaml' }
     - { resource: '../../Vendoring/config/component/services.yaml' }

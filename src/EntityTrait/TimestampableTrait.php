@@ -27,27 +27,37 @@ trait TimestampableTrait
 
     public function getObjectCreatedAt(): \DateTimeImmutable
     {
-        return $this->objectAuditEmbeddable()->getObjectCreatedAt();
+        return $this->objectAuditEmbeddable()->getCreatedAt();
     }
 
     public function getObjectUpdatedAt(): ?\DateTimeImmutable
     {
-        return $this->objectAuditEmbeddable()->getObjectUpdatedAt();
+        return $this->objectAuditEmbeddable()->getModifiedAt();
     }
 
     public function getObjectCreatedBy(): ?string
     {
-        return $this->objectAuditEmbeddable()->getObjectCreatedBy();
+        return $this->objectAuditEmbeddable()->getCreatedBy();
     }
 
     public function getObjectUpdatedBy(): ?string
     {
-        return $this->objectAuditEmbeddable()->getObjectUpdatedBy();
+        return $this->objectAuditEmbeddable()->getModifiedBy();
+    }
+
+    public function getCreatedAt(): \DateTimeImmutable
+    {
+        return $this->objectAuditEmbeddable()->getCreatedAt();
     }
 
     public function getModifiedAt(): ?\DateTimeImmutable
     {
         return $this->objectAuditEmbeddable()->getModifiedAt();
+    }
+
+    public function getCreatedBy(): ?string
+    {
+        return $this->objectAuditEmbeddable()->getCreatedBy();
     }
 
     public function getModifiedBy(): ?string
@@ -57,7 +67,7 @@ trait TimestampableTrait
 
     public function touchObject(?\DateTimeImmutable $updatedAt = null, ?string $updatedBy = null): void
     {
-        $this->objectAuditEmbeddable()->touch($updatedAt, $updatedBy);
+        $this->objectAuditEmbeddable()->touchModified($updatedAt, $updatedBy);
     }
 
     public function touchModified(?\DateTimeImmutable $modifiedAt = null, ?string $modifiedBy = null): void
@@ -87,7 +97,7 @@ trait TimestampableTrait
         return $this->getObjectUpdatedAt() ?? $this->getObjectCreatedAt();
     }
 
-    protected function normalizeTenantId(string $tenantId): string
+    protected function normalizeObjectTenantCode(string $tenantId): string
     {
         $tenantId = trim($tenantId);
 

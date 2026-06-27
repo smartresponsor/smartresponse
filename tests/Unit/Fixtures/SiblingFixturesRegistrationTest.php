@@ -53,7 +53,7 @@ final class SiblingFixturesRegistrationTest extends TestCase
             'App\\Billing\\DataFixtures\\BillingDemoFixtures',
             'App\\Commissioning\\DataFixtures\\CommissioningDemoFixtures',
             'App\\Exchanging\\DataFixtures\\ExchangingDemoFixtures',
-            'App\\Localizing\\DataFixtures\\LocalizingDemoFixtures',
+            'App\\Localizing\\DataFixtures\\LocaleDemoFixtures',
             'App\\Messaging\\DataFixtures\\MessagingDemoFixtures',
             'App\\DataFixtures\\OrderDemoFixtures',
         ] as $fixtureClass) {
@@ -61,7 +61,7 @@ final class SiblingFixturesRegistrationTest extends TestCase
         }
 
         self::assertFalse($container->hasDefinition('App\\Paging\\DataFixtures\\PagingDemoFixtures'));
-        self::assertFalse($container->hasDefinition('App\\Shipping\\DataFixtures\\ShippingDemoFixtures'));
+        self::assertTrue($container->hasDefinition('App\\Shipping\\DataFixtures\\ShippingDemoFixtures'));
         self::assertFalse($container->hasDefinition('App\\DataFixtures\\GovernanceDemoFixture'));
         self::assertFalse($container->hasDefinition('App\\DataFixtures\\FacetingFixture'));
     }

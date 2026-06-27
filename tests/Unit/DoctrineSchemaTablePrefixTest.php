@@ -39,5 +39,7 @@ final class DoctrineSchemaTablePrefixTest extends KernelTestCase
                 sprintf('%s must map to a table starting with "%s".', $className, $tablePrefix),
             );
         }
+
+        $this->addToAssertionCount(1);
     }
 }

@@ -43,9 +43,9 @@ window.InterfacingProviderDesignBaseline = Object.freeze({
       '--text-color-secondary': 'var(--interfacing-provider-text-muted)',
       '--primary-color': 'var(--interfacing-provider-primary)',
       '--primary-color-text': '#ffffff',
-      '--surface-ground': 'var(--interfacing-provider-bg)',
-      '--surface-card': 'var(--interfacing-provider-surface)',
-      '--surface-border': 'var(--interfacing-provider-border)',
+      '--view-ground': 'var(--interfacing-provider-bg)',
+      '--view-card': 'var(--interfacing-provider-panel)',
+      '--view-border': 'var(--interfacing-provider-border)',
       '--inline-spacing': 'var(--interfacing-provider-gap-sm)',
       '--border-radius': 'var(--interfacing-provider-radius)',
       '--focus-ring': '0 0 0 3px rgba(37, 99, 235, 0.16)'

@@ -1,4 +1,1 @@
-navigation_mobile_shell:
-    path: /api/navigation/mobile/shell
-    controller: App\Navigating\Service\Http\Navigation\NavigationHttpService::mobileShell
-    methods: [GET]
+# Route moved to 00_navigating_mobile.yaml so it is loaded before the Cruding /api catch-all.

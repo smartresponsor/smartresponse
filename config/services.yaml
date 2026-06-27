@@ -9,6 +9,20 @@ parameters:
     paying.messenger.dsn: 'sync://'
     app.back_uri_token_default: 'ea'
     app.back_uri_token: '%env(default:app.back_uri_token_default:APP_BACK_URI_TOKEN)%'
+    app.object_visibility.transition_map:
+        publish:
+            writes:
+                setPublished: true
+                setVisible: true
+        archive:
+            writes:
+                setArchived: true
+                setVisible: false
+        draft:
+            writes:
+                setDraft: true
+                setPublished: false
+                setVisible: false
 
 services:
     # default configuration for services in *this* file
@@ -40,10 +54,14 @@ services:
     doctrine.dbal.default_connection:
         alias: doctrine.dbal.postgres_connection
 
+    App\Service\ObjectMeta\ObjectVisibilityManager:
+        arguments:
+            $transitionMap: '%app.object_visibility.transition_map%'
+
     App\Contract\Ui\AppDashboardContract: '@App\Service\Dashboard\AppDashboardBuilderService'
     App\Interfacing\ProviderInterface\Localization\InterfaceLocaleTemplateSelectorProviderInterface:
-        alias: App\Localizing\ServiceInterface\Template\LocaleTemplateSelectorProviderInterface
+        alias: App\Interfacing\Provider\Localization\InterfaceDefaultLocaleTemplateSelectorProvider
     App\Interfacing\ProviderInterface\Localization\InterfaceLocaleTemplateContextProviderInterface:
-        alias: App\Localizing\ServiceInterface\Template\LocaleTemplateContextProviderInterface
+        alias: App\Interfacing\Provider\Localization\InterfaceDefaultLocaleTemplateContextProvider
     App\ServiceInterface\InterfaceLocation\AppInterfaceLocationComposeServiceInterface:
         alias: App\Service\InterfaceLocation\AppInterfaceLocationComposeService

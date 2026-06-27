@@ -97,6 +97,10 @@ final class RegisterSiblingFixturesPass implements CompilerPassInterface
                 continue;
             }
 
+            if (!class_exists($fqcn, false)) {
+                require_once $fileInfo->getPathname();
+            }
+
             if (!class_exists($fqcn)) {
                 continue;
             }

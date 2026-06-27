@@ -1529,10 +1529,10 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     route_guard?: array{
  *         runtime_scope_env?: scalar|Param|null, // Default: "APP_RUNTIME_SCOPE"
  *         runtime_entity_env?: scalar|Param|null, // Default: "APP_RUNTIME_ENTITY"
- *         runtime_surface_token_env?: scalar|Param|null, // Default: "APP_RUNTIME_SURFACE_TOKEN"
+ *         runtime_view_token_env?: scalar|Param|null, // Default: "APP_RUNTIME_VIEW_TOKEN"
  *         runtime_reserved_env?: scalar|Param|null, // Default: "APP_RUNTIME_RESERVED"
  *         reserved_tokens?: list<scalar|Param|null>,
- *         surface_tokens?: list<scalar|Param|null>,
+ *         view_tokens?: list<scalar|Param|null>,
  *         operation_tokens?: list<scalar|Param|null>,
  *         resource_path_reserved_tokens?: list<scalar|Param|null>,
  *         runtime_lock_glob?: scalar|Param|null, // Default: "config/kernel/runtime_scope.{env}.lock.php"
@@ -1616,6 +1616,13 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     runtime_environment?: array{
  *         fallback_environment?: scalar|Param|null, // Default: null
  *     },
+ *     runtime_activation?: array{
+ *         scope_env?: scalar|Param|null, // Default: "APP_RUNTIME_SCOPE"
+ *         entity_env?: scalar|Param|null, // Default: "APP_RUNTIME_ENTITY"
+ *         strict?: bool|Param, // Default: true
+ *         scope_by_domain?: array<string, list<scalar|Param|null>>,
+ *         entity_by_domain?: array<string, list<scalar|Param|null>>,
+ *     },
  *     shell_groups?: array<string, array{ // Default: []
  *         label?: scalar|Param|null, // Default: null
  *         location?: scalar|Param|null,
@@ -1626,6 +1633,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         visible_for_roles?: list<scalar|Param|null>,
  *         visible_for_scopes?: list<scalar|Param|null>,
  *         visible_for_environments?: list<scalar|Param|null>,
+ *         metadata?: list<mixed>,
  *         items?: array<string, array{ // Default: []
  *             label?: scalar|Param|null, // Default: null
  *             priority?: int|Param, // Default: 100
@@ -1713,68 +1721,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     local_component_fallback_enabled?: bool|Param, // Default: true
  *     json_fallback_status_code?: int|Param, // Default: 200
  * }
- * @psalm-type AttachmentConfig = array{
- *     storage?: array{
- *         default?: scalar|Param|null, // Default: "local"
- *         local?: array{
- *             root_path?: scalar|Param|null, // Default: "%kernel.project_dir%/var/storage/attachment"
- *         },
- *     },
- *     upload?: array{
- *         max_size?: int|Param, // Default: 33554432
- *         allowed_media_mime_types?: list<scalar|Param|null>,
- *         allowed_document_mime_types?: list<scalar|Param|null>,
- *     },
- * }
- * @psalm-type BillingConfig = array{
- *     trust_identity_headers?: bool|Param, // Default: false
- *     rate_limit?: array{
- *         window_seconds?: int|Param, // Default: 60
- *         create?: int|Param, // Default: 60
- *         finalize?: int|Param, // Default: 60
- *     },
- *     storage?: array{
- *         file_state_path?: scalar|Param|null, // Default: "%kernel.project_dir%/var/billing/state.json"
- *     },
- *     telemetry?: array{
- *         log_path?: scalar|Param|null, // Default: "%kernel.project_dir%/var/billing/telemetry.log"
- *         metrics_path?: scalar|Param|null, // Default: "%kernel.project_dir%/var/billing/metrics.json"
- *     },
- *     alerts?: array{
- *         metrics_stale_after_seconds?: int|Param, // Default: 300
- *         errors_threshold?: int|Param, // Default: 1
- *         rate_limit_block_threshold?: int|Param, // Default: 10
- *         http_latency_max_ms?: int|Param, // Default: 1500
- *     },
- *     database?: array{
- *         dsn?: scalar|Param|null, // Default: ""
- *         user?: scalar|Param|null, // Default: ""
- *         password?: scalar|Param|null, // Default: ""
- *     },
- * }
- * @psalm-type CommissioningConfig = array{
- *     default_plan_code?: scalar|Param|null, // Default: "default"
- *     development_fallbacks?: bool|Param, // Default: true
- * }
- * @psalm-type DomainingConfig = array{
- *     standalone_enabled?: bool|Param, // Default: false
- *     template_surface?: scalar|Param|null, // Default: "domain"
- *     raw_json_fallback?: bool|Param, // Default: true
- *     interfacing_template_candidates?: list<scalar|Param|null>,
- *     provider_recommendation?: array{
- *         primary?: scalar|Param|null, // Default: "Cloudflare"
- *         note?: scalar|Param|null, // Default: "Smart Responsor does not register, sell, transfer, or host domains as a registrar."
- *     },
- * }
- * @psalm-type PayingConfig = array{
- *     storage?: array{
- *         data_server_version?: scalar|Param|null, // Default: "16.0"
- *         infra_server_version?: scalar|Param|null, // Default: "3.45.1"
- *     },
- *     messenger?: array{
- *         dsn?: scalar|Param|null, // Default: "%env(resolve:RABBITMQ_DSN)%"
- *     },
- * }
  * @psalm-type ConfigType = array{
  *     imports?: ImportsConfig,
  *     parameters?: ParametersConfig,
@@ -1799,11 +1745,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     searching?: SearchingConfig,
  *     vendoring?: VendoringConfig,
  *     viewing?: ViewingConfig,
- *     attachment?: AttachmentConfig,
- *     billing?: BillingConfig,
- *     commissioning?: CommissioningConfig,
- *     domaining?: DomainingConfig,
- *     paying?: PayingConfig,
  *     "when@dev"?: array{
  *         imports?: ImportsConfig,
  *         parameters?: ParametersConfig,
