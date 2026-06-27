@@ -578,7 +578,7 @@ navigation:
           label: Administering
           icon: SafetyCertificateOutlined
           priority: 20
-          path: /ea
+          path: /ea/administering
           metadata:
             business_visible: true
             route_name: administration_admin_index
@@ -672,7 +672,7 @@ navigation:
           label: Config
           icon: SettingOutlined
           priority: 70
-          path: /ea/config
+          path: /ea/administering/config
           metadata:
             business_visible: true
             route_name: administration_config_center_index
@@ -729,7 +729,7 @@ navigation:
           label: Command
           icon: CodeOutlined
           priority: 100
-          path: /ea/command/index
+          path: /ea/administering/command/index
           metadata:
             business_visible: true
             route_name: administration_command_index
@@ -805,7 +805,7 @@ navigation:
           label: Runtime
           icon: CloudServerOutlined
           priority: 140
-          path: /ea/runtime/scope/application/index
+          path: /ea/administering/runtime/scope/application/index
           metadata:
             business_visible: true
             route_name: administration_runtime_scope_index
@@ -824,7 +824,7 @@ navigation:
           label: Operation
           icon: ToolOutlined
           priority: 150
-          path: /ea/operation
+          path: /ea/administering/operation
           metadata:
             business_visible: true
             route_name: administration_operations
