@@ -1,5 +1,5 @@
 vendoring_mobile_vendor_profile:
-    path: /api/vendor/profile/{vendorId}
+    path: /api/vendor/profile/show/{vendorId}
     controller: App\Vendoring\Service\Runtime\Profile\VendorProfileShowService
     methods: [GET]
     requirements:

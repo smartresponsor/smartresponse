@@ -16,7 +16,7 @@ final class VendoringMobileProfileRouteTest extends KernelTestCase
         /** @var RouterInterface $router */
         $router = self::getContainer()->get('router');
 
-        $parameters = $router->match('/api/vendor/profile/42');
+        $parameters = $router->match('/api/vendor/profile/show/42');
 
         self::assertSame('vendoring_mobile_vendor_profile', $parameters['_route'] ?? null);
     }
