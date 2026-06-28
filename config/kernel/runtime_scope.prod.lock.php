@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 return [
     'schema' => 'app.kernel.runtime_scope.v1',
-    'scope' => 'prod-composer-current',
-    'source' => 'materialized from the current composer.prod.json production inventory',
+    'scope' => 'prod-runtime-lock',
+    'source' => 'operator runtime decision validated against composer.prod.json production inventory',
     'sourceComposerFile' => 'composer.prod.json',
     'strict' => true,
     'enabledBundles' => [
