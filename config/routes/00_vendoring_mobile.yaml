@@ -1,6 +1,34 @@
 vendoring_mobile_vendor_profile:
     path: /api/vendor/profile/show/{vendorId}
-    controller: App\Vendoring\Service\Runtime\Profile\VendorProfileShowService
+    controller: App\Vendoring\Service\Http\Vendor\Profile\VendorProfileHttpService::show
     methods: [GET]
     requirements:
         vendorId: '\d+'
+
+vendoring_mobile_vendor_summary:
+    path: /api/vendor/summary/show/{vendorId}
+    controller: App\Vendoring\Service\Http\Vendor\Summary\VendorSummaryHttpService::summary
+    methods: [GET]
+    requirements:
+        vendorId: '[A-Za-z0-9][A-Za-z0-9._-]*'
+
+vendoring_mobile_vendor_statement:
+    path: /api/vendor/statement/show/{vendorId}
+    controller: App\Vendoring\Service\Http\Vendor\Statement\VendorStatementHttpService::build
+    methods: [GET]
+    requirements:
+        vendorId: '[A-Za-z0-9][A-Za-z0-9._-]*'
+
+vendoring_mobile_vendor_payout:
+    path: /api/vendor/payout/show/{vendorId}
+    controller: App\Vendoring\Service\Runtime\Mobile\VendorMobilePayoutShowService
+    methods: [GET]
+    requirements:
+        vendorId: '[A-Za-z0-9][A-Za-z0-9._-]*'
+
+vendoring_mobile_vendor_transaction:
+    path: /api/vendor/transaction/list/{vendorId}
+    controller: App\Vendoring\Service\Http\Vendor\Transaction\VendorTransactionHttpService::listByVendor
+    methods: [GET]
+    requirements:
+        vendorId: '[A-Za-z0-9][A-Za-z0-9._-]*'

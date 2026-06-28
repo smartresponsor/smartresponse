@@ -49,6 +49,15 @@ services:
     App\Service\Diagnostics\AppRouteAuditService:
         public: true
         tags: ['controller.service_arguments']
+    App\Vendoring\Repository\Vendor\VendorPayoutAccountRepository:
+        arguments:
+            $registry: '@doctrine'
+    App\Vendoring\Repository\Vendor\VendorPayoutRepository:
+        arguments:
+            $registry: '@doctrine'
+    App\Vendoring\Service\Runtime\Mobile\VendorMobilePayoutShowService:
+        public: true
+        tags: ['controller.service_arguments']
     App\Command\GatingCheckCommand:
         tags: ['console.command']
     doctrine.dbal.default_connection:
