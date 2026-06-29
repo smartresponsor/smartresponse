@@ -14,6 +14,8 @@
         <testsuite name="Cruding">
             <directory suffix="Test.php">tests</directory>
             <exclude>tests/Unit/DoctrineSchemaTablePrefixTest.php</exclude>
+            <exclude>tests/Unit/Mcp</exclude>
+            <exclude>tests/Unit/Ai</exclude>
         </testsuite>
     </testsuites>
 

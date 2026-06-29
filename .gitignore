@@ -13,6 +13,7 @@ composer.phar
 # PHPUnit / QA runtime state
 /.phpunit.cache/
 .phpunit.result.cache
+/.console-mcp/
 /.php-cs-fixer.cache
 /phpstan-report*.txt
 /var/phpstan/
