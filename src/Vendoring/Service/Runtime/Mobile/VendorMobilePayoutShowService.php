@@ -14,9 +14,9 @@ final readonly class VendorMobilePayoutShowService
     {
     }
 
-    public function __invoke(string $vendorId): JsonResponse
+    public function __invoke(string $id): JsonResponse
     {
-        $normalizedVendorId = trim($vendorId);
+        $normalizedVendorId = trim($id);
         if ('' === $normalizedVendorId) {
             return new JsonResponse(['code' => 'invalid_vendor_id', 'message' => 'Vendor payout request requires a vendor id.'], 400);
         }

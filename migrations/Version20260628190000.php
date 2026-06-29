@@ -16,7 +16,7 @@ final class Version20260628190000 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        foreach (['vendor', 'vendor_profile', 'vendor_transaction'] as $tableName) {
+        foreach (['vendor', 'vendor_profile', 'vendor_transaction', 'vendor_payout', 'vendor_payout_account', 'vendor_payout_item'] as $tableName) {
             $this->addObjectColumns($tableName);
         }
 
@@ -52,6 +52,10 @@ final class Version20260628190000 extends AbstractMigration
             'CREATE INDEX IF NOT EXISTS idx_vendor_transaction_vendor_id ON vendor_transaction (vendor_id)',
             'CREATE UNIQUE INDEX IF NOT EXISTS uniq_vendor_transaction_vendor_order_project_nonnull ON vendor_transaction (vendor_id, order_id, project_id) WHERE project_id IS NOT NULL',
             'CREATE UNIQUE INDEX IF NOT EXISTS uniq_vendor_transaction_vendor_order_nullproject ON vendor_transaction (vendor_id, order_id) WHERE project_id IS NULL',
+            'CREATE INDEX IF NOT EXISTS idx_vendor_payout_vendor_id ON vendor_payout (vendor_id)',
+            'CREATE INDEX IF NOT EXISTS idx_vendor_payout_status ON vendor_payout (status)',
+            'CREATE INDEX IF NOT EXISTS idx_vendor_payout_account_vendor_id ON vendor_payout_account (vendor_id)',
+            'CREATE INDEX IF NOT EXISTS idx_vendor_payout_item_payout_id ON vendor_payout_item (payout_id)',
         ] as $sql) {
             $this->addSql($sql);
         }
@@ -82,5 +86,6 @@ final class Version20260628190000 extends AbstractMigration
             $tableName,
         ));
         $this->addSql(sprintf('ALTER TABLE %s ALTER COLUMN object_uuid SET NOT NULL', $tableName));
+        $this->addSql(sprintf('CREATE UNIQUE INDEX IF NOT EXISTS uniq_%s_object_uuid ON %s (object_uuid)', $tableName, $tableName));
     }
 }
