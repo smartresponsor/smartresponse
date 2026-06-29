@@ -1,4 +1,6 @@
-app_host_dashboard:
+app_host_store:
     path: /
-    controller: App\Service\Dashboard\AppDashboardBuilderService::__invoke
+    controller: App\Service\Store\AppStoreBuilderService::__invoke
     methods: [GET]
+    defaults:
+        _view_controlled: true
