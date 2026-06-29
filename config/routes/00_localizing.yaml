@@ -1,0 +1,2 @@
+localizing_routes:
+    resource: '@LocalizingBundle/config/routes/runtime.yaml'

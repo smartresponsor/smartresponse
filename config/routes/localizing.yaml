@@ -1,2 +1,1 @@
-localizing_routes:
-    resource: '@LocalizingBundle/config/routes/runtime.yaml'
+# Localizing runtime routes are imported early from config/routes/00_localizing.yaml.
