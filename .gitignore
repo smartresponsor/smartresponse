@@ -36,6 +36,7 @@ composer.phar
 /.automation/.tmp/
 /.automation/.cache/
 *.zip
+*.bak.*
 
 # Local environment and secrets
 .env.local

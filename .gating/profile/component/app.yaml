@@ -10,6 +10,9 @@ component:
     - interfacing
     - applicating
     - notification
+    - navigation
+    - vendor
+    - manage
   route_excluded_names:
     - 2fa_login
     - 2fa_login_check

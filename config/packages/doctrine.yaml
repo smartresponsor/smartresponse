@@ -66,6 +66,12 @@ doctrine:
                         dir: '%kernel.project_dir%/../Projecting/src/Entity/Project'
                         prefix: 'App\Projecting\Entity\Project'
                         alias: ProjectingProject
+                    Localizing:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/vendor/localizing/locale/src/Entity'
+                        prefix: 'App\Localizing\Entity'
+                        alias: Localizing
                     Objecting:
                         is_bundle: false
                         type: attribute
