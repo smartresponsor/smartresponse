@@ -1,0 +1,2 @@
+imports:
+    - { resource: '../../../Projecting/config/packages/workflows/projecting_workflow.yaml' }
