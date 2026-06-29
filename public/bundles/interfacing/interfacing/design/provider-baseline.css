@@ -17,8 +17,8 @@
   --interfacing-provider-text-muted: #6b7280;
   --interfacing-provider-heading-color: #111827;
   --interfacing-provider-bg: #f5f7fb;
-  --interfacing-provider-surface: #ffffff;
-  --interfacing-provider-surface-subtle: #f8fafc;
+  --interfacing-provider-panel: #ffffff;
+  --interfacing-provider-panel-subtle: #f8fafc;
   --interfacing-provider-border: #dfe5ec;
   --interfacing-provider-border-strong: #cfd8e3;
   --interfacing-provider-primary: #2563eb;
@@ -45,11 +45,11 @@
   --body-bg: var(--interfacing-provider-bg);
   --body-color: var(--interfacing-provider-text-color);
   --border-radius: var(--interfacing-provider-radius);
-  --sidebar-bg: var(--interfacing-provider-surface);
-  --surface-ground: var(--interfacing-provider-bg);
-  --surface-section: var(--interfacing-provider-surface);
-  --surface-card: var(--interfacing-provider-surface);
-  --surface-border: var(--interfacing-provider-border);
+  --sidebar-bg: var(--interfacing-provider-panel);
+  --view-ground: var(--interfacing-provider-bg);
+  --view-section: var(--interfacing-provider-panel);
+  --view-card: var(--interfacing-provider-panel);
+  --view-border: var(--interfacing-provider-border);
   --text-color: var(--interfacing-provider-text-color);
   --text-color-secondary: var(--interfacing-provider-text-muted);
   --primary-color: var(--interfacing-provider-primary);
@@ -96,7 +96,7 @@ body,
 [data-interfacing-shell-slot="left-primary"],
 [data-interfacing-shell-slot="left-secondary"],
 [data-interfacing-shell-slot="right-context"] {
-  background: var(--interfacing-provider-surface) !important;
+  background: var(--interfacing-provider-panel) !important;
 }
 
 [data-interfacing-shell-slot="left-secondary"] {
@@ -210,7 +210,7 @@ body,
 [data-interfacing-provider-document="true"] select,
 [data-interfacing-provider-document="true"] textarea {
   padding: var(--interfacing-provider-control-padding-y) var(--interfacing-provider-control-padding-x) !important;
-  background: var(--interfacing-provider-surface) !important;
+  background: var(--interfacing-provider-panel) !important;
   color: var(--interfacing-provider-text-color) !important;
 }
 
@@ -237,7 +237,7 @@ body,
   border: 1px solid var(--interfacing-provider-border-strong);
   border-right: 0;
   border-radius: var(--interfacing-provider-radius) 0 0 var(--interfacing-provider-radius);
-  background: var(--interfacing-provider-surface);
+  background: var(--interfacing-provider-panel);
   color: var(--interfacing-provider-text-color);
   font: inherit;
   line-height: 1.4;
@@ -250,7 +250,7 @@ body,
   height: var(--interfacing-provider-control-height);
   border: 1px solid var(--interfacing-provider-border-strong);
   border-radius: 0 var(--interfacing-provider-radius) var(--interfacing-provider-radius) 0;
-  background: var(--interfacing-provider-surface);
+  background: var(--interfacing-provider-panel);
   color: var(--interfacing-provider-text-color);
   font: inherit;
   line-height: 1;
@@ -300,7 +300,7 @@ body,
 .ant-table-thead > tr > th,
 .p-datatable-thead > tr > th {
   font-weight: var(--interfacing-provider-font-weight-strong) !important;
-  background: var(--interfacing-provider-surface-subtle) !important;
+  background: var(--interfacing-provider-panel-subtle) !important;
 }
 
 [data-interfacing-shell] [style*="border-radius:999px"],
@@ -389,7 +389,7 @@ body.interfacing-access-body {
 
 .interfacing-shell-top {
   border-bottom: 1px solid var(--interfacing-provider-border);
-  background: var(--interfacing-provider-surface);
+  background: var(--interfacing-provider-panel);
   position: sticky;
   top: 0;
   z-index: 20;
@@ -440,7 +440,7 @@ body.interfacing-access-body {
   overflow: auto;
 }
 .interfacing-shell-panel--primary {
-  background: var(--interfacing-provider-surface);
+  background: var(--interfacing-provider-panel);
   border-right: 1px solid var(--interfacing-provider-border);
 }
 .interfacing-shell-panel--secondary {
@@ -448,7 +448,7 @@ body.interfacing-access-body {
   border-right: 1px solid var(--interfacing-provider-border);
 }
 .interfacing-shell-panel--right {
-  background: var(--interfacing-provider-surface);
+  background: var(--interfacing-provider-panel);
   border-left: 1px solid var(--interfacing-provider-border);
 }
 .interfacing-shell-nav-section {
@@ -549,7 +549,7 @@ body.interfacing-access-body {
   cursor: pointer;
   color: var(--interfacing-provider-text-color);
   border: 1px solid var(--interfacing-provider-border-strong);
-  background: var(--interfacing-provider-surface);
+  background: var(--interfacing-provider-panel);
   border-radius: var(--interfacing-provider-radius);
   width: var(--interfacing-provider-control-height);
   height: var(--interfacing-provider-control-height);
@@ -568,7 +568,7 @@ body.interfacing-access-body {
   width: min(320px, calc(100vw - 24px));
   max-height: calc(100vh - 56px);
   overflow: auto;
-  background: var(--interfacing-provider-surface);
+  background: var(--interfacing-provider-panel);
   border: 1px solid var(--interfacing-provider-border);
   border-radius: var(--interfacing-provider-radius-lg);
   box-shadow: var(--interfacing-provider-shadow-popover);
@@ -608,7 +608,7 @@ body.interfacing-access-body {
 
 .interfacing-footer {
   border-top: 1px solid var(--interfacing-provider-border);
-  background: var(--interfacing-provider-surface);
+  background: var(--interfacing-provider-panel);
 }
 .interfacing-footer-grid {
   min-height: 54px;
@@ -689,7 +689,7 @@ body.interfacing-access-body {
   border: 1px solid var(--interfacing-provider-border);
 }
 .interfacing-access-card {
-  background: var(--interfacing-provider-surface);
+  background: var(--interfacing-provider-panel);
   border: 1px solid var(--interfacing-provider-border);
   border-radius: var(--interfacing-provider-radius-lg);
   padding: 26px;
@@ -791,7 +791,7 @@ body.interfacing-access-body {
 .interfacing-action-link { background: rgba(255,255,255,.08); color: #fff; border: 1px solid rgba(255,255,255,.22); }
 .interfacing-action-link--primary { background: #fff; color: #111827; border-color: #fff; }
 .interfacing-commerce-controls {
-  background: var(--interfacing-provider-surface);
+  background: var(--interfacing-provider-panel);
   border: 1px solid var(--interfacing-provider-border);
   border-radius: var(--interfacing-provider-radius-lg);
   padding: 18px;
@@ -806,7 +806,7 @@ body.interfacing-access-body {
   border-radius: var(--interfacing-provider-radius);
   padding: 6px 9px;
   color: var(--interfacing-provider-text-muted);
-  background: var(--interfacing-provider-surface-subtle);
+  background: var(--interfacing-provider-panel-subtle);
 }
 .interfacing-commerce-search { display: grid; gap: 10px; margin-bottom: 14px; }
 .interfacing-commerce-filter-link {
@@ -858,7 +858,7 @@ body.interfacing-access-body {
 .interfacing-card-title { margin: 0; font-size: 18px; letter-spacing: -0.01em; line-height: 1.2; }
 .interfacing-card-summary { margin: 8px 0 0; color: var(--interfacing-provider-text-muted); line-height: 1.55; font-size: 13px; }
 .interfacing-card-metrics { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; margin: 0; }
-.interfacing-card-metric { background: var(--interfacing-provider-surface-subtle); border: 1px solid #edf0f3; border-radius: var(--interfacing-provider-radius); padding: 9px; }
+.interfacing-card-metric { background: var(--interfacing-provider-panel-subtle); border: 1px solid #edf0f3; border-radius: var(--interfacing-provider-radius); padding: 9px; }
 .interfacing-card-metric dt { font-size: 10px; color: var(--interfacing-provider-text-muted); text-transform: uppercase; letter-spacing: .04em; font-weight: var(--interfacing-provider-font-weight-strong); }
 .interfacing-card-metric dd { margin: 3px 0 0; font-size: 15px; font-weight: var(--interfacing-provider-font-weight-strong); }
 .interfacing-card-footer { margin-top: auto; border-top: 1px solid #edf0f3; padding-top: 13px; display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; }
@@ -866,7 +866,7 @@ body.interfacing-access-body {
 .interfacing-price { font-size: 22px; font-weight: var(--interfacing-provider-font-weight-strong); letter-spacing: -0.01em; }
 .interfacing-old-price { font-size: 13px; color: #94a3b8; text-decoration: line-through; font-weight: var(--interfacing-provider-font-weight-strong); }
 .interfacing-price-note { font-size: var(--interfacing-provider-font-size-xs); color: var(--interfacing-provider-text-muted); margin-top: 2px; }
-.interfacing-saving { display: inline-flex; margin-top: 7px; border-radius: var(--interfacing-provider-radius); padding: 5px 8px; background: var(--interfacing-provider-surface-subtle); border: 1px solid #e2e8f0; font-size: var(--interfacing-provider-font-size-xs); font-weight: var(--interfacing-provider-font-weight-strong); color: var(--interfacing-provider-text-color); }
+.interfacing-saving { display: inline-flex; margin-top: 7px; border-radius: var(--interfacing-provider-radius); padding: 5px 8px; background: var(--interfacing-provider-panel-subtle); border: 1px solid #e2e8f0; font-size: var(--interfacing-provider-font-size-xs); font-weight: var(--interfacing-provider-font-weight-strong); color: var(--interfacing-provider-text-color); }
 .interfacing-card-action { background: #111827; color: #fff; white-space: nowrap; }
 
 @media (max-width: 960px) {
@@ -932,7 +932,7 @@ body.interfacing-access-body {
   padding: 24px 16px 48px;
 }
 .interfacing-provider-fallback-card {
-  background: var(--interfacing-provider-surface);
+  background: var(--interfacing-provider-panel);
   border: 1px solid var(--interfacing-provider-border);
   border-radius: var(--interfacing-provider-radius-lg);
   padding: 20px;
@@ -991,7 +991,7 @@ body.interfacing-access-body {
   border: 1px solid #edf0f3;
   border-radius: var(--interfacing-provider-radius-lg);
   padding: 14px;
-  background: var(--interfacing-provider-surface);
+  background: var(--interfacing-provider-panel);
 }
 .interfacing-provider-fallback-panel-title {
   margin: 0 0 10px;
@@ -1049,7 +1049,7 @@ body.interfacing-access-body {
 }
 .interfacing-provider-record {
   padding: 10px 12px;
-  background: var(--interfacing-provider-surface-subtle);
+  background: var(--interfacing-provider-panel-subtle);
   border: 1px solid var(--interfacing-provider-border);
   border-radius: var(--interfacing-provider-radius-lg);
 }
@@ -1092,7 +1092,7 @@ body.interfacing-access-body {
   padding-right: 0;
 }
 .interfacing-right-card--metric {
-  background: var(--interfacing-provider-surface);
+  background: var(--interfacing-provider-panel);
 }
 .interfacing-right-metric-value {
   margin-top: 6px;
@@ -1107,7 +1107,7 @@ body.interfacing-access-body {
   color: var(--interfacing-provider-text-muted);
 }
 .interfacing-admin-toolbar {
-  background: var(--interfacing-provider-surface);
+  background: var(--interfacing-provider-panel);
   border: 1px solid var(--interfacing-provider-border);
   border-radius: var(--interfacing-provider-radius-lg);
   padding: 16px 18px;
@@ -1148,7 +1148,7 @@ body.interfacing-access-body {
   border: 1px solid var(--interfacing-provider-border);
   border-radius: var(--interfacing-provider-radius);
   padding: 4px 8px;
-  background: var(--interfacing-provider-surface-subtle);
+  background: var(--interfacing-provider-panel-subtle);
 }
 .interfacing-admin-toolbar__actions {
   display: flex;
@@ -1190,7 +1190,7 @@ body.interfacing-access-body {
   border-radius: var(--interfacing-provider-radius-lg);
   border: 1px solid var(--interfacing-provider-border);
   margin: 0 0 8px;
-  background: var(--interfacing-provider-surface);
+  background: var(--interfacing-provider-panel);
 }
 .interfacing-flash-message__type {
   font-weight: var(--interfacing-provider-font-weight-strong);
@@ -1200,7 +1200,7 @@ body.interfacing-access-body {
 }
 .interfacing-live-card {
   margin-bottom: 12px;
-  background: var(--interfacing-provider-surface);
+  background: var(--interfacing-provider-panel);
   border: 1px solid var(--interfacing-provider-border);
   border-radius: var(--interfacing-provider-radius-lg);
   padding: var(--interfacing-provider-card-padding);
@@ -1240,10 +1240,10 @@ body.interfacing-access-body {
   border: 1px solid var(--interfacing-provider-border);
   border-radius: var(--interfacing-provider-radius);
   padding: 6px 9px;
-  background: var(--interfacing-provider-surface);
+  background: var(--interfacing-provider-panel);
 }
 .interfacing-live-chip.is-active {
-  background: var(--interfacing-provider-surface-subtle);
+  background: var(--interfacing-provider-panel-subtle);
   font-weight: var(--interfacing-provider-font-weight-strong);
 }
 
@@ -1263,7 +1263,7 @@ body.interfacing-access-body {
   margin: 0 0 4px;
 }
 .interfacing-card {
-  background: var(--interfacing-provider-surface);
+  background: var(--interfacing-provider-panel);
   border: 1px solid var(--interfacing-provider-border);
   border-radius: var(--interfacing-provider-radius-lg);
   box-shadow: var(--interfacing-provider-shadow-card);
@@ -1295,7 +1295,7 @@ body.interfacing-access-body {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 .interfacing-stat-card {
-  background: var(--interfacing-provider-surface);
+  background: var(--interfacing-provider-panel);
   border: 1px solid var(--interfacing-provider-border);
   border-radius: var(--interfacing-provider-radius-lg);
   padding: 14px;
@@ -1320,7 +1320,7 @@ body.interfacing-access-body {
 .interfacing-table {
   width: 100%;
   border-collapse: collapse;
-  background: var(--interfacing-provider-surface);
+  background: var(--interfacing-provider-panel);
   font-size: 13px;
 }
 .interfacing-table th,
@@ -1331,7 +1331,7 @@ body.interfacing-access-body {
   vertical-align: middle;
 }
 .interfacing-table th {
-  background: var(--interfacing-provider-surface-subtle);
+  background: var(--interfacing-provider-panel-subtle);
   color: var(--interfacing-provider-heading-color);
   font-weight: var(--interfacing-provider-font-weight-strong);
 }
@@ -1343,7 +1343,7 @@ body.interfacing-access-body {
   width: 220px;
 }
 .interfacing-table--striped tbody tr:nth-child(even) td {
-  background: var(--interfacing-provider-surface-subtle);
+  background: var(--interfacing-provider-panel-subtle);
 }
 .interfacing-table--hover tbody tr:hover td {
   background: #eef2ff;
@@ -1362,7 +1362,7 @@ body.interfacing-access-body {
   padding: 10px 12px;
   border: 1px solid var(--interfacing-provider-border);
   border-radius: var(--interfacing-provider-radius-lg);
-  background: var(--interfacing-provider-surface-subtle);
+  background: var(--interfacing-provider-panel-subtle);
   color: var(--interfacing-provider-text-color);
 }
 .interfacing-alert--success {
@@ -1381,7 +1381,7 @@ body.interfacing-access-body {
   color: #92400e;
 }
 .interfacing-alert--neutral {
-  background: var(--interfacing-provider-surface-subtle);
+  background: var(--interfacing-provider-panel-subtle);
 }
 .interfacing-input {
   width: 100%;
@@ -1389,7 +1389,7 @@ body.interfacing-access-body {
   padding: var(--interfacing-provider-control-padding-y) var(--interfacing-provider-control-padding-x);
   border: 1px solid var(--interfacing-provider-border-strong);
   border-radius: var(--interfacing-provider-radius);
-  background: var(--interfacing-provider-surface);
+  background: var(--interfacing-provider-panel);
   color: var(--interfacing-provider-text-color);
   font: inherit;
   box-shadow: none;
@@ -1411,12 +1411,12 @@ body.interfacing-access-body {
 }
 .interfacing-button--secondary-outline {
   color: var(--interfacing-provider-primary);
-  background: var(--interfacing-provider-surface);
+  background: var(--interfacing-provider-panel);
   border-color: var(--interfacing-provider-primary);
 }
 .interfacing-button--danger-outline {
   color: var(--interfacing-provider-danger);
-  background: var(--interfacing-provider-surface);
+  background: var(--interfacing-provider-panel);
   border-color: var(--interfacing-provider-danger);
 }
 .interfacing-button--full {
@@ -1436,7 +1436,7 @@ body.interfacing-access-body {
   padding: 10px 12px;
   border: 1px solid var(--interfacing-provider-border);
   border-radius: var(--interfacing-provider-radius);
-  background: var(--interfacing-provider-surface-subtle);
+  background: var(--interfacing-provider-panel-subtle);
 }
 .interfacing-record--flat {
   border-width: 0 0 1px;
