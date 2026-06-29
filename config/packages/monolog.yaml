@@ -3,6 +3,7 @@ monolog:
         - deprecation # Deprecations are logged in the dedicated "deprecation" channel when it exists
         - payment_audit
         - vendoring
+        - localizing
 
 when@dev:
     monolog:
