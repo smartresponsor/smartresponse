@@ -59,7 +59,13 @@ composer.phar
 /.env.local.php
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
-/public/bundles/
+/public/bundles/*
+!/public/bundles/interfacing/
+!/public/bundles/interfacing/**
+!/public/bundles/interface/
+!/public/bundles/interface/**
+!/public/bundles/nelmioapidoc/
+!/public/bundles/nelmioapidoc/**
 /var/
 /vendor/
 ###< symfony/framework-bundle ###

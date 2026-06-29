@@ -1,0 +1,113 @@
+{
+  "_navigation-me2RlgO4.js": {
+    "file": "chunks/navigation-me2RlgO4.js",
+    "name": "navigation",
+    "imports": [
+      "_registry-V5OFkfe5.js"
+    ]
+  },
+  "_registry-V5OFkfe5.js": {
+    "file": "chunks/registry-V5OFkfe5.js",
+    "name": "registry"
+  },
+  "_workbench-CCEbgzjT.js": {
+    "file": "chunks/workbench-CCEbgzjT.js",
+    "name": "workbench",
+    "imports": [
+      "_registry-V5OFkfe5.js"
+    ]
+  },
+  "src/provider/canonical-providers.ts": {
+    "file": "canonical-providers.js",
+    "name": "canonical-providers",
+    "src": "src/provider/canonical-providers.ts",
+    "isEntry": true,
+    "imports": [
+      "src/provider/provider-registry.ts",
+      "src/provider/providers/antd-pro.tsx",
+      "src/provider/providers/primereact.tsx",
+      "_registry-V5OFkfe5.js",
+      "_navigation-me2RlgO4.js",
+      "_workbench-CCEbgzjT.js"
+    ],
+    "css": [
+      "assets/canonical-providers.css"
+    ]
+  },
+  "src/provider/component/antd-pro-workbench.tsx": {
+    "file": "chunks/antd-pro-workbench-BJYdBpbG.js",
+    "name": "antd-pro-workbench",
+    "src": "src/provider/component/antd-pro-workbench.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_navigation-me2RlgO4.js",
+      "_registry-V5OFkfe5.js",
+      "_workbench-CCEbgzjT.js",
+      "src/provider/providers/antd-pro.tsx"
+    ],
+    "css": [
+      "assets/canonical-providers.css"
+    ]
+  },
+  "src/provider/provider-registry.ts": {
+    "file": "provider-registry.js",
+    "name": "provider-registry",
+    "src": "src/provider/provider-registry.ts",
+    "isEntry": true,
+    "imports": [
+      "_registry-V5OFkfe5.js"
+    ]
+  },
+  "src/provider/providers/antd-pro.tsx": {
+    "file": "providers/antd-pro.js",
+    "name": "providers/antd-pro",
+    "src": "src/provider/providers/antd-pro.tsx",
+    "isEntry": true,
+    "imports": [
+      "_navigation-me2RlgO4.js",
+      "_registry-V5OFkfe5.js"
+    ],
+    "dynamicImports": [
+      "src/provider/component/antd-pro-workbench.tsx"
+    ],
+    "css": [
+      "assets/canonical-providers.css"
+    ]
+  },
+  "src/provider/providers/primereact.tsx": {
+    "file": "providers/primereact.js",
+    "name": "providers/primereact",
+    "src": "src/provider/providers/primereact.tsx",
+    "isEntry": true,
+    "imports": [
+      "_navigation-me2RlgO4.js",
+      "_registry-V5OFkfe5.js",
+      "_workbench-CCEbgzjT.js"
+    ],
+    "css": [
+      "assets/canonical-providers.css"
+    ]
+  },
+  "src/provider/runtime.ts": {
+    "file": "runtime.js",
+    "name": "runtime",
+    "src": "src/provider/runtime.ts",
+    "isEntry": true,
+    "imports": [
+      "src/provider/provider-registry.ts",
+      "src/provider/providers/antd-pro.tsx",
+      "src/provider/providers/primereact.tsx",
+      "_registry-V5OFkfe5.js",
+      "_navigation-me2RlgO4.js",
+      "_workbench-CCEbgzjT.js"
+    ],
+    "css": [
+      "assets/canonical-providers.css"
+    ]
+  },
+  "src/provider/styles/canonical-providers.interfacing-interface-ui.css": {
+    "file": "assets/canonical-providers.css",
+    "src": "src/provider/styles/canonical-providers.interfacing-interface-ui.css",
+    "isEntry": true
+  }
+}

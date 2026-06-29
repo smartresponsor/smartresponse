@@ -1,0 +1,1 @@
+{"version":3,"file":"provider-registry.js","sources":["../../.interfacing/workspace/src/provider/provider-registry.ts"],"sourcesContent":["import { exposeRegistry } from './registry';\n\nexposeRegistry();\n"],"names":["exposeRegistry"],"mappings":"6CAEAA,EAAA"}
