@@ -380,6 +380,14 @@ Doctrine mapping/schema validation
 - Prefer project-local scripts and configs over ad hoc one-off commands.
 - Keep secrets out of git-tracked files. Use Windows user env vars for runtime secrets.
 
+## Vaulting
+
+- App declares required runtime secrets by reference only in `config/secret/`.
+- `config/secret/secret.required.json` and `config/secret/secret.map.example.json` must not contain resolved values.
+- Vaulting owns resolution from AWS and child-process environment delivery.
+- App must not store resolved values in `.env`, `.env.local`, docs, fixtures, logs, prompts, or chat.
+- `GOOGLE_CLIENT_ID` is regular runtime configuration unless deployment policy requires every runtime configuration value to flow through Vaulting.
+
 ## Cloudflare AI Gateway
 
 - Use `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, and `CF_GATEWAY_ID` or `CF_AIG_GATEWAY_ID`.
