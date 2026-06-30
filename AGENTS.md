@@ -376,6 +376,7 @@ Doctrine mapping/schema validation
 - Treat `D:\PhpstormProjects\www` as an umbrella workspace with multiple independent projects.
 - Before changing code, inspect the nearest `composer.json`, `package.json`, or existing project docs for the target subproject.
 - Avoid touching `vendor/`, generated artifacts, and unrelated project trees unless the task explicitly requires it.
+- `config/reference.php` is generated Symfony reference output, not Symfony Native source of truth, not runtime config, and not App/component canon; keep it ignored or untracked and do not build guards, tests, or style fixes around it.
 - Prefer project-local scripts and configs over ad hoc one-off commands.
 - Keep secrets out of git-tracked files. Use Windows user env vars for runtime secrets.
 

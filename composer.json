@@ -401,7 +401,6 @@
         "gating:check": "php bin/console gating:check --target=.",
         "ai-review:validate": "php tools/gating/validate-ai-review.php",
         "inspect:navigation-ea-route": "php tools/inspection/app-navigation-ea-route-guard.php",
-        "inspect:reference-strict-types": "php tools/inspection/app-reference-strict-types-guard.php",
         "inspect:runtime-lock-authority": "php tools/inspection/app-runtime-lock-authority-guard.php",
         "post-install-cmd": [
             "@auto-scripts"
