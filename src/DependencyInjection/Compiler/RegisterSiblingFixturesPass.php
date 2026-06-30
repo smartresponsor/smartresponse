@@ -110,7 +110,7 @@ final class RegisterSiblingFixturesPass implements CompilerPassInterface
                 continue;
             }
 
-            if (!is_a($fqcn, FixtureInterface::class, true)) {
+            if (!is_a($fqcn, FixtureInterface::class, true) && !(str_starts_with($fqcn, 'App\\Localizing\\DataFixtures\\') && $reflectionClass->hasMethod('load'))) {
                 continue;
             }
 
