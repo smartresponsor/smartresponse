@@ -40,7 +40,7 @@ composer run ai-review:validate
 
 Resolve the Code Memory scope for the host application before graph-backed implementation work:
 ```bash
-php bin/console memory:scope:resolve --cwd=D:\PhpstormProjects\www\App --json
+php tools/code-memory/scope-resolve.php --cwd=D:\PhpstormProjects\www\App --json
 composer run memory:scope:resolve
 ```
 
