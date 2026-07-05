@@ -44,7 +44,7 @@ php tools/code-memory/scope-resolve.php --cwd=D:\PhpstormProjects\www\App --json
 composer run memory:scope:resolve
 ```
 
-The command is read-only. It reports the active project, Composer-linked read projects, edit projects, dependency fingerprint, and the navigation-only global `www` graph.
+The command is read-only by default. It reports the active project, Composer-linked read projects, edit projects, dependency fingerprint, and the navigation-only global `www` graph. Add `--write-cache` to generate `.codebase-memory/resolved-scope.json`; this cache is derived output, not a manual source-of-truth manifest.
 
 Boot the development server:
 ```bash

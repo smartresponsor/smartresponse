@@ -30,6 +30,9 @@ composer.phar
 *.iws
 .vscode/
 
+# Generated Code Memory scope/cache output
+/.codebase-memory/
+
 # Build / temporary output
 /build/
 /report/
