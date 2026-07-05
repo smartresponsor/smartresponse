@@ -41,6 +41,7 @@ composer run ai-review:validate
 Resolve the Code Memory scope for the host application before graph-backed implementation work:
 ```bash
 php bin/console memory:scope:resolve --cwd=D:\PhpstormProjects\www\App --json
+composer run memory:scope:resolve
 ```
 
 The command is read-only. It reports the active project, Composer-linked read projects, edit projects, dependency fingerprint, and the navigation-only global `www` graph.
