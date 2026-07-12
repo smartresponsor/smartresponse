@@ -78,6 +78,12 @@ doctrine:
                         dir: '%kernel.project_dir%/vendor/objecting/object/src/Embeddable'
                         prefix: 'App\Objecting\Embeddable'
                         alias: Objecting
+                    Carting:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/vendor/carting/cart/src/Entity'
+                        prefix: 'App\Carting\Entity'
+                        alias: Carting
             review:
                 connection: review
                 auto_mapping: false

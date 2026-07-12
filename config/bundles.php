@@ -22,6 +22,7 @@ return [
     App\Accessing\AccessingBundle::class => ['all' => true],
     App\Administering\AdministeringBundle::class => ['all' => true],
     App\Applicating\ApplicatingBundle::class => ['all' => true],
+    App\Carting\CartingBundle::class => ['all' => true],
     App\Cataloging\CatalogingBundle::class => ['all' => true],
     App\Cruding\CrudingBundle::class => ['all' => true],
     App\Interfacing\InterfacingBundle::class => ['all' => true],

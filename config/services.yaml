@@ -6,6 +6,7 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 imports:
     - { resource: '../../Localizing/config/services.yaml' }
+    - { resource: '../../Carting/config/services.yaml' }
 
 parameters:
     redis.dsn: 'redis://127.0.0.1:6379/0'
@@ -63,8 +64,13 @@ services:
         tags: ['controller.service_arguments']
     App\Command\GatingCheckCommand:
         tags: ['console.command']
+    App\Carting\Controller\CartController:
+        public: true
+        tags: ['controller.service_arguments']
     doctrine.dbal.default_connection:
         alias: doctrine.dbal.postgres_connection
+    doctrine.orm.data_entity_manager:
+        alias: doctrine.orm.postgres_entity_manager
 
     App\Service\ObjectMeta\ObjectVisibilityManager:
         arguments:

@@ -1,0 +1,2 @@
+carting:
+    resource: '@CartingBundle/config/routes.yaml'
