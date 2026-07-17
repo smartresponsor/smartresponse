@@ -404,6 +404,7 @@
         "ai-review:validate": "php tools/gating/validate-ai-review.php",
         "inspect:navigation-ea-route": "php tools/inspection/app-navigation-ea-route-guard.php",
         "inspect:runtime-lock-authority": "php tools/inspection/app-runtime-lock-authority-guard.php",
+        "inspect:rolling-host": "php tools/inspection/app-rolling-host-guard.php",
         "post-install-cmd": [
             "@auto-scripts"
         ],
