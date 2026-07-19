@@ -1,0 +1,2 @@
+rolling:
+    resource: '@RollingBundle/config/routes.yaml'

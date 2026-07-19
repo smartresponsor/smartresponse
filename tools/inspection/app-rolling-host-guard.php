@@ -103,7 +103,7 @@ if ([] === $findings && is_file($vendorAutoloadPath)) {
                 $findings[] = 'Host container does not expose router service.';
             } else {
                 $routes = $container->get('router')->getRouteCollection();
-                foreach (['role_access_check', 'role_health'] as $routeName) {
+                foreach (['role_access_check', 'app_healthz'] as $routeName) {
                     if (null === $routes->get($routeName)) {
                         $findings[] = sprintf('Host router does not include Rolling route %s.', $routeName);
                     }
