@@ -78,12 +78,13 @@ if ([] === $findings && is_file($vendorAutoloadPath)) {
 
     if ([] === $findings) {
         fwrite(STDOUT, "phase: kernel_construct\n");
-        $kernel = new Kernel('test', true);
-        fwrite(STDOUT, "phase: kernel_boot\n");
-        $kernel->boot();
-        fwrite(STDOUT, "phase: kernel_booted\n");
+        $kernel = new Kernel('prod', false);
 
         try {
+            fwrite(STDOUT, "phase: kernel_boot\n");
+            $kernel->boot();
+            fwrite(STDOUT, "phase: kernel_booted\n");
+
             $bundleClasses = array_map(static fn (object $bundle): string => $bundle::class, $kernel->getBundles());
             if (!in_array(RollingBundle::class, $bundleClasses, true)) {
                 $findings[] = 'App\\Rolling\\RollingBundle is not loaded by App\\Kernel.';
@@ -108,6 +109,12 @@ if ([] === $findings && is_file($vendorAutoloadPath)) {
                     }
                 }
             }
+        } catch (Throwable $exception) {
+            $findings[] = sprintf(
+                'Host production kernel inspection failed during boot or route loading: %s: %s',
+                $exception::class,
+                $exception->getMessage(),
+            );
         } finally {
             $kernel->shutdown();
         }
