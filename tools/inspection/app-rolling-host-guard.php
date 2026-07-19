@@ -45,6 +45,12 @@ if (!is_file($bundlesPath)) {
     }
 }
 
+if (!is_file($vendorAutoloadPath)) {
+    $findings[] = 'vendor/autoload.php is missing; host container cannot be inspected.';
+} else {
+    require_once $vendorAutoloadPath;
+}
+
 assertRuntimeLock($defaultRuntimeLockPath, 'config/kernel/runtime_scope.lock.php', false, $findings);
 assertRuntimeLock($prodRuntimeLockPath, 'config/kernel/runtime_scope.prod.lock.php', true, $findings);
 
@@ -61,13 +67,7 @@ if (false === $actualRollingRoot) {
     );
 }
 
-if (!is_file($vendorAutoloadPath)) {
-    $findings[] = 'vendor/autoload.php is missing; host container cannot be inspected.';
-}
-
 if ([] === $findings && is_file($vendorAutoloadPath)) {
-    require_once $vendorAutoloadPath;
-
     if (!class_exists(Kernel::class)) {
         $findings[] = 'App\\Kernel class is not autoloadable.';
     }
@@ -77,8 +77,11 @@ if ([] === $findings && is_file($vendorAutoloadPath)) {
     }
 
     if ([] === $findings) {
+        fwrite(STDOUT, "phase: kernel_construct\n");
         $kernel = new Kernel('test', true);
+        fwrite(STDOUT, "phase: kernel_boot\n");
         $kernel->boot();
+        fwrite(STDOUT, "phase: kernel_booted\n");
 
         try {
             $bundleClasses = array_map(static fn (object $bundle): string => $bundle::class, $kernel->getBundles());
