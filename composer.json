@@ -422,8 +422,8 @@
         "inspect:navigation-ea-route": "php tools/inspection/app-navigation-ea-route-guard.php",
         "inspect:runtime-lock-authority": "php tools/inspection/app-runtime-lock-authority-guard.php",
         "inspect:rolling-host": "php tools/inspection/app-rolling-host-guard.php",
-        "test:preprod:postgres": "powershell -ExecutionPolicy Bypass -File tool/preprod-postgres.ps1",
-        "test:preprod:postgres:docker": "powershell -ExecutionPolicy Bypass -File tool/preprod-postgres.ps1 -UseDocker",
+        "test:preprod:postgres": "powershell -ExecutionPolicy Bypass -File tools/preprod-postgres.ps1",
+        "test:preprod:postgres:docker": "powershell -ExecutionPolicy Bypass -File tools/preprod-postgres.ps1 -UseDocker",
         "post-install-cmd": [
             "@auto-scripts"
         ],

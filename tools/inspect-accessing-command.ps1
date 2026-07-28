@@ -5,7 +5,7 @@ $ErrorActionPreference = 'Continue'
 $workspace = Split-Path -Parent $PSScriptRoot
 Push-Location $workspace
 Write-Host 'CLASS_EXISTS:'
-php tool/inspect-accessing-command.php
+php tools/inspect-accessing-command.php
 Write-Host 'SERVICE:'
 php bin/console debug:container "App\Accessing\Command\AccessDemoResetCommand" --show-private --env=dev --no-debug
 Write-Host 'COMMAND_TAGS:'
