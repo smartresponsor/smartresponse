@@ -11,7 +11,7 @@ cruding:
         order: 'App\Entity\Order\OrderEntity'
         payment: 'App\Paying\Entity\PaymentEntity'
         product: 'App\Entity\Product\CommerceProductEntity'
-        project: 'App\Entity\Project\CommerceProjectEntity'
+        project: 'App\Projecting\Entity\Project\ProjectEntity'
         category: 'App\Cataloging\Entity\Catalog\CatalogCategoryEntity'
         page: 'App\Paging\Entity\Page'
         page-revision: 'App\Paging\Entity\PageRevision'

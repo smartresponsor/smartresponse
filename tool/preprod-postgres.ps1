@@ -93,6 +93,22 @@ function Reset-DockerDatabase {
     Run 'docker' @('exec', 'app-host-postgres', 'psql', '-U', $DatabaseUser, '-d', 'postgres',
         '-v', 'ON_ERROR_STOP=1', '-c', "CREATE DATABASE `"$DatabaseName`" OWNER `"$DatabaseUser`";")
 }
+function Ensure-LtreeExtension {
+    if ($UseDocker) {
+        Run 'docker' @('exec', 'app-host-postgres', 'psql', '-U', $DatabaseUser, '-d', $DatabaseName,
+            '-v', 'ON_ERROR_STOP=1', '-c', 'CREATE EXTENSION IF NOT EXISTS ltree;')
+        return
+    }
+
+    $previousPassword = $env:PGPASSWORD
+    try {
+        $env:PGPASSWORD = $DatabasePassword
+        Run 'psql' @('-h', $DatabaseHost, '-p', [string] $DatabasePort, '-U', $DatabaseUser, '-d', $DatabaseName,
+            '-v', 'ON_ERROR_STOP=1', '-c', 'CREATE EXTENSION IF NOT EXISTS ltree;')
+    } finally {
+        $env:PGPASSWORD = $previousPassword
+    }
+}
 
 Push-Location $workspace
 try {
@@ -105,6 +121,8 @@ try {
         Reset-LocalDatabase
     }
 
+    Ensure-LtreeExtension
+
     $encodedUser = [uri]::EscapeDataString($DatabaseUser)
     $encodedPassword = [uri]::EscapeDataString($DatabasePassword)
     $env:APP_ENV = 'prod'
@@ -116,7 +134,7 @@ try {
     $env:ACCESSING_ADMIN_PASSWORD = $AdminPassword
 
     Console @('cache:clear', '--no-debug', '--no-interaction')
-    Console @('doctrine:schema:update', '--em=postgres', '--force', '--complete', '--no-interaction')
+    Console @('doctrine:schema:update', '--em=postgres', '--force', '--no-interaction')
     Console @('doctrine:schema:validate', '--em=postgres', '--no-interaction')
     Console @('accessing:admin:ensure', '--password', $AdminPassword, '--reset-password', '--no-interaction')
     Console @('doctrine:schema:validate', '--em=postgres', '--no-interaction')
