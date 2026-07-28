@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ddc92ac39691c45761989106ed1fd6e3",
+    "content-hash": "67f6e743375257ff4ba24a4386207b4b",
     "packages": [
         {
             "name": "accessing/access",
@@ -12,21 +12,20 @@
             "dist": {
                 "type": "path",
                 "url": "../Accessing",
-                "reference": "29d74fc8e37729a953f628a73f1e4975e1c52a81"
+                "reference": "89cc5e537ad1fe9867e1255f6d7cf58652fa0f6f"
             },
             "require": {
-                "configuring/config": "*@dev",
+                "configuring/config": "dev-master",
                 "doctrine/doctrine-bundle": "^3.2",
                 "doctrine/doctrine-migrations-bundle": "^4.0",
                 "doctrine/orm": "^3.3",
                 "ext-ctype": "*",
                 "ext-iconv": "*",
                 "ext-pdo": "*",
-                "interfacing/interface": "*@dev",
-                "objecting/object": "*@dev",
+                "interfacing/interface": "dev-master",
+                "objecting/object": "dev-master",
                 "php": "^8.4",
-                "scheb/2fa-bundle": "8.5",
-                "scheb/2fa-totp": "8.5",
+                "spomky-labs/otphp": "^11.5",
                 "symfony/console": "^8.1",
                 "symfony/dotenv": "^8.1",
                 "symfony/form": "^8.1",
@@ -47,7 +46,8 @@
                 "symfonycasts/reset-password-bundle": "^1.23",
                 "symfonycasts/verify-email-bundle": "^1.17",
                 "twig/extra-bundle": "^3.15",
-                "twig/twig": "^3.15"
+                "twig/twig": "^3.15",
+                "web-auth/webauthn-lib": "^5.3.5"
             },
             "require-dev": {
                 "doctrine/doctrine-fixtures-bundle": "^4.3",
@@ -77,7 +77,7 @@
             },
             "scripts": {
                 "lint": [
-                    "php -l $(git ls-files '*.php')"
+                    "php bin/lint-php.php"
                 ],
                 "cs:check": [
                     "php-cs-fixer fix --dry-run --diff --verbose"
@@ -90,6 +90,9 @@
                 ],
                 "test": [
                     "vendor/bin/simple-phpunit --testsuite Accessing"
+                ],
+                "test:object-identity": [
+                    "vendor/bin/simple-phpunit tests/Unit/Entity/AccessEntityObjectingContractTest.php"
                 ],
                 "test:panther": [
                     "vendor/bin/simple-phpunit --testsuite Panther"
@@ -427,7 +430,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Analysing",
-                "reference": "660a464baca234cae72af78719b0c4f9956d7e4e"
+                "reference": "416c4f10e6d72afc35be936414e6fd2b5b840ef4"
             },
             "require": {
                 "doctrine/dbal": "^4.3",
@@ -1030,7 +1033,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Attaching",
-                "reference": "6d437b218f20915a6f0ae61e49c11e6020cc9d1b"
+                "reference": "39c2416c90f1303caf11665de119cf866f8a008b"
             },
             "require": {
                 "doctrine/dbal": "^4.3",
@@ -1104,7 +1107,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Billing",
-                "reference": "68b8a1bded68e1b378c3179e6fc16d690e0d5661"
+                "reference": "a5d2aadd0f92cf0aebd81417e01c792df86b0fa6"
             },
             "require": {
                 "doctrine/dbal": "^4.3",
@@ -1283,7 +1286,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Carting",
-                "reference": "f1194c056882f0766826b96f5f1966114656e665"
+                "reference": "253c4eb95ef83e4d69716bb63a527434bbaf647b"
             },
             "require": {
                 "doctrine/doctrine-bundle": "^3.0",
@@ -1319,6 +1322,24 @@
                     "App\\Carting\\Tests\\": "tests/"
                 }
             },
+            "scripts": {
+                "test": [
+                    "@php vendor/bin/phpunit"
+                ],
+                "stan": [
+                    "@php vendor/bin/phpstan analyse src tests --no-progress"
+                ],
+                "analyse": [
+                    "@stan"
+                ],
+                "lint": [
+                    "@php -l src/CartingBundle.php"
+                ],
+                "qa": [
+                    "@test",
+                    "@stan"
+                ]
+            },
             "license": [
                 "proprietary"
             ],
@@ -1334,7 +1355,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Cataloging",
-                "reference": "33a9921ecd4eaba4134fc1fa8a5026f8829195dd"
+                "reference": "c050d1c16f4c979d8d051aa5876cfa29b7f4a1eb"
             },
             "require": {
                 "api-platform/doctrine-orm": "^4.3",
@@ -1347,9 +1368,9 @@
                 "ext-json": "*",
                 "ext-openssl": "*",
                 "ext-pdo": "*",
-                "interfacing/interface": "*@dev",
+                "interfacing/interface": "dev-master",
                 "nelmio/api-doc-bundle": "^5.0",
-                "objecting/object": "*@dev",
+                "objecting/object": "dev-master",
                 "php": "^8.4",
                 "symfony/dependency-injection": "^8.1",
                 "symfony/doctrine-bridge": "^8.1",
@@ -1378,7 +1399,41 @@
             "autoload": {
                 "psr-4": {
                     "App\\Cataloging\\": "src/"
-                }
+                },
+                "files": [
+                    "src/EventInterface/CategoryWorkflowTransitionedInterface.php",
+                    "src/EventInterface/SyndicationDeliveryRecordedInterface.php",
+                    "src/EventInterface/SyndicationDestinationGovernanceSummaryBuiltInterface.php",
+                    "src/EventInterface/SyndicationDestinationHistoryBuiltInterface.php",
+                    "src/EventInterface/SyndicationDestinationRegisteredInterface.php",
+                    "src/Event/CategoryWorkflowTransitioned.php",
+                    "src/Event/SyndicationDeliveryRecorded.php",
+                    "src/Event/SyndicationDestinationGovernanceSummaryBuilt.php",
+                    "src/Event/SyndicationDestinationHistoryBuilt.php",
+                    "src/Event/SyndicationDestinationRegistered.php",
+                    "src/Exception/CategoryLinkConflict.php",
+                    "src/Exception/TaxonomyConflict.php",
+                    "src/ValueObject/CategoryAccessAssignmentRequest.php",
+                    "src/ValueObject/CategoryAccessAssignmentSelection.php",
+                    "src/ValueObject/CategoryLinkRequest.php"
+                ],
+                "exclude-from-classmap": [
+                    "src/Event/CategoryWorkflowTransitioned.php",
+                    "src/Event/SyndicationDeliveryRecorded.php",
+                    "src/Event/SyndicationDestinationGovernanceSummaryBuilt.php",
+                    "src/Event/SyndicationDestinationHistoryBuilt.php",
+                    "src/Event/SyndicationDestinationRegistered.php",
+                    "src/EventInterface/CategoryWorkflowTransitionedInterface.php",
+                    "src/EventInterface/SyndicationDeliveryRecordedInterface.php",
+                    "src/EventInterface/SyndicationDestinationGovernanceSummaryBuiltInterface.php",
+                    "src/EventInterface/SyndicationDestinationHistoryBuiltInterface.php",
+                    "src/EventInterface/SyndicationDestinationRegisteredInterface.php",
+                    "src/Exception/CategoryLinkConflict.php",
+                    "src/Exception/TaxonomyConflict.php",
+                    "src/ValueObject/CategoryAccessAssignmentRequest.php",
+                    "src/ValueObject/CategoryAccessAssignmentSelection.php",
+                    "src/ValueObject/CategoryLinkRequest.php"
+                ]
             },
             "autoload-dev": {
                 "psr-4": {
@@ -1546,6 +1601,9 @@
                 "test:unit": [
                     "@php tools/php/php84.php vendor/bin/phpunit -c phpunit.xml.dist --testsuite unit"
                 ],
+                "test:object-identity": [
+                    "@php tools/php/php84.php vendor/bin/phpunit -c phpunit.xml.dist tests/Unit/Catalog/CatalogObjectIdentityContractTest.php"
+                ],
                 "test:coverage:gate": [
                     "@php tools/php/php84.php vendor/bin/phpunit -c phpunit.xml.dist --coverage-clover build/logs/clover.xml",
                     "@php tools/php/php84.php tools/qa/check_coverage_threshold.php build/logs/clover.xml 70"
@@ -1572,7 +1630,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Commissioning",
-                "reference": "264501d01435817fa3086641e5d59b0fb5da6a80"
+                "reference": "43f4131ebc3265fa769652efd36e5d85eef68ad1"
             },
             "require": {
                 "objecting/object": "*@dev",
@@ -1584,6 +1642,10 @@
                     "App\\Commissioning\\": "src/"
                 }
             },
+            "license": [
+                "proprietary"
+            ],
+            "description": "SmartResponsor commissioning component",
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -1847,12 +1909,12 @@
             },
             "autoload": {
                 "psr-4": {
-                    "App\\Currencing\\": "src/"
+                    "App\\": "src/"
                 }
             },
             "autoload-dev": {
                 "psr-4": {
-                    "App\\Currencing\\Tests\\": "tests/"
+                    "App\\Tests\\": "tests/"
                 }
             },
             "scripts": {
@@ -1889,12 +1951,67 @@
             }
         },
         {
+            "name": "delivering/delivery",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "../Delivering",
+                "reference": "66eb4337a6fce6c9f47da569423a5c06217b0f1f"
+            },
+            "require": {
+                "doctrine/orm": "^3.3",
+                "php": "^8.4",
+                "psr/log": "^3.0",
+                "symfony/dependency-injection": "^8.1",
+                "symfony/doctrine-messenger": "^8.1",
+                "symfony/framework-bundle": "^8.1",
+                "symfony/http-client": "^8.1",
+                "symfony/http-foundation": "^8.1",
+                "symfony/http-kernel": "^8.1",
+                "symfony/messenger": "^8.1",
+                "symfony/routing": "^8.1",
+                "symfony/uid": "^8.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^11.5"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "symfony": {
+                    "require": "8.0.*"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "App\\Delivering\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "App\\Delivering\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "@php vendor/bin/phpunit --configuration phpunit.xml.dist"
+                ]
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Provider-neutral outbound delivery component for the Smart Responsor ecosystem",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "discovering/discovery",
             "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "../Discovering",
-                "reference": "f95b411ff613609429444adb0c07ff11372bfdce"
+                "reference": "133023ac7b3780169ef64f879181a1da4e0c41ab"
             },
             "require": {
                 "doctrine/doctrine-bundle": "3.2",
@@ -1951,6 +2068,9 @@
                 ],
                 "test:unit": [
                     "phpunit --testsuite Unit"
+                ],
+                "test:object-identity": [
+                    "phpunit tests/Unit/Discovery/DiscoveringObjectIdentityContractTest.php"
                 ],
                 "test:functional": [
                     "phpunit --testsuite Functional"
@@ -2149,16 +2269,16 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "4.4.3",
+            "version": "4.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "61e730f1658814821a85f2402c945f3883407dec"
+                "reference": "fb9e0ffe15e1590e24dc61c0c0a23f9a33ee42ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/61e730f1658814821a85f2402c945f3883407dec",
-                "reference": "61e730f1658814821a85f2402c945f3883407dec",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/fb9e0ffe15e1590e24dc61c0c0a23f9a33ee42ce",
+                "reference": "fb9e0ffe15e1590e24dc61c0c0a23f9a33ee42ce",
                 "shasum": ""
             },
             "require": {
@@ -2235,7 +2355,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/dbal/issues",
-                "source": "https://github.com/doctrine/dbal/tree/4.4.3"
+                "source": "https://github.com/doctrine/dbal/tree/4.4.4"
             },
             "funding": [
                 {
@@ -2251,7 +2371,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-03-20T08:52:12+00:00"
+            "time": "2026-07-21T14:34:40+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -4230,13 +4350,13 @@
             "dist": {
                 "type": "path",
                 "url": "../Indexing",
-                "reference": "20206c09afff8e3e9c2c17200f3e5ebc39b9556a"
+                "reference": "ca7ecb57479c2dfcdfeaf33e91b0bbdb349c968d"
             },
             "require": {
                 "doctrine/dbal": "^4.3",
                 "doctrine/orm": "^3.3",
                 "ext-json": "*",
-                "objecting/object": "*@dev",
+                "objecting/object": "dev-master",
                 "php": "^8.4",
                 "symfony/config": "^8.1",
                 "symfony/console": "^8.1",
@@ -4291,8 +4411,8 @@
                     "phpunit"
                 ],
                 "ci:docs": [
-                    "@php -r \"foreach (['README.md', 'CHANGELOG.md', 'CONTRIBUTING.md', 'SECURITY.md', 'deploy/docker/compose.yaml', 'doctum.php', 'doc/index/README.md', 'doc/index/TOC.md', 'doc/index/GITHUB-OPERATIONS.md', '.canonization/Boundary/index.boundary.yaml', 'documentation/portal/antora.yml', 'documentation/portal/modules/ROOT/nav.adoc', 'documentation/portal/modules/ROOT/pages/index.adoc'] as $file) { if (!file_exists($file)) { fwrite(STDERR, 'Missing documentation file: ' . $file . PHP_EOL); exit(1); } }\"",
-                    "@php -r \"foreach (['doc/index/QA-SURFACE.md', 'doc/index/RELEASE-CHECKLIST.md', 'doc/index/RC1-READINESS.md'] as $file) { if (!file_exists($file)) { fwrite(STDERR, 'Missing QA/release file: ' . $file . PHP_EOL); exit(1); } }\"",
+                    "@php -r \"foreach (['README.md', 'CHANGELOG.md', 'CONTRIBUTING.md', 'SECURITY.md', 'deploy/docker/compose.yaml', 'doctum.php', 'doc/index/README.md', 'documentation/index/TOC.md', 'documentation/index/GITHUB-OPERATIONS.md', '.canonization/Boundary/index.boundary.yaml', 'documentation/portal/antora.yml', 'documentation/portal/modules/ROOT/nav.adoc', 'documentation/portal/modules/ROOT/pages/index.adoc'] as $file) { if (!file_exists($file)) { fwrite(STDERR, 'Missing documentation file: ' . $file . PHP_EOL); exit(1); } }\"",
+                    "@php -r \"foreach (['documentation/index/QA-SURFACE.md', 'documentation/index/RELEASE-CHECKLIST.md', 'documentation/index/RC1-READINESS.md'] as $file) { if (!file_exists($file)) { fwrite(STDERR, 'Missing QA/release file: ' . $file . PHP_EOL); exit(1); } }\"",
                     "@ci:docs:consistency",
                     "@docs:doctum:clean",
                     "@docs:doctum"
@@ -4401,7 +4521,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Interfacing",
-                "reference": "5e602bbbe036e0c59c31a275678359e9e7505075"
+                "reference": "6f4bd7762e5c5c9602c20d592e53caa2ea367735"
             },
             "require": {
                 "composer-runtime-api": "^2.2",
@@ -4662,7 +4782,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Localizing",
-                "reference": "6216ff24660e905bd75af3f1aa01c2c550e292d1"
+                "reference": "1ac5c26e45e8a1c67286a7a3f968a52bd62f140a"
             },
             "require": {
                 "doctrine/doctrine-bundle": "^3.0",
@@ -4723,7 +4843,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Locating",
-                "reference": "c34a220b2cbed18d16f6443878a85106c384b676"
+                "reference": "4173dc829472489fbb5efa7e11422435430f0dfc"
             },
             "require": {
                 "ext-json": "*",
@@ -5837,7 +5957,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Navigating",
-                "reference": "f79ce4c536c3ae25497c44db0f5d7b3b01e51adf"
+                "reference": "0b16df9fe5d84e040de627e0e8e5ab3a35b20efc"
             },
             "require": {
                 "easycorp/easyadmin-bundle": "^5.0",
@@ -6238,7 +6358,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Objecting",
-                "reference": "d232919c26470c2ccd9e158a83aa3f5995abc620"
+                "reference": "a5ae3713fff95ac0c4779c568dba9dd1c429b7dc"
             },
             "require": {
                 "doctrine/orm": "^3.3",
@@ -6274,8 +6394,17 @@
                 "test:canon": [
                     "@php tools/test/objecting_canon_check.php"
                 ],
+                "test:responsibility-boundary": [
+                    "@php tools/test/objecting_responsibility_boundary_check.php"
+                ],
+                "test:semantic-manifest": [
+                    "@php tools/test/objecting_semantic_manifest_check.php"
+                ],
                 "test:lifecycle-identity-canon": [
                     "@php tools/test/objecting_lifecycle_identity_canon_check.php"
+                ],
+                "test:production-diagnostics": [
+                    "@php tools/test/objecting_production_diagnostic_check.php"
                 ],
                 "test:package-surface": [
                     "@php tools/test/objecting_package_surface_check.php"
@@ -6285,7 +6414,10 @@
                 ],
                 "test:quality": [
                     "@test:canon",
+                    "@test:responsibility-boundary",
+                    "@test:semantic-manifest",
                     "@test:lifecycle-identity-canon",
+                    "@test:production-diagnostics",
                     "@test:internal-types",
                     "@test:layer-suffix",
                     "@test:package-surface",
@@ -6849,7 +6981,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Ordering",
-                "reference": "1394847ad8a0070750180cb4821edbe77deb9324"
+                "reference": "7fd28d9b9587849f035d7d30eec29a9be07b009f"
             },
             "require": {
                 "api-platform/core": "^4.0",
@@ -6913,6 +7045,9 @@
                 "test": [
                     "phpunit --configuration phpunit.xml.dist --testsuite OrderFast"
                 ],
+                "test:object-identity": [
+                    "phpunit --configuration phpunit.xml.dist tests/Unit/Order/OrderingObjectIdentityContractTest.php"
+                ],
                 "test:full": [
                     "phpunit --configuration phpunit.xml.dist --testsuite OrderFullStack"
                 ],
@@ -6969,17 +7104,18 @@
         },
         {
             "name": "paging/page",
-            "version": "dev-master",
+            "version": "dev-rc/paging-2026-07-09",
             "dist": {
                 "type": "path",
                 "url": "../Paging",
-                "reference": "f1a0d95c02f3a7c6c46388e61760611273f5b6ef"
+                "reference": "678db73516445b6d016ee7b7f8ea933888f3d4f5"
             },
             "require": {
                 "doctrine/dbal": "^4.0",
                 "doctrine/doctrine-bundle": "^3.0",
                 "doctrine/doctrine-migrations-bundle": "^4.0",
                 "doctrine/orm": "^3.3",
+                "easycorp/easyadmin-bundle": "^5.0",
                 "ext-ctype": "*",
                 "ext-iconv": "*",
                 "objecting/object": "*@dev",
@@ -7005,7 +7141,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "symfony": {
-                    "require": "8.0.*"
+                    "require": "8.1.*"
                 }
             },
             "autoload": {
@@ -7084,6 +7220,15 @@
                     "php bin/console lint:container",
                     "php bin/console page:bridge:contract",
                     "php bin/console page:bridge:contract --json"
+                ],
+                "page:admin-check": [
+                    "php bin/console lint:container",
+                    "php bin/console page:user-usability:check",
+                    "php bin/console page:navigation:contract",
+                    "php bin/console page:interfacing:contract",
+                    "php bin/console page:security:contract",
+                    "php bin/console page:workflow:acceptance",
+                    "php bin/console debug:router page_admin"
                 ]
             },
             "license": [
@@ -7173,14 +7318,17 @@
                 "reference": "6b3180b7d9cffbd8c76451cf0fd45ea66090e68a"
             },
             "require": {
+                "cruding/crud": "*@dev",
                 "doctrine/doctrine-bundle": "^3.0",
                 "doctrine/doctrine-migrations-bundle": "^4.0",
                 "doctrine/orm": "^3.4",
                 "ext-openssl": "*",
                 "ext-redis": "*",
                 "interfacing/interface": "*@dev",
+                "navigating/navigation": "*@dev",
                 "nelmio/api-doc-bundle": "^5.1",
                 "objecting/object": "*@dev",
+                "php": "^8.4",
                 "symfony/asset": "^8.1",
                 "symfony/config": "^8.1",
                 "symfony/console": "^8.1",
@@ -7200,7 +7348,8 @@
                 "symfony/uid": "^8.1",
                 "symfony/validator": "^8.1",
                 "symfony/workflow": "^8.1",
-                "symfony/yaml": "^8.1"
+                "symfony/yaml": "^8.1",
+                "viewing/view": "*@dev"
             },
             "require-dev": {
                 "doctrine/doctrine-fixtures-bundle": "^4.3",
@@ -7795,16 +7944,16 @@
         },
         {
             "name": "phpstan/phpdoc-parser",
-            "version": "2.3.2",
+            "version": "2.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "a004701b11273a26cd7955a61d67a7f1e525a45a"
+                "reference": "fb19eedd2bb67ff8cf7a5502ad329e701d6398a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/a004701b11273a26cd7955a61d67a7f1e525a45a",
-                "reference": "a004701b11273a26cd7955a61d67a7f1e525a45a",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/fb19eedd2bb67ff8cf7a5502ad329e701d6398a3",
+                "reference": "fb19eedd2bb67ff8cf7a5502ad329e701d6398a3",
                 "shasum": ""
             },
             "require": {
@@ -7836,9 +7985,9 @@
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
             "support": {
                 "issues": "https://github.com/phpstan/phpdoc-parser/issues",
-                "source": "https://github.com/phpstan/phpdoc-parser/tree/2.3.2"
+                "source": "https://github.com/phpstan/phpdoc-parser/tree/2.3.3"
             },
-            "time": "2026-01-25T14:56:51+00:00"
+            "time": "2026-07-08T07:01:06+00:00"
         },
         {
             "name": "predis/predis",
@@ -7908,7 +8057,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Projecting",
-                "reference": "aaf7b45845720ed0cfe74247527159b8c778b9b7"
+                "reference": "f9c41f6fc2ebcc1444f333c64ac0bcc20f8c43c3"
             },
             "require": {
                 "doctrine/collections": "^2.2",
@@ -7937,7 +8086,10 @@
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.94",
-                "phpunit/phpunit": "^10.5"
+                "phpunit/phpunit": "^10.5",
+                "symfony/browser-kit": "^8.1",
+                "symfony/css-selector": "^8.1",
+                "symfony/dom-crawler": "^8.1"
             },
             "type": "symfony-bundle",
             "autoload": {
@@ -7948,6 +8100,9 @@
             "scripts": {
                 "test": [
                     "phpunit --colors=always"
+                ],
+                "test:object-identity": [
+                    "phpunit --colors=always tests/Unit/Project/ProjectingObjectIdentityContractTest.php"
                 ],
                 "lint": [
                     "php -l src"
@@ -9210,10 +9365,11 @@
             "dist": {
                 "type": "path",
                 "url": "../Rolling",
-                "reference": "fbb42c83102547582498cf85bceec2b3ce45ec5b"
+                "reference": "5e71b60ae99adff118753e2747f1335f2ad57f46"
             },
             "require": {
-                "configuring/config": "*@dev",
+                "configuring/config": "dev-master",
+                "cruding/crud": "dev-master",
                 "doctrine/dbal": "^4.0",
                 "doctrine/doctrine-bundle": "^3.0",
                 "doctrine/doctrine-migrations-bundle": "^4.0",
@@ -9225,7 +9381,7 @@
                 "ext-mbstring": "*",
                 "ext-openssl": "*",
                 "ext-pdo": "*",
-                "objecting/object": "*@dev",
+                "objecting/object": "dev-master",
                 "php": "^8.4",
                 "psr/simple-cache": "^3.0",
                 "symfony/config": "^8.0",
@@ -9261,8 +9417,12 @@
             },
             "autoload-dev": {
                 "psr-4": {
-                    "App\\Rolling\\Tests\\": "tests/"
-                }
+                    "App\\Rolling\\Tests\\": "tests/",
+                    "Rolling\\SDK\\V2\\": "SDK/php/"
+                },
+                "exclude-from-classmap": [
+                    "tests/SDK/PHP/psr_stubs.php"
+                ]
             },
             "scripts": {
                 "canon:scan": [
@@ -9277,8 +9437,32 @@
                 "canon:autoload-audit": [
                     "@php bin/autoload-continuity-audit.php"
                 ],
+                "recovery:bootstrap-preflight": [
+                    "@php tools/qa/bootstrap-preflight-report.php"
+                ],
+                "recovery:dependency-readiness": [
+                    "@php tools/qa/dependency-readiness.php"
+                ],
+                "recovery:audits": [
+                    "@php tools/qa/recovery-audits.php"
+                ],
+                "recovery:readiness-smoke": [
+                    "@php tools/qa/readiness-smoke.php"
+                ],
+                "recovery:operator-preflight": [
+                    "@php tools/qa/operator-preflight.php"
+                ],
+                "recovery:current-summary": [
+                    "@php tools/qa/current-summary.php"
+                ],
                 "test": [
-                    "vendor/bin/phpunit --testsuite=default --testdox"
+                    "@php tools/qa/phpunit-junit-gate.php unit-role-a tests/Role/Acl tests/Role/Administration tests/Role/Audit tests/Role/Batch tests/Role/Consistency --no-output",
+                    "@php tools/qa/phpunit-junit-gate.php unit-role-b tests/Role/Console --no-output",
+                    "@php tools/qa/phpunit-junit-gate.php unit-role-c tests/Role/Context tests/Role/Housekeeping tests/Role/Http tests/Role/Model tests/Role/Observability tests/Role/Opa tests/Role/Policy tests/Role/Rebac tests/Role/Resilience --no-output",
+                    "@php tools/qa/phpunit-junit-gate.php unit-sdk tests/SDK --no-output"
+                ],
+                "host-smoke": [
+                    "@php tools/qa/phpunit-junit-gate.php host-smoke --testsuite=e2e --filter=KernelAccessTest --do-not-fail-on-risky"
                 ],
                 "lint": [
                     "@php tools/qa/php-lint.php"
@@ -9295,7 +9479,17 @@
                 "qa": [
                     "@lint",
                     "@phpstan",
-                    "@test"
+                    "@test",
+                    "@host-smoke",
+                    "@surface:audit",
+                    "@symfony81:audit",
+                    "@http-payload:audit",
+                    "@docblock:coverage",
+                    "@checkbox-form:audit",
+                    "@cruding-resource-readiness-audit",
+                    "@easyadmin-surface:audit",
+                    "@objecting:adoption:audit",
+                    "@solid-canon:audit"
                 ],
                 "surface:audit": [
                     "@php tools/qa/rolling-surface-audit.php"
@@ -9306,11 +9500,26 @@
                 "http-payload:audit": [
                     "@php tools/qa/rolling-http-payload-audit.php"
                 ],
+                "docblock:coverage": [
+                    "@php tools/qa/rolling-docblock-coverage-audit.php"
+                ],
                 "checkbox-form:audit": [
                     "@php tools/qa/rolling-checkbox-form-audit.php"
                 ],
+                "cruding-resource-readiness-audit": [
+                    "@php tools/qa/rolling-cruding-resource-readiness-audit.php"
+                ],
+                "cruding:resource-readiness:audit": [
+                    "@cruding-resource-readiness-audit"
+                ],
                 "easyadmin-surface:audit": [
                     "@php tools/qa/rolling-easyadmin-surface-audit.php"
+                ],
+                "objecting:adoption:audit": [
+                    "@php tools/qa/rolling-objecting-adoption-audit.php"
+                ],
+                "objecting-adoption-audit": [
+                    "@php tools/qa/rolling-objecting-adoption-audit.php"
                 ],
                 "solid-canon:audit": [
                     "@php tools/qa/rolling-solid-canon-audit.php"
@@ -9327,20 +9536,19 @@
         },
         {
             "name": "scheb/2fa-bundle",
-            "version": "v8.5.0",
+            "version": "v8.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/scheb/2fa-bundle.git",
-                "reference": "ae26ae91723685e3a8622f2f3b9119016de23e20"
+                "reference": "5427e46c4e3236af31ad25ba7deae63de197637f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/scheb/2fa-bundle/zipball/ae26ae91723685e3a8622f2f3b9119016de23e20",
-                "reference": "ae26ae91723685e3a8622f2f3b9119016de23e20",
+                "url": "https://api.github.com/repos/scheb/2fa-bundle/zipball/5427e46c4e3236af31ad25ba7deae63de197637f",
+                "reference": "5427e46c4e3236af31ad25ba7deae63de197637f",
                 "shasum": ""
             },
             "require": {
-                "ext-json": "*",
                 "php": "~8.4.0 || ~8.5.0",
                 "symfony/config": "^7.4 || ^8.0",
                 "symfony/dependency-injection": "^7.4 || ^8.0",
@@ -9389,13 +9597,13 @@
                 "two-step"
             ],
             "support": {
-                "source": "https://github.com/scheb/2fa-bundle/tree/v8.5.0"
+                "source": "https://github.com/scheb/2fa-bundle/tree/v8.6.1"
             },
-            "time": "2026-03-24T18:33:45+00:00"
+            "time": "2026-07-10T18:29:30+00:00"
         },
         {
             "name": "scheb/2fa-totp",
-            "version": "v8.5.0",
+            "version": "v8.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/scheb/2fa-totp.git",
@@ -9442,7 +9650,7 @@
                 "two-step"
             ],
             "support": {
-                "source": "https://github.com/scheb/2fa-totp/tree/v8.5.0"
+                "source": "https://github.com/scheb/2fa-totp/tree/v8.6.1"
             },
             "time": "2026-01-24T13:27:55+00:00"
         },
@@ -9698,7 +9906,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Shipping",
-                "reference": "ada077d576c4bffe972636111969e3e1fea4d8b5"
+                "reference": "e55c29e7acc6b98b92c3fad0c5bf8d0597fa7a15"
             },
             "require": {
                 "doctrine/dbal": "^4.0",
@@ -9707,26 +9915,26 @@
                 "doctrine/orm": "^3.3",
                 "ext-json": "*",
                 "monolog/monolog": "^3.5",
-                "objecting/object": "*@dev",
+                "objecting/object": "dev-master",
                 "php": "^8.4",
-                "symfony/config": "^8.1",
-                "symfony/console": "^8.1",
-                "symfony/dependency-injection": "^8.1",
-                "symfony/form": "^8.1",
-                "symfony/framework-bundle": "^8.1",
-                "symfony/http-client": "^8.1",
-                "symfony/http-foundation": "^8.1",
-                "symfony/intl": "^8.1",
+                "symfony/config": "^8.0",
+                "symfony/console": "^8.0",
+                "symfony/dependency-injection": "^8.0",
+                "symfony/form": "^8.0",
+                "symfony/framework-bundle": "^8.0",
+                "symfony/http-client": "^8.0",
+                "symfony/http-foundation": "^8.0",
+                "symfony/intl": "^8.0",
                 "symfony/monolog-bundle": "^4.0",
-                "symfony/routing": "^8.1",
-                "symfony/runtime": "^8.1",
-                "symfony/security-csrf": "^8.1",
-                "symfony/twig-bridge": "^8.1",
-                "symfony/twig-bundle": "^8.1",
-                "symfony/uid": "^8.1",
-                "symfony/validator": "^8.1",
-                "symfony/var-exporter": "^8.1",
-                "symfony/yaml": "^8.1",
+                "symfony/routing": "^8.0",
+                "symfony/runtime": "^8.0",
+                "symfony/security-csrf": "^8.0",
+                "symfony/twig-bridge": "^8.0",
+                "symfony/twig-bundle": "^8.0",
+                "symfony/uid": "^8.0",
+                "symfony/validator": "^8.0",
+                "symfony/var-exporter": "^8.0",
+                "symfony/yaml": "^8.0",
                 "twig/twig": "^3.21"
             },
             "require-dev": {
@@ -9735,9 +9943,9 @@
                 "friendsofphp/php-cs-fixer": "^3.94",
                 "phpstan/phpstan": "^2.1",
                 "phpunit/phpunit": "^12.5.8",
-                "symfony/browser-kit": "^8.1",
-                "symfony/css-selector": "^8.1",
-                "symfony/phpunit-bridge": "^8.1"
+                "symfony/browser-kit": "^8.0",
+                "symfony/css-selector": "^8.0",
+                "symfony/phpunit-bridge": "^8.0"
             },
             "type": "symfony-bundle",
             "extra": {
@@ -9935,6 +10143,77 @@
             }
         },
         {
+            "name": "spomky-labs/cbor-php",
+            "version": "3.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Spomky-Labs/cbor-php.git",
+                "reference": "013d13da69cf28b1ae501887daceccc850ca1c76"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Spomky-Labs/cbor-php/zipball/013d13da69cf28b1ae501887daceccc850ca1c76",
+                "reference": "013d13da69cf28b1ae501887daceccc850ca1c76",
+                "shasum": ""
+            },
+            "require": {
+                "brick/math": "^0.9|^0.10|^0.11|^0.12|^0.13|^0.14|^0.15|^0.16|^0.17|^0.18",
+                "ext-mbstring": "*",
+                "php": ">=8.0"
+            },
+            "require-dev": {
+                "ext-json": "*",
+                "roave/security-advisories": "dev-latest",
+                "symfony/error-handler": "^6.4|^7.1|^8.0",
+                "symfony/var-dumper": "^6.4|^7.1|^8.0"
+            },
+            "suggest": {
+                "ext-bcmath": "GMP or BCMath extensions will drastically improve the library performance. BCMath extension needed to handle the Big Float and Decimal Fraction Tags",
+                "ext-gmp": "GMP or BCMath extensions will drastically improve the library performance"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "CBOR\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Florent Morselli",
+                    "homepage": "https://github.com/Spomky"
+                },
+                {
+                    "name": "All contributors",
+                    "homepage": "https://github.com/Spomky-Labs/cbor-php/contributors"
+                }
+            ],
+            "description": "CBOR Encoder/Decoder for PHP",
+            "keywords": [
+                "Concise Binary Object Representation",
+                "RFC7049",
+                "cbor"
+            ],
+            "support": {
+                "issues": "https://github.com/Spomky-Labs/cbor-php/issues",
+                "source": "https://github.com/Spomky-Labs/cbor-php/tree/3.3.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/Spomky",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.patreon.com/FlorentMorselli",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2026-07-15T18:56:27+00:00"
+        },
+        {
             "name": "spomky-labs/otphp",
             "version": "11.5.0",
             "source": {
@@ -10005,12 +10284,121 @@
             "time": "2026-06-06T23:41:24+00:00"
         },
         {
+            "name": "spomky-labs/pki-framework",
+            "version": "1.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Spomky-Labs/pki-framework.git",
+                "reference": "e0d61661962560c1cedfef02b51b431e720aae78"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Spomky-Labs/pki-framework/zipball/e0d61661962560c1cedfef02b51b431e720aae78",
+                "reference": "e0d61661962560c1cedfef02b51b431e720aae78",
+                "shasum": ""
+            },
+            "require": {
+                "brick/math": "^0.10|^0.11|^0.12|^0.13|^0.14|^0.15|^0.16|^0.17|^0.18",
+                "ext-mbstring": "*",
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "ekino/phpstan-banned-code": "^1.0|^2.0|^3.0",
+                "ext-gmp": "*",
+                "ext-openssl": "*",
+                "infection/infection": "^0.28|^0.29|^0.31",
+                "php-parallel-lint/php-parallel-lint": "^1.3",
+                "phpstan/extension-installer": "^1.3|^2.0",
+                "phpstan/phpstan": "^1.8|^2.0",
+                "phpstan/phpstan-deprecation-rules": "^1.0|^2.0",
+                "phpstan/phpstan-phpunit": "^1.1|^2.0",
+                "phpstan/phpstan-strict-rules": "^1.3|^2.0",
+                "phpunit/phpunit": "^10.1|^11.0|^12.0",
+                "rector/rector": "^1.0|^2.0",
+                "roave/security-advisories": "dev-latest",
+                "symfony/string": "^6.4|^7.0|^8.0",
+                "symfony/var-dumper": "^6.4|^7.0|^8.0",
+                "symplify/easy-coding-standard": "^12.0 || ^13.0"
+            },
+            "suggest": {
+                "ext-bcmath": "For better performance (or GMP)",
+                "ext-gmp": "For better performance (or BCMath)",
+                "ext-openssl": "For OpenSSL based cyphering"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SpomkyLabs\\Pki\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Joni Eskelinen",
+                    "email": "jonieske@gmail.com",
+                    "role": "Original developer"
+                },
+                {
+                    "name": "Florent Morselli",
+                    "email": "florent.morselli@spomky-labs.com",
+                    "role": "Spomky-Labs PKI Framework developer"
+                }
+            ],
+            "description": "A PHP framework for managing Public Key Infrastructures. It comprises X.509 public key certificates, attribute certificates, certification requests and certification path validation.",
+            "homepage": "https://github.com/spomky-labs/pki-framework",
+            "keywords": [
+                "DER",
+                "Private Key",
+                "ac",
+                "algorithm identifier",
+                "asn.1",
+                "asn1",
+                "attribute certificate",
+                "certificate",
+                "certification request",
+                "cryptography",
+                "csr",
+                "decrypt",
+                "ec",
+                "encrypt",
+                "pem",
+                "pkcs",
+                "public key",
+                "rsa",
+                "sign",
+                "signature",
+                "verify",
+                "x.509",
+                "x.690",
+                "x509",
+                "x690"
+            ],
+            "support": {
+                "issues": "https://github.com/Spomky-Labs/pki-framework/issues",
+                "source": "https://github.com/Spomky-Labs/pki-framework/tree/1.5.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/Spomky",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.patreon.com/FlorentMorselli",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2026-07-16T10:28:45+00:00"
+        },
+        {
             "name": "subscripting/subscription",
             "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "../Subscripting",
-                "reference": "d9513c231ae2b392b9b0eab407e9e4e7af6226c1"
+                "reference": "226410e74fe94603d421f6b736ab33633fa8d5d0"
             },
             "require": {
                 "doctrine/dbal": "^4.3",
@@ -10049,7 +10437,7 @@
             "extra": {
                 "symfony": {
                     "allow-contrib": false,
-                    "require": "8.0.*"
+                    "require": "8.1.*"
                 }
             },
             "autoload": {
@@ -10063,6 +10451,9 @@
                 }
             },
             "scripts": {
+                "test:object-identity": [
+                    "phpunit tests/Unit/Subscription/SubscriptingObjectIdentityContractTest.php"
+                ],
                 "auto-scripts": {
                     "cache:clear": "symfony-cmd",
                     "assets:install %PUBLIC_DIR%": "symfony-cmd"
@@ -10903,6 +11294,84 @@
             "homepage": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/doctrine-bridge/tree/v8.1.1"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2026-06-12T08:43:41+00:00"
+        },
+        {
+            "name": "symfony/doctrine-messenger",
+            "version": "v8.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/doctrine-messenger.git",
+                "reference": "e2549bac9acd36eaab06299c297e4ef5f4933eb3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/doctrine-messenger/zipball/e2549bac9acd36eaab06299c297e4ef5f4933eb3",
+                "reference": "e2549bac9acd36eaab06299c297e4ef5f4933eb3",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/dbal": "^4.3",
+                "php": ">=8.4.1",
+                "symfony/deprecation-contracts": "^2.5|^3",
+                "symfony/event-dispatcher": "^7.4|^8.0",
+                "symfony/messenger": "^8.1",
+                "symfony/service-contracts": "^2.5|^3"
+            },
+            "conflict": {
+                "doctrine/persistence": "<1.3"
+            },
+            "require-dev": {
+                "doctrine/persistence": "^1.3|^2|^3",
+                "symfony/property-access": "^7.4|^8.0",
+                "symfony/serializer": "^7.4|^8.0"
+            },
+            "type": "symfony-messenger-bridge",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Messenger\\Bridge\\Doctrine\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Doctrine Messenger Bridge",
+            "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/doctrine-messenger/tree/v8.1.1"
             },
             "funding": [
                 {
@@ -11766,16 +12235,16 @@
         },
         {
             "name": "symfony/http-client",
-            "version": "v8.1.0",
+            "version": "v8.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-client.git",
-                "reference": "68a48e4c31f63fcd1bdff997a85a09e55efe8cdb"
+                "reference": "d41e9778eed03c64b095532c6d414e92e3c520d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-client/zipball/68a48e4c31f63fcd1bdff997a85a09e55efe8cdb",
-                "reference": "68a48e4c31f63fcd1bdff997a85a09e55efe8cdb",
+                "url": "https://api.github.com/repos/symfony/http-client/zipball/d41e9778eed03c64b095532c6d414e92e3c520d9",
+                "reference": "d41e9778eed03c64b095532c6d414e92e3c520d9",
                 "shasum": ""
             },
             "require": {
@@ -11839,7 +12308,7 @@
                 "http"
             ],
             "support": {
-                "source": "https://github.com/symfony/http-client/tree/v8.1.0"
+                "source": "https://github.com/symfony/http-client/tree/v8.1.1"
             },
             "funding": [
                 {
@@ -11859,7 +12328,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-05-29T05:06:50+00:00"
+            "time": "2026-06-16T12:55:20+00:00"
         },
         {
             "name": "symfony/http-client-contracts",
@@ -12552,16 +13021,16 @@
         },
         {
             "name": "symfony/messenger",
-            "version": "v8.1.0",
+            "version": "v8.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/messenger.git",
-                "reference": "c095398338a8e6f5ae6579ebb2092b7a16b7df72"
+                "reference": "6518d975287e79d5a15392ac9184966f7418175a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/messenger/zipball/c095398338a8e6f5ae6579ebb2092b7a16b7df72",
-                "reference": "c095398338a8e6f5ae6579ebb2092b7a16b7df72",
+                "url": "https://api.github.com/repos/symfony/messenger/zipball/6518d975287e79d5a15392ac9184966f7418175a",
+                "reference": "6518d975287e79d5a15392ac9184966f7418175a",
                 "shasum": ""
             },
             "require": {
@@ -12620,7 +13089,7 @@
             "description": "Helps applications send and receive messages to/from other applications or via message queues",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/messenger/tree/v8.1.0"
+                "source": "https://github.com/symfony/messenger/tree/v8.1.1"
             },
             "funding": [
                 {
@@ -12640,7 +13109,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-05-29T05:06:50+00:00"
+            "time": "2026-06-16T19:38:37+00:00"
         },
         {
             "name": "symfony/mime",
@@ -16787,11 +17256,13 @@
                 "reference": "5021ab4cf5ddf1a9ba9361562ab36d30183347ab"
             },
             "require": {
+                "cruding/crud": "*@dev",
                 "ext-ctype": "*",
                 "ext-curl": "*",
                 "ext-intl": "*",
                 "ext-mbstring": "*",
                 "ext-pdo": "*",
+                "interfacing/interface": "*@dev",
                 "objecting/object": "*@dev",
                 "php": "^8.4",
                 "symfony/config": "^8.1",
@@ -16802,7 +17273,8 @@
                 "symfony/options-resolver": "^8.1",
                 "symfony/routing": "^8.1",
                 "symfony/validator": "^8.1",
-                "symfony/yaml": "^8.1"
+                "symfony/yaml": "^8.1",
+                "viewing/view": "*@dev"
             },
             "require-dev": {
                 "doctrine/doctrine-fixtures-bundle": "^4.3",
@@ -16956,6 +17428,9 @@
                 ],
                 "test:unit": [
                     "vendor/bin/phpunit --testsuite unit"
+                ],
+                "test:cruding": [
+                    "vendor/bin/phpunit tests/TagCrudingEntrypointResolutionTest.php"
                 ],
                 "test:integration": [
                     "vendor/bin/phpunit --testsuite integration"
@@ -17305,16 +17780,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v3.27.1",
+            "version": "v3.28.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "ae2071bffb38f04847fc0864d730c94b9cb8ab74"
+                "reference": "597c12ed286fb9d1701a36684ce6e0cbe28ebc8b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/ae2071bffb38f04847fc0864d730c94b9cb8ab74",
-                "reference": "ae2071bffb38f04847fc0864d730c94b9cb8ab74",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/597c12ed286fb9d1701a36684ce6e0cbe28ebc8b",
+                "reference": "597c12ed286fb9d1701a36684ce6e0cbe28ebc8b",
                 "shasum": ""
             },
             "require": {
@@ -17369,7 +17844,7 @@
             ],
             "support": {
                 "issues": "https://github.com/twigphp/Twig/issues",
-                "source": "https://github.com/twigphp/Twig/tree/v3.27.1"
+                "source": "https://github.com/twigphp/Twig/tree/v3.28.0"
             },
             "funding": [
                 {
@@ -17381,7 +17856,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-05-30T17:09:26+00:00"
+            "time": "2026-07-03T20:44:34+00:00"
         },
         {
             "name": "vendoring/vendor",
@@ -17389,7 +17864,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Vendoring",
-                "reference": "a5afc4d015bf80963b9386c7d82b90243628735b"
+                "reference": "c6a39143fc4a5e46d6fb8872383a01a284b0fabe"
             },
             "require": {
                 "cruding/crud": "*@dev",
@@ -17426,6 +17901,11 @@
                 "symfony/panther": "^2.2"
             },
             "type": "symfony-bundle",
+            "extra": {
+                "symfony": {
+                    "bundle": "App\\Vendoring\\VendoringBundle"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "App\\Vendoring\\": "src/"
@@ -17605,7 +18085,16 @@
                     "@quality:runtime",
                     "@quality:persistence",
                     "@quality:api",
+                    "@quality:production-hardening",
                     "@quality:docs"
+                ],
+                "quality:production-hardening": [
+                    "@test:vendor-rbac-contract",
+                    "@test:observability-backend",
+                    "@test:monitoring-alerting",
+                    "@test:outbound-fault-tolerance",
+                    "@test:release-rollback-manifest",
+                    "@test:canary-rollout"
                 ],
                 "quality:runtime": [
                     "@test",
@@ -17940,10 +18429,11 @@
             "dist": {
                 "type": "path",
                 "url": "../Viewing",
-                "reference": "50e72da9fd51ad13fff048ee6e3eb5c6e3f3b503"
+                "reference": "da257fd68f470d53afe4674978f7dbfaefba66f3"
             },
             "require": {
                 "php": "^8.4",
+                "psr/log": "^3.0",
                 "symfony/config": "^8.1",
                 "symfony/console": "^8.1",
                 "symfony/dependency-injection": "^8.1",
@@ -17980,6 +18470,22 @@
                     "App\\Viewing\\Test\\": "tests/"
                 }
             },
+            "scripts": {
+                "test": [
+                    "phpunit"
+                ],
+                "phpstan": [
+                    "phpstan analyse src tests --level=8"
+                ],
+                "php-cs-fixer": [
+                    "php-cs-fixer fix --dry-run --diff"
+                ],
+                "gate": [
+                    "@test",
+                    "@phpstan",
+                    "@php-cs-fixer"
+                ]
+            },
             "license": [
                 "proprietary"
             ],
@@ -17988,6 +18494,163 @@
                 "symlink": true,
                 "relative": true
             }
+        },
+        {
+            "name": "web-auth/cose-lib",
+            "version": "4.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/web-auth/cose-lib.git",
+                "reference": "3afe04df137baf97c5c3e28c5ee6f05536405148"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/web-auth/cose-lib/zipball/3afe04df137baf97c5c3e28c5ee6f05536405148",
+                "reference": "3afe04df137baf97c5c3e28c5ee6f05536405148",
+                "shasum": ""
+            },
+            "require": {
+                "brick/math": "^0.9|^0.10|^0.11|^0.12|^0.13|^0.14|^0.15|^0.16|^0.17|^0.18",
+                "ext-json": "*",
+                "ext-openssl": "*",
+                "php": ">=8.1",
+                "spomky-labs/pki-framework": "^1.0"
+            },
+            "require-dev": {
+                "spomky-labs/cbor-php": "^3.2.2"
+            },
+            "suggest": {
+                "ext-bcmath": "For better performance, please install either GMP (recommended) or BCMath extension",
+                "ext-gmp": "For better performance, please install either GMP (recommended) or BCMath extension",
+                "spomky-labs/cbor-php": "For COSE Signature support"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Cose\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Florent Morselli",
+                    "homepage": "https://github.com/Spomky"
+                },
+                {
+                    "name": "All contributors",
+                    "homepage": "https://github.com/web-auth/cose/contributors"
+                }
+            ],
+            "description": "CBOR Object Signing and Encryption (COSE) For PHP",
+            "homepage": "https://github.com/web-auth",
+            "keywords": [
+                "COSE",
+                "RFC8152"
+            ],
+            "support": {
+                "issues": "https://github.com/web-auth/cose-lib/issues",
+                "source": "https://github.com/web-auth/cose-lib/tree/4.6.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/Spomky",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.patreon.com/FlorentMorselli",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2026-07-16T10:19:49+00:00"
+        },
+        {
+            "name": "web-auth/webauthn-lib",
+            "version": "5.3.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/web-auth/webauthn-lib.git",
+                "reference": "9e0986d999f4102e24ac8a598d3a80d98b56c19f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/web-auth/webauthn-lib/zipball/9e0986d999f4102e24ac8a598d3a80d98b56c19f",
+                "reference": "9e0986d999f4102e24ac8a598d3a80d98b56c19f",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-openssl": "*",
+                "paragonie/constant_time_encoding": "^2.6|^3.0",
+                "php": ">=8.2",
+                "phpdocumentor/reflection-docblock": "^5.3|^6.0",
+                "psr/clock": "^1.0",
+                "psr/event-dispatcher": "^1.0",
+                "psr/log": "^1.0|^2.0|^3.0",
+                "spomky-labs/cbor-php": "^3.0",
+                "spomky-labs/pki-framework": "^1.0",
+                "symfony/clock": "^6.4|^7.0|^8.0",
+                "symfony/deprecation-contracts": "^3.2",
+                "symfony/property-access": "^6.4|^7.0|^8.0",
+                "symfony/property-info": "^6.4|^7.0|^8.0",
+                "symfony/serializer": "^6.4|^7.0|^8.0",
+                "symfony/uid": "^6.4|^7.0|^8.0",
+                "web-auth/cose-lib": "^4.2.3"
+            },
+            "suggest": {
+                "psr/log-implementation": "Recommended to receive logs from the library",
+                "symfony/event-dispatcher": "Recommended to use dispatched events",
+                "web-token/jwt-library": "Mandatory for fetching Metadata Statement from distant sources"
+            },
+            "type": "library",
+            "extra": {
+                "thanks": {
+                    "url": "https://github.com/web-auth/webauthn-framework",
+                    "name": "web-auth/webauthn-framework"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Webauthn\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Florent Morselli",
+                    "homepage": "https://github.com/Spomky"
+                },
+                {
+                    "name": "All contributors",
+                    "homepage": "https://github.com/web-auth/webauthn-library/contributors"
+                }
+            ],
+            "description": "FIDO2/Webauthn Support For PHP",
+            "homepage": "https://github.com/web-auth",
+            "keywords": [
+                "FIDO2",
+                "fido",
+                "webauthn"
+            ],
+            "support": {
+                "source": "https://github.com/web-auth/webauthn-lib/tree/5.3.5"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/Spomky",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.patreon.com/FlorentMorselli",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2026-05-31T15:00:08+00:00"
         },
         {
             "name": "webmozart/assert",
@@ -21113,6 +21776,7 @@
         "configuring/config": 20,
         "cruding/crud": 20,
         "currencing/currency": 20,
+        "delivering/delivery": 20,
         "discovering/discovery": 20,
         "domaining/domain": 20,
         "exchanging/exchange": 20,

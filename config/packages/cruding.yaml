@@ -13,3 +13,8 @@ cruding:
         product: 'App\Entity\Product\CommerceProductEntity'
         project: 'App\Entity\Project\CommerceProjectEntity'
         category: 'App\Cataloging\Entity\Catalog\CatalogCategoryEntity'
+        page: 'App\Paging\Entity\Page'
+        page-revision: 'App\Paging\Entity\PageRevision'
+        page-publication: 'App\Paging\Entity\PagePublication'
+        page-grant: 'App\Paging\Entity\PageGrant'
+        page-acceptance: 'App\Paging\Entity\PageAcceptance'

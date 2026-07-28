@@ -1,0 +1,5 @@
+page_routes:
+    resource: '@PageBundle/config/routes/page.yaml'
+
+page_admin_routes:
+    resource: '@PageBundle/config/routes/easyadmin.yaml'

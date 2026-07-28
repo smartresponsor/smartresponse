@@ -58,6 +58,11 @@
         },
         {
             "type": "vcs",
+            "url": "git@github.com:smartresponsor/paging.git",
+            "no-api": true
+        },
+        {
+            "type": "vcs",
             "url": "git@github.com:smartresponsor/navigating.git",
             "no-api": true
         },
@@ -86,7 +91,12 @@
             "url": "git@github.com:smartresponsor/configuring.git",
             "no-api": true
         },
-		        {
+        {
+            "type": "vcs",
+            "url": "git@github.com:smartresponsor/delivering.git",
+            "no-api": true
+        },
+        {
             "type": "vcs",
             "url": "git@github.com:smartresponsor/vendoring.git",
             "no-api": true
@@ -102,11 +112,13 @@
         "cataloging/catalog": "dev-master",
         "configuring/config": "dev-master",
         "cruding/crud": "dev-master",
+        "delivering/delivery": "dev-master",
         "interfacing/interface": "dev-master",
         "localizing/locale": "dev-master",
         "managing/manage": "dev-master",
         "navigating/navigation": "dev-master",
         "objecting/object": "dev-master",
+        "paging/page": "dev-master",
         "rolling/role": "dev-master",
         "searching/search": "dev-master",
         "doctrine/dbal": "^4.3",

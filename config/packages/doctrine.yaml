@@ -54,6 +54,12 @@ doctrine:
                 validate_xml_mapping: false
                 naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
                 mappings:
+                    Accessing:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../Accessing/src/Entity'
+                        prefix: 'App\Accessing\Entity'
+                        alias: Accessing
                     Vendoring:
                         is_bundle: false
                         type: attribute
@@ -84,6 +90,18 @@ doctrine:
                         dir: '%kernel.project_dir%/vendor/carting/cart/src/Entity'
                         prefix: 'App\Carting\Entity'
                         alias: Carting
+                    Cataloging:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/vendor/cataloging/catalog/src/Entity/Catalog'
+                        prefix: 'App\Cataloging\Entity\Catalog'
+                        alias: Cataloging
+                    Paging:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/vendor/paging/page/src/Entity'
+                        prefix: 'App\Paging\Entity'
+                        alias: Paging
             review:
                 connection: review
                 auto_mapping: false

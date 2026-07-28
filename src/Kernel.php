@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\DependencyInjection\Compiler\AppCrudResourceViewPayloadNormalizerPass;
 use App\DependencyInjection\Compiler\RegisterSiblingFixturesPass;
 use App\Kernel\RuntimeBundleIterator;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
@@ -20,6 +21,18 @@ class Kernel extends BaseKernel
         yield from RuntimeBundleIterator::fromProject($this->getProjectDir(), $this->environment);
     }
 
+    public function getCacheDir(): string
+    {
+        if ('dev' !== $this->environment) {
+            $override = $_SERVER['APP_CACHE_DIR'] ?? $_ENV['APP_CACHE_DIR'] ?? null;
+            if (is_string($override) && '' !== trim($override)) {
+                return rtrim($override, '/\\');
+            }
+        }
+
+        return parent::getCacheDir();
+    }
+
     public function build(ContainerBuilder $container): void
     {
         parent::build($container);
@@ -29,6 +42,7 @@ class Kernel extends BaseKernel
         }
 
         $container->addCompilerPass(new RegisterSiblingFixturesPass());
+        $container->addCompilerPass(new AppCrudResourceViewPayloadNormalizerPass());
     }
 
     protected function configureRoutes(RoutingConfigurator $routes): void

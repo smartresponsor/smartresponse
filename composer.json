@@ -106,6 +106,13 @@
         },
         {
             "type": "path",
+            "url": "../Delivering",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
             "url": "../Navigating",
             "options": {
                 "symlink": true
@@ -316,6 +323,7 @@
         "configuring/config": "*@dev",
         "cruding/crud": "*@dev",
         "currencing/currency": "*@dev",
+        "delivering/delivery": "*@dev",
         "discovering/discovery": "*@dev",
         "doctrine/dbal": "^4.3",
         "doctrine/doctrine-bundle": "^3.2",
@@ -340,6 +348,8 @@
         "paying/payment": "*@dev",
         "projecting/project": "*@dev",
         "rolling/role": "*@dev",
+        "scheb/2fa-bundle": "^8.5",
+        "scheb/2fa-totp": "^8.5",
         "searching/search": "*@dev",
         "shipping/shipment": "*@dev",
         "subscripting/subscription": "*@dev",
@@ -384,7 +394,10 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "App\\": [
+                "src/",
+                "../Currencing/src/"
+            ]
         }
     },
     "autoload-dev": {
@@ -402,12 +415,15 @@
             "php bin/console gating:check --target=.",
             "@inspect:rolling-host"
         ],
+        "autoload:refresh": "composer dump-autoload --no-scripts",
         "memory:scope:resolve": "php tools/code-memory/scope-resolve.php --cwd=. --json",
         "memory:scope:cache": "php tools/code-memory/scope-resolve.php --cwd=. --json --write-cache",
         "ai-review:validate": "php tools/gating/validate-ai-review.php",
         "inspect:navigation-ea-route": "php tools/inspection/app-navigation-ea-route-guard.php",
         "inspect:runtime-lock-authority": "php tools/inspection/app-runtime-lock-authority-guard.php",
         "inspect:rolling-host": "php tools/inspection/app-rolling-host-guard.php",
+        "test:preprod:postgres": "powershell -ExecutionPolicy Bypass -File tool/preprod-postgres.ps1",
+        "test:preprod:postgres:docker": "powershell -ExecutionPolicy Bypass -File tool/preprod-postgres.ps1 -UseDocker",
         "post-install-cmd": [
             "@auto-scripts"
         ],

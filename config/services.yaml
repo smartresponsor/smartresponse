@@ -44,6 +44,10 @@ services:
             - '../src/Fixture/'
             - '../src/DataFixtures/'
             - '../src/Kernel.php'
+            - '../src/Controller/Access/ApiAccessController.php'
+            - '../src/EventSubscriber/View/AppCrudResourceViewSubscriber.php'
+            - '../src/EventSubscriber/View/AppCrudResourceViewKernelViewSubscriber.php'
+            - '../src/EventSubscriber/View/AppCrudResourceViewBridgeSubscriber.php'
 
     App\Service\Dashboard\AppDashboardBuilderService:
         public: true
@@ -64,6 +68,20 @@ services:
         tags: ['controller.service_arguments']
     App\Command\GatingCheckCommand:
         tags: ['console.command']
+    App\Accessing\Command\AccessDemoResetCommand:
+        arguments:
+            $fixturesLoader: '@?doctrine.fixtures.loader'
+        tags: ['console.command']
+    App\Accessing\Service\Http\Api\Access\ApiAccessFlowService:
+        public: true
+        autowire: true
+        autoconfigure: true
+        tags: ['controller.service_arguments']
+    App\Controller\Access\ApiAccessController:
+        public: true
+        autowire: true
+        autoconfigure: true
+        tags: ['controller.service_arguments']
     App\Carting\Controller\CartController:
         public: true
         tags: ['controller.service_arguments']
@@ -83,3 +101,17 @@ services:
         alias: App\Service\Localization\AppLocaleTemplateContextProvider
     App\ServiceInterface\InterfaceLocation\AppInterfaceLocationComposeServiceInterface:
         alias: App\Service\InterfaceLocation\AppInterfaceLocationComposeService
+
+
+    App\Service\View\AppCrudResourceViewPayloadNormalizer:
+        arguments:
+            $inner: '@App\Viewing\Service\View\ViewPayloadNormalizer'
+            $requestStack: '@request_stack'
+            $interfaceLocationProjectionProvider: '@?navigating.interface_location_projection_provider'
+
+    App\Viewing\Service\View\ViewPayloadNormalizer: ~
+
+
+when@dev:
+    services:
+        Doctrine\Bundle\FixturesBundle\Loader\SymfonyFixturesLoader: '@doctrine.fixtures.loader'

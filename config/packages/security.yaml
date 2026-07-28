@@ -38,10 +38,18 @@ security:
             pattern: ^/(access|register|signup|recover|forgot-password|reset-password|login|verify)(?:/|$)
             security: false
 
+        public_catalog_read:
+            pattern: '^/api/catalog/category(?:/tree|/store|/search|/[^/]+)?$'
+            methods: [GET]
+            security: false
+
         main:
             pattern: ^/(?!(access|register|signup|recover|forgot-password|reset-password|login|verify)(?:/|$))
             lazy: true
             provider: accessing_account_provider
+            custom_authenticators:
+                - App\Accessing\Authenticator\AccessProgrammaticAuthenticator
+                - App\Accessing\Authenticator\AccessBearerAuthenticator
             entry_point: App\Accessing\Authenticator\AccessAuthenticationEntryPoint
             logout:
                 path: /sign-out
@@ -66,6 +74,7 @@ security:
         - { path: ^/verify, roles: PUBLIC_ACCESS }
         - { path: ^/docs, roles: PUBLIC_ACCESS }
         - { path: ^/api/applicating/doc, roles: PUBLIC_ACCESS }
+        - { path: ^/api/access(?:/|$), roles: PUBLIC_ACCESS }
         - { path: ^/app(?:/|$), roles: PUBLIC_ACCESS }
 
         # 2FA
@@ -82,6 +91,9 @@ security:
         # Category API
         - { path: ^/api/catalog/category/webhook/test, roles: ROLE_ADMIN }
         - { path: ^/api/catalog/category/tree, roles: PUBLIC_ACCESS }
+        - { path: ^/api/catalog/category/store$, methods: [GET], roles: PUBLIC_ACCESS }
+        - { path: ^/api/catalog/category/search$, methods: [GET], roles: PUBLIC_ACCESS }
+        - { path: '^/api/catalog/category/[^/]+$', methods: [GET], roles: PUBLIC_ACCESS }
         - { path: '^/api/catalog/category/publish/.+$', roles: IS_AUTHENTICATED_FULLY }
         - { path: '^/api/catalog/category/move/.+$', roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/api/catalog/category/attachment, roles: IS_AUTHENTICATED_FULLY }

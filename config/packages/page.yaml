@@ -1,0 +1,5 @@
+page:
+    public_route_prefix: '/page'
+    api_route_prefix: '/api/page'
+    revision_lock_after_publish: true
+    standalone_runtime: false
