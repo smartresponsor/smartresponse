@@ -1,5 +1,5 @@
 page_routes:
-    resource: '../../Paging/config/routes/page.yaml'
+    resource: '../../vendor/paging/page/config/routes/page.yaml'
 
 page_admin_routes:
-    resource: '../../Paging/config/routes/easyadmin.yaml'
+    resource: '../../vendor/paging/page/config/routes/easyadmin.yaml'
