@@ -3670,7 +3670,7 @@
             "type": "project",
             "autoload": {
                 "psr-4": {
-                    "App\\Faceting": "src/"
+                    "App\\Faceting\\": "src/"
                 }
             },
             "autoload-dev": {

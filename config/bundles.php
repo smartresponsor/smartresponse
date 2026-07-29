@@ -35,6 +35,7 @@ return [
     App\Vendoring\VendoringBundle::class => ['all' => true],
     App\Viewing\ViewingBundle::class => ['all' => true],
     App\Analysing\AnalysingBundle::class => ['all' => true],
+    App\Attaching\AttachingBundle::class => ['all' => true],
     App\Delivering\DeliveringBundle::class => ['all' => true],
     App\Ordering\OrderingBundle::class => ['all' => true],
     App\Projecting\ProjectingBundle::class => ['all' => true],

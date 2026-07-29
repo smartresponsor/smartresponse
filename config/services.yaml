@@ -7,12 +7,18 @@
 imports:
     - { resource: '../../Localizing/config/services.yaml' }
     - { resource: '../../Carting/config/services.yaml' }
+    - { resource: '../../Vendoring/config/component/optional/attaching_profile_bridge.yaml' }
 
 parameters:
     redis.dsn: 'redis://127.0.0.1:6379/0'
     paying.messenger.dsn: 'sync://'
     app.back_uri_token_default: 'ea'
     app.back_uri_token: '%env(default:app.back_uri_token_default:APP_BACK_URI_TOKEN)%'
+    app.crud.attachment_owner_type_by_resource_path:
+        vendor: vendor
+        project: project
+        product: product
+
     app.object_visibility.transition_map:
         publish:
             writes:
@@ -93,6 +99,11 @@ services:
     App\Service\ObjectMeta\ObjectVisibilityManager:
         arguments:
             $transitionMap: '%app.object_visibility.transition_map%'
+
+    App\Service\Crud\AppAttachmentOwnerPurgeLifecycleSubscriber:
+        arguments:
+            $ownerTypeByResourcePath: '%app.crud.attachment_owner_type_by_resource_path%'
+        tags: ['cruding.mutation_lifecycle_subscriber']
 
     App\Contract\Ui\AppDashboardContract: '@App\Service\Dashboard\AppDashboardBuilderService'
     App\Interfacing\ProviderInterface\Localization\InterfaceLocaleTemplateSelectorProviderInterface:

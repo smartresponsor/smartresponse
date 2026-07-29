@@ -8,7 +8,7 @@ cruding:
         vendor: 'App\Vendoring\Entity\Vendor\VendorEntity'
         attachment: 'App\Attaching\Entity\Attachment\Attachment'
         message: 'App\Messaging\Entity\Message\MessageEntity'
-        order: 'App\Entity\Order\OrderEntity'
+        order: 'App\Ordering\Entity\Order\OrderEntity'
         payment: 'App\Paying\Entity\PaymentEntity'
         product: 'App\Entity\Product\CommerceProductEntity'
         project: 'App\Projecting\Entity\Project\ProjectEntity'
