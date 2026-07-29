@@ -57,7 +57,7 @@ doctrine:
                     Accessing:
                         is_bundle: false
                         type: attribute
-                        dir: '%kernel.project_dir%/../Accessing/src/Entity'
+                        dir: '%kernel.project_dir%/vendor/accessing/access/src/Entity'
                         prefix: 'App\Accessing\Entity'
                         alias: Accessing
                     Vendoring:
@@ -66,12 +66,6 @@ doctrine:
                         dir: '%kernel.project_dir%/vendor/vendoring/vendor/src/Entity/Vendor'
                         prefix: 'App\Vendoring\Entity\Vendor'
                         alias: Vendoring
-                    ProjectingProject:
-                        is_bundle: false
-                        type: attribute
-                        dir: '%kernel.project_dir%/../Projecting/src/Entity/Project'
-                        prefix: 'App\Projecting\Entity\Project'
-                        alias: ProjectingProject
                     Localizing:
                         is_bundle: false
                         type: attribute
@@ -93,7 +87,7 @@ doctrine:
                     Ordering:
                         is_bundle: false
                         type: attribute
-                        dir: '%kernel.project_dir%/../Ordering/src/Entity'
+                        dir: '%kernel.project_dir%/vendor/ordering/order/src/Entity'
                         prefix: 'App\Ordering\Entity'
                         alias: Ordering
                     Cataloging:
