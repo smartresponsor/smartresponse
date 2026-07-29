@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "66313711f8e9e14a0e9c02467406ad43",
+    "content-hash": "a0c1624e95df45e4203aeeef4144fd53",
     "packages": [
         {
             "name": "accessing/access",
@@ -2040,6 +2040,82 @@
             ],
             "description": "Applicating process component",
             "time": "2026-06-13T19:26:43+00:00"
+        },
+        {
+            "name": "attaching/attachment",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:smartresponsor/attaching.git",
+                "reference": "ceaabb7228479e91d2baa3f13a0fb499e1fa5093"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/smartresponsor/attaching/zipball/ceaabb7228479e91d2baa3f13a0fb499e1fa5093",
+                "reference": "ceaabb7228479e91d2baa3f13a0fb499e1fa5093",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/dbal": "^4.3",
+                "doctrine/doctrine-bundle": "^3.2",
+                "doctrine/orm": "^3.3",
+                "ext-fileinfo": "*",
+                "php": "^8.4",
+                "symfony/config": "^8.0",
+                "symfony/console": "^8.0",
+                "symfony/dependency-injection": "^8.0",
+                "symfony/filesystem": "^8.0",
+                "symfony/form": "^8.0",
+                "symfony/framework-bundle": "^8.0",
+                "symfony/http-foundation": "^8.0",
+                "symfony/http-kernel": "^8.0",
+                "symfony/mime": "^8.0",
+                "symfony/routing": "^8.0",
+                "symfony/security-bundle": "^8.0",
+                "symfony/serializer": "^8.0",
+                "symfony/validator": "^8.0",
+                "symfony/yaml": "^8.0"
+            },
+            "require-dev": {
+                "doctrine/doctrine-fixtures-bundle": "^4.3",
+                "fakerphp/faker": "^1.24",
+                "friendsofphp/php-cs-fixer": "^3.75",
+                "phpstan/phpstan": "^2.1",
+                "phpunit/phpunit": "^11.5",
+                "symfony/browser-kit": "^8.0",
+                "symfony/css-selector": "^8.0"
+            },
+            "default-branch": true,
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "App\\Attaching\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "App\\Attaching\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "cs:check": [
+                    "php-cs-fixer fix --dry-run --diff --verbose"
+                ],
+                "cs:fix": [
+                    "php-cs-fixer fix --verbose"
+                ],
+                "phpstan": [
+                    "phpstan analyse"
+                ],
+                "test": [
+                    "phpunit"
+                ]
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Attaching process app",
+            "time": "2026-04-21T02:59:05+00:00"
         },
         {
             "name": "carting/cart",
@@ -16355,6 +16431,7 @@
         "administering/administration": 20,
         "analysing/analytics": 20,
         "applicating/application": 20,
+        "attaching/attachment": 20,
         "carting/cart": 20,
         "cataloging/catalog": 20,
         "configuring/config": 20,

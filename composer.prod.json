@@ -23,6 +23,11 @@
         },
         {
             "type": "vcs",
+            "url": "git@github.com:smartresponsor/attaching.git",
+            "no-api": true
+        },
+        {
+            "type": "vcs",
             "url": "git@github.com:smartresponsor/currencing.git",
             "no-api": true
         },
@@ -114,6 +119,7 @@
         "administering/administration": "dev-master",
         "analysing/analytics": "dev-master",
         "applicating/application": "dev-master",
+        "attaching/attachment": "dev-master",
         "cataloging/catalog": "dev-master",
         "carting/cart": "dev-master",
         "configuring/config": "dev-master",
