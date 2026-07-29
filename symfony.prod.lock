@@ -31,6 +31,9 @@
     "cruding/crud": {
         "version": "dev-master"
     },
+    "delivering/delivery": {
+        "version": "dev-master"
+    },
     "doctrine/deprecations": {
         "version": "1.1",
         "recipe": {
