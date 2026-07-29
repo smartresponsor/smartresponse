@@ -83,6 +83,11 @@
         },
         {
             "type": "vcs",
+            "url": "git@github.com:smartresponsor/carting.git",
+            "no-api": true
+        },
+        {
+            "type": "vcs",
             "url": "git@github.com:smartresponsor/rolling.git",
             "no-api": true
         },
@@ -110,6 +115,7 @@
         "analysing/analytics": "dev-master",
         "applicating/application": "dev-master",
         "cataloging/catalog": "dev-master",
+        "carting/cart": "dev-master",
         "configuring/config": "dev-master",
         "cruding/crud": "dev-master",
         "delivering/delivery": "dev-master",
