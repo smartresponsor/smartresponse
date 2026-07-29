@@ -1,7 +1,7 @@
 viewing:
     enabled: true
     local_component_fallback_enabled: true
-    response_guard_mode: enforce
+    response_guard_enabled: true
     diagnostic_mode: safe
     traffic_classifier_enabled: true
     interfacing_twig_namespace: Interfacing
