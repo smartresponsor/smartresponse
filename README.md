@@ -51,6 +51,22 @@ Boot the development server:
 php -S 127.0.0.1:8000 -t public
 ```
 
+## Production deployment
+
+Deployment is intentionally exposed as one root command while its implementation lives under `tools/`:
+
+```powershell
+make deploy
+```
+
+Validate configuration and print the planned remote action without changing the server:
+
+```powershell
+make deploy-dry-run
+```
+
+Required workstation environment variables and server behavior are documented in `tools/deploy/README.md`. SSH is an internal transport detail; no manual SSH session is required.
+
 ## Symlinked Modules List
 
 The application links to:
