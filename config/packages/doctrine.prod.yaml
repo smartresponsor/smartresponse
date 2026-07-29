@@ -57,7 +57,7 @@ doctrine:
                     Vendoring:
                         is_bundle: false
                         type: attribute
-                        dir: '%kernel.project_dir%/../Vendoring/src/Entity/Vendor'
+                        dir: '%kernel.project_dir%/vendor/vendoring/vendor/src/Entity/Vendor'
                         prefix: 'App\Vendoring\Entity\Vendor'
                         alias: Vendoring
                     Objecting:
