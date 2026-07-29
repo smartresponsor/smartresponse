@@ -84,12 +84,6 @@ doctrine:
                         dir: '%kernel.project_dir%/vendor/carting/cart/src/Entity'
                         prefix: 'App\Carting\Entity'
                         alias: Carting
-                    Ordering:
-                        is_bundle: false
-                        type: attribute
-                        dir: '%kernel.project_dir%/vendor/ordering/order/src/Entity'
-                        prefix: 'App\Ordering\Entity'
-                        alias: Ordering
                     Cataloging:
                         is_bundle: false
                         type: attribute
