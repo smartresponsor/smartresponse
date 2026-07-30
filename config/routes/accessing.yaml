@@ -1,2 +1,2 @@
 accessing_routes:
-    resource: '../../../Accessing/config/routes.yaml'
+    resource: '@AccessingBundle/config/routes.yaml'
