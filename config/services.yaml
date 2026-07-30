@@ -87,9 +87,6 @@ services:
         autowire: true
         autoconfigure: true
         tags: ['controller.service_arguments']
-    App\Carting\Controller\CartController:
-        public: true
-        tags: ['controller.service_arguments']
     doctrine.dbal.default_connection:
         alias: doctrine.dbal.postgres_connection
     doctrine.orm.data_entity_manager:
