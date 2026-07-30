@@ -63,6 +63,11 @@
         },
         {
             "type": "vcs",
+            "url": "git@github.com:smartresponsor/ordering.git",
+            "no-api": true
+        },
+        {
+            "type": "vcs",
             "url": "git@github.com:smartresponsor/paging.git",
             "no-api": true
         },
@@ -130,6 +135,7 @@
         "managing/manage": "dev-master",
         "navigating/navigation": "dev-master",
         "objecting/object": "dev-master",
+        "ordering/order": "dev-master",
         "paging/page": "dev-master",
         "rolling/role": "dev-master",
         "searching/search": "dev-master",
