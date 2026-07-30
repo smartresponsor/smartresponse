@@ -20,6 +20,7 @@ return [
         App\Vendoring\VendoringBundle::class,
         App\Rolling\RollingBundle::class,
         App\Localizing\LocalizingBundle::class,
+        App\Delivering\DeliveringBundle::class,
     ],
     'disabledComponents' => [
         'analysing',
