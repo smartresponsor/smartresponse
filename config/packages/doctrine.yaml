@@ -84,6 +84,12 @@ doctrine:
                         dir: '%kernel.project_dir%/vendor/carting/cart/src/Entity'
                         prefix: 'App\Carting\Entity'
                         alias: Carting
+                    Attaching:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/vendor/attaching/attachment/src/Entity'
+                        prefix: 'App\Attaching\Entity'
+                        alias: Attaching
                     Cataloging:
                         is_bundle: false
                         type: attribute
