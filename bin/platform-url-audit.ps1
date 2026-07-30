@@ -4,7 +4,8 @@ param(
     [int]$Timeout = 15,
     [switch]$CacheClear,
     [switch]$AuditStatus,
-    [switch]$AuditSummary
+    [switch]$AuditSummary,
+    [switch]$PublishLatest
 )
 
 $ErrorActionPreference = 'Stop'
@@ -42,6 +43,17 @@ try {
         $statuses = $report.probes | Group-Object status | Sort-Object Count -Descending | Select-Object Count, Name
         Write-Output (@{ report = $reportFile.FullName; summary = $report.summary; types = $types; statuses = $statuses } | ConvertTo-Json -Depth 6)
         exit 0
+    }
+
+    if ($PublishLatest) {
+        $reportFile = Get-ChildItem -Path 'var/url-audit' -Filter report.json -Recurse |
+            Sort-Object LastWriteTimeUtc -Descending |
+            Select-Object -First 1
+        if ($null -eq $reportFile) {
+            throw 'No URL audit report was found.'
+        }
+        php bin/console app:url-audit:publish-github $reportFile.FullName --repository=smartresponsor/smartresponse --date=2026-07-30 --no-debug
+        exit $LASTEXITCODE
     }
 
     & (Join-Path $root 'tools/platform-url-audit.ps1') -BaseUrl $BaseUrl -Timeout $Timeout
