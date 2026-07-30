@@ -27,7 +27,7 @@ final readonly class AppCrudResourceViewPayloadNormalizer implements ViewPayload
     public function normalize(mixed $controllerResult): ViewPayload
     {
         if (!$controllerResult instanceof CrudResourceContract) {
-            return $this->inner->normalize($controllerResult);
+            return $this->withNavigatingLocations($this->inner->normalize($controllerResult));
         }
 
         $templateContext = $controllerResult->toTemplateContext();
@@ -59,6 +59,31 @@ final readonly class AppCrudResourceViewPayloadNormalizer implements ViewPayload
                 'source' => 'app_cruding_view_bridge',
                 'object_class' => $controllerResult::class,
             ] + $meta,
+        );
+    }
+
+    private function withNavigatingLocations(ViewPayload $payload): ViewPayload
+    {
+        $locations = $this->mergeLocations($payload->locations, $this->navigatingLocations());
+        $data = $payload->data;
+        $interface = \is_array($data['interface'] ?? null) ? $data['interface'] : [];
+        $interface['locations'] = $locations;
+        $shell = \is_array($data['shell'] ?? null) ? $data['shell'] : [];
+        $shell['locations'] = $locations;
+        $data['interface'] = $interface;
+        $data['shell'] = $shell;
+        $data['locations'] = $locations;
+
+        return new ViewPayload(
+            surface: $payload->surface,
+            operation: $payload->operation,
+            format: $payload->format,
+            intent: $payload->intent,
+            component: $payload->component,
+            locations: $locations,
+            data: $data,
+            meta: $payload->meta,
+            debug: $payload->debug,
         );
     }
 
