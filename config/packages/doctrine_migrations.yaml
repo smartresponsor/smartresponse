@@ -3,6 +3,7 @@ doctrine_migrations:
         # namespace is arbitrary but should be different from App\Migrations
         # as migrations classes should NOT be autoloaded
         'DoctrineMigrations': '%kernel.project_dir%/migrations'
+        'App\Paging\Migrations': '%kernel.project_dir%/../Paging/migrations'
     enable_profiler: false
 
 when@dev:
@@ -15,3 +16,4 @@ when@dev:
             'App\Exchanging\Migrations': '%kernel.project_dir%/../Exchanging/migrations'
             'App\Tagging\Migrations': '%kernel.project_dir%/../Tagging/migrations'
             'App\Commissioning\Migrations': '%kernel.project_dir%/../Commissioning/migrations'
+            'App\Paging\Migrations': '%kernel.project_dir%/../Paging/migrations'

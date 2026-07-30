@@ -1,5 +1,7 @@
 page_routes:
     resource: '../../vendor/paging/page/config/routes/page.yaml'
+    priority: 200
 
 page_admin_routes:
     resource: '../../vendor/paging/page/config/routes/easyadmin.yaml'
+    priority: 200
