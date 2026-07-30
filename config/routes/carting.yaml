@@ -1,2 +1,1 @@
-carting:
-    resource: '@CartingBundle/config/routes.yaml'
+# Carting routes are disabled by the production runtime scope.
