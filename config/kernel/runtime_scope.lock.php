@@ -33,7 +33,7 @@ $componentBundleClasses = [
     App\Objecting\ObjectingBundle::class,
     App\Observabiliting\ObservabilitingBundle::class,
     App\Ordering\OrderingBundle::class,
-    App\Paging\PagingBundle::class,
+    App\Paging\PageBundle::class,
     App\Paying\PayingBundle::class,
     App\Projecting\ProjectingBundle::class,
     App\Rolling\RollingBundle::class,

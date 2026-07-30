@@ -70,7 +70,11 @@ final class RuntimeBundleIterator
             }
 
             if (!class_exists($bundleClass)) {
-                throw new \RuntimeException(sprintf('Static bundle class "%s" is enabled for environment "%s", but the class is not available.', $bundleClass, $environment));
+                if ('prod' === $environment) {
+                    throw new \RuntimeException(sprintf('Static bundle class "%s" is enabled for environment "%s", but the class is not available.', $bundleClass, $environment));
+                }
+
+                continue;
             }
 
             $bundle = new $bundleClass();
