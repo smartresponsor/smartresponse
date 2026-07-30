@@ -123,6 +123,9 @@ services:
             $interfaceLocationProjectionProvider: '@?navigating.interface_location_projection_provider'
 
     App\Viewing\Service\View\ViewPayloadNormalizer: ~
+    App\Viewing\Subscriber\View\ViewKernelViewSubscriber:
+        arguments:
+            $payloadNormalizer: '@App\Service\View\AppCrudResourceViewPayloadNormalizer'
 
 
 when@dev:
