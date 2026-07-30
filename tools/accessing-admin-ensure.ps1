@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 $workspace = Split-Path -Parent $PSScriptRoot
 Push-Location $workspace
 try {
-    & php bin/console accessing:admin:ensure --password='AccessingAdmin123!' --reset-password --env=dev --no-interaction
+    & php bin/console accessing:admin:ensure --email='admin@smartresponsor.local' --password='AccessingAdmin123!' --reset-password --env=dev --no-interaction
     exit $LASTEXITCODE
 }
 finally {
