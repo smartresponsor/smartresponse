@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Service\Diagnostics;
 
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouterInterface;
@@ -83,16 +85,13 @@ final readonly class AppUrlAuditService
             throw new \RuntimeException('Unable to create URL audit run directory.');
         }
 
-        $probes = [];
+        $candidates = $this->candidates($inventory);
+        $checkpoint = $directory.'/probes.jsonl';
+        $probes = $this->probeKernelMany($candidates, $checkpoint);
         $failures = [];
-        foreach ($inventory['routes'] as $route) {
-            if (!is_array($route) || !in_array('GET', $route['methods'], true)) {
-                continue;
-            }
-            $probe = $this->probe(rtrim($baseUrl, '/').$route['materializedPath'], $route, $timeout);
-            $probes[] = $probe;
+        foreach ($probes as $probe) {
             foreach ($probe['findings'] as $finding) {
-                $source = strtolower($finding.'|'.$probe['path'].'|'.$probe['bodyPreview']);
+                $source = strtolower($finding.'|'.$probe['bodyPreview']);
                 $source = (string) preg_replace('/\b\d+\b/', '{n}', $source);
                 $fingerprint = hash('sha256', $source);
                 $failures[$fingerprint] ??= [
@@ -103,8 +102,11 @@ final readonly class AppUrlAuditService
                     'status' => $probe['status'],
                     'evidence' => $probe['bodyPreview'],
                     'occurrences' => 0,
+                    'affectedPaths' => [],
                 ];
                 ++$failures[$fingerprint]['occurrences'];
+                $failures[$fingerprint]['affectedPaths'][$probe['path']] = $probe['path'];
+                $failures[$fingerprint]['affectedPaths'] = array_values($failures[$fingerprint]['affectedPaths']);
             }
         }
 
@@ -144,6 +146,263 @@ final readonly class AppUrlAuditService
         }, $route->getPath());
 
         return ['name' => $name, 'path' => $route->getPath(), 'materializedPath' => $path, 'methods' => $methods, 'controller' => $route->getDefault('_controller')];
+    }
+
+    /** @param array<string, mixed> $inventory @return list<array<string, mixed>> */
+    private function candidates(array $inventory): array
+    {
+        $candidates = [];
+        foreach ((array) ($inventory['routes'] ?? []) as $route) {
+            if (!is_array($route) || !in_array('GET', (array) ($route['methods'] ?? []), true)) {
+                continue;
+            }
+            $key = (string) $route['materializedPath'].'|'.(string) $route['name'];
+            $candidates[$key] = $route + ['source' => 'symfony'];
+        }
+
+        $entities = (array) ($inventory['runtime']['developmentLock']['entity'] ?? []);
+        foreach ($entities as $entity) {
+            if (!is_string($entity) || '' === $entity) {
+                continue;
+            }
+            foreach ([
+                '/'.$entity,
+                '/'.$entity.'/index',
+                '/'.$entity.'/new',
+                '/my/'.$entity.'/index',
+                '/api/'.$entity,
+                '/my/api/'.$entity,
+            ] as $path) {
+                $name = 'generated_cruding_'.str_replace(['/', '-'], '_', trim($path, '/'));
+                $candidates[$path.'|'.$name] = [
+                    'name' => $name,
+                    'path' => $path,
+                    'materializedPath' => $path,
+                    'methods' => ['GET'],
+                    'controller' => null,
+                    'source' => 'cruding-runtime-entity',
+                ];
+            }
+        }
+
+        ksort($candidates);
+
+        return array_values($candidates);
+    }
+
+    /**
+     * @param list<array<string, mixed>> $routes
+     *
+     * @return list<array<string, mixed>>
+     */
+    private function probeKernelMany(array $routes, string $checkpoint): array
+    {
+        $probes = [];
+        $append = fopen($checkpoint, 'w');
+        if (false === $append) {
+            throw new \RuntimeException('Unable to open URL audit checkpoint.');
+        }
+
+        try {
+            foreach ($routes as $route) {
+                $path = (string) $route['materializedPath'];
+                $request = Request::create($path, 'GET', [], [], [], [
+                    'HTTP_ACCEPT' => str_starts_with($path, '/api/') || str_starts_with($path, '/my/api/') ? 'application/json' : 'text/html,application/json;q=0.8',
+                    'HTTP_USER_AGENT' => 'SmartResponsor-Platform-URL-Audit/3.0',
+                ]);
+                $started = microtime(true);
+                try {
+                    $response = $this->kernel->handle($request, HttpKernelInterface::SUB_REQUEST, true);
+                    $status = $response->getStatusCode();
+                    $contentType = strtolower((string) $response->headers->get('content-type', ''));
+                    $body = (string) $response->getContent();
+                    $error = '';
+                } catch (\Throwable $exception) {
+                    $status = 500;
+                    $contentType = 'text/plain';
+                    $body = $exception::class.' '.$exception->getMessage()."\n".$exception->getTraceAsString();
+                    $error = $exception::class.': '.$exception->getMessage();
+                }
+
+                $findings = [];
+                if ($status >= 500) {
+                    $findings[] = 'http_'.$status;
+                } elseif (404 === $status && 'cruding-runtime-entity' === ($route['source'] ?? null)) {
+                    $findings[] = 'declared_component_route_404';
+                } elseif ($status >= 300 && $status < 400) {
+                    $findings[] = 'redirect_'.$status;
+                }
+                if (str_contains($contentType, 'json')) {
+                    json_decode($body, true);
+                    if (JSON_ERROR_NONE !== json_last_error()) {
+                        $findings[] = 'malformed_json';
+                    }
+                }
+                $lower = strtolower($body);
+                foreach (self::BODY_MARKERS as $marker) {
+                    if (str_contains($lower, $marker)) {
+                        $findings[] = 'body_marker:'.$marker;
+                    }
+                }
+
+                $probe = [
+                    'route' => $route['name'],
+                    'source' => $route['source'] ?? 'symfony',
+                    'path' => $path,
+                    'url' => $path,
+                    'transport' => 'kernel_subrequest',
+                    'status' => $status,
+                    'contentType' => $contentType,
+                    'durationMs' => (int) round((microtime(true) - $started) * 1000),
+                    'error' => $error,
+                    'bodyHash' => hash('sha256', $body),
+                    'bodyPreview' => mb_substr(trim(strip_tags($body)), 0, 500),
+                    'findings' => array_values(array_unique($findings)),
+                ];
+                $probes[] = $probe;
+                fwrite($append, json_encode($probe, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR).PHP_EOL);
+                fflush($append);
+            }
+        } finally {
+            fclose($append);
+        }
+
+        return $probes;
+    }
+
+    /**
+     * @param list<array<string, mixed>> $routes
+     *
+     * @return list<array<string, mixed>>
+     */
+    private function probeMany(string $baseUrl, array $routes, int $timeout, int $concurrency, string $checkpoint): array
+    {
+        $completed = [];
+        if (is_file($checkpoint)) {
+            foreach (file($checkpoint, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ?: [] as $line) {
+                $probe = json_decode($line, true);
+                if (is_array($probe) && is_string($probe['path'] ?? null)) {
+                    $completed[$probe['path'].'|'.($probe['route'] ?? '')] = $probe;
+                }
+            }
+        }
+
+        $queue = [];
+        foreach ($routes as $route) {
+            $key = (string) $route['materializedPath'].'|'.(string) $route['name'];
+            if (!isset($completed[$key])) {
+                $queue[] = $route;
+            }
+        }
+
+        $multi = curl_multi_init();
+        $active = [];
+        $append = fopen($checkpoint, 'a');
+        if (false === $append) {
+            throw new \RuntimeException('Unable to open URL audit checkpoint.');
+        }
+
+        try {
+            do {
+                while (count($active) < max(1, $concurrency) && [] !== $queue) {
+                    $route = array_shift($queue);
+                    $url = $baseUrl.(string) $route['materializedPath'];
+                    $curl = curl_init($url);
+                    curl_setopt_array($curl, [
+                        CURLOPT_RETURNTRANSFER => true,
+                        CURLOPT_HEADER => true,
+                        CURLOPT_FOLLOWLOCATION => false,
+                        CURLOPT_CONNECTTIMEOUT => min(3, max(1, $timeout)),
+                        CURLOPT_TIMEOUT => max(1, $timeout),
+                        CURLOPT_HTTPHEADER => [
+                            'Accept: '.(str_starts_with((string) $route['materializedPath'], '/api/') || str_starts_with((string) $route['materializedPath'], '/my/api/') ? 'application/json' : 'text/html,application/json;q=0.8'),
+                            'User-Agent: SmartResponsor-Platform-URL-Audit/2.0',
+                        ],
+                    ]);
+                    curl_multi_add_handle($multi, $curl);
+                    $active[(int) $curl] = ['handle' => $curl, 'route' => $route, 'url' => $url];
+                }
+
+                do {
+                    $status = curl_multi_exec($multi, $running);
+                } while (CURLM_CALL_MULTI_PERFORM === $status);
+
+                while (false !== ($info = curl_multi_info_read($multi))) {
+                    $curl = $info['handle'];
+                    $entry = $active[(int) $curl];
+                    $probe = $this->finalizeProbe($curl, $entry['url'], $entry['route']);
+                    $key = $probe['path'].'|'.$probe['route'];
+                    $completed[$key] = $probe;
+                    fwrite($append, json_encode($probe, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR).PHP_EOL);
+                    fflush($append);
+                    curl_multi_remove_handle($multi, $curl);
+                    curl_close($curl);
+                    unset($active[(int) $curl]);
+                }
+
+                if ($running > 0) {
+                    curl_multi_select($multi, 0.25);
+                }
+            } while ([] !== $queue || [] !== $active);
+        } finally {
+            fclose($append);
+            foreach ($active as $entry) {
+                curl_multi_remove_handle($multi, $entry['handle']);
+                curl_close($entry['handle']);
+            }
+            curl_multi_close($multi);
+        }
+
+        return array_values($completed);
+    }
+
+    /** @param array<string, mixed> $route @return array<string, mixed> */
+    private function finalizeProbe(\CurlHandle $curl, string $url, array $route): array
+    {
+        $raw = curl_multi_getcontent($curl);
+        $error = curl_error($curl);
+        $status = (int) curl_getinfo($curl, CURLINFO_RESPONSE_CODE);
+        $headerSize = (int) curl_getinfo($curl, CURLINFO_HEADER_SIZE);
+        $contentType = strtolower((string) curl_getinfo($curl, CURLINFO_CONTENT_TYPE));
+        $durationMs = (int) round(((float) curl_getinfo($curl, CURLINFO_TOTAL_TIME)) * 1000);
+        $body = substr(is_string($raw) ? $raw : '', $headerSize);
+        $findings = [];
+        if ('' !== $error) {
+            $findings[] = str_contains(strtolower($error), 'timed out') ? 'timeout' : 'transport_error';
+        }
+        if (0 === $status || $status >= 500) {
+            $findings[] = 'http_'.$status;
+        } elseif (404 === $status && 'cruding-runtime-entity' === ($route['source'] ?? null)) {
+            $findings[] = 'declared_component_route_404';
+        } elseif ($status >= 300 && $status < 400) {
+            $findings[] = 'redirect_'.$status;
+        }
+        if (str_contains($contentType, 'json')) {
+            json_decode($body, true);
+            if (JSON_ERROR_NONE !== json_last_error()) {
+                $findings[] = 'malformed_json';
+            }
+        }
+        $lower = strtolower($body);
+        foreach (self::BODY_MARKERS as $marker) {
+            if (str_contains($lower, $marker)) {
+                $findings[] = 'body_marker:'.$marker;
+            }
+        }
+
+        return [
+            'route' => $route['name'],
+            'source' => $route['source'] ?? 'symfony',
+            'path' => $route['materializedPath'],
+            'url' => $url,
+            'status' => $status,
+            'contentType' => $contentType,
+            'durationMs' => $durationMs,
+            'error' => $error,
+            'bodyHash' => hash('sha256', $body),
+            'bodyPreview' => mb_substr(trim(strip_tags($body)), 0, 500),
+            'findings' => array_values(array_unique($findings)),
+        ];
     }
 
     /** @param array<string, mixed> $route @return array<string, mixed> */

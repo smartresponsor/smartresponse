@@ -35,7 +35,10 @@ final class AppUrlAuditInventoryCommand extends Command
             }
             file_put_contents($outputFile, $json);
         }
-        $output->write($json);
+        $output->writeln(json_encode([
+            'output' => is_string($outputFile) && '' !== $outputFile ? $outputFile : null,
+            'routeCount' => $this->audit->inventory()['routeCount'],
+        ], JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR));
 
         return Command::SUCCESS;
     }

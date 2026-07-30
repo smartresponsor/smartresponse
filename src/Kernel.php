@@ -49,13 +49,23 @@ class Kernel extends BaseKernel
     {
         $configDir = $this->getProjectDir().'/config';
 
+        $deferredRoutes = [];
         foreach ([
             $configDir.'/routes/*.{php,yaml}',
             $configDir.'/routes/'.$this->environment.'/*.{php,yaml}',
         ] as $pattern) {
             foreach (glob($pattern, GLOB_BRACE) ?: [] as $path) {
+                if ('cruding.yaml' === basename($path)) {
+                    $deferredRoutes[] = $path;
+                    continue;
+                }
+
                 $routes->import($path);
             }
+        }
+
+        foreach ($deferredRoutes as $path) {
+            $routes->import($path);
         }
 
         $routesFile = $configDir.'/routes.yaml';
