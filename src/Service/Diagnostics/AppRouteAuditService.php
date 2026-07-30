@@ -11,7 +11,7 @@ use Symfony\Component\Routing\RouterInterface;
 
 final readonly class AppRouteAuditService
 {
-    private const AUDIT_PATH = '/interfacing/route-audit';
+    private const AUDIT_PATH = '/interfacing/route/audit';
 
     public function __construct(
         private RouterInterface $router,

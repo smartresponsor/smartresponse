@@ -71,6 +71,12 @@ services:
     App\Vendoring\Service\Runtime\Mobile\VendorMobilePayoutShowService:
         public: true
         tags: ['controller.service_arguments']
+    App\Command\AppUrlAuditInventoryCommand:
+        tags: ['console.command']
+    App\Command\AppUrlAuditRunCommand:
+        tags: ['console.command']
+    App\Command\AppUrlAuditPublishGithubCommand:
+        tags: ['console.command']
     App\Command\GatingCheckCommand:
         tags: ['console.command']
     App\Accessing\Command\AccessDemoResetCommand:
