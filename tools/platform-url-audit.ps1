@@ -6,6 +6,10 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
+$previousAppDebug = $env:APP_DEBUG
+$previousXdebugMode = $env:XDEBUG_MODE
+$env:APP_DEBUG = '0'
+$env:XDEBUG_MODE = 'off'
 Push-Location $root
 try {
     php bin/console app:url-audit:inventory --output=var/url-audit/latest-inventory.json
@@ -24,4 +28,6 @@ try {
 }
 finally {
     Pop-Location
+    $env:APP_DEBUG = $previousAppDebug
+    $env:XDEBUG_MODE = $previousXdebugMode
 }

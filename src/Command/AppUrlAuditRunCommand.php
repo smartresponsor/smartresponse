@@ -24,10 +24,19 @@ final class AppUrlAuditRunCommand extends Command
         $this->addOption('base-url', null, InputOption::VALUE_REQUIRED, 'HTTP origin to probe.', 'http://127.0.0.1:8000');
         $this->addOption('timeout', null, InputOption::VALUE_REQUIRED, 'Per-request timeout in seconds.', '15');
         $this->addOption('fail-on-findings', null, InputOption::VALUE_NONE, 'Return failure when root causes exist.');
+        $this->addOption('path', null, InputOption::VALUE_REQUIRED, 'Probe one path through the Symfony kernel.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $path = $input->getOption('path');
+        if (is_string($path) && '' !== $path) {
+            $probe = $this->audit->probePath($path);
+            $output->writeln(json_encode($probe, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR));
+
+            return [] === $probe['findings'] ? Command::SUCCESS : Command::FAILURE;
+        }
+
         $report = $this->audit->run((string) $input->getOption('base-url'), (int) $input->getOption('timeout'));
         $output->writeln(json_encode([
             'runDirectory' => $report['runDirectory'],

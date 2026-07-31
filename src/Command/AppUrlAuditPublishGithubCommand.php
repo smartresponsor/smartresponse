@@ -34,24 +34,41 @@ final class AppUrlAuditPublishGithubCommand extends Command
             $this->runGh(['gh', 'api', 'repos/'.$repository.'/milestones', '-f', 'title='.$milestone]);
         }
 
+        $existingIssues = json_decode($this->runGh([
+            'gh', 'issue', 'list', '--repo', $repository, '--state', 'all', '--limit', '1000', '--json', 'number,state,url,body',
+        ]), true, 512, JSON_THROW_ON_ERROR);
+        $issuesByFingerprint = [];
+        foreach ($existingIssues as $issue) {
+            if (preg_match('/URL-AUDIT-FINGERPRINT:([a-f0-9]{64})/', (string) ($issue['body'] ?? ''), $match)) {
+                $issuesByFingerprint[$match[1]] = $issue;
+            }
+        }
+
         $urls = [];
-        foreach (($report['failures'] ?? []) as $failure) {
+        $failures = (array) ($report['failures'] ?? []);
+        foreach ($failures as $index => $failure) {
             $fingerprint = (string) $failure['fingerprint'];
             $title = sprintf('[URL Audit] %s (%s)', $failure['type'], substr($fingerprint, 0, 12));
-            $body = "URL-AUDIT-FINGERPRINT:$fingerprint\n\nRun: `{$report['runId']}`\n\nRoute: `{$failure['route']}`\nPath: `{$failure['path']}`\nStatus: `{$failure['status']}`\nOccurrences: {$failure['occurrences']}\n\n```text\n{$failure['evidence']}\n```";
-            $search = json_decode($this->runGh(['gh', 'issue', 'list', '--repo', $repository, '--state', 'all', '--search', 'in:body URL-AUDIT-FINGERPRINT:'.$fingerprint, '--json', 'number,state,url']), true, 512, JSON_THROW_ON_ERROR);
-            if ([] === $search) {
-                $urls[] = trim($this->runGh(['gh', 'issue', 'create', '--repo', $repository, '--title', $title, '--body', $body, '--milestone', $milestone]));
+            $affectedPaths = implode("\n", array_map(
+                static fn (string $path): string => '- `'.$path.'`',
+                (array) ($failure['affectedPaths'] ?? [$failure['path']]),
+            ));
+            $body = "URL-AUDIT-FINGERPRINT:$fingerprint\n\nRun: `{$report['runId']}`\n\nRoute: `{$failure['route']}`\nPath: `{$failure['path']}`\nStatus: `{$failure['status']}`\nOccurrences: {$failure['occurrences']}\n\nAffected paths:\n{$affectedPaths}\n\n```text\n{$failure['evidence']}\n```";
+            $issue = $issuesByFingerprint[$fingerprint] ?? null;
+            if (!is_array($issue)) {
+                $url = trim($this->runGh(['gh', 'issue', 'create', '--repo', $repository, '--title', $title, '--body', $body, '--milestone', $milestone]));
+                $urls[] = $url;
+                $output->writeln(sprintf('[%d/%d] created %s', $index + 1, count($failures), $url));
                 continue;
             }
 
-            $issue = $search[0];
             $number = (string) $issue['number'];
             $this->runGh(['gh', 'issue', 'edit', $number, '--repo', $repository, '--title', $title, '--body', $body, '--milestone', $milestone]);
             if ('CLOSED' === strtoupper((string) ($issue['state'] ?? ''))) {
                 $this->runGh(['gh', 'issue', 'reopen', $number, '--repo', $repository]);
             }
             $urls[] = (string) ($issue['url'] ?? '');
+            $output->writeln(sprintf('[%d/%d] updated %s', $index + 1, count($failures), (string) ($issue['url'] ?? '#'.$number)));
         }
 
         $output->writeln(json_encode(['milestone' => $milestone, 'issues' => $urls], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR));
