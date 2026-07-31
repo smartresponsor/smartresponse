@@ -10,7 +10,6 @@ cruding:
         message: 'App\Messaging\Entity\Message\MessageEntity'
         order: 'App\Ordering\Entity\Order\OrderEntity'
         payment: 'App\Paying\Entity\PaymentEntity'
-        product: 'App\Entity\Product\CommerceProductEntity'
         project: 'App\Projecting\Entity\Project\ProjectEntity'
         category: 'App\Cataloging\Entity\Catalog\CatalogCategoryEntity'
         page: 'App\Paging\Entity\Page'

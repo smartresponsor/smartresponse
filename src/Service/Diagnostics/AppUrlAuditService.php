@@ -12,6 +12,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Yaml\Yaml;
 
 final readonly class AppUrlAuditService
 {
@@ -277,11 +278,7 @@ final readonly class AppUrlAuditService
             $candidates[$key] = $route + ['source' => 'symfony'];
         }
 
-        $entities = (array) ($inventory['runtime']['developmentLock']['entity'] ?? []);
-        foreach ($entities as $entity) {
-            if (!is_string($entity) || '' === $entity) {
-                continue;
-            }
+        foreach ($this->declaredCrudingAliases() as $entity) {
             foreach ([
                 '/'.$entity,
                 '/'.$entity.'/index',
@@ -305,6 +302,35 @@ final readonly class AppUrlAuditService
         ksort($candidates);
 
         return array_values($candidates);
+    }
+
+    /** @return list<string> */
+    private function declaredCrudingAliases(): array
+    {
+        $configFile = $this->kernel->getProjectDir().'/config/packages/cruding.yaml';
+        if (!is_file($configFile)) {
+            return [];
+        }
+
+        $config = Yaml::parseFile($configFile);
+        $aliases = is_array($config) ? ($config['cruding']['entity_class_alias_map'] ?? []) : [];
+        if (!is_array($aliases)) {
+            return [];
+        }
+
+        $declared = [];
+        foreach ($aliases as $alias => $entityClass) {
+            if (!is_string($alias) || '' === $alias || !is_string($entityClass) || !class_exists($entityClass)) {
+                continue;
+            }
+            if (null === $this->doctrine->getManagerForClass($entityClass)) {
+                continue;
+            }
+            $declared[] = $alias;
+        }
+        sort($declared);
+
+        return $declared;
     }
 
     /**
