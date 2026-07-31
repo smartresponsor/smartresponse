@@ -70,6 +70,10 @@ final readonly class AppRouteAuditService
      */
     private function collectAuditablePaths(string $prefix, int $limit): array
     {
+        if (0 === $limit) {
+            return [];
+        }
+
         $paths = [];
         foreach ($this->router->getRouteCollection()->all() as $route) {
             $path = (string) $route->getPath();

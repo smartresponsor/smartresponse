@@ -8,8 +8,10 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
+$previousAppEnv = $env:APP_ENV
 $previousAppDebug = $env:APP_DEBUG
 $previousXdebugMode = $env:XDEBUG_MODE
+$env:APP_ENV = 'prod'
 $env:APP_DEBUG = '0'
 $env:XDEBUG_MODE = 'off'
 Push-Location $root
@@ -44,6 +46,7 @@ try {
 finally {
     Remove-Item -Force $inventoryErrorFile, $auditErrorFile -ErrorAction SilentlyContinue
     Pop-Location
+    $env:APP_ENV = $previousAppEnv
     $env:APP_DEBUG = $previousAppDebug
     $env:XDEBUG_MODE = $previousXdebugMode
 }

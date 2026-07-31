@@ -257,6 +257,9 @@ final readonly class AppUrlAuditService
                 'performanceSamples' => max(1, $samples),
                 'slowThresholdMs' => $slowThresholdMs,
                 'slowRoutes' => $performance['summary']['slowRoutes'],
+                'heavyPayloadRoutes' => $performance['summary']['heavyPayloadRoutes'],
+                'coldStartRoutes' => $performance['summary']['coldStartRoutes'],
+                'negativeProbes' => $performance['summary']['negativeProbes'],
                 'p50Ms' => $performance['summary']['p50Ms'],
                 'p95Ms' => $performance['summary']['p95Ms'],
                 'maxMs' => $performance['summary']['maxMs'],
@@ -289,6 +292,7 @@ final readonly class AppUrlAuditService
                     'source' => $probe['source'] ?? 'symfony',
                     'status' => $probe['status'],
                     'contentType' => $probe['contentType'],
+                    'responseBytes' => (int) ($probe['responseBytes'] ?? 0),
                     'samplesMs' => [],
                 ];
                 $routes[$key]['samplesMs'][$sampleIndex] = (int) $probe['durationMs'];
@@ -310,7 +314,13 @@ final readonly class AppUrlAuditService
             $spreadMs = $maxMs - $minMs;
             $classification = 'healthy';
             $investigate = 'No performance action indicated.';
-            if ($p50Ms >= $slowThresholdMs) {
+            if ((int) $route['status'] >= 400) {
+                $classification = 'negative_probe';
+                $investigate = 'Expected negative-path timing; exclude from actionable route optimization.';
+            } elseif ((int) $route['responseBytes'] >= 262144) {
+                $classification = 'payload_heavy';
+                $investigate = 'Inspect pagination, projection size, duplicated shell locations, and embedded diagnostics.';
+            } elseif ($p50Ms >= $slowThresholdMs) {
                 $classification = 'sustained_slow';
                 $investigate = str_contains((string) $route['contentType'], 'html')
                     ? 'Inspect controller queries, Viewing composition, Twig rendering, and response payload size.'
@@ -348,7 +358,10 @@ final readonly class AppUrlAuditService
                 'routes' => count($routes),
                 'samplesPerRoute' => count($sampleSets),
                 'slowThresholdMs' => $slowThresholdMs,
-                'slowRoutes' => count(array_filter($routes, static fn (array $route): bool => 'healthy' !== $route['classification'])),
+                'slowRoutes' => count(array_filter($routes, static fn (array $route): bool => in_array($route['classification'], ['sustained_slow', 'unstable'], true))),
+                'heavyPayloadRoutes' => count(array_filter($routes, static fn (array $route): bool => 'payload_heavy' === $route['classification'])),
+                'coldStartRoutes' => count(array_filter($routes, static fn (array $route): bool => 'cold_start' === $route['classification'])),
+                'negativeProbes' => count(array_filter($routes, static fn (array $route): bool => 'negative_probe' === $route['classification'])),
                 'p50Ms' => $this->percentile($allWarm, 0.50),
                 'p95Ms' => $this->percentile($allWarm, 0.95),
                 'maxMs' => [] === $allWarm ? 0 : max($allWarm),
@@ -532,6 +545,7 @@ final readonly class AppUrlAuditService
                     'viewLoaderFailures' => $request->attributes->get('_view_loader_failures', []),
                     'viewRenderFailures' => $request->attributes->get('_view_render_failures', []),
                     'durationMs' => (int) round((microtime(true) - $started) * 1000),
+                    'responseBytes' => strlen($body),
                     'error' => $error,
                     'bodyHash' => hash('sha256', $body),
                     'bodyPreview' => mb_substr(trim(strip_tags($body)), 0, 500),

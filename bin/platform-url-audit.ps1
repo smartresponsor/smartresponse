@@ -97,9 +97,9 @@ try {
         }
         $report = Get-Content -Raw -Path $reportFile.FullName | ConvertFrom-Json
         $ranking = $report.performance.routes |
-            Where-Object { $_.classification -ne 'healthy' } |
+            Where-Object { $_.classification -in @('sustained_slow', 'unstable', 'payload_heavy') } |
             Sort-Object warmAvgMs -Descending |
-            Select-Object -First 50 route, path, status, contentType, coldMs, warmAvgMs, p50Ms, p95Ms, maxMs, spreadMs, classification, investigate
+            Select-Object -First 50 route, path, status, contentType, responseBytes, coldMs, warmAvgMs, p50Ms, p95Ms, maxMs, spreadMs, classification, investigate
         Write-Output (@{ report = $reportFile.FullName; summary = $report.performance.summary; ranking = $ranking } | ConvertTo-Json -Depth 6)
         exit 0
     }
@@ -221,7 +221,7 @@ try {
     }
 
     if ('' -ne $ProbePath) {
-        php bin/console app:url-audit:run --path=$ProbePath --samples=$ProfileSamples --slow-ms=$SlowMs --no-debug
+        php bin/console app:url-audit:run --path=$ProbePath --samples=$ProfileSamples --slow-ms=$SlowMs --env=prod --no-debug
         exit $LASTEXITCODE
     }
 
