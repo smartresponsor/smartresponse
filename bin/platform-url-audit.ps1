@@ -13,6 +13,7 @@ param(
     [switch]$AuditProfile,
     [switch]$AuditCold,
     [switch]$AuditFirstTouch,
+    [switch]$AuditAccessProfile,
     [switch]$PublishLatest,
     [switch]$GithubAuditCount,
     [switch]$DoctrineSystemStatus,
@@ -104,6 +105,22 @@ try {
             Sort-Object warmAvgMs -Descending |
             Select-Object -First 50 route, path, status, contentType, responseBytes, coldMs, warmAvgMs, p50Ms, p95Ms, maxMs, spreadMs, classification, investigate
         Write-Output (@{ report = $reportFile.FullName; summary = $report.performance.summary; ranking = $ranking } | ConvertTo-Json -Depth 6)
+        exit 0
+    }
+
+    if ($AuditAccessProfile) {
+        $reportFile = Get-ChildItem -Path 'var/url-audit' -Filter report.json -Recurse |
+            Sort-Object LastWriteTimeUtc -Descending |
+            Select-Object -First 1
+        if ($null -eq $reportFile) {
+            throw 'No URL audit report was found.'
+        }
+        $report = Get-Content -Raw -Path $reportFile.FullName | ConvertFrom-Json
+        $ranking = $report.performance.routes |
+            Where-Object { $_.path -like '/access*' -or $_.path -like '/api/access*' -or $_.path -like '/2fa*' } |
+            Sort-Object p50Ms -Descending |
+            Select-Object route, path, status, contentType, responseBytes, coldMs, warmAvgMs, p50Ms, p95Ms, maxMs, classification, investigate
+        Write-Output (@{ report = $reportFile.FullName; ranking = $ranking } | ConvertTo-Json -Depth 6)
         exit 0
     }
 
