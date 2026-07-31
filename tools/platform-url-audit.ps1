@@ -11,22 +11,36 @@ $previousXdebugMode = $env:XDEBUG_MODE
 $env:APP_DEBUG = '0'
 $env:XDEBUG_MODE = 'off'
 Push-Location $root
+$inventoryErrorFile = Join-Path $root 'var/url-audit/latest-inventory.stderr.log'
+$auditErrorFile = Join-Path $root 'var/url-audit/latest-run.stderr.log'
 try {
-    php bin/console app:url-audit:inventory --output=var/url-audit/latest-inventory.json
-    if ($LASTEXITCODE -ne 0) {
-        throw "Inventory failed with exit code $LASTEXITCODE."
+    New-Item -ItemType Directory -Force -Path (Split-Path -Parent $inventoryErrorFile) | Out-Null
+    $ErrorActionPreference = 'Continue'
+    php bin/console app:url-audit:inventory --output=var/url-audit/latest-inventory.json 2> $inventoryErrorFile
+    $inventoryExitCode = $LASTEXITCODE
+    $ErrorActionPreference = 'Stop'
+    if ($inventoryExitCode -ne 0) {
+        Get-Content -Path $inventoryErrorFile -ErrorAction SilentlyContinue | Write-Error
+        throw "Inventory failed with exit code $inventoryExitCode."
     }
 
-    php bin/console app:url-audit:run --base-url=$BaseUrl --timeout=$Timeout
-    if ($LASTEXITCODE -ne 0) {
-        throw "URL audit failed with exit code $LASTEXITCODE."
+    $ErrorActionPreference = 'Continue'
+    php bin/console app:url-audit:run --base-url=$BaseUrl --timeout=$Timeout 2> $auditErrorFile
+    $auditExitCode = $LASTEXITCODE
+    $ErrorActionPreference = 'Stop'
+    if ($auditExitCode -ne 0) {
+        Get-Content -Path $auditErrorFile -ErrorAction SilentlyContinue | Write-Error
+        throw "URL audit failed with exit code $auditExitCode."
     }
+
+    Remove-Item -Force $inventoryErrorFile, $auditErrorFile -ErrorAction SilentlyContinue
 
     Get-ChildItem -Path 'var/url-audit' -Filter report.json -Recurse |
         Sort-Object LastWriteTimeUtc -Descending |
         Select-Object -First 1 -ExpandProperty FullName
 }
 finally {
+    Remove-Item -Force $inventoryErrorFile, $auditErrorFile -ErrorAction SilentlyContinue
     Pop-Location
     $env:APP_DEBUG = $previousAppDebug
     $env:XDEBUG_MODE = $previousXdebugMode
