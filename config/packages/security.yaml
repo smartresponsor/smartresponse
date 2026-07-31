@@ -53,7 +53,7 @@ security:
             entry_point: App\Accessing\Authenticator\AccessAuthenticationEntryPoint
             logout:
                 path: /sign-out
-                target: interfacing_welcome_sign_in
+                target: access.signin
             switch_user:
                 parameter: _switch_user
                 role: ROLE_ALLOWED_TO_SWITCH
