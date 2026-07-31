@@ -25,6 +25,7 @@ final class AppUrlAuditRunCommand extends Command
         $this->addOption('timeout', null, InputOption::VALUE_REQUIRED, 'Per-request timeout in seconds.', '15');
         $this->addOption('fail-on-findings', null, InputOption::VALUE_NONE, 'Return failure when root causes exist.');
         $this->addOption('path', null, InputOption::VALUE_REQUIRED, 'Probe one path through the Symfony kernel.');
+        $this->addOption('warmup-path', null, InputOption::VALUE_REQUIRED, 'Probe this path once before measuring the target path.');
         $this->addOption('samples', null, InputOption::VALUE_REQUIRED, 'Number of latency samples per route.', '1');
         $this->addOption('slow-ms', null, InputOption::VALUE_REQUIRED, 'Warm-route latency threshold in milliseconds.', '250');
     }
@@ -33,10 +34,12 @@ final class AppUrlAuditRunCommand extends Command
     {
         $path = $input->getOption('path');
         if (is_string($path) && '' !== $path) {
+            $warmupPath = $input->getOption('warmup-path');
             $result = $this->audit->probePath(
                 $path,
                 max(1, (int) $input->getOption('samples')),
                 max(1, (int) $input->getOption('slow-ms')),
+                is_string($warmupPath) && '' !== $warmupPath ? $warmupPath : null,
             );
             $output->writeln(json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR));
 

@@ -11,6 +11,8 @@ param(
     [switch]$AuditActionable,
     [switch]$AuditGenerated404,
     [switch]$AuditProfile,
+    [switch]$AuditCold,
+    [switch]$AuditFirstTouch,
     [switch]$PublishLatest,
     [switch]$GithubAuditCount,
     [switch]$DoctrineSystemStatus,
@@ -23,7 +25,8 @@ param(
     [switch]$MigrateDatabase,
     [switch]$MigrateRecordIndex,
     [switch]$CatalogRecordIndexSchema,
-    [string]$ProbePath = ''
+    [string]$ProbePath = '',
+    [string]$WarmupPath = ''
 )
 
 $ErrorActionPreference = 'Stop'
@@ -100,6 +103,22 @@ try {
             Where-Object { $_.classification -in @('sustained_slow', 'unstable', 'payload_heavy') } |
             Sort-Object warmAvgMs -Descending |
             Select-Object -First 50 route, path, status, contentType, responseBytes, coldMs, warmAvgMs, p50Ms, p95Ms, maxMs, spreadMs, classification, investigate
+        Write-Output (@{ report = $reportFile.FullName; summary = $report.performance.summary; ranking = $ranking } | ConvertTo-Json -Depth 6)
+        exit 0
+    }
+
+    if ($AuditCold -or $AuditFirstTouch) {
+        $reportFile = Get-ChildItem -Path 'var/url-audit' -Filter report.json -Recurse |
+            Sort-Object LastWriteTimeUtc -Descending |
+            Select-Object -First 1
+        if ($null -eq $reportFile) {
+            throw 'No URL audit report was found.'
+        }
+        $report = Get-Content -Raw -Path $reportFile.FullName | ConvertFrom-Json
+        $ranking = $report.performance.routes |
+            Where-Object { $_.classification -eq 'first_touch' } |
+            Sort-Object coldMs -Descending |
+            Select-Object route, path, status, contentType, responseBytes, coldMs, warmAvgMs, p50Ms, p95Ms, classification, investigate
         Write-Output (@{ report = $reportFile.FullName; summary = $report.performance.summary; ranking = $ranking } | ConvertTo-Json -Depth 6)
         exit 0
     }
@@ -221,7 +240,11 @@ try {
     }
 
     if ('' -ne $ProbePath) {
-        php bin/console app:url-audit:run --path=$ProbePath --samples=$ProfileSamples --slow-ms=$SlowMs --env=prod --no-debug
+        $arguments = @('bin/console', 'app:url-audit:run', "--path=$ProbePath", "--samples=$ProfileSamples", "--slow-ms=$SlowMs", '--env=prod', '--no-debug')
+        if ('' -ne $WarmupPath) {
+            $arguments += "--warmup-path=$WarmupPath"
+        }
+        & php @arguments
         exit $LASTEXITCODE
     }
 

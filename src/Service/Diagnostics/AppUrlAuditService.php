@@ -167,7 +167,7 @@ final readonly class AppUrlAuditService
     }
 
     /** @return array<string, mixed> */
-    public function probePath(string $path, int $samples = 1, int $slowThresholdMs = 250): array
+    public function probePath(string $path, int $samples = 1, int $slowThresholdMs = 250, ?string $warmupPath = null): array
     {
         if (!str_starts_with($path, '/')) {
             $path = '/'.$path;
@@ -186,6 +186,20 @@ final readonly class AppUrlAuditService
                 'controller' => null,
                 'source' => 'targeted',
             ]];
+            $warmupProbe = null;
+            if (null !== $warmupPath && '' !== trim($warmupPath)) {
+                $warmupPath = str_starts_with($warmupPath, '/') ? $warmupPath : '/'.$warmupPath;
+                $warmupRoute = [[
+                    'name' => 'warmup',
+                    'path' => $warmupPath,
+                    'materializedPath' => $warmupPath,
+                    'methods' => ['GET'],
+                    'controller' => null,
+                    'source' => 'targeted-warmup',
+                ]];
+                $warmupProbe = $this->probeKernelMany($warmupRoute, $checkpoint.'.warmup')[0] ?? null;
+            }
+
             $sampleSets = [];
             for ($sample = 0; $sample < max(1, $samples); ++$sample) {
                 $sampleSets[] = $this->probeKernelMany($route, $checkpoint.'.'.$sample);
@@ -193,6 +207,7 @@ final readonly class AppUrlAuditService
             $profile = $this->performanceProfile($sampleSets, $slowThresholdMs);
 
             return [
+                'warmupProbe' => $warmupProbe,
                 'probe' => $sampleSets[0][0],
                 'performance' => $profile['routes'][0] ?? [],
             ];
@@ -258,7 +273,7 @@ final readonly class AppUrlAuditService
                 'slowThresholdMs' => $slowThresholdMs,
                 'slowRoutes' => $performance['summary']['slowRoutes'],
                 'heavyPayloadRoutes' => $performance['summary']['heavyPayloadRoutes'],
-                'coldStartRoutes' => $performance['summary']['coldStartRoutes'],
+                'firstTouchRoutes' => $performance['summary']['firstTouchRoutes'],
                 'negativeProbes' => $performance['summary']['negativeProbes'],
                 'p50Ms' => $performance['summary']['p50Ms'],
                 'p95Ms' => $performance['summary']['p95Ms'],
@@ -326,8 +341,8 @@ final readonly class AppUrlAuditService
                     ? 'Inspect controller queries, Viewing composition, Twig rendering, and response payload size.'
                     : 'Inspect controller queries, external I/O, serialization, and payload size.';
             } elseif ($coldMs >= max($slowThresholdMs * 2, $warmAvgMs * 3)) {
-                $classification = 'cold_start';
-                $investigate = 'Inspect lazy service initialization, metadata loading, cache warmup, and first-use connection setup.';
+                $classification = 'first_touch';
+                $investigate = 'First-touch effect inside the shared sweep process; verify with an isolated sequence probe before optimizing.';
             } elseif (count($warm) >= 4 && $p95Ms >= $slowThresholdMs && $spreadMs >= max(100, $p50Ms)) {
                 $classification = 'unstable';
                 $investigate = 'Inspect nondeterministic database work, external I/O, locks, cache misses, and oversized result sets.';
@@ -360,7 +375,7 @@ final readonly class AppUrlAuditService
                 'slowThresholdMs' => $slowThresholdMs,
                 'slowRoutes' => count(array_filter($routes, static fn (array $route): bool => in_array($route['classification'], ['sustained_slow', 'unstable'], true))),
                 'heavyPayloadRoutes' => count(array_filter($routes, static fn (array $route): bool => 'payload_heavy' === $route['classification'])),
-                'coldStartRoutes' => count(array_filter($routes, static fn (array $route): bool => 'cold_start' === $route['classification'])),
+                'firstTouchRoutes' => count(array_filter($routes, static fn (array $route): bool => 'first_touch' === $route['classification'])),
                 'negativeProbes' => count(array_filter($routes, static fn (array $route): bool => 'negative_probe' === $route['classification'])),
                 'p50Ms' => $this->percentile($allWarm, 0.50),
                 'p95Ms' => $this->percentile($allWarm, 0.95),
