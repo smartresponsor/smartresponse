@@ -24,8 +24,8 @@ doctrine:
                 charset: utf8
                 profiling_collect_backtrace: '%kernel.debug%'
             sqlite:
-                url: '%env(default:app.platform_system_database_default:PLATFORM_SYSTEM_DATABASE)%'
                 driver: 'pdo_sqlite'
+                path: '%kernel.project_dir%/var/platform_system.sqlite'
                 server_version: '3.21'
                 charset: utf8mb4
                 profiling_collect_backtrace: '%kernel.debug%'

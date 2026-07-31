@@ -1,7 +1,7 @@
 parameters:
     app.platform_data_database_default: 'postgresql://app:!ChangeMe!@127.0.0.1:5432/app?serverVersion=16&charset=utf8'
     app.object_review_database_default: 'postgresql://app:!ChangeMe!@127.0.0.1:5432/app_review?serverVersion=16&charset=utf8'
-    app.platform_system_database_default: 'sqlite:///%kernel.project_dir%/var/data/platform_system.sqlite'
+    app.platform_system_database_default: 'sqlite:///%kernel.project_dir%/var/platform_system.sqlite'
 
 doctrine:
     dbal:
@@ -24,8 +24,8 @@ doctrine:
                 charset: utf8
                 profiling_collect_backtrace: '%kernel.debug%'
             sqlite:
-                url: '%env(default:app.platform_system_database_default:PLATFORM_SYSTEM_DATABASE)%'
                 driver: 'pdo_sqlite'
+                path: '%kernel.project_dir%/var/platform_system.sqlite'
                 server_version: '3.21'
                 charset: utf8mb4
                 profiling_collect_backtrace: '%kernel.debug%'
@@ -127,3 +127,10 @@ doctrine:
                 connection: sqlite
                 auto_mapping: false
                 naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+                mappings:
+                    Administering:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/vendor/administering/administration/src/Entity'
+                        prefix: 'App\Administering\Entity'
+                        alias: Administering

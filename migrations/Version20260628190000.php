@@ -81,10 +81,28 @@ final class Version20260628190000 extends AbstractMigration
             $this->addSql(sprintf('ALTER TABLE %s ADD COLUMN IF NOT EXISTS %s', $tableName, $columnDefinition));
         }
 
-        $this->addSql(sprintf(
-            "UPDATE %s SET object_uuid = CONCAT('00000000-0000-7000-8000-', LPAD(id::text, 12, '0')) WHERE object_uuid IS NULL",
-            $tableName,
-        ));
+        $objectUuidType = $this->connection->fetchOne(
+            <<<'SQL'
+SELECT data_type
+FROM information_schema.columns
+WHERE table_schema = current_schema()
+  AND table_name = ?
+  AND column_name = 'object_uuid'
+SQL,
+            [$tableName],
+        );
+
+        if ('bytea' === $objectUuidType) {
+            $this->addSql(sprintf(
+                "UPDATE %s SET object_uuid = decode(CONCAT('00000000000070008000', LPAD(to_hex(id), 12, '0')), 'hex') WHERE object_uuid IS NULL",
+                $tableName,
+            ));
+        } else {
+            $this->addSql(sprintf(
+                "UPDATE %s SET object_uuid = CONCAT('00000000-0000-7000-8000-', LPAD(id::text, 12, '0')) WHERE object_uuid IS NULL",
+                $tableName,
+            ));
+        }
         $this->addSql(sprintf('ALTER TABLE %s ALTER COLUMN object_uuid SET NOT NULL', $tableName));
         $this->addSql(sprintf('CREATE UNIQUE INDEX IF NOT EXISTS uniq_%s_object_uuid ON %s (object_uuid)', $tableName, $tableName));
     }
