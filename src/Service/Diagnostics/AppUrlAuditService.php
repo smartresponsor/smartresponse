@@ -400,6 +400,8 @@ final readonly class AppUrlAuditService
                     'status' => $status,
                     'contentType' => $contentType,
                     'location' => $location,
+                    'viewLoaderFailures' => $request->attributes->get('_view_loader_failures', []),
+                    'viewRenderFailures' => $request->attributes->get('_view_render_failures', []),
                     'durationMs' => (int) round((microtime(true) - $started) * 1000),
                     'error' => $error,
                     'bodyHash' => hash('sha256', $body),

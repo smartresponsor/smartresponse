@@ -6,6 +6,7 @@ param(
     [switch]$AuditStatus,
     [switch]$AuditSummary,
     [switch]$AuditFailures,
+    [switch]$AuditActionable,
     [switch]$PublishLatest,
     [switch]$GithubAuditCount,
     [switch]$DoctrineSystemStatus,
@@ -80,6 +81,21 @@ try {
                 }
             }
         Write-Output ($failures | ConvertTo-Json -Depth 6)
+        exit 0
+    }
+
+    if ($AuditActionable) {
+        $reportFile = Get-ChildItem -Path 'var/url-audit' -Filter report.json -Recurse |
+            Sort-Object LastWriteTimeUtc -Descending |
+            Select-Object -First 1
+        if ($null -eq $reportFile) {
+            throw 'No URL audit report was found.'
+        }
+        $report = Get-Content -Raw -Path $reportFile.FullName | ConvertFrom-Json
+        $findings = $report.failures |
+            Where-Object { $_.type -ne 'declared_component_route_404' } |
+            Select-Object type, route, path, status, occurrences, evidence
+        Write-Output ($findings | ConvertTo-Json -Depth 6)
         exit 0
     }
 
