@@ -10,6 +10,8 @@ imports:
     - { resource: '../vendor/vendoring/vendor/config/component/optional/attaching_profile_bridge.yaml' }
 
 parameters:
+    # Route YAML resolves this fallback before CrudingExtension finalizes runtime policy.
+    cruding.http_path_requirement: '(?:[a-z][a-z0-9_-]*(?:/[a-z][a-z0-9_-]*)?/(?:index|new|create|import|bulk)|[a-z][a-z0-9_-]*(?:/[a-z][a-z0-9_-]*)?/(?:show|read|edit|update|archive|restore|duplicate|delete|verify|pay)/(?:[1-9][0-9]*|[a-z0-9][a-z0-9_-]{17,}))'
     redis.dsn: 'redis://127.0.0.1:6379/0'
     paying.messenger.dsn: 'sync://'
     app.back_uri_token_default: 'ea'
