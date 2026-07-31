@@ -6,6 +6,7 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 imports:
     - { resource: '../vendor/localizing/locale/config/services.yaml' }
+    - { resource: '../vendor/cataloging/catalog/config/component/services.yaml' }
     - { resource: '../vendor/vendoring/vendor/config/component/optional/attaching_profile_bridge.yaml' }
 
 parameters:
@@ -71,6 +72,26 @@ services:
     App\Vendoring\Service\Runtime\Mobile\VendorMobilePayoutShowService:
         public: true
         tags: ['controller.service_arguments']
+    App\Vendoring\Service\Vendor\Profile\VendorProfileHttpService:
+        public: true
+        autowire: true
+        autoconfigure: true
+        tags: ['controller.service_arguments']
+    App\Vendoring\Service\Vendor\Statement\VendorStatementHttpService:
+        public: true
+        autowire: true
+        autoconfigure: true
+        tags: ['controller.service_arguments']
+    App\Vendoring\Service\Vendor\Summary\VendorSummaryHttpService:
+        public: true
+        autowire: true
+        autoconfigure: true
+        tags: ['controller.service_arguments']
+    App\Vendoring\Service\Vendor\Transaction\VendorTransactionHttpService:
+        public: true
+        autowire: true
+        autoconfigure: true
+        tags: ['controller.service_arguments']
     App\Command\AppUrlAuditInventoryCommand:
         tags: ['console.command']
     App\Command\AppUrlAuditRunCommand:
@@ -89,6 +110,21 @@ services:
         autoconfigure: true
         tags: ['controller.service_arguments']
     App\Controller\Access\ApiAccessController:
+        public: true
+        autowire: true
+        autoconfigure: true
+        tags: ['controller.service_arguments']
+    App\Cataloging\Controller\Catalog\CatalogCategoryMerchantController:
+        public: true
+        autowire: true
+        autoconfigure: true
+        tags: ['controller.service_arguments']
+    App\Cataloging\Controller\Catalog\CatalogLegacyCategoryListController:
+        public: true
+        autowire: true
+        autoconfigure: true
+        tags: ['controller.service_arguments']
+    App\Cataloging\Controller\Catalog\CatalogLegacyCollectionListController:
         public: true
         autowire: true
         autoconfigure: true
