@@ -861,6 +861,23 @@ body.interfacing-access-body {
 }
 .interfacing-password-match.is-valid { color: #389e0d; }
 .interfacing-password-match.is-invalid { color: #cf1322; }
+.interfacing-field-help,
+.interfacing-phone-feedback {
+  margin: -8px 0 0 !important;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #8c8c8c;
+}
+.interfacing-phone-feedback.is-valid { color: #389e0d; }
+.interfacing-phone-feedback.is-invalid { color: #cf1322; }
+[data-interfacing-access-shell] input[data-access-phone].is-valid {
+  border-color: #52c41a !important;
+  box-shadow: 0 0 0 2px rgba(82, 196, 26, .10) !important;
+}
+[data-interfacing-access-shell] input[data-access-phone].is-invalid {
+  border-color: #ff4d4f !important;
+  box-shadow: 0 0 0 2px rgba(255, 77, 79, .10) !important;
+}
 
 .interfacing-inline-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 .interfacing-inline-check { display: flex; align-items: center; gap: 8px; }
