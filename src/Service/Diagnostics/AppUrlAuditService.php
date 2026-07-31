@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Service\Diagnostics;
 
+use App\Administering\Entity\AdministrationConnectedComponentRecord;
+use App\Cataloging\Entity\Catalog\CatalogRecordIndexEntity;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -22,8 +25,95 @@ final readonly class AppUrlAuditService
         'was not found in the chain configured namespaces',
     ];
 
-    public function __construct(private KernelInterface $kernel, private RouterInterface $router)
+    public function __construct(
+        private KernelInterface $kernel,
+        private RouterInterface $router,
+        private ManagerRegistry $doctrine,
+    ) {
+    }
+
+    /** @return array<string, mixed> */
+    public function doctrineManagerDiagnostic(): array
     {
+        $managers = [];
+        foreach ($this->doctrine->getManagers() as $name => $manager) {
+            $metadata = $manager->getMetadataFactory()->getAllMetadata();
+            $classes = array_map(static fn ($item): string => $item->getName(), $metadata);
+            sort($classes);
+            $connectionParams = $manager->getConnection()->getParams();
+            $managers[(string) $name] = [
+                'class' => $manager::class,
+                'metadataCount' => count($classes),
+                'databasePath' => 'system' === (string) $name ? ($connectionParams['path'] ?? null) : null,
+                'driver' => $connectionParams['driver'] ?? null,
+                'administeringClasses' => array_values(array_filter(
+                    $classes,
+                    static fn (string $class): bool => str_starts_with($class, 'App\\Administering\\Entity\\'),
+                )),
+            ];
+        }
+
+        $manager = $this->doctrine->getManagerForClass(AdministrationConnectedComponentRecord::class);
+
+        return [
+            'targetClass' => AdministrationConnectedComponentRecord::class,
+            'managerForClass' => null === $manager ? null : $manager::class,
+            'managerNames' => $this->doctrine->getManagerNames(),
+            'managers' => $managers,
+        ];
+    }
+
+    /** @return array<string, mixed> */
+    public function catalogRecordIndexSchemaDiagnostic(): array
+    {
+        $manager = $this->doctrine->getManagerForClass(CatalogRecordIndexEntity::class);
+        if (null === $manager) {
+            return [
+                'entity' => CatalogRecordIndexEntity::class,
+                'valid' => false,
+                'reason' => 'entity_manager_missing',
+            ];
+        }
+
+        $metadata = $manager->getClassMetadata(CatalogRecordIndexEntity::class);
+        $tableName = $metadata->getTableName();
+        $entityColumns = $metadata->getColumnNames();
+        sort($entityColumns);
+        $entityIndexes = array_keys((array) ($metadata->table['indexes'] ?? []));
+        sort($entityIndexes);
+
+        $schemaManager = $manager->getConnection()->createSchemaManager();
+        if (!$schemaManager->tablesExist([$tableName])) {
+            return [
+                'entity' => CatalogRecordIndexEntity::class,
+                'table' => $tableName,
+                'valid' => false,
+                'reason' => 'table_missing',
+                'entityColumns' => $entityColumns,
+                'entityIndexes' => $entityIndexes,
+            ];
+        }
+
+        $databaseColumns = array_keys($schemaManager->listTableColumns($tableName));
+        sort($databaseColumns);
+        $databaseIndexes = array_keys($schemaManager->listTableIndexes($tableName));
+        sort($databaseIndexes);
+        $missingColumns = array_values(array_diff($entityColumns, $databaseColumns));
+        $unexpectedColumns = array_values(array_diff($databaseColumns, $entityColumns));
+        $missingIndexes = array_values(array_diff($entityIndexes, $databaseIndexes));
+
+        return [
+            'entity' => CatalogRecordIndexEntity::class,
+            'table' => $tableName,
+            'valid' => [] === $missingColumns && [] === $unexpectedColumns && [] === $missingIndexes,
+            'entityColumns' => $entityColumns,
+            'databaseColumns' => $databaseColumns,
+            'entityIndexes' => $entityIndexes,
+            'databaseIndexes' => $databaseIndexes,
+            'missingColumns' => $missingColumns,
+            'unexpectedColumns' => $unexpectedColumns,
+            'missingIndexes' => $missingIndexes,
+        ];
     }
 
     /** @return array<string, mixed> */
@@ -73,6 +163,33 @@ final readonly class AppUrlAuditService
             'routes' => $routes,
             'routeCount' => count($routes),
         ];
+    }
+
+    /** @return array<string, mixed> */
+    public function probePath(string $path): array
+    {
+        if (!str_starts_with($path, '/')) {
+            $path = '/'.$path;
+        }
+        $checkpoint = tempnam(sys_get_temp_dir(), 'app-url-audit-');
+        if (false === $checkpoint) {
+            throw new \RuntimeException('Unable to create targeted URL audit checkpoint.');
+        }
+
+        try {
+            $probes = $this->probeKernelMany([[
+                'name' => 'targeted',
+                'path' => $path,
+                'materializedPath' => $path,
+                'methods' => ['GET'],
+                'controller' => null,
+                'source' => 'targeted',
+            ]], $checkpoint);
+
+            return $probes[0];
+        } finally {
+            @unlink($checkpoint);
+        }
     }
 
     /** @return array<string, mixed> */
@@ -212,14 +329,17 @@ final readonly class AppUrlAuditService
                 ]);
                 $started = microtime(true);
                 try {
-                    $response = $this->kernel->handle($request, HttpKernelInterface::SUB_REQUEST, true);
+                    $response = $this->kernel->handle($request, HttpKernelInterface::MAIN_REQUEST, true);
                     $status = $response->getStatusCode();
                     $contentType = strtolower((string) $response->headers->get('content-type', ''));
+                    $location = (string) $response->headers->get('location', '');
                     $body = (string) $response->getContent();
+                    $this->kernel->terminate($request, $response);
                     $error = '';
                 } catch (\Throwable $exception) {
                     $status = 500;
                     $contentType = 'text/plain';
+                    $location = '';
                     $body = $exception::class.' '.$exception->getMessage()."\n".$exception->getTraceAsString();
                     $error = $exception::class.': '.$exception->getMessage();
                 }
@@ -229,7 +349,7 @@ final readonly class AppUrlAuditService
                     $findings[] = 'http_'.$status;
                 } elseif (404 === $status && 'cruding-runtime-entity' === ($route['source'] ?? null)) {
                     $findings[] = 'declared_component_route_404';
-                } elseif ($status >= 300 && $status < 400) {
+                } elseif ($status >= 300 && $status < 400 && '/access/signin' !== (string) parse_url($location, PHP_URL_PATH)) {
                     $findings[] = 'redirect_'.$status;
                 }
                 if (str_contains($contentType, 'json')) {
@@ -250,9 +370,10 @@ final readonly class AppUrlAuditService
                     'source' => $route['source'] ?? 'symfony',
                     'path' => $path,
                     'url' => $path,
-                    'transport' => 'kernel_subrequest',
+                    'transport' => 'kernel_main_request',
                     'status' => $status,
                     'contentType' => $contentType,
+                    'location' => $location,
                     'durationMs' => (int) round((microtime(true) - $started) * 1000),
                     'error' => $error,
                     'bodyHash' => hash('sha256', $body),

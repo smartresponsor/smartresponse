@@ -22,10 +22,31 @@ final class AppUrlAuditInventoryCommand extends Command
     protected function configure(): void
     {
         $this->addOption('output', null, InputOption::VALUE_REQUIRED, 'Optional JSON output file.');
+        $this->addOption('doctrine-managers', null, InputOption::VALUE_NONE, 'Inspect runtime Doctrine managers and metadata.');
+        $this->addOption('catalog-record-index-schema', null, InputOption::VALUE_NONE, 'Compare CatalogRecordIndexEntity metadata with the materialized table.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        if ($input->getOption('doctrine-managers')) {
+            $output->writeln(json_encode(
+                $this->audit->doctrineManagerDiagnostic(),
+                JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR,
+            ));
+
+            return Command::SUCCESS;
+        }
+
+        if ($input->getOption('catalog-record-index-schema')) {
+            $diagnostic = $this->audit->catalogRecordIndexSchemaDiagnostic();
+            $output->writeln(json_encode(
+                $diagnostic,
+                JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR,
+            ));
+
+            return true === ($diagnostic['valid'] ?? false) ? Command::SUCCESS : Command::FAILURE;
+        }
+
         $json = json_encode($this->audit->inventory(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR).PHP_EOL;
         $outputFile = $input->getOption('output');
         if (is_string($outputFile) && '' !== $outputFile) {
