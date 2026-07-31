@@ -15,6 +15,20 @@ $env:APP_ENV = 'prod'
 $env:APP_DEBUG = '0'
 $env:XDEBUG_MODE = 'off'
 Push-Location $root
+$runtimeStartedAt = [System.Diagnostics.Stopwatch]::StartNew()
+try {
+    $runtimeResponse = Invoke-WebRequest -UseBasicParsing -Uri ($BaseUrl.TrimEnd('/') + '/access/signin') -TimeoutSec ([Math]::Max(1, [Math]::Min($Timeout, 5)))
+    $runtimeStartedAt.Stop()
+    if ($runtimeResponse.StatusCode -ge 500) {
+        throw "HTTP runtime preflight returned status $($runtimeResponse.StatusCode)."
+    }
+    Write-Output ("HTTP runtime preflight: {0} ms ({1})" -f $runtimeStartedAt.ElapsedMilliseconds, $runtimeResponse.StatusCode)
+}
+catch {
+    $runtimeStartedAt.Stop()
+    throw "HTTP runtime preflight failed after $($runtimeStartedAt.ElapsedMilliseconds) ms at $BaseUrl. The server may be stopped or blocked: $($_.Exception.Message)"
+}
+
 $inventoryErrorFile = Join-Path $root 'var/url-audit/latest-inventory.stderr.log'
 $auditErrorFile = Join-Path $root 'var/url-audit/latest-run.stderr.log'
 try {
