@@ -167,7 +167,7 @@ final readonly class AppUrlAuditService
     }
 
     /** @return array<string, mixed> */
-    public function probePath(string $path): array
+    public function probePath(string $path, int $samples = 1, int $slowThresholdMs = 250): array
     {
         if (!str_starts_with($path, '/')) {
             $path = '/'.$path;
@@ -178,23 +178,34 @@ final readonly class AppUrlAuditService
         }
 
         try {
-            $probes = $this->probeKernelMany([[
+            $route = [[
                 'name' => 'targeted',
                 'path' => $path,
                 'materializedPath' => $path,
                 'methods' => ['GET'],
                 'controller' => null,
                 'source' => 'targeted',
-            ]], $checkpoint);
+            ]];
+            $sampleSets = [];
+            for ($sample = 0; $sample < max(1, $samples); ++$sample) {
+                $sampleSets[] = $this->probeKernelMany($route, $checkpoint.'.'.$sample);
+            }
+            $profile = $this->performanceProfile($sampleSets, $slowThresholdMs);
 
-            return $probes[0];
+            return [
+                'probe' => $sampleSets[0][0],
+                'performance' => $profile['routes'][0] ?? [],
+            ];
         } finally {
             @unlink($checkpoint);
+            foreach (glob($checkpoint.'.*') ?: [] as $sampleCheckpoint) {
+                @unlink($sampleCheckpoint);
+            }
         }
     }
 
     /** @return array<string, mixed> */
-    public function run(string $baseUrl, int $timeout): array
+    public function run(string $baseUrl, int $timeout, int $samples = 1, int $slowThresholdMs = 250): array
     {
         $inventory = $this->inventory();
         $runId = gmdate('Ymd-His').'-'.substr(hash('sha256', random_bytes(16)), 0, 8);
@@ -205,7 +216,13 @@ final readonly class AppUrlAuditService
 
         $candidates = $this->candidates($inventory);
         $checkpoint = $directory.'/probes.jsonl';
-        $probes = $this->probeKernelMany($candidates, $checkpoint);
+        $sampleSets = [];
+        for ($sample = 0; $sample < max(1, $samples); ++$sample) {
+            $sampleCheckpoint = 0 === $sample ? $checkpoint : $directory.'/probes.sample-'.$sample.'.jsonl';
+            $sampleSets[] = $this->probeKernelMany($candidates, $sampleCheckpoint);
+        }
+        $probes = $sampleSets[0];
+        $performance = $this->performanceProfile($sampleSets, $slowThresholdMs);
         $failures = [];
         foreach ($probes as $probe) {
             foreach ($probe['findings'] as $finding) {
@@ -237,8 +254,15 @@ final readonly class AppUrlAuditService
                 'probes' => count($probes),
                 'passedProbes' => count(array_filter($probes, static fn (array $probe): bool => [] === $probe['findings'])),
                 'rootCauses' => count($failures),
+                'performanceSamples' => max(1, $samples),
+                'slowThresholdMs' => $slowThresholdMs,
+                'slowRoutes' => $performance['summary']['slowRoutes'],
+                'p50Ms' => $performance['summary']['p50Ms'],
+                'p95Ms' => $performance['summary']['p95Ms'],
+                'maxMs' => $performance['summary']['maxMs'],
             ],
             'failures' => array_values($failures),
+            'performance' => $performance,
             'probes' => $probes,
         ];
         $this->writeJson($directory.'/inventory.json', $inventory);
@@ -246,6 +270,103 @@ final readonly class AppUrlAuditService
         $this->writeJson($directory.'/failures.json', array_values($failures));
 
         return $report;
+    }
+
+    /**
+     * @param list<list<array<string, mixed>>> $sampleSets
+     *
+     * @return array<string, mixed>
+     */
+    private function performanceProfile(array $sampleSets, int $slowThresholdMs): array
+    {
+        $routes = [];
+        foreach ($sampleSets as $sampleIndex => $sampleSet) {
+            foreach ($sampleSet as $probe) {
+                $key = (string) $probe['route'].'|'.(string) $probe['path'];
+                $routes[$key] ??= [
+                    'route' => $probe['route'],
+                    'path' => $probe['path'],
+                    'source' => $probe['source'] ?? 'symfony',
+                    'status' => $probe['status'],
+                    'contentType' => $probe['contentType'],
+                    'samplesMs' => [],
+                ];
+                $routes[$key]['samplesMs'][$sampleIndex] = (int) $probe['durationMs'];
+            }
+        }
+
+        $allWarm = [];
+        foreach ($routes as &$route) {
+            ksort($route['samplesMs']);
+            $samples = array_values($route['samplesMs']);
+            $warm = count($samples) > 1 ? array_slice($samples, 1) : $samples;
+            sort($warm);
+            $coldMs = $samples[0] ?? 0;
+            $warmAvgMs = [] === $warm ? $coldMs : (int) round(array_sum($warm) / count($warm));
+            $p50Ms = $this->percentile($warm, 0.50);
+            $p95Ms = $this->percentile($warm, 0.95);
+            $maxMs = [] === $warm ? $coldMs : max($warm);
+            $minMs = [] === $warm ? $coldMs : min($warm);
+            $spreadMs = $maxMs - $minMs;
+            $classification = 'healthy';
+            $investigate = 'No performance action indicated.';
+            if ($p50Ms >= $slowThresholdMs) {
+                $classification = 'sustained_slow';
+                $investigate = str_contains((string) $route['contentType'], 'html')
+                    ? 'Inspect controller queries, Viewing composition, Twig rendering, and response payload size.'
+                    : 'Inspect controller queries, external I/O, serialization, and payload size.';
+            } elseif ($coldMs >= max($slowThresholdMs * 2, $warmAvgMs * 3)) {
+                $classification = 'cold_start';
+                $investigate = 'Inspect lazy service initialization, metadata loading, cache warmup, and first-use connection setup.';
+            } elseif (count($warm) >= 4 && $p95Ms >= $slowThresholdMs && $spreadMs >= max(100, $p50Ms)) {
+                $classification = 'unstable';
+                $investigate = 'Inspect nondeterministic database work, external I/O, locks, cache misses, and oversized result sets.';
+            }
+
+            $route += [
+                'coldMs' => $coldMs,
+                'warmAvgMs' => $warmAvgMs,
+                'p50Ms' => $p50Ms,
+                'p95Ms' => $p95Ms,
+                'minMs' => $minMs,
+                'maxMs' => $maxMs,
+                'spreadMs' => $spreadMs,
+                'classification' => $classification,
+                'investigate' => $investigate,
+            ];
+            foreach ($warm as $duration) {
+                $allWarm[] = $duration;
+            }
+        }
+        unset($route);
+
+        usort($routes, static fn (array $left, array $right): int => $right['warmAvgMs'] <=> $left['warmAvgMs']);
+        sort($allWarm);
+
+        return [
+            'summary' => [
+                'routes' => count($routes),
+                'samplesPerRoute' => count($sampleSets),
+                'slowThresholdMs' => $slowThresholdMs,
+                'slowRoutes' => count(array_filter($routes, static fn (array $route): bool => 'healthy' !== $route['classification'])),
+                'p50Ms' => $this->percentile($allWarm, 0.50),
+                'p95Ms' => $this->percentile($allWarm, 0.95),
+                'maxMs' => [] === $allWarm ? 0 : max($allWarm),
+            ],
+            'routes' => array_values($routes),
+        ];
+    }
+
+    /** @param list<int> $values */
+    private function percentile(array $values, float $percentile): int
+    {
+        if ([] === $values) {
+            return 0;
+        }
+        sort($values);
+        $index = (int) ceil($percentile * count($values)) - 1;
+
+        return $values[max(0, min($index, count($values) - 1))];
     }
 
     /** @return array<string, mixed> */

@@ -1,7 +1,9 @@
 [CmdletBinding()]
 param(
     [string]$BaseUrl = 'http://127.0.0.1:8000',
-    [int]$Timeout = 15
+    [int]$Timeout = 15,
+    [int]$Samples = 1,
+    [int]$SlowMs = 250
 )
 
 $ErrorActionPreference = 'Stop'
@@ -25,7 +27,7 @@ try {
     }
 
     $ErrorActionPreference = 'Continue'
-    php bin/console app:url-audit:run --base-url=$BaseUrl --timeout=$Timeout 2> $auditErrorFile
+    php bin/console app:url-audit:run --base-url=$BaseUrl --timeout=$Timeout --samples=$Samples --slow-ms=$SlowMs 2> $auditErrorFile
     $auditExitCode = $LASTEXITCODE
     $ErrorActionPreference = 'Stop'
     if ($auditExitCode -ne 0) {

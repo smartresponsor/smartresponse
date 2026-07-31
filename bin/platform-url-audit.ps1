@@ -2,12 +2,15 @@
 param(
     [string]$BaseUrl = 'http://127.0.0.1:8000',
     [int]$Timeout = 15,
+    [int]$ProfileSamples = 1,
+    [int]$SlowMs = 250,
     [switch]$CacheClear,
     [switch]$AuditStatus,
     [switch]$AuditSummary,
     [switch]$AuditFailures,
     [switch]$AuditActionable,
     [switch]$AuditGenerated404,
+    [switch]$AuditProfile,
     [switch]$PublishLatest,
     [switch]$GithubAuditCount,
     [switch]$DoctrineSystemStatus,
@@ -82,6 +85,22 @@ try {
                 }
             }
         Write-Output ($failures | ConvertTo-Json -Depth 6)
+        exit 0
+    }
+
+    if ($AuditProfile) {
+        $reportFile = Get-ChildItem -Path 'var/url-audit' -Filter report.json -Recurse |
+            Sort-Object LastWriteTimeUtc -Descending |
+            Select-Object -First 1
+        if ($null -eq $reportFile) {
+            throw 'No URL audit report was found.'
+        }
+        $report = Get-Content -Raw -Path $reportFile.FullName | ConvertFrom-Json
+        $ranking = $report.performance.routes |
+            Where-Object { $_.classification -ne 'healthy' } |
+            Sort-Object warmAvgMs -Descending |
+            Select-Object -First 50 route, path, status, contentType, coldMs, warmAvgMs, p50Ms, p95Ms, maxMs, spreadMs, classification, investigate
+        Write-Output (@{ report = $reportFile.FullName; summary = $report.performance.summary; ranking = $ranking } | ConvertTo-Json -Depth 6)
         exit 0
     }
 
@@ -202,11 +221,11 @@ try {
     }
 
     if ('' -ne $ProbePath) {
-        php bin/console app:url-audit:run --path=$ProbePath --no-debug
+        php bin/console app:url-audit:run --path=$ProbePath --samples=$ProfileSamples --slow-ms=$SlowMs --no-debug
         exit $LASTEXITCODE
     }
 
-    & (Join-Path $root 'tools/platform-url-audit.ps1') -BaseUrl $BaseUrl -Timeout $Timeout
+    & (Join-Path $root 'tools/platform-url-audit.ps1') -BaseUrl $BaseUrl -Timeout $Timeout -Samples $ProfileSamples -SlowMs $SlowMs
 }
 finally {
     Pop-Location

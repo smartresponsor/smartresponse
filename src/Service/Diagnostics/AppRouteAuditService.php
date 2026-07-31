@@ -21,7 +21,7 @@ final readonly class AppRouteAuditService
 
     public function __invoke(Request $request): JsonResponse
     {
-        $limit = max(1, min(500, (int) $request->query->get('limit', 120)));
+        $limit = max(0, min(500, (int) $request->query->get('limit', 0)));
         $prefix = trim((string) $request->query->get('prefix', ''));
         $paths = $this->collectAuditablePaths($prefix, $limit);
 
@@ -60,6 +60,7 @@ final readonly class AppRouteAuditService
                 'human probe uses Accept:text/html and a browser-like User-Agent.',
                 'bot probe uses Accept:text/html and a bot User-Agent; Viewing should choose JSON mode without requiring Interfacing templates.',
                 'fallback=true means either Viewing template_missing_json_fallback or Interfacing root fallback marker in HTML.',
+                'Deep probing is opt-in: pass ?limit=N; the default limit=0 avoids synchronous request fan-out.',
             ],
         ]);
     }
@@ -125,7 +126,7 @@ final readonly class AppRouteAuditService
         $request->headers->set('User-Agent', $isBot ? 'Googlebot/2.1 (+http://www.google.com/bot.html)' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)');
         $request->headers->set('Host', '127.0.0.1');
 
-        $response = $this->kernel->handle($request, HttpKernelInterface::MAIN_REQUEST, true);
+        $response = $this->kernel->handle($request, HttpKernelInterface::SUB_REQUEST, true);
         $contentType = strtolower((string) $response->headers->get('Content-Type', ''));
         $content = (string) $response->getContent();
 
