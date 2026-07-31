@@ -373,9 +373,7 @@ final readonly class AppUrlAuditService
                 $findings = [];
                 if ($status >= 500) {
                     $findings[] = 'http_'.$status;
-                } elseif (404 === $status && 'cruding-runtime-entity' === ($route['source'] ?? null)) {
-                    $findings[] = 'declared_component_route_404';
-                } elseif ($status >= 300 && $status < 400 && '/access/signin' !== (string) parse_url($location, PHP_URL_PATH)) {
+                } elseif ($status >= 300 && $status < 400 && !$this->isExpectedRedirect($path, $location)) {
                     $findings[] = 'redirect_'.$status;
                 }
                 if (str_contains($contentType, 'json')) {
@@ -384,10 +382,20 @@ final readonly class AppUrlAuditService
                         $findings[] = 'malformed_json';
                     }
                 }
-                $lower = strtolower($body);
-                foreach (self::BODY_MARKERS as $marker) {
-                    if (str_contains($lower, $marker)) {
-                        $findings[] = 'body_marker:'.$marker;
+                $viewLoaderFailures = $request->attributes->get('_view_loader_failures', []);
+                $viewRenderFailures = $request->attributes->get('_view_render_failures', []);
+                if (is_array($viewLoaderFailures) && [] !== $viewLoaderFailures) {
+                    $findings[] = 'view_template_loader_failure';
+                }
+                if (is_array($viewRenderFailures) && [] !== $viewRenderFailures) {
+                    $findings[] = 'view_template_render_failure';
+                }
+                if (str_contains($contentType, 'html')) {
+                    $lower = strtolower($body);
+                    foreach (self::BODY_MARKERS as $marker) {
+                        if (str_contains($lower, $marker)) {
+                            $findings[] = 'body_marker:'.$marker;
+                        }
                     }
                 }
 
@@ -589,6 +597,16 @@ final readonly class AppUrlAuditService
         }
 
         return ['route' => $route['name'], 'path' => $route['materializedPath'], 'url' => $url, 'status' => $status, 'contentType' => $contentType, 'error' => $error, 'bodyHash' => hash('sha256', $body), 'bodyPreview' => mb_substr(trim(strip_tags($body)), 0, 500), 'findings' => array_values(array_unique($findings))];
+    }
+
+    private function isExpectedRedirect(string $requestPath, string $location): bool
+    {
+        $targetPath = (string) parse_url($location, PHP_URL_PATH);
+        if ('/access/signin' === $targetPath) {
+            return true;
+        }
+
+        return '' !== $targetPath && rtrim($targetPath, '/') === rtrim($requestPath, '/');
     }
 
     /** @return array<string, mixed> */
