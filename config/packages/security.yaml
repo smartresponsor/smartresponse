@@ -39,7 +39,7 @@ security:
             security: false
 
         public_catalog_read:
-            pattern: '^/api/catalog/category(?:/tree|/store|/search|/[^/]+)?$'
+            pattern: '^/api/catalog/(?:category(?:/tree|/store|/search|/[^/]+)?|[a-z0-9][a-z0-9-]{1,63}/category/tree)$'
             methods: [GET]
             security: false
 
