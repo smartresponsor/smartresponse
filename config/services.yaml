@@ -115,6 +115,8 @@ services:
         autowire: true
         autoconfigure: true
         tags: ['controller.service_arguments']
+    App\Accessing\ServiceInterface\Vendor\AccessPhoneVerificationProviderServiceInterface:
+        alias: App\Service\Access\AppAccessDeliveringPhoneVerificationProvider
     App\Cataloging\Controller\Catalog\CatalogCategoryMerchantController:
         public: true
         autowire: true
