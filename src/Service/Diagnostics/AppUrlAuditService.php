@@ -616,6 +616,7 @@ final readonly class AppUrlAuditService
                         'crudDefaultIndexDefinitionMs' => $response->headers->get('X-Crud-Default-Index-Definition-ms'),
                         'crudDefaultIndexContractMs' => $response->headers->get('X-Crud-Default-Index-Contract-ms'),
                         'crudObjectFindAllMs' => $response->headers->get('X-Crud-Object-Find-All-ms'),
+                        'crudCollectionProjectionMs' => $response->headers->get('X-Crud-Collection-Projection-ms'),
                     ],
                     'viewLoaderFailures' => $request->attributes->get('_view_loader_failures', []),
                     'viewRenderFailures' => $request->attributes->get('_view_render_failures', []),
