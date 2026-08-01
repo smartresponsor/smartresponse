@@ -332,6 +332,9 @@ final readonly class AppUrlAuditService
             if ((int) $route['status'] >= 400) {
                 $classification = 'negative_probe';
                 $investigate = 'Expected negative-path timing; exclude from actionable route optimization.';
+            } elseif ((int) $route['status'] >= 300) {
+                $classification = 'redirect_response';
+                $investigate = 'Redirect timing is not actionable route-rendering latency; inspect only when the redirect is reported as unexpected.';
             } elseif ((int) $route['responseBytes'] >= 262144) {
                 $classification = 'payload_heavy';
                 $investigate = 'Inspect pagination, projection size, duplicated shell locations, and embedded diagnostics.';
@@ -752,6 +755,13 @@ final readonly class AppUrlAuditService
     private function isExpectedRedirect(string $requestPath, string $location): bool
     {
         $targetPath = (string) parse_url($location, PHP_URL_PATH);
+        $expectedTargets = [
+            '/access/signup' => '/access/register',
+            '/access/reset-password/reset' => '/access/reset-password/request',
+        ];
+        if (isset($expectedTargets[$requestPath]) && $expectedTargets[$requestPath] === $targetPath) {
+            return true;
+        }
         if ('/access/signin' === $targetPath) {
             return true;
         }
