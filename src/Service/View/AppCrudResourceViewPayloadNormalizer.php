@@ -30,22 +30,33 @@ final readonly class AppCrudResourceViewPayloadNormalizer implements ViewPayload
             return $this->withNavigatingLocations($this->inner->normalize($controllerResult));
         }
 
+        $request = $this->requestStack->getCurrentRequest();
+        $contractStartedAt = hrtime(true);
         $templateContext = $controllerResult->toTemplateContext();
         $fallbackData = $controllerResult->toFallbackData();
+        $contractMs = (hrtime(true) - $contractStartedAt) / 1_000_000;
         $routeContext = $this->routeContextFrom($templateContext, $fallbackData);
         $meta = $this->metaFrom($templateContext, $fallbackData);
         $word = $this->stringFrom($templateContext['word'] ?? $fallbackData['word'] ?? null, 'crud');
         $view = $this->stringFrom($templateContext['view'] ?? $fallbackData['view'] ?? null, 'index');
 
+        $navigationStartedAt = hrtime(true);
+        $navigatingLocations = $this->navigatingLocations();
+        $navigationMs = (hrtime(true) - $navigationStartedAt) / 1_000_000;
         $locations = $this->mergeLocations(
             $this->locationsFrom($templateContext, $fallbackData),
-            $this->navigatingLocations(),
+            $navigatingLocations,
         );
         $data = $this->withShellLocations($templateContext, $locations) + [
             'fallbackData' => $fallbackData,
             'routeContext' => $routeContext,
             'objectClass' => $controllerResult::class,
         ];
+
+        if ($request instanceof Request) {
+            $request->attributes->set('_app_crud_contract_ms', number_format($contractMs, 2, '.', ''));
+            $request->attributes->set('_app_crud_navigation_ms', number_format($navigationMs, 2, '.', ''));
+        }
 
         return new ViewPayload(
             surface: $this->surfaceFromRouteContext($routeContext, $word),
