@@ -102,6 +102,12 @@ doctrine:
                         dir: '%kernel.project_dir%/vendor/paging/page/src/Entity'
                         prefix: 'App\Paging\Entity'
                         alias: Paging
+                    Retailing:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/vendor/retailing/retail/src/Entity'
+                        prefix: 'App\Retailing\Entity'
+                        alias: Retailing
             review:
                 connection: review
                 auto_mapping: false

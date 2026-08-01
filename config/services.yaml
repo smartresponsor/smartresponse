@@ -7,6 +7,7 @@
 imports:
     - { resource: '../vendor/localizing/locale/config/services.yaml' }
     - { resource: '../vendor/cataloging/catalog/config/component/services.yaml' }
+    - { resource: '../vendor/retailing/retail/config/services.yaml' }
     - { resource: '../vendor/vendoring/vendor/config/component/optional/attaching_profile_bridge.yaml' }
 
 parameters:

@@ -212,6 +212,9 @@
     "projecting/project": {
         "version": "dev-w48-projecting-app-namespace"
     },
+    "retailing/retail": {
+        "version": "dev-main"
+    },
     "rolling/role": {
         "version": "dev-master"
     },

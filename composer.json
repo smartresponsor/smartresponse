@@ -302,6 +302,13 @@
         },
         {
             "type": "path",
+            "url": "../Retailing",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
             "url": "../Subscripting",
             "options": {
                 "symlink": true
@@ -347,6 +354,7 @@
         "paging/page": "*@dev",
         "paying/payment": "*@dev",
         "projecting/project": "*@dev",
+        "retailing/retail": "*@dev",
         "rolling/role": "*@dev",
         "scheb/2fa-bundle": "^8.5",
         "scheb/2fa-totp": "^8.5",

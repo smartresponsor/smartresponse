@@ -20,4 +20,5 @@ return [
     EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle::class => ['all' => true],
     App\Administering\AdministeringBundle::class => ['all' => true],
     Scheb\TwoFactorBundle\SchebTwoFactorBundle::class => ['all' => true],
+    App\Retailing\RetailingBundle::class => ['all' => true],
 ];
