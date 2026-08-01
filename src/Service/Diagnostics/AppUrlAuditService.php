@@ -309,8 +309,16 @@ final readonly class AppUrlAuditService
                     'contentType' => $probe['contentType'],
                     'responseBytes' => (int) ($probe['responseBytes'] ?? 0),
                     'samplesMs' => [],
+                    'stageSamples' => [],
                 ];
                 $routes[$key]['samplesMs'][$sampleIndex] = (int) $probe['durationMs'];
+                $stageTimings = is_array($probe['stageTimings'] ?? null) ? $probe['stageTimings'] : [];
+                foreach ($stageTimings as $stage => $duration) {
+                    if (!is_string($stage) || !is_numeric($duration)) {
+                        continue;
+                    }
+                    $routes[$key]['stageSamples'][$stage][$sampleIndex] = (float) $duration;
+                }
             }
         }
 
@@ -327,6 +335,20 @@ final readonly class AppUrlAuditService
             $maxMs = [] === $warm ? $coldMs : max($warm);
             $minMs = [] === $warm ? $coldMs : min($warm);
             $spreadMs = $maxMs - $minMs;
+            $stageProfile = [];
+            foreach ($route['stageSamples'] as $stage => $stageSamples) {
+                ksort($stageSamples);
+                $orderedStageSamples = array_values($stageSamples);
+                $warmStageSamples = count($orderedStageSamples) > 1 ? array_slice($orderedStageSamples, 1) : $orderedStageSamples;
+                sort($warmStageSamples);
+                $stageProfile[$stage] = [
+                    'samplesMs' => array_map(static fn (float $value): float => round($value, 2), $orderedStageSamples),
+                    'coldMs' => round($orderedStageSamples[0] ?? 0.0, 2),
+                    'warmAvgMs' => round([] === $warmStageSamples ? ($orderedStageSamples[0] ?? 0.0) : array_sum($warmStageSamples) / count($warmStageSamples), 2),
+                    'warmP50Ms' => round($this->floatPercentile($warmStageSamples, 0.50), 2),
+                    'warmP95Ms' => round($this->floatPercentile($warmStageSamples, 0.95), 2),
+                ];
+            }
             $classification = 'healthy';
             $investigate = 'No performance action indicated.';
             if ((int) $route['status'] >= 400) {
@@ -359,6 +381,7 @@ final readonly class AppUrlAuditService
                 'minMs' => $minMs,
                 'maxMs' => $maxMs,
                 'spreadMs' => $spreadMs,
+                'stageProfile' => $stageProfile,
                 'classification' => $classification,
                 'investigate' => $investigate,
             ];
@@ -398,6 +421,18 @@ final readonly class AppUrlAuditService
         $index = (int) ceil($percentile * count($values)) - 1;
 
         return $values[max(0, min($index, count($values) - 1))];
+    }
+
+    /** @param list<float> $values */
+    private function floatPercentile(array $values, float $percentile): float
+    {
+        if ([] === $values) {
+            return 0.0;
+        }
+        sort($values);
+        $index = (int) ceil($percentile * count($values)) - 1;
+
+        return (float) $values[max(0, min($index, count($values) - 1))];
     }
 
     /** @return array<string, mixed> */
@@ -571,6 +606,12 @@ final readonly class AppUrlAuditService
                         'viewingTwigMs' => $response->headers->get('X-Viewing-Twig-ms'),
                         'crudContractMs' => $response->headers->get('X-App-Crud-Contract-ms'),
                         'crudNavigationMs' => $response->headers->get('X-App-Crud-Navigation-ms'),
+                        'crudContextMs' => $response->headers->get('X-Crud-Context-ms'),
+                        'crudEntrypointMs' => $response->headers->get('X-Crud-Entrypoint-ms'),
+                        'crudDefinitionMs' => $response->headers->get('X-Crud-Definition-ms'),
+                        'crudContractFactoryMs' => $response->headers->get('X-Crud-Contract-Factory-ms'),
+                        'crudServiceResolutionMs' => $response->headers->get('X-Crud-Service-Resolution-ms'),
+                        'crudServiceInvocationMs' => $response->headers->get('X-Crud-Service-Invocation-ms'),
                     ],
                     'viewLoaderFailures' => $request->attributes->get('_view_loader_failures', []),
                     'viewRenderFailures' => $request->attributes->get('_view_render_failures', []),
