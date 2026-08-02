@@ -4296,12 +4296,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:smartresponsor/ordering.git",
-                "reference": "0d3268944a84515a0963c32d2608a7f120825463"
+                "reference": "48a4805540ceb2602e06cd3d1a481e28910c9075"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smartresponsor/ordering/zipball/0d3268944a84515a0963c32d2608a7f120825463",
-                "reference": "0d3268944a84515a0963c32d2608a7f120825463",
+                "url": "https://api.github.com/repos/smartresponsor/ordering/zipball/48a4805540ceb2602e06cd3d1a481e28910c9075",
+                "reference": "48a4805540ceb2602e06cd3d1a481e28910c9075",
                 "shasum": ""
             },
             "require": {
@@ -4313,7 +4313,6 @@
                 "ext-curl": "*",
                 "ext-json": "*",
                 "ext-openssl": "*",
-                "ext-redis": "*",
                 "ext-sodium": "*",
                 "ext-zlib": "*",
                 "interfacing/interface": "*@dev",
@@ -4419,7 +4418,7 @@
             "license": [
                 "proprietary"
             ],
-            "time": "2026-07-29T22:44:16+00:00"
+            "time": "2026-08-02T17:04:01+00:00"
         },
         {
             "name": "paging/page",
