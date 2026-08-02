@@ -155,6 +155,7 @@ return [
         'attachment',
         'media',
         'product',
+        'catalog',
         'category',
         'search',
         'role',

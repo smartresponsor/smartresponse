@@ -5,7 +5,7 @@
 # /api/attachments, or /api/vendors. Business commands remain producer-owned.
 cruding:
     route_guard:
-        runtime_entity_env: APP_RUNTIME_ENTITY_LOCK_ONLY
+        runtime_entity_env: APP_RUNTIME_ENTITY_FROM_LOCK
     entity_class_alias_map:
         vendor: 'App\Vendoring\Entity\Vendor\VendorEntity'
         attachment: 'App\Attaching\Entity\Attachment\Attachment'
@@ -17,6 +17,7 @@ cruding:
         payment: 'App\Paying\Entity\PaymentEntity'
         project: 'App\Projecting\Entity\Project\ProjectEntity'
         retail: 'App\Retailing\Entity\Retail\RetailEntity'
+        catalog: 'App\Cataloging\Entity\Catalog\CatalogCatalogEntity'
         category: 'App\Cataloging\Entity\Catalog\CatalogCategoryEntity'
         page: 'App\Paging\Entity\Page'
         page-revision: 'App\Paging\Entity\PageRevision'

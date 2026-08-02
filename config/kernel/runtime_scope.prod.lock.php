@@ -41,6 +41,7 @@ return [
         'access',
         'application',
         'attachment',
+        'catalog',
         'category',
         'media',
         'product',
