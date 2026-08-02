@@ -3716,12 +3716,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:smartresponsor/managing.git",
-                "reference": "f2f72f81eac4faa391ef0e4886455425d43ba17b"
+                "reference": "97eaeddfae481fb8eaafc381fd9f3dee3ef0766b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smartresponsor/managing/zipball/f2f72f81eac4faa391ef0e4886455425d43ba17b",
-                "reference": "f2f72f81eac4faa391ef0e4886455425d43ba17b",
+                "url": "https://api.github.com/repos/smartresponsor/managing/zipball/97eaeddfae481fb8eaafc381fd9f3dee3ef0766b",
+                "reference": "97eaeddfae481fb8eaafc381fd9f3dee3ef0766b",
                 "shasum": ""
             },
             "require": {
@@ -3762,7 +3762,7 @@
                 "proprietary"
             ],
             "description": "Managing process app",
-            "time": "2026-06-14T02:45:20+00:00"
+            "time": "2026-08-02T19:29:04+00:00"
         },
         {
             "name": "monolog/monolog",
