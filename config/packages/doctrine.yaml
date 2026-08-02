@@ -102,6 +102,12 @@ doctrine:
                         dir: '%kernel.project_dir%/vendor/paging/page/src/Entity'
                         prefix: 'App\Paging\Entity'
                         alias: Paging
+                    Navigating:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/vendor/navigating/navigation/src/Entity'
+                        prefix: 'App\Navigating\Entity'
+                        alias: Navigating
                     Retailing:
                         is_bundle: false
                         type: attribute
