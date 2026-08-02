@@ -10,7 +10,7 @@ security:
                 users: { }
         accessing_account_provider:
             entity:
-                class: App\Accessing\Entity\AccessAccountEntity
+                class: App\Accessing\Entity\AccessEntity
                 property: email
 
     role_hierarchy:
@@ -26,6 +26,7 @@ security:
         ROLE_FINANCE: [ROLE_STAFF]
         ROLE_FINANCE_TAX_ADMIN: [ROLE_FINANCE]
         ROLE_APPLICATION_MANAGER: [ROLE_MANAGER]
+        ROLE_ADMIN_BOOTSTRAP: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
         ROLE_ADMIN: [ROLE_APPLICATION_MANAGER, ROLE_MODERATOR, ROLE_SUPPORT, ROLE_FINANCE_TAX_ADMIN]
         ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
