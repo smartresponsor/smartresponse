@@ -249,6 +249,22 @@ navigation:
       type: navigation
       priority: 30
       items:
+        catalogs:
+          type: link
+          label: Catalogs
+          icon: ApartmentOutlined
+          priority: 5
+          path: /catalog/index
+          metadata:
+            namespace_provider: App\Cataloging
+            business_visible: true
+            route_name: catalog.index
+            domain: catalog
+            resource: catalog
+            operation: index
+            navigation_scope: business
+            root_only: true
+            crud_index_only: true
         vendor:
           type: link
           label: Vendor

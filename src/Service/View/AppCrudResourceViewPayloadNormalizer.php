@@ -27,7 +27,7 @@ final readonly class AppCrudResourceViewPayloadNormalizer implements ViewPayload
     public function normalize(mixed $controllerResult): ViewPayload
     {
         if (!$controllerResult instanceof CrudResourceContract) {
-            return $this->withNavigatingLocations($this->inner->normalize($controllerResult));
+            return $this->inner->normalize($controllerResult);
         }
 
         $request = $this->requestStack->getCurrentRequest();
@@ -40,13 +40,8 @@ final readonly class AppCrudResourceViewPayloadNormalizer implements ViewPayload
         $word = $this->stringFrom($templateContext['word'] ?? $fallbackData['word'] ?? null, 'crud');
         $view = $this->stringFrom($templateContext['view'] ?? $fallbackData['view'] ?? null, 'index');
 
-        $navigationStartedAt = hrtime(true);
-        $navigatingLocations = $this->navigatingLocations();
-        $navigationMs = (hrtime(true) - $navigationStartedAt) / 1_000_000;
-        $locations = $this->mergeLocations(
-            $this->locationsFrom($templateContext, $fallbackData),
-            $navigatingLocations,
-        );
+        $navigationMs = 0.0;
+        $locations = $this->locationsFrom($templateContext, $fallbackData);
         $data = $this->withShellLocations($templateContext, $locations) + [
             'fallbackData' => $fallbackData,
             'routeContext' => $routeContext,
