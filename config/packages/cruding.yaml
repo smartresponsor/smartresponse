@@ -4,9 +4,14 @@
 # /api/orders, /api/payments, /api/products, /api/projects, /api/categories, /api/messages,
 # /api/attachments, or /api/vendors. Business commands remain producer-owned.
 cruding:
+    route_guard:
+        runtime_entity_env: APP_RUNTIME_ENTITY_LOCK_ONLY
     entity_class_alias_map:
         vendor: 'App\Vendoring\Entity\Vendor\VendorEntity'
         attachment: 'App\Attaching\Entity\Attachment\Attachment'
+        task: 'App\Retailing\Entity\Retail\RetailEntity'
+        service: 'App\Retailing\Entity\Retail\RetailEntity'
+        product: 'App\Retailing\Entity\Retail\RetailEntity'
         message: 'App\Messaging\Entity\Message\MessageEntity'
         order: 'App\Ordering\Entity\Order\OrderEntity'
         payment: 'App\Paying\Entity\PaymentEntity'
@@ -18,3 +23,5 @@ cruding:
         page-publication: 'App\Paging\Entity\PagePublication'
         page-grant: 'App\Paging\Entity\PageGrant'
         page-acceptance: 'App\Paging\Entity\PageAcceptance'
+    form_type_map:
+        'App\Retailing\Entity\Retail\RetailEntity': 'App\Retailing\Form\Retail\RetailType'
