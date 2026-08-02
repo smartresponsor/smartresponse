@@ -28,12 +28,31 @@ function Resolve-SshExecutable {
         return $command.Source
     }
 
-    $candidates = @(
-        (Join-Path $env:WINDIR 'System32\OpenSSH\ssh.exe'),
-        (Join-Path $env:ProgramFiles 'Git\usr\bin\ssh.exe'),
-        (Join-Path $env:ProgramFiles 'Git\mingw64\bin\ssh.exe'),
-        (Join-Path ${env:ProgramFiles(x86)} 'Git\usr\bin\ssh.exe')
-    )
+    $candidates = [System.Collections.Generic.List[string]]::new()
+    $candidates.Add((Join-Path $env:WINDIR 'System32\OpenSSH\ssh.exe'))
+    $candidates.Add((Join-Path $env:ProgramFiles 'Git\usr\bin\ssh.exe'))
+    $candidates.Add((Join-Path $env:ProgramFiles 'Git\mingw64\bin\ssh.exe'))
+    if (-not [string]::IsNullOrWhiteSpace(${env:ProgramFiles(x86)})) {
+        $candidates.Add((Join-Path ${env:ProgramFiles(x86)} 'Git\usr\bin\ssh.exe'))
+    }
+    if (-not [string]::IsNullOrWhiteSpace($env:LOCALAPPDATA)) {
+        $candidates.Add((Join-Path $env:LOCALAPPDATA 'Programs\Git\usr\bin\ssh.exe'))
+        $candidates.Add((Join-Path $env:LOCALAPPDATA 'Programs\Git\mingw64\bin\ssh.exe'))
+    }
+    if (-not [string]::IsNullOrWhiteSpace($env:USERPROFILE)) {
+        $candidates.Add((Join-Path $env:USERPROFILE 'scoop\apps\git\current\usr\bin\ssh.exe'))
+    }
+    if (-not [string]::IsNullOrWhiteSpace($env:ChocolateyInstall)) {
+        $candidates.Add((Join-Path $env:ChocolateyInstall 'bin\ssh.exe'))
+    }
+
+    $gitCommand = Get-Command git -ErrorAction SilentlyContinue
+    if ($null -ne $gitCommand -and -not [string]::IsNullOrWhiteSpace($gitCommand.Source)) {
+        $gitDirectory = Split-Path -Parent $gitCommand.Source
+        $gitRoot = Split-Path -Parent $gitDirectory
+        $candidates.Add((Join-Path $gitRoot 'usr\bin\ssh.exe'))
+        $candidates.Add((Join-Path $gitRoot 'mingw64\bin\ssh.exe'))
+    }
 
     foreach ($candidate in $candidates) {
         if (-not [string]::IsNullOrWhiteSpace($candidate) -and (Test-Path $candidate -PathType Leaf)) {
