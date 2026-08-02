@@ -48,30 +48,31 @@ Push-Location $workspace
 try {
     $branchName = (& git branch --show-current).Trim()
     if ($LASTEXITCODE -ne 0) { throw 'Unable to resolve current Git branch.' }
-    if ($branchName -ne $branch) {
-        throw "Current branch '$branchName' does not match deployment branch '$branch'."
-    }
 
     $dirty = & git status --porcelain
     if ($LASTEXITCODE -ne 0) { throw 'Unable to inspect Git status.' }
-    if ($dirty) {
-        throw 'Working tree is not clean. Commit or stash changes before deployment.'
-    }
 
     Run 'git' @('fetch', 'origin', $branch)
     $localCommit = (& git rev-parse HEAD).Trim()
-    $remoteCommit = (& git rev-parse "origin/$branch").Trim()
+    $deployCommit = (& git rev-parse "origin/$branch").Trim()
     if ($LASTEXITCODE -ne 0) { throw 'Unable to resolve deployment commits.' }
-    if ($localCommit -ne $remoteCommit) {
-        throw "Local HEAD ($localCommit) is not equal to origin/$branch ($remoteCommit). Push or pull before deployment."
-    }
+
+    $aheadCount = (& git rev-list --count "origin/$branch..HEAD").Trim()
+    if ($LASTEXITCODE -ne 0) { throw 'Unable to resolve unpublished commit count.' }
+    $behindCount = (& git rev-list --count "HEAD..origin/$branch").Trim()
+    if ($LASTEXITCODE -ne 0) { throw 'Unable to resolve remote commit count.' }
 
     Write-Host 'Smart Responsor deployment'
-    Write-Host "  Target : $userName@$hostName`:$port"
-    Write-Host "  Root   : $remoteRoot"
-    Write-Host "  Branch : $branch"
-    Write-Host "  Commit : $localCommit"
-    Write-Host "  Smoke  : $smokeUrl"
+    Write-Host "  Target       : $userName@$hostName`:$port"
+    Write-Host "  Root         : $remoteRoot"
+    Write-Host "  Source       : origin/$branch"
+    Write-Host "  Deploy commit: $deployCommit"
+    Write-Host "  Local branch : $branchName"
+    Write-Host "  Local HEAD   : $localCommit"
+    Write-Host "  Working tree : $(if ($dirty) { 'DIRTY (ignored)' } else { 'clean' })"
+    Write-Host "  Local ahead  : $aheadCount commit(s) not deployed"
+    Write-Host "  Local behind : $behindCount commit(s)"
+    Write-Host "  Smoke        : $smokeUrl"
 
     $sshArguments = @(
         '-o', 'BatchMode=yes',
@@ -96,7 +97,7 @@ try {
         }
     }
 
-    $remoteCommand = "bash -s -- '$remoteRoot' '$branch' '$localCommit' '$smokeUrl'"
+    $remoteCommand = "bash -s -- '$remoteRoot' '$branch' '$deployCommit' '$smokeUrl'"
     (Get-Content -LiteralPath $remoteScript -Raw).Replace("`r`n", "`n") |
         & ssh @sshArguments $remoteCommand
     if ($LASTEXITCODE -ne 0) {

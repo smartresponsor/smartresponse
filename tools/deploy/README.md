@@ -38,7 +38,7 @@ Deploy the exact commit already pushed to `origin/master`:
 make deploy
 ```
 
-Deployment refuses to run when a required variable or key is missing, the local tree is dirty, the wrong branch is checked out, local `HEAD` differs from `origin/<branch>`, SSH verification fails, or a remote deployment stage fails.
+Deployment always targets the exact commit currently published at `origin/<branch>`. Local uncommitted changes, the checked-out local branch, and unpublished local commits are reported for visibility but do not block deployment and are never sent to the server. Deployment refuses to run only when a required variable or key is missing, the remote branch cannot be fetched or resolved, SSH verification fails, or a remote deployment stage fails.
 
 ## Remote assumptions
 
