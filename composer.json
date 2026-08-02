@@ -346,6 +346,7 @@
         "locating/location": "*@dev",
         "managing/manage": "*@dev",
         "merchandising/merch": "*@dev",
+        "nelmio/api-doc-bundle": "^5.0",
         "messaging/message": "*@dev",
         "navigating/navigation": "*@dev",
         "objecting/object": "*@dev",
