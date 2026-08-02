@@ -4296,12 +4296,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:smartresponsor/ordering.git",
-                "reference": "48a4805540ceb2602e06cd3d1a481e28910c9075"
+                "reference": "b88d9d679185e5f18b6e5c941fc28bc90cbe0a7a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smartresponsor/ordering/zipball/48a4805540ceb2602e06cd3d1a481e28910c9075",
-                "reference": "48a4805540ceb2602e06cd3d1a481e28910c9075",
+                "url": "https://api.github.com/repos/smartresponsor/ordering/zipball/b88d9d679185e5f18b6e5c941fc28bc90cbe0a7a",
+                "reference": "b88d9d679185e5f18b6e5c941fc28bc90cbe0a7a",
                 "shasum": ""
             },
             "require": {
@@ -4418,7 +4418,7 @@
             "license": [
                 "proprietary"
             ],
-            "time": "2026-08-02T17:04:01+00:00"
+            "time": "2026-08-02T18:32:38+00:00"
         },
         {
             "name": "paging/page",
