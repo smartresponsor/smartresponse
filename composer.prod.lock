@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a9ec7b067717b97e2d8ce5a83035dd5e",
+    "content-hash": "e9ab3d448a830bb0d4c2d8036f2fa7bf",
     "packages": [
         {
             "name": "accessing/access",
@@ -1018,12 +1018,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:smartresponsor/attaching.git",
-                "reference": "ceaabb7228479e91d2baa3f13a0fb499e1fa5093"
+                "reference": "bfdcc769bb389fa9b2a25cdc91e306925df6fc78"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smartresponsor/attaching/zipball/ceaabb7228479e91d2baa3f13a0fb499e1fa5093",
-                "reference": "ceaabb7228479e91d2baa3f13a0fb499e1fa5093",
+                "url": "https://api.github.com/repos/smartresponsor/attaching/zipball/bfdcc769bb389fa9b2a25cdc91e306925df6fc78",
+                "reference": "bfdcc769bb389fa9b2a25cdc91e306925df6fc78",
                 "shasum": ""
             },
             "require": {
@@ -1031,6 +1031,7 @@
                 "doctrine/doctrine-bundle": "^3.2",
                 "doctrine/orm": "^3.3",
                 "ext-fileinfo": "*",
+                "objecting/object": "dev-master",
                 "php": "^8.4",
                 "symfony/config": "^8.0",
                 "symfony/console": "^8.0",
@@ -1060,6 +1061,7 @@
             "type": "symfony-bundle",
             "autoload": {
                 "psr-4": {
+                    "App\\": "app/",
                     "App\\Attaching\\": "src/"
                 }
             },
@@ -1086,7 +1088,7 @@
                 "proprietary"
             ],
             "description": "Attaching process app",
-            "time": "2026-04-21T02:59:05+00:00"
+            "time": "2026-07-29T19:27:59+00:00"
         },
         {
             "name": "carting/cart",
@@ -1537,12 +1539,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:smartresponsor/cruding.git",
-                "reference": "5ccb1b965e07a31e166a97d6642b7d481b7e9221"
+                "reference": "7e672ebb75acec3f272c9c2544e61e7426376c29"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smartresponsor/cruding/zipball/5ccb1b965e07a31e166a97d6642b7d481b7e9221",
-                "reference": "5ccb1b965e07a31e166a97d6642b7d481b7e9221",
+                "url": "https://api.github.com/repos/smartresponsor/cruding/zipball/7e672ebb75acec3f272c9c2544e61e7426376c29",
+                "reference": "7e672ebb75acec3f272c9c2544e61e7426376c29",
                 "shasum": ""
             },
             "require": {
@@ -1606,7 +1608,7 @@
                     "@php tools/smoke/cruding-resource-path-operation-suffix-regex-smoke.php",
                     "@php tools/smoke/cruding-route-parameter-fallback-smoke.php",
                     "@php tools/smoke/cruding-single-route-runtime-smoke.php",
-                    "@php tools/smoke/cruding-tokenized-before-legacy-surface-route-order-smoke.php",
+                    "@php tools/smoke/cruding-tokenized-before-legacy-resource-route-order-smoke.php",
                     "@php tools/smoke/cruding-tokenized-controller-service-registration-smoke.php",
                     "@php tools/smoke/cruding-tokenized-route-resolver-smoke.php",
                     "@php tools/smoke/cruding-uri-entrypoint-extension-smoke.php"
@@ -1620,7 +1622,7 @@
                 "proprietary"
             ],
             "description": "Universal CRUD route processor bundle for Symfony host applications.",
-            "time": "2026-06-22T07:14:52+00:00"
+            "time": "2026-07-29T23:56:41+00:00"
         },
         {
             "name": "delivering/delivery",
@@ -3271,12 +3273,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:smartresponsor/interfacing.git",
-                "reference": "62cdd3dc6028ab25285423cc974af62f5d708ea2"
+                "reference": "3ce0d2e66a9ac776b05138dc21252b4bcb50d1d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smartresponsor/interfacing/zipball/62cdd3dc6028ab25285423cc974af62f5d708ea2",
-                "reference": "62cdd3dc6028ab25285423cc974af62f5d708ea2",
+                "url": "https://api.github.com/repos/smartresponsor/interfacing/zipball/3ce0d2e66a9ac776b05138dc21252b4bcb50d1d1",
+                "reference": "3ce0d2e66a9ac776b05138dc21252b4bcb50d1d1",
                 "shasum": ""
             },
             "require": {
@@ -3395,7 +3397,7 @@
                 "proprietary"
             ],
             "description": "Interfacing Symfony package bundle",
-            "time": "2026-07-30T02:40:27+00:00"
+            "time": "2026-08-01T03:21:37+00:00"
         },
         {
             "name": "jean85/pretty-package-versions",
@@ -8302,16 +8304,16 @@
         },
         {
             "name": "symfony/mime",
-            "version": "v8.1.0",
+            "version": "v8.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/mime.git",
-                "reference": "b164ae7e3f7915aacfe9ee155f2f358502440664"
+                "reference": "75f4779d4ec2e13f24a3a7e5d0347c340c7ca627"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/mime/zipball/b164ae7e3f7915aacfe9ee155f2f358502440664",
-                "reference": "b164ae7e3f7915aacfe9ee155f2f358502440664",
+                "url": "https://api.github.com/repos/symfony/mime/zipball/75f4779d4ec2e13f24a3a7e5d0347c340c7ca627",
+                "reference": "75f4779d4ec2e13f24a3a7e5d0347c340c7ca627",
                 "shasum": ""
             },
             "require": {
@@ -8364,7 +8366,7 @@
                 "mime-type"
             ],
             "support": {
-                "source": "https://github.com/symfony/mime/tree/v8.1.0"
+                "source": "https://github.com/symfony/mime/tree/v8.1.2"
             },
             "funding": [
                 {
@@ -8384,7 +8386,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-05-29T05:06:50+00:00"
+            "time": "2026-07-29T08:00:47+00:00"
         },
         {
             "name": "symfony/monolog-bridge",
