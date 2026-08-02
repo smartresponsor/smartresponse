@@ -98,6 +98,11 @@
         },
         {
             "type": "vcs",
+            "url": "git@github.com:smartresponsor/retailing.git",
+            "no-api": true
+        },
+        {
+            "type": "vcs",
             "url": "git@github.com:smartresponsor/rolling.git",
             "no-api": true
         },
@@ -137,6 +142,7 @@
         "objecting/object": "dev-master",
         "ordering/order": "dev-master",
         "paging/page": "dev-master",
+        "retailing/retail": "dev-master",
         "rolling/role": "dev-master",
         "searching/search": "dev-master",
         "doctrine/dbal": "^4.3",

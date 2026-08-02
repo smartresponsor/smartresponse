@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5495c915a07161c4fc18e1e2789ad26d",
+    "content-hash": "a9ec7b067717b97e2d8ce5a83035dd5e",
     "packages": [
         {
             "name": "accessing/access",
@@ -5425,6 +5425,55 @@
                 "source": "https://github.com/ralouphie/getallheaders/tree/develop"
             },
             "time": "2019-03-08T08:55:37+00:00"
+        },
+        {
+            "name": "retailing/retail",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:smartresponsor/retailing.git",
+                "reference": "cd711ee4f7875860c9f5814ee2744162eaed5b99"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/smartresponsor/retailing/zipball/cd711ee4f7875860c9f5814ee2744162eaed5b99",
+                "reference": "cd711ee4f7875860c9f5814ee2744162eaed5b99",
+                "shasum": ""
+            },
+            "require": {
+                "cruding/crud": "dev-master",
+                "doctrine/doctrine-bundle": "^3.2",
+                "doctrine/orm": "^3.3",
+                "easycorp/easyadmin-bundle": "^5.0",
+                "interfacing/interface": "dev-master",
+                "objecting/object": "dev-master",
+                "php": "^8.4",
+                "symfony/dependency-injection": "^8.1",
+                "symfony/form": "^8.1",
+                "symfony/framework-bundle": "^8.1",
+                "symfony/http-kernel": "^8.1",
+                "symfony/options-resolver": "^8.1",
+                "symfony/twig-bundle": "^8.1",
+                "symfony/validator": "^8.1",
+                "viewing/view": "dev-master"
+            },
+            "default-branch": true,
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "App\\Retailing\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "App\\Retailing\\Tests\\": "tests/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Retail marketplace product component",
+            "time": "2026-08-02T17:37:37+00:00"
         },
         {
             "name": "rolling/role",
@@ -15989,6 +16038,7 @@
         "objecting/object": 20,
         "ordering/order": 20,
         "paging/page": 20,
+        "retailing/retail": 20,
         "rolling/role": 20,
         "searching/search": 20,
         "vendoring/vendor": 20,
