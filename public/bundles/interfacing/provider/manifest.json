@@ -1,6 +1,34 @@
 {
-  "_navigation-me2RlgO4.js": {
-    "file": "chunks/navigation-me2RlgO4.js",
+  "../../node_modules/primeicons/fonts/primeicons.eot": {
+    "file": "assets/primeicons-DMOk5skT.eot",
+    "src": "../../node_modules/primeicons/fonts/primeicons.eot"
+  },
+  "../../node_modules/primeicons/fonts/primeicons.svg": {
+    "file": "assets/primeicons-Dr5RGzOO.svg",
+    "src": "../../node_modules/primeicons/fonts/primeicons.svg"
+  },
+  "../../node_modules/primeicons/fonts/primeicons.ttf": {
+    "file": "assets/primeicons-MpK4pl85.ttf",
+    "src": "../../node_modules/primeicons/fonts/primeicons.ttf"
+  },
+  "../../node_modules/primeicons/fonts/primeicons.woff": {
+    "file": "assets/primeicons-WjwUDZjB.woff",
+    "src": "../../node_modules/primeicons/fonts/primeicons.woff"
+  },
+  "../../node_modules/primeicons/fonts/primeicons.woff2": {
+    "file": "assets/primeicons-C6QP2o4f.woff2",
+    "src": "../../node_modules/primeicons/fonts/primeicons.woff2"
+  },
+  "_SwapOutlined-B8x4Xis5.js": {
+    "file": "chunks/SwapOutlined-B8x4Xis5.js",
+    "name": "SwapOutlined",
+    "imports": [
+      "_navigation-0yh54Fjz.js",
+      "src/provider/providers/antd-pro.tsx"
+    ]
+  },
+  "_navigation-0yh54Fjz.js": {
+    "file": "chunks/navigation-0yh54Fjz.js",
     "name": "navigation",
     "imports": [
       "_registry-V5OFkfe5.js"
@@ -27,7 +55,7 @@
       "src/provider/providers/antd-pro.tsx",
       "src/provider/providers/primereact.tsx",
       "_registry-V5OFkfe5.js",
-      "_navigation-me2RlgO4.js",
+      "_navigation-0yh54Fjz.js",
       "_workbench-CCEbgzjT.js"
     ],
     "css": [
@@ -35,15 +63,16 @@
     ]
   },
   "src/provider/component/antd-pro-workbench.tsx": {
-    "file": "chunks/antd-pro-workbench-BJYdBpbG.js",
+    "file": "chunks/antd-pro-workbench-Ccq7xu1d.js",
     "name": "antd-pro-workbench",
     "src": "src/provider/component/antd-pro-workbench.tsx",
     "isDynamicEntry": true,
     "imports": [
-      "_navigation-me2RlgO4.js",
+      "_navigation-0yh54Fjz.js",
       "_registry-V5OFkfe5.js",
       "_workbench-CCEbgzjT.js",
-      "src/provider/providers/antd-pro.tsx"
+      "src/provider/providers/antd-pro.tsx",
+      "_SwapOutlined-B8x4Xis5.js"
     ],
     "css": [
       "assets/canonical-providers.css"
@@ -64,7 +93,7 @@
     "src": "src/provider/providers/antd-pro.tsx",
     "isEntry": true,
     "imports": [
-      "_navigation-me2RlgO4.js",
+      "_navigation-0yh54Fjz.js",
       "_registry-V5OFkfe5.js"
     ],
     "dynamicImports": [
@@ -80,7 +109,7 @@
     "src": "src/provider/providers/primereact.tsx",
     "isEntry": true,
     "imports": [
-      "_navigation-me2RlgO4.js",
+      "_navigation-0yh54Fjz.js",
       "_registry-V5OFkfe5.js",
       "_workbench-CCEbgzjT.js"
     ],
@@ -97,12 +126,21 @@
       "src/provider/provider-registry.ts",
       "src/provider/providers/antd-pro.tsx",
       "src/provider/providers/primereact.tsx",
+      "_navigation-0yh54Fjz.js",
+      "_SwapOutlined-B8x4Xis5.js",
       "_registry-V5OFkfe5.js",
-      "_navigation-me2RlgO4.js",
       "_workbench-CCEbgzjT.js"
     ],
     "css": [
+      "assets/runtime.css",
       "assets/canonical-providers.css"
+    ],
+    "assets": [
+      "assets/primeicons-DMOk5skT.eot",
+      "assets/primeicons-C6QP2o4f.woff2",
+      "assets/primeicons-WjwUDZjB.woff",
+      "assets/primeicons-MpK4pl85.ttf",
+      "assets/primeicons-Dr5RGzOO.svg"
     ]
   },
   "src/provider/styles/canonical-providers.interfacing-interface-ui.css": {

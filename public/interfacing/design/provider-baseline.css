@@ -607,8 +607,32 @@ body.interfacing-access-body {
 }
 
 .interfacing-footer {
-  border-top: 1px solid var(--interfacing-provider-border);
-  background: var(--interfacing-provider-panel);
+  border-top: 1px solid #4b5563;
+  background: #374151 !important;
+  color: #ffffff !important;
+  font-weight: 300 !important;
+}
+.interfacing-footer .interfacing-footer-panel,
+.interfacing-footer .interfacing-shell-panel,
+.interfacing-footer .interfacing-shell-body {
+  background: #374151 !important;
+  border-color: rgba(255, 255, 255, .14) !important;
+  color: #ffffff !important;
+}
+.interfacing-footer .interfacing-footer-link,
+.interfacing-footer .interfacing-location-label,
+.interfacing-footer .interfacing-location-text,
+.interfacing-footer .interfacing-footer__title,
+.interfacing-footer .interfacing-footer-brand__title,
+.interfacing-footer .interfacing-footer-brand__subtitle {
+  color: #ffffff !important;
+  font-weight: 300 !important;
+}
+.interfacing-footer .interfacing-footer-link:hover,
+.interfacing-footer .interfacing-footer-link:focus-visible {
+  color: #ffffff !important;
+  opacity: 1;
+  text-decoration: underline;
 }
 .interfacing-footer-grid {
   min-height: 54px;

@@ -607,8 +607,32 @@ body.interfacing-access-body {
 }
 
 .interfacing-footer {
-  border-top: 1px solid var(--interfacing-provider-border);
-  background: var(--interfacing-provider-panel);
+  border-top: 1px solid #4b5563;
+  background: #374151 !important;
+  color: #ffffff !important;
+  font-weight: 300 !important;
+}
+.interfacing-footer .interfacing-footer-panel,
+.interfacing-footer .interfacing-shell-panel,
+.interfacing-footer .interfacing-shell-body {
+  background: #374151 !important;
+  border-color: rgba(255, 255, 255, .14) !important;
+  color: #ffffff !important;
+}
+.interfacing-footer .interfacing-footer-link,
+.interfacing-footer .interfacing-location-label,
+.interfacing-footer .interfacing-location-text,
+.interfacing-footer .interfacing-footer__title,
+.interfacing-footer .interfacing-footer-brand__title,
+.interfacing-footer .interfacing-footer-brand__subtitle {
+  color: #ffffff !important;
+  font-weight: 300 !important;
+}
+.interfacing-footer .interfacing-footer-link:hover,
+.interfacing-footer .interfacing-footer-link:focus-visible {
+  color: #ffffff !important;
+  opacity: 1;
+  text-decoration: underline;
 }
 .interfacing-footer-grid {
   min-height: 54px;
@@ -699,186 +723,8 @@ body.interfacing-access-body {
 .interfacing-stack { display: grid; gap: 18px; }
 .interfacing-access-heading { text-align: center; display: grid; gap: 10px; }
 .interfacing-muted { color: var(--interfacing-provider-text-muted); }
-.interfacing-form { display: grid; gap: 16px; }
+.interfacing-form { display: grid; gap: 13px; }
 .interfacing-form-label { display: grid; gap: 6px; font-size: 13px; font-weight: var(--interfacing-provider-font-weight-strong); }
-
-[data-interfacing-access-shell] .ant-form-item,
-[data-interfacing-access-shell] .p-field {
-  display: grid;
-  gap: 7px;
-  margin: 0 !important;
-}
-
-[data-interfacing-access-shell] .ant-input.p-inputtext,
-[data-interfacing-access-shell] .ant-input {
-  width: 100%;
-  min-height: 40px !important;
-  padding: 8px 11px !important;
-  border: 1px solid #d9d9d9 !important;
-  border-radius: 6px !important;
-  background: #fff !important;
-  color: rgba(0, 0, 0, .88) !important;
-  font-size: 14px !important;
-  line-height: 1.5715 !important;
-  transition: border-color .2s, box-shadow .2s, background-color .2s;
-}
-
-[data-interfacing-access-shell] .ant-input.p-inputtext:hover,
-[data-interfacing-access-shell] .ant-input:hover {
-  border-color: #4096ff !important;
-}
-
-[data-interfacing-access-shell] .ant-input.p-inputtext:focus,
-[data-interfacing-access-shell] .ant-input:focus {
-  border-color: #1677ff !important;
-  box-shadow: 0 0 0 2px rgba(5, 145, 255, .10) !important;
-  outline: 0 !important;
-}
-
-[data-interfacing-access-shell] .ant-btn.ant-btn-primary.p-button {
-  width: 100%;
-  min-height: 40px !important;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #1677ff !important;
-  border-radius: 6px !important;
-  background: #1677ff !important;
-  color: #fff !important;
-  font-size: 14px !important;
-  font-weight: 400 !important;
-  box-shadow: 0 2px 0 rgba(5, 145, 255, .10) !important;
-}
-
-[data-interfacing-access-shell] .ant-btn.ant-btn-primary.p-button:hover,
-[data-interfacing-access-shell] .ant-btn.ant-btn-primary.p-button:focus-visible {
-  border-color: #4096ff !important;
-  background: #4096ff !important;
-}
-
-.interfacing-password-control {
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding: 0 !important;
-  border: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
-}
-.interfacing-password-control > .ant-input {
-  padding-right: 42px !important;
-}
-.interfacing-password-toggle {
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  width: 24px;
-  height: 24px;
-  min-height: 24px !important;
-  padding: 0 !important;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 0 !important;
-  background: transparent !important;
-  color: #8c8c8c !important;
-  box-shadow: none !important;
-  transform: translateY(-50%);
-  cursor: pointer;
-}
-.interfacing-password-toggle:hover,
-.interfacing-password-toggle:focus-visible {
-  color: #1677ff !important;
-  outline: 0;
-}
-.interfacing-password-toggle svg {
-  width: 18px;
-  height: 18px;
-  fill: currentColor;
-}
-.interfacing-password-control.is-password-visible .interfacing-password-toggle {
-  color: #1677ff !important;
-}
-
-.interfacing-password-feedback {
-  display: grid;
-  gap: 8px;
-  margin-top: -8px;
-  padding: 12px;
-  border: 1px solid #e5e7eb;
-  border-radius: 6px;
-  background: #fafafa;
-}
-.interfacing-password-feedback__header {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  font-size: 12px;
-  color: #595959;
-}
-.interfacing-password-meter {
-  height: 4px;
-  overflow: hidden;
-  border-radius: 999px;
-  background: #e5e7eb;
-}
-.interfacing-password-meter > span {
-  display: block;
-  width: 0;
-  height: 100%;
-  border-radius: inherit;
-  background: #ff4d4f;
-  transition: width .2s ease, background-color .2s ease;
-}
-.interfacing-password-meter > span[data-score="3"] { background: #faad14; }
-.interfacing-password-meter > span[data-score="4"] { background: #52c41a; }
-.interfacing-password-meter > span[data-score="5"] { background: #389e0d; }
-.interfacing-password-requirements {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 5px 12px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  font-size: 12px;
-  color: #8c8c8c;
-}
-.interfacing-password-requirements li::before {
-  content: '○';
-  margin-right: 6px;
-}
-.interfacing-password-requirements li.is-valid {
-  color: #389e0d;
-}
-.interfacing-password-requirements li.is-valid::before {
-  content: '✓';
-}
-.interfacing-password-match {
-  margin: -8px 0 0 !important;
-  font-size: 12px;
-  color: #8c8c8c;
-}
-.interfacing-password-match.is-valid { color: #389e0d; }
-.interfacing-password-match.is-invalid { color: #cf1322; }
-.interfacing-field-help,
-.interfacing-phone-feedback {
-  margin: -8px 0 0 !important;
-  font-size: 12px;
-  line-height: 1.45;
-  color: #8c8c8c;
-}
-.interfacing-phone-feedback.is-valid { color: #389e0d; }
-.interfacing-phone-feedback.is-invalid { color: #cf1322; }
-[data-interfacing-access-shell] input[data-access-phone].is-valid {
-  border-color: #52c41a !important;
-  box-shadow: 0 0 0 2px rgba(82, 196, 26, .10) !important;
-}
-[data-interfacing-access-shell] input[data-access-phone].is-invalid {
-  border-color: #ff4d4f !important;
-  box-shadow: 0 0 0 2px rgba(255, 77, 79, .10) !important;
-}
-
 .interfacing-inline-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 .interfacing-inline-check { display: flex; align-items: center; gap: 8px; }
 
