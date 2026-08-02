@@ -262,6 +262,12 @@ navigation:
             domain: catalog
             resource: catalog
             operation: index
+            navigation_mode: workspace
+            context_provider: catalog.tree
+            context_location: shell.context.middle
+            content_location: shell.main.content
+            turbo_frame: _top
+            turbo_action: advance
             navigation_scope: business
             root_only: true
             crud_index_only: true

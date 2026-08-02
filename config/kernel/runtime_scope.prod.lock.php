@@ -13,6 +13,7 @@ return [
         App\Viewing\ViewingBundle::class,
         App\Accessing\AccessingBundle::class,
         App\Attaching\AttachingBundle::class,
+        App\Cataloging\CatalogingBundle::class,
         App\Interfacing\InterfacingBundle::class,
         App\Navigating\NavigatingBundle::class,
         App\Managing\ManagingBundle::class,
@@ -26,6 +27,7 @@ return [
     'scope' => [
         'accessing',
         'attaching',
+        'cataloging',
         'cruding',
         'interfacing',
         'localizing',
@@ -53,6 +55,7 @@ return [
     'packages' => [
         'accessing/access',
         'attaching/attachment',
+        'cataloging/catalog',
         'cruding/crud',
         'interfacing/interface',
         'localizing/locale',
@@ -68,7 +71,6 @@ return [
         'analysing',
         'billing',
         'carting',
-        'cataloging',
         'commissioning',
         'domaining',
         'exchanging',
