@@ -28,12 +28,20 @@ function Resolve-SshExecutable {
         return $command.Source
     }
 
-    $windowsOpenSsh = Join-Path $env:WINDIR 'System32\OpenSSH\ssh.exe'
-    if (Test-Path $windowsOpenSsh -PathType Leaf) {
-        return $windowsOpenSsh
+    $candidates = @(
+        (Join-Path $env:WINDIR 'System32\OpenSSH\ssh.exe'),
+        (Join-Path $env:ProgramFiles 'Git\usr\bin\ssh.exe'),
+        (Join-Path $env:ProgramFiles 'Git\mingw64\bin\ssh.exe'),
+        (Join-Path ${env:ProgramFiles(x86)} 'Git\usr\bin\ssh.exe')
+    )
+
+    foreach ($candidate in $candidates) {
+        if (-not [string]::IsNullOrWhiteSpace($candidate) -and (Test-Path $candidate -PathType Leaf)) {
+            return $candidate
+        }
     }
 
-    throw 'OpenSSH client was not found. Install the Windows OpenSSH Client optional feature or add ssh.exe to PATH.'
+    throw 'No SSH client was found. Install the Windows OpenSSH Client optional feature or install Git for Windows with OpenSSH support.'
 }
 
 $workspace = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
