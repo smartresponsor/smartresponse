@@ -22,8 +22,23 @@ function Run([string] $Executable, [string[]] $Arguments) {
     }
 }
 
+function Resolve-SshExecutable {
+    $command = Get-Command ssh -ErrorAction SilentlyContinue
+    if ($null -ne $command) {
+        return $command.Source
+    }
+
+    $windowsOpenSsh = Join-Path $env:WINDIR 'System32\OpenSSH\ssh.exe'
+    if (Test-Path $windowsOpenSsh -PathType Leaf) {
+        return $windowsOpenSsh
+    }
+
+    throw 'OpenSSH client was not found. Install the Windows OpenSSH Client optional feature or add ssh.exe to PATH.'
+}
+
 $workspace = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 $remoteScript = Join-Path $PSScriptRoot 'deploy-server.sh'
+$sshExecutable = Resolve-SshExecutable
 
 $hostName = Require-EnvironmentValue 'SMARTRESPONSOR_SSH_HOST'
 $userName = Require-EnvironmentValue 'SMARTRESPONSOR_SSH_USER'
@@ -83,7 +98,7 @@ try {
         "$userName@$hostName"
     )
 
-    Run 'ssh' ($sshArguments + @('printf DEPLOY_SSH_OK'))
+    Run $sshExecutable ($sshArguments + @('printf DEPLOY_SSH_OK'))
 
     if ($DryRun) {
         Write-Host 'DEPLOY DRY RUN: configuration, Git state, key and SSH connection are valid.'
@@ -99,7 +114,7 @@ try {
 
     $remoteCommand = "bash -s -- '$remoteRoot' '$branch' '$deployCommit' '$smokeUrl'"
     (Get-Content -LiteralPath $remoteScript -Raw).Replace("`r`n", "`n") |
-        & ssh @sshArguments $remoteCommand
+        & $sshExecutable @sshArguments $remoteCommand
     if ($LASTEXITCODE -ne 0) {
         throw "Remote deployment failed with exit code $LASTEXITCODE."
     }
