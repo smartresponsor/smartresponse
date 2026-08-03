@@ -153,15 +153,27 @@ services:
         alias: App\Service\Localization\AppLocaleTemplateContextProvider
     App\ServiceInterface\InterfaceLocation\AppInterfaceLocationComposeServiceInterface:
         alias: App\Service\InterfaceLocation\AppInterfaceLocationComposeService
+    App\Viewing\ServiceInterface\View\ViewInterfaceLocationComposeServiceInterface:
+        alias: App\Service\InterfaceLocation\AppInterfaceLocationComposeService
 
+
+    App\Service\Catalog\AppCatalogContextTreeProjectionService:
+        tags: ['app.context_tree_projection_provider']
+    App\Service\Context\AppContextTreeProjectionRegistry:
+        arguments:
+            $providers: !tagged_iterator app.context_tree_projection_provider
 
     App\Service\View\AppCrudResourceViewPayloadNormalizer:
         arguments:
             $inner: '@App\Viewing\Service\View\ViewPayloadNormalizer'
             $requestStack: '@request_stack'
+            $contextTreeProjectionResolver: '@App\Service\Context\AppContextTreeProjectionResolver'
             $interfaceLocationProjectionProvider: '@?navigating.interface_location_projection_provider'
 
     App\Viewing\Service\View\ViewPayloadNormalizer: ~
+    App\Viewing\Service\View\ViewTemplateRenderer:
+        arguments:
+            $interfaceLocationComposeService: '@App\Service\InterfaceLocation\AppInterfaceLocationComposeService'
     App\Viewing\Subscriber\View\ViewKernelViewSubscriber:
         arguments:
             $payloadNormalizer: '@App\Service\View\AppCrudResourceViewPayloadNormalizer'

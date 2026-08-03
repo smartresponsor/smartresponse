@@ -6,6 +6,7 @@ namespace App\Service\InterfaceLocation;
 
 use App\Navigating\ServiceInterface\Navigation\Provide\NavigationTemplateDataProvideServiceInterface;
 use App\ServiceInterface\InterfaceLocation\AppInterfaceLocationComposeServiceInterface;
+use App\Viewing\ServiceInterface\View\ViewInterfaceLocationComposeServiceInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -15,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
  * components stay decoupled from each other: Viewing does not know Navigating,
  * Interfacing does not know Navigating, and Navigating does not know Viewing.
  */
-final readonly class AppInterfaceLocationComposeService implements AppInterfaceLocationComposeServiceInterface
+final readonly class AppInterfaceLocationComposeService implements AppInterfaceLocationComposeServiceInterface, ViewInterfaceLocationComposeServiceInterface
 {
     public function __construct(
         private ?NavigationTemplateDataProvideServiceInterface $navigationTemplateDataProvider = null,
@@ -37,7 +38,51 @@ final readonly class AppInterfaceLocationComposeService implements AppInterfaceL
             );
         }
 
+        $locations = $this->hydrateLocaleNavigationItems($locations, $request);
+
         return $locations;
+    }
+
+    /**
+     * @param array<string, list<array<string, mixed>>> $locations
+     *
+     * @return array<string, list<array<string, mixed>>>
+     */
+    private function hydrateLocaleNavigationItems(array $locations, Request $request): array
+    {
+        $currentLocale = strtolower(trim($request->getLocale()));
+
+        foreach ($locations['shell.footer.main'] ?? [] as $index => $item) {
+            if (!\is_array($item)) {
+                continue;
+            }
+
+            $metadata = $item['metadata'] ?? [];
+            if (!\is_array($metadata)) {
+                continue;
+            }
+
+            $localeCode = strtolower(trim((string) ($metadata['locale_code'] ?? '')));
+            if ('' === $localeCode || true !== ($metadata['locale_featured'] ?? false)) {
+                continue;
+            }
+
+            $href = $this->createLocaleHref($request, $localeCode);
+            $item['href'] = $href;
+            $item['url'] = $href;
+            $item['active'] = $localeCode === $currentLocale;
+            $locations['shell.footer.main'][$index] = $item;
+        }
+
+        return $locations;
+    }
+
+    private function createLocaleHref(Request $request, string $localeCode): string
+    {
+        $query = $request->query->all();
+        $query['locale'] = $localeCode;
+
+        return $request->getPathInfo().'?'.http_build_query($query);
     }
 
     /**

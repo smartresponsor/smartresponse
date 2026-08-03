@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service\View;
 
 use App\Cruding\Value\Resource\CrudResourceContract;
+use App\Service\Context\AppContextTreeProjectionResolver;
 use App\Viewing\ServiceInterface\View\ViewPayloadNormalizerInterface;
 use App\Viewing\Value\View\ViewPayload;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,6 +16,7 @@ final readonly class AppCrudResourceViewPayloadNormalizer implements ViewPayload
     public function __construct(
         private ViewPayloadNormalizerInterface $inner,
         private RequestStack $requestStack,
+        private AppContextTreeProjectionResolver $contextTreeProjectionResolver,
         private ?object $interfaceLocationProjectionProvider = null,
     ) {
     }
@@ -40,8 +42,22 @@ final readonly class AppCrudResourceViewPayloadNormalizer implements ViewPayload
         $word = $this->stringFrom($templateContext['word'] ?? $fallbackData['word'] ?? null, 'crud');
         $view = $this->stringFrom($templateContext['view'] ?? $fallbackData['view'] ?? null, 'index');
 
-        $navigationMs = 0.0;
-        $locations = $this->locationsFrom($templateContext, $fallbackData);
+        $navigationStartedAt = hrtime(true);
+        $locations = $this->mergeLocations(
+            $this->locationsFrom($templateContext, $fallbackData),
+            $this->navigatingLocations(),
+        );
+        $navigationMs = (hrtime(true) - $navigationStartedAt) / 1_000_000;
+
+        $bodyLocation = $locations['body'][0]['data'] ?? [];
+        $rows = \is_array($bodyLocation['rows'] ?? null) ? $bodyLocation['rows'] : [];
+        if ([] !== $rows && $request instanceof Request) {
+            $contextTreeNodes = $this->contextTreeProjectionResolver->resolve($locations, $rows, $routeContext, $request);
+            if ([] !== $contextTreeNodes) {
+                $locations['body'][0]['data']['contextTreeNodes'] = $contextTreeNodes;
+            }
+        }
+
         $data = $this->withShellLocations($templateContext, $locations) + [
             'fallbackData' => $fallbackData,
             'routeContext' => $routeContext,

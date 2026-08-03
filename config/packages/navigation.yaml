@@ -458,6 +458,7 @@ navigation:
           priority: 160
           path: /review/index
           metadata:
+            namespace_provider: App\Reviewing
             business_visible: true
             route_name: review.index
             domain: review
@@ -1345,7 +1346,7 @@ navigation:
       label: Support
       location: shell.footer.main
       type: footer
-      priority: 100
+      priority: 90
       items:
         documentation:
           type: link
@@ -1378,6 +1379,53 @@ navigation:
           metadata:
             business_visible: true
             static_path: true
+
+    footer_main_languages:
+      label: Languages
+      location: shell.footer.main
+      type: footer
+      priority: 100
+      items:
+        locale_en:
+          type: link
+          label: English
+          priority: 10
+          path: /?locale=en
+          metadata:
+            business_visible: true
+            static_path: true
+            locale_code: en
+            locale_featured: true
+        locale_ru:
+          type: link
+          label: Русский
+          priority: 20
+          path: /?locale=ru
+          metadata:
+            business_visible: true
+            static_path: true
+            locale_code: ru
+            locale_featured: true
+        locale_uk:
+          type: link
+          label: Українська
+          priority: 30
+          path: /?locale=uk
+          metadata:
+            business_visible: true
+            static_path: true
+            locale_code: uk
+            locale_featured: true
+        locale_fr:
+          type: link
+          label: Français
+          priority: 40
+          path: /?locale=fr
+          metadata:
+            business_visible: true
+            static_path: true
+            locale_code: fr
+            locale_featured: true
     footer_right_legal:
       label: Legal
       location: shell.footer.right
@@ -1496,12 +1544,13 @@ navigation:
           label: Review
           icon: StarOutlined
           priority: 60
-          path: /review/product/index
+          path: /review/index
           metadata:
+            namespace_provider: App\Reviewing
             business_visible: true
-            route_name: review.product.index
+            route_name: review.index
             domain: review
-            resource: product
+            resource: review
             operation: index
             navigation_scope: business
             related_entity: true
