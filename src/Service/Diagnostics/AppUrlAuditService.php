@@ -469,10 +469,10 @@ final readonly class AppUrlAuditService
             foreach ([
                 '/'.$entity,
                 '/'.$entity.'/index',
+                '/'.$entity.'/show',
+                '/'.$entity.'/page',
                 '/'.$entity.'/new',
-                '/my/'.$entity.'/index',
                 '/api/'.$entity,
-                '/my/api/'.$entity,
             ] as $path) {
                 $name = 'generated_cruding_'.str_replace(['/', '-'], '_', trim($path, '/'));
                 $candidates[$path.'|'.$name] = [
@@ -537,7 +537,7 @@ final readonly class AppUrlAuditService
             foreach ($routes as $route) {
                 $path = (string) $route['materializedPath'];
                 $request = Request::create($path, 'GET', [], [], [], [
-                    'HTTP_ACCEPT' => str_starts_with($path, '/api/') || str_starts_with($path, '/my/api/') ? 'application/json' : 'text/html,application/json;q=0.8',
+                    'HTTP_ACCEPT' => str_starts_with($path, '/api/') ? 'application/json' : 'text/html,application/json;q=0.8',
                     'HTTP_USER_AGENT' => 'SmartResponsor-Platform-URL-Audit/3.0',
                 ]);
                 $started = microtime(true);
@@ -683,7 +683,7 @@ final readonly class AppUrlAuditService
                         CURLOPT_CONNECTTIMEOUT => min(3, max(1, $timeout)),
                         CURLOPT_TIMEOUT => max(1, $timeout),
                         CURLOPT_HTTPHEADER => [
-                            'Accept: '.(str_starts_with((string) $route['materializedPath'], '/api/') || str_starts_with((string) $route['materializedPath'], '/my/api/') ? 'application/json' : 'text/html,application/json;q=0.8'),
+                            'Accept: '.(str_starts_with((string) $route['materializedPath'], '/api/') ? 'application/json' : 'text/html,application/json;q=0.8'),
                             'User-Agent: SmartResponsor-Platform-URL-Audit/2.0',
                         ],
                     ]);
@@ -818,6 +818,9 @@ final readonly class AppUrlAuditService
             '/access/reset-password/reset' => '/access/reset-password/request',
         ];
         if (isset($expectedTargets[$requestPath]) && $expectedTargets[$requestPath] === $targetPath) {
+            return true;
+        }
+        if (str_starts_with($requestPath, '/access/reset-password/reset/') && '/access/reset-password/reset' === $targetPath) {
             return true;
         }
         if ('/access/signin' === $targetPath) {
