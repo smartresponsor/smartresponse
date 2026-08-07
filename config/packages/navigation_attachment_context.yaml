@@ -1,0 +1,21 @@
+navigation:
+  shell_groups:
+    left_middle_business:
+      items:
+        attachment:
+          metadata:
+            namespace_provider: App\Attaching
+            business_visible: true
+            route_name: attachment.index
+            domain: attachment
+            resource: attachment
+            operation: index
+            navigation_mode: workspace
+            context_provider: attachment.tree
+            context_location: shell.context.middle
+            content_location: shell.main.content
+            turbo_frame: _top
+            turbo_action: advance
+            navigation_scope: business
+            root_only: true
+            crud_index_only: true
