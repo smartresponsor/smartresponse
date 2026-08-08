@@ -105,6 +105,7 @@ services:
         arguments:
             $fixturesLoader: '@?doctrine.fixtures.loader'
         tags: ['console.command']
+    App\Vendoring\DataFixtures\VendorAccessBootstrapFixture: ~
     App\Accessing\Service\Http\Api\Access\ApiAccessFlowService:
         public: true
         autowire: true
@@ -169,6 +170,7 @@ services:
             $requestStack: '@request_stack'
             $contextTreeProjectionResolver: '@App\Service\Context\AppContextTreeProjectionResolver'
             $interfaceLocationProjectionProvider: '@?navigating.interface_location_projection_provider'
+            $vendorPublicProfileSummaryProvider: '@App\Vendoring\ServiceInterface\Profile\VendorPublicProfileSummaryProviderServiceInterface'
 
     App\Viewing\Service\View\ViewPayloadNormalizer: ~
     App\Viewing\Service\View\ViewTemplateRenderer:

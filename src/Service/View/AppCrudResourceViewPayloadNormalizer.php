@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace App\Service\View;
 
+use App\Attaching\Repository\Attachment\AttachmentLinkRepository;
+use App\Attaching\Repository\Attachment\AttachmentRepository;
 use App\Cruding\Value\Resource\CrudResourceContract;
 use App\Service\Context\AppContextTreeProjectionResolver;
+use App\Vendoring\ServiceInterface\Profile\VendorPublicProfileSummaryProviderServiceInterface;
 use App\Viewing\ServiceInterface\View\ViewPayloadNormalizerInterface;
 use App\Viewing\Value\View\ViewPayload;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -17,7 +21,11 @@ final readonly class AppCrudResourceViewPayloadNormalizer implements ViewPayload
         private ViewPayloadNormalizerInterface $inner,
         private RequestStack $requestStack,
         private AppContextTreeProjectionResolver $contextTreeProjectionResolver,
-        private ?object $interfaceLocationProjectionProvider = null,
+        private ?object $interfaceLocationProjectionProvider,
+        private VendorPublicProfileSummaryProviderServiceInterface $vendorPublicProfileSummaryProvider,
+        private AttachmentLinkRepository $attachmentLinkRepository,
+        private AttachmentRepository $attachmentRepository,
+        private Security $security,
     ) {
     }
 
@@ -49,8 +57,18 @@ final readonly class AppCrudResourceViewPayloadNormalizer implements ViewPayload
         );
         $navigationMs = (hrtime(true) - $navigationStartedAt) / 1_000_000;
 
-        $bodyLocation = $locations['body'][0]['data'] ?? [];
+        $bodyBlockData = $locations['body'][0]['data'] ?? [];
+        $bodyLocation = \is_array($bodyBlockData) ? $bodyBlockData : [];
         $rows = \is_array($bodyLocation['rows'] ?? null) ? $bodyLocation['rows'] : [];
+        $rows = $this->withVendorPageProfileMedia($rows, $routeContext);
+        $rows = $this->withAttachmentIndexLinks($rows, $routeContext);
+        if (isset($locations['body'][0]['data']) && \is_array($locations['body'][0]['data'])) {
+            $locations['body'][0]['data']['rows'] = $rows;
+            if (\is_array($locations['body'][0]['data']['workbench'] ?? null)) {
+                $locations['body'][0]['data']['workbench']['rows'] = $rows;
+                $locations['body'][0]['data']['workbench']['paginationLabel'] = sprintf('%d attachment records', count($rows));
+            }
+        }
         if ([] !== $rows && $request instanceof Request) {
             $contextTreeNodes = $this->contextTreeProjectionResolver->resolve($locations, $rows, $routeContext, $request);
             if ([] !== $contextTreeNodes) {
@@ -301,6 +319,168 @@ final readonly class AppCrudResourceViewPayloadNormalizer implements ViewPayload
         }
 
         return $fallback;
+    }
+
+    /**
+     * @param list<mixed>          $rows
+     * @param array<string, mixed> $routeContext
+     *
+     * @return list<mixed>
+     */
+    private function withVendorPageProfileMedia(array $rows, array $routeContext): array
+    {
+        $resourcePath = $this->stringFrom($routeContext['resourcePath'] ?? $routeContext['resource'] ?? null, '');
+        $operation = $this->stringFrom($routeContext['operation'] ?? null, '');
+
+        if ('vendor' !== $resourcePath || 'page' !== $operation || [] === $rows || !\is_array($rows[0] ?? null)) {
+            return $rows;
+        }
+
+        $vendorId = $rows[0]['id'] ?? null;
+        if (!\is_int($vendorId) && !(\is_string($vendorId) && ctype_digit($vendorId))) {
+            return $rows;
+        }
+
+        $summary = $this->vendorPublicProfileSummaryProvider->provideForVendorId((int) $vendorId);
+        if (null === $summary) {
+            return $rows;
+        }
+
+        $rows[0]['publicProfile'] = $summary->toArray();
+        $rows[0]['avatarPath'] = $summary->avatar->url;
+        $rows[0]['coverPath'] = $summary->cover->url;
+        $rows[0]['avatarAttachmentId'] = $summary->avatar->attachmentId;
+        $rows[0]['coverAttachmentId'] = $summary->cover->attachmentId;
+
+        return $rows;
+    }
+
+    /**
+     * @param list<mixed>          $rows
+     * @param array<string, mixed> $routeContext
+     *
+     * @return list<mixed>
+     */
+    private function withAttachmentIndexLinks(array $rows, array $routeContext): array
+    {
+        $resourcePath = $this->stringFrom($routeContext['resourcePath'] ?? $routeContext['resource'] ?? null, '');
+        $operation = $this->stringFrom($routeContext['operation'] ?? null, '');
+
+        if ('attachment' !== $resourcePath || !\in_array($operation, ['index', 'page'], true)) {
+            return $rows;
+        }
+
+        $attachmentIds = [];
+        foreach ($rows as $row) {
+            if (!\is_array($row)) {
+                continue;
+            }
+
+            $attachmentId = $row['id'] ?? null;
+            if (\is_int($attachmentId) || (\is_string($attachmentId) && ctype_digit($attachmentId))) {
+                $attachmentIds[] = (int) $attachmentId;
+            }
+        }
+
+        $attachmentsById = [];
+        foreach ($this->attachmentRepository->findByIds($attachmentIds) as $attachment) {
+            $attachmentsById[$attachment->getId()] = $attachment;
+        }
+
+        $myVendorId = $this->currentMyAttachmentVendorId();
+        $isMyAttachmentIndex = $this->isMyAttachmentIndexRequest();
+        if ($isMyAttachmentIndex && null === $myVendorId) {
+            return [];
+        }
+
+        $linksByAttachmentId = [];
+        foreach ($this->attachmentLinkRepository->findByAttachmentIds($attachmentIds) as $link) {
+            if ($isMyAttachmentIndex && ('vendor' !== $link->getOwnerType() || (string) $myVendorId !== $link->getOwnerId())) {
+                continue;
+            }
+
+            $attachmentId = $link->getAttachment()->getId();
+            $linksByAttachmentId[$attachmentId][] = [
+                'id' => $link->getId(),
+                'ownerType' => $link->getOwnerType(),
+                'ownerId' => $link->getOwnerId(),
+                'context' => $link->getContext(),
+                'slot' => $link->getSlot(),
+                'position' => $link->getPosition(),
+                'isPrimary' => $link->isPrimary(),
+            ];
+        }
+
+        foreach ($rows as $index => $row) {
+            if (!\is_array($row)) {
+                continue;
+            }
+
+            $attachmentId = $row['id'] ?? null;
+            if (!\is_int($attachmentId) && !(\is_string($attachmentId) && ctype_digit($attachmentId))) {
+                continue;
+            }
+
+            $attachmentId = (int) $attachmentId;
+            if ($isMyAttachmentIndex && !isset($linksByAttachmentId[$attachmentId])) {
+                unset($rows[$index]);
+                continue;
+            }
+
+            $attachment = $attachmentsById[$attachmentId] ?? null;
+            if (null !== $attachment) {
+                $rows[$index]['type'] = $attachment->getType()->value;
+                $rows[$index]['mediaKind'] = $attachment->getMediaKind()?->value;
+                $rows[$index]['documentKind'] = $attachment->getDocumentKind()?->value;
+                $rows[$index]['originalName'] = $attachment->getOriginalName();
+                $rows[$index]['title'] = $attachment->getTitle() ?? $attachment->getOriginalName();
+                $rows[$index]['mimeType'] = $attachment->getMimeType();
+                $rows[$index]['extension'] = $attachment->getExtension();
+                $rows[$index]['size'] = $attachment->getSize();
+                $rows[$index]['width'] = $attachment->getWidth();
+                $rows[$index]['height'] = $attachment->getHeight();
+                $rows[$index]['durationMs'] = $attachment->getDurationMs();
+                $rows[$index]['pageCount'] = $attachment->getPageCount();
+                $rows[$index]['altText'] = $attachment->getAltText();
+                $rows[$index]['createdAt'] = $attachment->getCreatedAt()->format(DATE_ATOM);
+            }
+
+            $links = $linksByAttachmentId[$attachmentId] ?? [];
+            $rows[$index]['attachmentLinks'] = $links;
+            $rows[$index]['downloadUrl'] = sprintf('/attachment/%d/download', $attachmentId);
+            $rows[$index]['categorySlots'] = array_values(array_unique(array_filter(array_map(
+                static fn (array $link): ?string => \is_string($link['slot'] ?? null) ? $link['slot'] : null,
+                $links,
+            ))));
+        }
+
+        return array_values($rows);
+    }
+
+    private function isMyAttachmentIndexRequest(): bool
+    {
+        $request = $this->requestStack->getCurrentRequest();
+
+        return $request instanceof Request && '/attachment/page' === rtrim($request->getPathInfo(), '/');
+    }
+
+    private function currentMyAttachmentVendorId(): ?int
+    {
+        if (!$this->isMyAttachmentIndexRequest()) {
+            return null;
+        }
+
+        $user = $this->security->getUser();
+        if (!\is_object($user) || !method_exists($user, 'getId')) {
+            return null;
+        }
+
+        $actorId = $user->getId();
+        if (!\is_int($actorId) || $actorId <= 0) {
+            return null;
+        }
+
+        return $this->vendorPublicProfileSummaryProvider->provideForCurrentActor($actorId)?->vendorId;
     }
 
     private function stringFrom(mixed $value, string $fallback): string

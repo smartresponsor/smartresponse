@@ -1,0 +1,3 @@
+attaching_routes:
+  resource: '../../vendor/attaching/attachment/src/Controller/'
+  type: attribute

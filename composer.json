@@ -425,6 +425,7 @@
             "@inspect:rolling-host"
         ],
         "autoload:refresh": "composer dump-autoload --no-scripts",
+        "vendor:fixtures:load": "php bin/console app:vendor:fixtures:load",
         "memory:scope:resolve": "php tools/code-memory/scope-resolve.php --cwd=. --json",
         "memory:scope:cache": "php tools/code-memory/scope-resolve.php --cwd=. --json --write-cache",
         "ai-review:validate": "php tools/gating/validate-ai-review.php",
