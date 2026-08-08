@@ -2,6 +2,13 @@
 
 declare(strict_types=1);
 
+if ('cli-server' === PHP_SAPI) {
+    $requestPath = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
+    if (is_string($requestPath) && is_file(__DIR__.$requestPath)) {
+        return false;
+    }
+}
+
 use App\Kernel;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Request;
