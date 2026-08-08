@@ -65,9 +65,11 @@ services:
         public: true
         tags: ['controller.service_arguments']
     App\Vendoring\Repository\Vendor\VendorPayoutAccountRepository:
+        autowire: false
         arguments:
             $registry: '@doctrine'
     App\Vendoring\Repository\Vendor\VendorPayoutRepository:
+        autowire: false
         arguments:
             $registry: '@doctrine'
     App\Vendoring\Service\Runtime\Mobile\VendorMobilePayoutShowService:

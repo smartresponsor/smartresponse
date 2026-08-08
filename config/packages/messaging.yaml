@@ -1,0 +1,2 @@
+imports:
+    - { resource: '../../vendor/messaging/message/config/packages/rate_limiter.yaml' }

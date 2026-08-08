@@ -1,0 +1,2 @@
+messaging_routes:
+  resource: '../../vendor/messaging/message/config/component/routes.yaml'
