@@ -2,6 +2,24 @@ navigation:
   schema: 3
 
   shell_locations:
+    shell.profile.cover:
+      label: Profile cover
+      description: Entity profile cover above horizontal navigation.
+      region: profile
+      slot: cover
+      type: media
+      priority: 12
+      metadata:
+        interface_location: true
+    shell.profile.identity:
+      label: Profile identity
+      description: Entity avatar, identity, summary, and owner actions.
+      region: profile
+      slot: identity
+      type: profile
+      priority: 14
+      metadata:
+        interface_location: true
     shell.body.top:
       label: Body top
       description: Shell-wide status or workspace strip.
@@ -542,6 +560,22 @@ navigation:
             navigation_scope: business
             root_only: true
             crud_index_only: true
+        messages:
+          type: link
+          label: Messages
+          icon: MessageOutlined
+          priority: 215
+          path: /message/index
+          metadata:
+            namespace_provider: App\Messaging
+            business_visible: true
+            route_name: message.index
+            domain: message
+            resource: message
+            operation: index
+            navigation_scope: business
+            root_only: true
+            crud_index_only: true
         address:
           type: link
           label: Address
@@ -1024,31 +1058,29 @@ navigation:
           label: My Vendor
           icon: ShopOutlined
           priority: 10
-          path: /my/vendor/index
+          path: /vendor/page
           metadata:
             business_visible: true
-            actor_scope: my
-            route_name: my.vendor.index
+            route_name: vendor.page
             domain: vendor
             resource: vendor
-            operation: index
+            operation: page
             navigation_scope: business
             quick_menu: true
             root_only: true
-            crud_index_only: true
+            crud_index_only: false
         merchandise:
           type: link
           label: My Products
           icon: ShoppingOutlined
           priority: 30
-          path: /my/merchandise/index
+          path: /merchandise/page
           metadata:
             business_visible: true
-            actor_scope: my
-            route_name: my.merchandise.index
+            route_name: merchandise.page
             domain: merchandise
             resource: merchandise
-            operation: index
+            operation: page
             navigation_scope: business
             quick_menu: true
             root_only: true
@@ -1058,14 +1090,13 @@ navigation:
           label: My Cart
           icon: ShoppingCartOutlined
           priority: 40
-          path: /my/cart/index
+          path: /cart/page
           metadata:
             business_visible: true
-            actor_scope: my
-            route_name: my.cart.index
+            route_name: cart.page
             domain: cart
             resource: cart
-            operation: index
+            operation: page
             navigation_scope: business
             quick_menu: true
             root_only: true
@@ -1075,14 +1106,13 @@ navigation:
           label: My Payments
           icon: CreditCardOutlined
           priority: 60
-          path: /my/payment/index
+          path: /payment/page
           metadata:
             business_visible: true
-            actor_scope: my
-            route_name: my.payment.index
+            route_name: payment.page
             domain: payment
             resource: payment
-            operation: index
+            operation: page
             navigation_scope: business
             quick_menu: true
             root_only: true
@@ -1092,14 +1122,13 @@ navigation:
           label: My Shipments
           icon: TruckOutlined
           priority: 70
-          path: /my/shipment/index
+          path: /shipment/page
           metadata:
             business_visible: true
-            actor_scope: my
-            route_name: my.shipment.index
+            route_name: shipment.page
             domain: shipment
             resource: shipment
-            operation: index
+            operation: page
             navigation_scope: business
             quick_menu: true
             root_only: true
@@ -1109,14 +1138,30 @@ navigation:
           label: My Attachments
           icon: PaperClipOutlined
           priority: 80
-          path: /my/attachment/index
+          path: /attachment/page
           metadata:
             business_visible: true
-            actor_scope: my
-            route_name: my.attachment.index
+            route_name: attachment.page
             domain: attachment
             resource: attachment
-            operation: index
+            operation: page
+            navigation_scope: business
+            quick_menu: true
+            root_only: true
+            crud_index_only: true
+        messages:
+          type: link
+          label: My Messages
+          icon: MessageOutlined
+          priority: 90
+          path: /message/page
+          metadata:
+            namespace_provider: App\Messaging
+            business_visible: true
+            route_name: message.page
+            domain: message
+            resource: message
+            operation: page
             navigation_scope: business
             quick_menu: true
             root_only: true
