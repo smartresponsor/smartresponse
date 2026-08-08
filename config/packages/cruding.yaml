@@ -6,6 +6,7 @@
 cruding:
     route_guard:
         runtime_entity_env: APP_RUNTIME_ENTITY_FROM_LOCK
+        runtime_lock_glob: config/kernel/runtime_scope.lock.php
     entity_class_alias_map:
         vendor: 'App\Vendoring\Entity\Vendor\VendorEntity'
         attachment: 'App\Attaching\Entity\Attachment\Attachment'
