@@ -5578,7 +5578,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Messaging",
-                "reference": "b5b0084636a75cec6b996780b103867fe8d66a2f"
+                "reference": "b2cb3e17cc1f8ebb216528de6ce886e93347334a"
             },
             "require": {
                 "administering/administration": "*@dev",
@@ -5648,7 +5648,6 @@
             },
             "autoload": {
                 "psr-4": {
-                    "App\\": "src/",
                     "App\\Messaging\\": "src/"
                 }
             },
