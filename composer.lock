@@ -5578,7 +5578,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Messaging",
-                "reference": "b2cb3e17cc1f8ebb216528de6ce886e93347334a"
+                "reference": "48b45e313504642e5dc71f0bf1081fe1ec2ff3e0"
             },
             "require": {
                 "administering/administration": "*@dev",
