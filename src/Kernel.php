@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\DependencyInjection\Compiler\AppCrudingEntityAliasAuthorityPass;
 use App\DependencyInjection\Compiler\AppCrudResourceViewPayloadNormalizerPass;
 use App\DependencyInjection\Compiler\RegisterSiblingFixturesPass;
 use App\Kernel\RuntimeBundleIterator;
@@ -36,6 +37,8 @@ class Kernel extends BaseKernel
     public function build(ContainerBuilder $container): void
     {
         parent::build($container);
+
+        $container->addCompilerPass(new AppCrudingEntityAliasAuthorityPass());
 
         if (!\in_array($this->environment, ['dev', 'test'], true)) {
             return;

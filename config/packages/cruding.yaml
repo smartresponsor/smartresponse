@@ -17,6 +17,7 @@ cruding:
         message: 'App\Messaging\Entity\Message\MessageEntity'
         order: 'App\Ordering\Entity\Order\OrderEntity'
         shipment: 'App\Shipping\Entity\Shipping\ShipmentEntity'
+        address: 'App\Addressing\Entity\AddressEntity'
         payment: 'App\Paying\Entity\PaymentEntity'
         wallet: 'App\Walleting\Entity\Wallet'
         account: 'App\Walleting\Entity\Account'
