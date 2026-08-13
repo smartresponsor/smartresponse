@@ -19,7 +19,7 @@ use App\Dto\Placement\AppAddressPlacementFormData;
 use App\Form\Placement\AppAddressPlacementType;
 use App\Locating\Model\AddressInput;
 use App\Locating\Model\AddressPipelineResult;
-use App\Locating\Service\AddressPipeline;
+use App\Locating\ServiceInterface\AddressPipelineInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -36,7 +36,7 @@ final readonly class AppAddressNewService
         private AddressInputFactory $addressInputFactory,
         private AddressWriteService $addressWriteService,
         private AddressValidatedApplierService $addressValidatedApplierService,
-        private AddressPipeline $addressPipeline,
+        private AddressPipelineInterface $addressPipeline,
         private Security $security,
         private UrlGeneratorInterface $urlGenerator,
     ) {
