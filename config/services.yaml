@@ -151,6 +151,14 @@ services:
     App\Service\Placement\AppRetailPlacementOrderLifecycleSubscriber:
         tags: ['cruding.mutation_lifecycle_subscriber']
 
+    App\Service\Placement\AppAddressingShipmentService:
+        arguments:
+            $inner: '@App\Shipping\Service\ShipmentService'
+
+    App\Shipping\Service\Http\Shipment\ShipmentNewService:
+        arguments:
+            $shipmentService: '@App\Service\Placement\AppAddressingShipmentService'
+
     navigating.walleting_database_config_debug:
         alias: App\Navigating\Service\Navigation\Provide\NavigationDatabaseConfigProvideService
         public: true
