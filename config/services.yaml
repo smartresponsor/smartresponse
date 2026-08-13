@@ -155,6 +155,8 @@ services:
         arguments:
             $inner: '@App\Shipping\Service\ShipmentService'
 
+    App\Locating\Service\AddressPipeline: ~
+
     App\Shipping\Service\Http\Shipment\ShipmentNewService:
         arguments:
             $shipmentService: '@App\Service\Placement\AppAddressingShipmentService'

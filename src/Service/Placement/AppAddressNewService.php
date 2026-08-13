@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace App\Service\Placement;
 
 use App\Accessing\Entity\AccessEntity;
+use App\Addressing\Contract\Message\AddressValidated;
+use App\Addressing\EntityInterface\Record\AddressInterface;
 use App\Addressing\Http\Dto\AddressInputFactory;
 use App\Addressing\Http\Dto\AddressManageDto;
+use App\Addressing\Service\Application\AddressValidatedApplierService;
 use App\Addressing\Service\Application\AddressWriteService;
 use App\Cruding\Dto\Crud\Entrypoint\CrudServiceContext;
 use App\Cruding\Provider\Crud\CrudPageDefinitionProvider;
@@ -14,6 +17,9 @@ use App\Cruding\Service\Crud\Resource\CrudResourceContractFactory;
 use App\Cruding\Value\Resource\CrudResourceContract;
 use App\Dto\Placement\AppAddressPlacementFormData;
 use App\Form\Placement\AppAddressPlacementType;
+use App\Locating\Model\AddressInput;
+use App\Locating\Model\AddressPipelineResult;
+use App\Locating\Service\AddressPipeline;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -29,6 +35,8 @@ final readonly class AppAddressNewService
         private CrudResourceContractFactory $contractFactory,
         private AddressInputFactory $addressInputFactory,
         private AddressWriteService $addressWriteService,
+        private AddressValidatedApplierService $addressValidatedApplierService,
+        private AddressPipeline $addressPipeline,
         private Security $security,
         private UrlGeneratorInterface $urlGenerator,
     ) {
@@ -61,19 +69,49 @@ final readonly class AppAddressNewService
         $form->handleRequest($context->request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $originValidation = $this->addressPipeline->process(new AddressInput('', [
+                'street' => $data->originLine1,
+                'city' => $data->originCity,
+                'region' => $data->originRegion ?? '',
+                'postalCode' => $data->originPostalCode ?? '',
+                'countryCode' => $data->originCountryCode,
+            ]));
+            $destinationValidation = $this->addressPipeline->process(new AddressInput('', [
+                'street' => $data->destinationLine1,
+                'city' => $data->destinationCity,
+                'region' => $data->destinationRegion ?? '',
+                'postalCode' => $data->destinationPostalCode ?? '',
+                'countryCode' => $data->destinationCountryCode,
+            ]));
+            if (AddressPipelineResult::STATUS_VERIFIED !== $originValidation->status() || AddressPipelineResult::STATUS_VERIFIED !== $destinationValidation->status()) {
+                throw new \DomainException('Shipment placement requires verified origin and destination addresses.');
+            }
+
             $origin = $this->addressInputFactory->fromManageDto($this->originDto($data, $placement['vendorId']), [
                 'sourceSystem' => 'placement',
-                'sourceType' => 'checkout',
+                'sourceType' => 'manual',
                 'sourceReference' => $placement['orderId'].':origin',
             ]);
             $destination = $this->addressInputFactory->fromManageDto($this->destinationDto($data, $user->getObjectUuid()), [
                 'sourceSystem' => 'placement',
-                'sourceType' => 'checkout',
+                'sourceType' => 'manual',
                 'sourceReference' => $placement['orderId'].':destination',
             ]);
 
             $this->addressWriteService->create($origin);
             $this->addressWriteService->create($destination);
+            $this->addressValidatedApplierService->apply(
+                $origin->id(),
+                $this->validatedMessage($origin, $originValidation),
+                null,
+                $placement['vendorId'],
+            );
+            $this->addressValidatedApplierService->apply(
+                $destination->id(),
+                $this->validatedMessage($destination, $destinationValidation),
+                $user->getObjectUuid(),
+                null,
+            );
             $placement['originAddressId'] = $origin->id();
             $placement['destinationAddressId'] = $destination->id();
             $context->request->getSession()->set(self::SESSION_KEY, $placement);
@@ -140,6 +178,45 @@ final readonly class AppAddressNewService
         $dto->ownerId = $ownerId;
 
         return $dto;
+    }
+
+    private function validatedMessage(AddressInterface $record, AddressPipelineResult $result): AddressValidated
+    {
+        $view = $result->address();
+        if (AddressPipelineResult::STATUS_VERIFIED !== $result->status() || null === $view) {
+            throw new \LogicException('Only verified Locating results may be applied to Addressing.');
+        }
+
+        $line1Norm = strtolower($view->street());
+        $cityNorm = strtolower($view->city());
+        $regionNorm = '' === trim($view->region()) ? null : strtolower($view->region());
+        $postalCodeNorm = '' === trim($view->postalCode()) ? null : strtolower(str_replace(' ', '', $view->postalCode()));
+        $normalizedSnapshot = [
+            'line1Norm' => $line1Norm,
+            'cityNorm' => $cityNorm,
+            'regionNorm' => $regionNorm,
+            'postalCodeNorm' => $postalCodeNorm,
+        ];
+        $encoded = json_encode($normalizedSnapshot, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+
+        return AddressValidated::fromArray([
+            ...$normalizedSnapshot,
+            'validationProvider' => 'locating-core',
+            'validatedAt' => (new \DateTimeImmutable())->format(DATE_ATOM),
+            'dedupeKey' => $record->dedupeKey(),
+            'raw' => ['status' => $result->status(), 'issues' => $result->issues()],
+            'sourceSystem' => 'locating',
+            'sourceType' => $record->sourceType(),
+            'sourceReference' => $record->sourceReference(),
+            'normalizationVersion' => 'locating-core-v1',
+            'rawInput' => $record->rawInputSnapshot(),
+            'normalizedSnapshot' => $normalizedSnapshot,
+            'providerDigest' => 'sha256:'.hash('sha256', false === $encoded ? '' : $encoded),
+            'governanceStatus' => $record->governanceStatus(),
+            'revalidationPolicy' => $record->revalidationPolicy(),
+            'lastValidationProvider' => 'locating-core',
+            'lastValidationStatus' => 'validated',
+        ]);
     }
 
     private function redirect(string $crudPath): RedirectResponse
