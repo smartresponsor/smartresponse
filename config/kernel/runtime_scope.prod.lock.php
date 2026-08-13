@@ -12,6 +12,7 @@ return [
         App\Cruding\CrudingBundle::class,
         App\Viewing\ViewingBundle::class,
         App\Accessing\AccessingBundle::class,
+        App\Addressing\AddressingBundle::class,
         App\Attaching\AttachingBundle::class,
         App\Cataloging\CatalogingBundle::class,
         App\Interfacing\InterfacingBundle::class,
@@ -31,6 +32,7 @@ return [
     ],
     'scope' => [
         'accessing',
+        'addressing',
         'attaching',
         'cataloging',
         'cruding',
@@ -51,6 +53,7 @@ return [
     ],
     'entity' => [
         'access',
+        'address',
         'application',
         'domain',
         'attachment',
@@ -74,6 +77,7 @@ return [
     ],
     'packages' => [
         'accessing/access',
+        'addressing/address',
         'attaching/attachment',
         'cataloging/catalog',
         'cruding/crud',

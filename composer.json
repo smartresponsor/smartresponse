@@ -15,6 +15,13 @@
         },
         {
             "type": "path",
+            "url": "../Addressing",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
             "url": "../Carting",
             "options": {
                 "symlink": true
@@ -325,6 +332,7 @@
     "require": {
         "php": "^8.4",
         "accessing/access": "*@dev",
+        "addressing/address": "*@dev",
         "administering/administration": "*",
         "analysing/analytics": "*@dev",
         "anchoring/anchor": "*@dev",

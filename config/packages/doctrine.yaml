@@ -60,6 +60,12 @@ doctrine:
                         dir: '%kernel.project_dir%/vendor/accessing/access/src/Entity'
                         prefix: 'App\Accessing\Entity'
                         alias: Accessing
+                    Addressing:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/vendor/addressing/address/src/Entity'
+                        prefix: 'App\Addressing\Entity'
+                        alias: Addressing
                     Domaining:
                         is_bundle: false
                         type: attribute

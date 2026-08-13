@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9e5944a32cba4107a40766db0f1d1b69",
+    "content-hash": "e13b302c2dc525333988df212da0e783",
     "packages": [
         {
             "name": "accessing/access",
@@ -125,6 +125,276 @@
                 "proprietary"
             ],
             "description": "Accessing process app",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "addressing/address",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "../Addressing",
+                "reference": "857b35bfdb15f6e5b38e6e498b053cd99ccdf9d5"
+            },
+            "require": {
+                "doctrine/doctrine-bundle": "^3.2",
+                "doctrine/orm": "^2.15 || ^3.0",
+                "ext-curl": "*",
+                "ext-pdo": "*",
+                "objecting/object": "dev-master",
+                "php": "^8.4",
+                "symfony/console": "^8.0",
+                "symfony/form": "^8.0",
+                "symfony/framework-bundle": "^8.0",
+                "symfony/intl": "^8.0",
+                "symfony/property-access": "^8.0",
+                "symfony/property-info": "^8.0",
+                "symfony/serializer": "^8.0",
+                "symfony/translation": "^8.0",
+                "symfony/twig-bundle": "^8.0",
+                "symfony/uid": "^8.0",
+                "symfony/validator": "^8.0",
+                "symfony/yaml": "^8.0",
+                "twig/twig": "^3.24"
+            },
+            "require-dev": {
+                "dbrekelmans/bdi": "^1.4",
+                "deptrac/deptrac": "^3.0",
+                "fakerphp/faker": "^1.23",
+                "friendsofphp/php-cs-fixer": "^3.94",
+                "phpstan/phpstan": "^1.11",
+                "phpstan/phpstan-doctrine": "^1.5",
+                "phpstan/phpstan-symfony": "^1.4",
+                "phpunit/phpunit": "^10.5",
+                "rector/rector": "^1.2",
+                "symfony/dotenv": "^8.0",
+                "symfony/panther": "^2.2",
+                "vimeo/psalm": "^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "App\\Addressing\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "lint": [
+                    "@php tools/qa/AddressPhpLint.php"
+                ],
+                "phpstan": [
+                    "vendor/bin/phpstan analyse src --level=max"
+                ],
+                "psalm": [
+                    "vendor/bin/psalm"
+                ],
+                "test": [
+                    "@php tools/php/php84.php vendor/bin/phpunit -c phpunit.xml.dist"
+                ],
+                "stan": [
+                    "@stan:conservative"
+                ],
+                "rector:dry": [
+                    "vendor/bin/rector process --dry-run"
+                ],
+                "quality": [
+                    "@stan",
+                    "@rector:dry"
+                ],
+                "qa:phpstan": [
+                    "php -d memory_limit=1G vendor/bin/phpstan analyse -c phpstan.neon.dist"
+                ],
+                "qa:rector": [
+                    "php vendor/bin/rector process --dry-run"
+                ],
+                "qa:deptrac": [
+                    "php vendor/bin/deptrac analyse --config-file=config/addressing_deptrac.yaml"
+                ],
+                "qa:trust-surface": [
+                    "@php tools/php/php84.php tools/qa/AddressTrustSurfaceRunner.php"
+                ],
+                "qa:cs": [
+                    "php vendor/bin/php-cs-fixer fix --dry-run --diff --config=.php-cs-fixer.dist.php"
+                ],
+                "qa": [
+                    "@qa:phpstan",
+                    "@qa:deptrac",
+                    "@qa:trust-surface",
+                    "@qa:rector"
+                ],
+                "cs:fix": [
+                    "@php tools/php/php84.php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php"
+                ],
+                "cs:check": [
+                    "@php tools/php/php84.php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php --dry-run --diff"
+                ],
+                "cs:check-quiet": [
+                    "@php tools/php/php84.php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php --dry-run"
+                ],
+                "stan:conservative": [
+                    "tools/php/php82.php vendor/bin/phpstan analyse"
+                ],
+                "stan:runtime-target": [
+                    "@php tools/php/php84.php vendor/bin/phpstan analyse"
+                ],
+                "md": [
+                    "@php tools/php/php84.php vendor/bin/phpmd src,text phpmd.xml.dist"
+                ],
+                "md:tests": [
+                    "@php tools/php/php84.php vendor/bin/phpmd tests,text phpmd.xml.dist"
+                ],
+                "test:unit": [
+                    "@php tools/php/php84.php vendor/bin/phpunit -c phpunit.xml.dist --testsuite unit"
+                ],
+                "test:object-identity": [
+                    "@php tools/php/php84.php vendor/bin/phpunit -c phpunit.xml.dist tests/Unit/Address/AddressingObjectIdentityContractTest.php"
+                ],
+                "test:integration": [
+                    "@php tools/php/php84.php vendor/bin/phpunit -c phpunit.xml.dist --testsuite integration"
+                ],
+                "test:e2e": [
+                    "@php tools/php/php84.php vendor/bin/phpunit -c phpunit.xml.dist --testsuite e2e"
+                ],
+                "test:e2e:panther": [
+                    "@app:server:wait",
+                    "@php tools/php/php84.php vendor/bin/phpunit -c phpunit.xml.dist --testsuite e2e"
+                ],
+                "test:e2e:playwright": [
+                    "npm run test:e2e"
+                ],
+                "test:e2e:full": [
+                    "@test:e2e:panther",
+                    "@test:e2e:playwright"
+                ],
+                "qa:style": [
+                    "@lint",
+                    "@cs:check"
+                ],
+                "qa:static": [
+                    "@stan"
+                ],
+                "qa:smell": [
+                    "@md",
+                    "@md:tests"
+                ],
+                "qa:test": [
+                    "@test"
+                ],
+                "qa:full": [
+                    "@qa:style",
+                    "@qa:static",
+                    "@qa:smell",
+                    "@qa:test"
+                ],
+                "smoke:runtime": [
+                    "@php tools/php/php84.php tools/smoke/address-runtime-smoke.php"
+                ],
+                "smoke:fixtures": [
+                    "@php tools/php/php84.php tools/smoke/address-fixture-sanity.php"
+                ],
+                "smoke:container": [
+                    "@php tools/php/php84.php tools/smoke/address-container-boot-smoke.php"
+                ],
+                "smoke:doctrine": [
+                    "@php tools/php/php84.php tools/smoke/address-doctrine-mapping-smoke.php"
+                ],
+                "smoke:fixture-load": [
+                    "@php tools/php/php84.php tools/smoke/address-fixture-load-smoke.php"
+                ],
+                "smoke:graphql": [
+                    "@php tools/php/php84.php tools/smoke/address-graphql-smoke.php"
+                ],
+                "report:owner-overlap": [
+                    "@php tools/php/php84.php tools/inspection/AddressOwnerOverlapReport.php"
+                ],
+                "report:route-inventory": [
+                    "@php tools/php/php84.php tools/inspection/AddressRouteInventoryReport.php"
+                ],
+                "report:class-alias": [
+                    "@php tools/php/php84.php tools/inspection/AddressClassAliasReport.php"
+                ],
+                "report:runtime-proof": [
+                    "@php tools/php/php84.php tools/inspection/AddressRuntimeProofReport.php"
+                ],
+                "report:bootstrap-drift": [
+                    "@php tools/php/php84.php tools/inspection/AddressBootstrapDriftReport.php"
+                ],
+                "report:deptrac-drift": [
+                    "@php tools/php/php84.php tools/inspection/AddressDeptracDriftReport.php"
+                ],
+                "report:legacy-runtime-surface": [
+                    "@php tools/php/php84.php tools/inspection/AddressLegacyRuntimeSurfaceReport.php"
+                ],
+                "report:runtime-sync": [
+                    "@php tools/php/php84.php tools/inspection/AddressRuntimeSyncSummary.php"
+                ],
+                "report:test-support": [
+                    "@php tools/php/php84.php tools/inspection/AddressTestSupportSurfaceReport.php"
+                ],
+                "report:package-surface": [
+                    "@php tools/php/php84.php tools/inspection/AddressPackageSurfaceReport.php"
+                ],
+                "report:validated-applier-surface": [
+                    "@php tools/php/php84.php tools/inspection/AddressValidatedApplierSurfaceReport.php"
+                ],
+                "test:security": [
+                    "@php tools/php/php84.php vendor/bin/phpunit -c phpunit.xml.dist --testsuite security"
+                ],
+                "security:composer-audit": [
+                    "composer audit --locked --no-interaction"
+                ],
+                "security:importmap-audit": [
+                    "@php tools/qa/ImportmapAudit.php"
+                ],
+                "security:gitleaks": [
+                    "@php tools/qa/LocalSecurityRunner.php gitleaks"
+                ],
+                "security:semgrep-ce": [
+                    "@php tools/qa/LocalSecurityRunner.php semgrep-ce"
+                ],
+                "security:semgrep": [
+                    "@security:semgrep-ce"
+                ],
+                "security:full": [
+                    "@security:composer-audit",
+                    "@security:importmap-audit",
+                    "@security:gitleaks",
+                    "@security:semgrep-ce",
+                    "@test:security"
+                ],
+                "pipeline:local:security": [
+                    "@security:full"
+                ],
+                "pipeline:local:full": [
+                    "@qa:full",
+                    "@security:full"
+                ],
+                "test:functional": [
+                    "@php tools/php/php84.php vendor/bin/phpunit -c phpunit.xml.dist --testsuite functional"
+                ],
+                "fixtures:demo": [
+                    "php bin/address-demo-reset 50"
+                ],
+                "app:server": [
+                    "php -S 127.0.0.1:8000 -t public public/router.php"
+                ],
+                "app:server:wait": [
+                    "@php tools/e2e/wait-for-url.php http://127.0.0.1:8000/address/manage"
+                ],
+                "app:server:dry-run": [
+                    "@php tools/e2e/dry-run-server.php"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Addressing process app",
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -1291,6 +1561,7 @@
             },
             "require": {
                 "doctrine/doctrine-bundle": "^3.0",
+                "doctrine/doctrine-migrations-bundle": "^4.0",
                 "doctrine/orm": "^3.0",
                 "interfacing/interface": "*@dev",
                 "php": "^8.4",
@@ -1356,7 +1627,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Cataloging",
-                "reference": "bb8af3390e43550a63e19266ad486fec25629d1b"
+                "reference": "d22d7180370e9a8ab94c8c72a79850b25a850fcc"
             },
             "require": {
                 "api-platform/doctrine-orm": "^4.3",
@@ -1782,7 +2053,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Cruding",
-                "reference": "ee7fe45ead28d3443dde729e24f4118cbdb96a09"
+                "reference": "f85c95edac7b21edbc9b7467d3f926a0416356a3"
             },
             "require": {
                 "doctrine/doctrine-bundle": "^3.2",
@@ -1796,7 +2067,8 @@
                 "symfony/routing": "^8.1",
                 "symfony/security-bundle": "^8.1",
                 "symfony/twig-bundle": "^8.1",
-                "symfony/validator": "^8.1"
+                "symfony/validator": "^8.1",
+                "symfony/yaml": "^8.1"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.95",
@@ -5082,8 +5354,6 @@
                     "php -l tools/canon/location-service-provider-location-path-audit.php",
                     "php -l src/Service/Provider/Location/AddressReverseResultNormalizer.php",
                     "php -l src/Service/Provider/Location/AddressSuggestionRanker.php",
-                    "php -l src/Service/Provider/Location/LegacyAddressReverseProvider.php",
-                    "php -l src/Service/Provider/Location/LegacyAddressSuggestionProvider.php",
                     "php -l src/Service/Provider/Location/LegacyCostAwareAddressReverseSourceCostPolicy.php",
                     "php -l src/Service/Provider/Location/LegacyCostAwareAddressSuggestionSourceCostPolicy.php",
                     "php -l src/Service/Provider/Location/LegacyHealthAwareAddressReverseSourceHealthPolicy.php",
@@ -5126,7 +5396,6 @@
                     "php -l tools/canon/location-service-locator-address-legacy-audit.php",
                     "php -l .gate/check/location-service-locator-address-reference-canon.php",
                     "php -l tools/canon/location-service-locator-address-reference-audit.php",
-                    "php -l .gate/check/location-service-locator-address-core-path-canon.php",
                     "php -l tools/canon/location-service-locator-address-core-path-audit.php",
                     "php -l src/Service/Address/Location/AddressParseService.php",
                     "php -l src/Service/Address/Location/AddressStandardizeService.php",
@@ -5578,7 +5847,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Messaging",
-                "reference": "954edf989386effaf624ffe4b6103b3ef227d77f"
+                "reference": "274668a3f829ee8620641392ad7b43b88e1ed22c"
             },
             "require": {
                 "administering/administration": "*@dev",
@@ -5636,6 +5905,7 @@
                 "symfony/panther": "^2.2"
             },
             "suggest": {
+                "cboden/ratchet": "Required only when running the optional Messaging WebSocket gateway.",
                 "ext-couchbase": "Enable if Messaging integrates with Couchbase-backed storage or services.",
                 "ext-imagick": "Optional for higher-quality thumbnail generation; GD fallback is supported.",
                 "ext-redis": "Optional native Redis extension for Redis-backed transports; predis/predis remains available for local development."
@@ -6089,7 +6359,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Navigating",
-                "reference": "85b9cdeca7ab48151bac6b90deab2cb5a6426315"
+                "reference": "b5914eddae10caefa7b617313bb7d420116aa3d8"
             },
             "require": {
                 "cruding/crud": "dev-master",
@@ -7508,7 +7778,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Paying",
-                "reference": "6b3180b7d9cffbd8c76451cf0fd45ea66090e68a"
+                "reference": "bb20060b5fb0b9ad6434cea11f440edd93c9419f"
             },
             "require": {
                 "cruding/crud": "*@dev",
@@ -9558,7 +9828,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Retailing",
-                "reference": "cd711ee4f7875860c9f5814ee2744162eaed5b99"
+                "reference": "e1cfa6654422ba5bd829fc65e91bbd9766e2f485"
             },
             "require": {
                 "cruding/crud": "dev-master",
@@ -10145,9 +10415,11 @@
             "dist": {
                 "type": "path",
                 "url": "../Shipping",
-                "reference": "e55c29e7acc6b98b92c3fad0c5bf8d0597fa7a15"
+                "reference": "23ca792de2a19f710e15647b1414bbfb079191a0"
             },
             "require": {
+                "administering/administration": "dev-master",
+                "cruding/crud": "dev-master",
                 "doctrine/dbal": "^4.0",
                 "doctrine/doctrine-bundle": "^3.2",
                 "doctrine/doctrine-migrations-bundle": "^4.0",
@@ -18184,6 +18456,7 @@
                 "cruding/crud": "*@dev",
                 "doctrine/dbal": "^4.3",
                 "doctrine/doctrine-bundle": "^3.2",
+                "doctrine/doctrine-migrations-bundle": "^4.0",
                 "doctrine/orm": "^3.3",
                 "doctrine/persistence": "^4.0",
                 "ext-json": "*",
@@ -22079,6 +22352,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "accessing/access": 20,
+        "addressing/address": 20,
         "analysing/analytics": 20,
         "anchoring/anchor": 20,
         "applicating/application": 20,

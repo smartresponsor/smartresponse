@@ -8,6 +8,11 @@
     "repositories": [
         {
             "type": "vcs",
+            "url": "git@github.com:smartresponsor/addressing.git",
+            "no-api": true
+        },
+        {
+            "type": "vcs",
             "url": "git@github.com:smartresponsor/cruding.git",
             "no-api": true
         },
@@ -146,6 +151,7 @@
         "php": "^8.4",
         "vendoring/vendor": "dev-master#c6a39143fc4a5e46d6fb8872383a01a284b0fabe",
         "accessing/access": "dev-master",
+        "addressing/address": "dev-master",
         "administering/administration": "dev-master",
         "analysing/analytics": "dev-master",
         "applicating/application": "dev-master",
