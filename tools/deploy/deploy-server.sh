@@ -39,6 +39,9 @@ export APP_ENV=prod
 export APP_DEBUG=0
 bash "$remote_root/composer-prod-install.sh" "$remote_root"
 
+step 'Doctrine migrations'
+"$PHP_BIN" bin/console doctrine:migrations:migrate --env=prod --no-debug --no-interaction --allow-no-migration
+
 step 'Doctrine mapping and schema validation'
 "$PHP_BIN" bin/console doctrine:schema:validate --env=prod --no-debug --no-interaction
 

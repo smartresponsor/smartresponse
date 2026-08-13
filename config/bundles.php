@@ -23,7 +23,10 @@ return [
     Scheb\TwoFactorBundle\SchebTwoFactorBundle::class => ['all' => true],
     App\Retailing\RetailingBundle::class => ['all' => true],
     App\Attaching\AttachingBundle::class => ['all' => true],
-    App\Messaging\MessagingBundle::class => ['all' => true],
-    App\Carting\CartingBundle::class => ['all' => true],
+    App\Messaging\MessagingBundle::class => ['dev' => true, 'test' => true],
+    App\Carting\CartingBundle::class => ['dev' => true, 'test' => true],
     App\Ordering\OrderingBundle::class => ['all' => true],
+    App\Shipping\ShipmentBundle::class => ['all' => true],
+    App\Paying\PayingBundle::class => ['all' => true],
+    App\Walleting\WalletingBundle::class => ['all' => true],
 ];

@@ -246,6 +246,9 @@
     "smart-responsor/manag": {
         "version": "dev-master"
     },
+    "smartresponsor/walleting": {
+        "version": "dev-task/walleting-ledger-foundation"
+    },
     "symfony/asset-mapper": {
         "version": "8.0",
         "recipe": {

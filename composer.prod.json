@@ -118,7 +118,27 @@
         },
         {
             "type": "vcs",
+            "url": "git@github.com:smartresponsor/domaining.git",
+            "no-api": true
+        },
+        {
+            "type": "vcs",
             "url": "git@github.com:smartresponsor/vendoring.git",
+            "no-api": true
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:smartresponsor/walleting.git",
+            "no-api": true
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:smartresponsor/shipping.git",
+            "no-api": true
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:smartresponsor/paying.git",
             "no-api": true
         }
     ],
@@ -135,6 +155,7 @@
         "configuring/config": "dev-master",
         "cruding/crud": "dev-master#7e672ebb75acec3f272c9c2544e61e7426376c29",
         "delivering/delivery": "dev-master",
+        "domaining/domain": "dev-master",
         "interfacing/interface": "dev-master",
         "localizing/locale": "dev-master",
         "managing/manage": "dev-master",
@@ -145,6 +166,9 @@
         "retailing/retail": "dev-master",
         "rolling/role": "dev-master",
         "searching/search": "dev-master",
+        "shipping/shipment": "dev-master",
+        "paying/payment": "dev-master",
+        "smartresponsor/walleting": "dev-master",
         "doctrine/dbal": "^4.3",
         "doctrine/doctrine-bundle": "^3.2",
         "doctrine/doctrine-fixtures-bundle": "^4.3",

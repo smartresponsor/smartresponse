@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bdc72d01e90352824fe6c2265b0ffa5d",
+    "content-hash": "9e5944a32cba4107a40766db0f1d1b69",
     "packages": [
         {
             "name": "accessing/access",
@@ -1782,7 +1782,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Cruding",
-                "reference": "b52dea23dd2c75aea1fdf31c029fa1dc43cadf94"
+                "reference": "ee7fe45ead28d3443dde729e24f4118cbdb96a09"
             },
             "require": {
                 "doctrine/doctrine-bundle": "^3.2",
@@ -1835,9 +1835,9 @@
                     "@php tools/smoke/cruding-entrypoint-readonly-inheritance-smoke.php",
                     "@php tools/smoke/cruding-entrypoint-safe-hook-invocation-smoke.php",
                     "@php tools/smoke/cruding-entrypoint-trace-diagnostics-smoke.php",
+                    "@php tools/smoke/cruding-create-lifecycle-smoke.php",
                     "@php tools/smoke/cruding-index-operation-grammar-smoke.php",
                     "@php tools/smoke/cruding-legacy-invokable-entrypoint-bridge-smoke.php",
-                    "@php tools/smoke/cruding-my-actor-scope-tokenized-resolver-smoke.php",
                     "@php tools/smoke/cruding-operation-token-route-coverage-smoke.php",
                     "@php tools/smoke/cruding-positional-operation-token-grammar-smoke.php",
                     "@php tools/smoke/cruding-reserved-identity-token-guard.php",
@@ -4531,7 +4531,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Interfacing",
-                "reference": "dd488e1c4d38c935d000a259c8c3313568e1160e"
+                "reference": "17040457ddb897720a2bd8722922c1d1b288790f"
             },
             "require": {
                 "composer-runtime-api": "^2.2",
@@ -5454,7 +5454,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Managing",
-                "reference": "f2f72f81eac4faa391ef0e4886455425d43ba17b"
+                "reference": "97eaeddfae481fb8eaafc381fd9f3dee3ef0766b"
             },
             "require": {
                 "doctrine/doctrine-bundle": "^3.0",
@@ -5578,7 +5578,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Messaging",
-                "reference": "48b45e313504642e5dc71f0bf1081fe1ec2ff3e0"
+                "reference": "954edf989386effaf624ffe4b6103b3ef227d77f"
             },
             "require": {
                 "administering/administration": "*@dev",
@@ -5717,6 +5717,9 @@
                 ],
                 "fixtures:dry-run": [
                     "@php bin/console doctrine:fixtures:load --dry-run --no-interaction --env=test"
+                ],
+                "fixtures:dev": [
+                    "@php bin/console messaging:dev:fixtures:load --no-interaction --env=dev"
                 ],
                 "panther": [
                     "@php vendor/bin/phpunit --configuration phpunit.xml.dist --testsuite Panther"
@@ -6082,36 +6085,46 @@
         },
         {
             "name": "navigating/navigation",
-            "version": "dev-w30-access-lifecycle-quick-menu",
+            "version": "dev-w31-db-backed-navigation-sqlite",
             "dist": {
                 "type": "path",
                 "url": "../Navigating",
-                "reference": "6adcc09b787585dbb6be1b7d4618fb5556508fbb"
+                "reference": "85b9cdeca7ab48151bac6b90deab2cb5a6426315"
             },
             "require": {
+                "cruding/crud": "dev-master",
+                "doctrine/dbal": "^4.0",
+                "doctrine/doctrine-bundle": "^3.2",
+                "doctrine/orm": "^3.3",
                 "easycorp/easyadmin-bundle": "^5.0",
+                "interfacing/interface": "dev-master",
+                "objecting/object": "dev-master",
                 "php": "^8.4",
                 "psr/log": "^3.0",
-                "symfony/config": "^8.0",
-                "symfony/console": "^8.0",
-                "symfony/dependency-injection": "^8.0",
-                "symfony/framework-bundle": "^8.0",
-                "symfony/http-foundation": "^8.0",
-                "symfony/http-kernel": "^8.0",
-                "symfony/routing": "^8.0",
-                "symfony/security-bundle": "^8.0",
-                "symfony/twig-bundle": "^8.0",
-                "symfony/yaml": "^8.0"
+                "symfony/cache-contracts": "^3.6",
+                "symfony/config": "^8.1",
+                "symfony/console": "^8.1",
+                "symfony/dependency-injection": "^8.1",
+                "symfony/form": "^8.1",
+                "symfony/framework-bundle": "^8.1",
+                "symfony/http-foundation": "^8.1",
+                "symfony/http-kernel": "^8.1",
+                "symfony/routing": "^8.1",
+                "symfony/security-bundle": "^8.1",
+                "symfony/security-csrf": "^8.1",
+                "symfony/twig-bundle": "^8.1",
+                "symfony/yaml": "^8.1"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "3.94",
-                "phpunit/phpunit": "^11.0"
+                "doctrine/doctrine-fixtures-bundle": "^4.3",
+                "friendsofphp/php-cs-fixer": "^3.95",
+                "phpunit/phpunit": "^12.0"
             },
             "type": "symfony-bundle",
             "extra": {
                 "symfony": {
                     "allow-contrib": false,
-                    "require": "8.0.*",
+                    "require": "8.1.*",
                     "bundles": {
                         "App\\Navigating\\NavigatingBundle": [
                             "all"
@@ -6137,14 +6150,59 @@
             },
             "scripts": {
                 "qa:navigating-easyadmin": [
-                    "@php vendor/bin/phpunit tests/NavigationEasyAdminSurfaceTest.php tests/NavigationEasyAdminSymfonyTypeTest.php tests/NavigationEasyAdminBoundaryTest.php"
+                    "@php vendor/bin/phpunit tests/NavigationEasyAdminSurfaceTest.php tests/NavigationEasyAdminSymfonyTypeTest.php tests/NavigationEasyAdminBoundaryTest.php tests/NavigationFormInvariantTest.php tests/NavigationUniquenessContractTest.php tests/NavigationStateActionSecurityTest.php"
+                ],
+                "qa:navigating-database": [
+                    "@php vendor/bin/phpunit tests/NavigationDatabaseBackedModelTest.php tests/NavigationRecoveryContractTest.php tests/NavigationConcurrencyContractTest.php tests/NavigationAcceptanceContractTest.php tests/NavigationRepositoryScopeContractTest.php tests/NavigationTreeInvariantTest.php tests/NavigationTargetInvariantTest.php tests/NavigationEntityInvariantTest.php tests/NavigationLegacyMigrationContractTest.php tests/NavigationLegacyMigrationSemanticTest.php tests/NavigationLegacySqliteLifecycleTest.php"
                 ],
                 "qa:navigating-runtime": [
-                    "@php vendor/bin/phpunit tests/NavigationRuntimeActivationTest.php tests/NavigationRuntimeActivationConfigTest.php"
+                    "@php vendor/bin/phpunit tests/NavigationRuntimeActivationTest.php tests/NavigationRuntimeActivationConfigTest.php tests/NavigationMenuScopedRuntimeTest.php tests/NavigationCacheFailureTest.php"
+                ],
+                "qa:all": [
+                    "@php vendor/bin/phpunit"
+                ],
+                "navigation:fixtures": [
+                    "@php bin/console doctrine:fixtures:load --group=navigating --append --no-interaction"
+                ],
+                "navigation:backup": [
+                    "@php bin/console navigation:backup:create"
+                ],
+                "navigation:manifest:write": [
+                    "@php bin/console navigation:manifest:write"
+                ],
+                "navigation:manifest:restore": [
+                    "@php bin/console navigation:manifest:restore --force"
+                ],
+                "navigation:legacy:plan": [
+                    "@php bin/console navigation:database:legacy-plan"
+                ],
+                "navigation:schema:update": [
+                    "@php bin/console navigation:database:update"
+                ],
+                "navigation:rebuild": [
+                    "@php bin/console navigation:database:rebuild --force"
+                ],
+                "navigation:schema:safe": [
+                    "@navigation:backup",
+                    "@navigation:schema:update"
+                ],
+                "qa:preflight": [
+                    "@php bin/console lint:container",
+                    "@navigation:legacy:plan",
+                    "@qa"
+                ],
+                "navigation:acceptance:preflight": [
+                    "@php bin/console lint:container",
+                    "@navigation:legacy:plan",
+                    "@qa"
+                ],
+                "navigation:acceptance:verify": [
+                    "@php bin/console doctrine:schema:validate",
+                    "@php bin/console navigation:manifest:verify",
+                    "@qa"
                 ],
                 "qa": [
-                    "@qa:navigating-easyadmin",
-                    "@qa:navigating-runtime"
+                    "@qa:all"
                 ]
             },
             "license": [
@@ -6492,11 +6550,11 @@
             "require": {
                 "doctrine/orm": "^3.3",
                 "php": "^8.4",
-                "symfony/config": "^8.1",
-                "symfony/dependency-injection": "^8.1",
-                "symfony/http-kernel": "^8.1",
-                "symfony/uid": "^8.1",
-                "symfony/yaml": "^8.1"
+                "symfony/config": "^8.0",
+                "symfony/dependency-injection": "^8.0",
+                "symfony/http-kernel": "^8.0",
+                "symfony/uid": "^8.0",
+                "symfony/yaml": "^8.0"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": ">=3.95 <4.0",
@@ -6552,6 +6610,7 @@
                     "@test:package-surface",
                     "@test:platform-constraints",
                     "@test:systemic-field-packs",
+                    "@test:entity-kind-policy",
                     "@test:title-alias-hardening",
                     "@test:embeddable-initialization",
                     "@test:doctrine-mapping",
@@ -6621,6 +6680,12 @@
                 ],
                 "test:systemic-field-packs": [
                     "@php tools/test/objecting_systemic_field_pack_check.php"
+                ],
+                "test:entity-kind-policy": [
+                    "@php tools/test/objecting_entity_kind_policy_check.php"
+                ],
+                "audit:entity-kinds": [
+                    "@php tools/audit/objecting_workspace_entity_kind_audit.php"
                 ],
                 "test:title-alias-hardening": [
                     "@php tools/test/objecting_title_alias_hardening_check.php"
@@ -7110,7 +7175,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Ordering",
-                "reference": "48a4805540ceb2602e06cd3d1a481e28910c9075"
+                "reference": "b88d9d679185e5f18b6e5c941fc28bc90cbe0a7a"
             },
             "require": {
                 "api-platform/core": "^4.0",
@@ -9498,6 +9563,7 @@
             "require": {
                 "cruding/crud": "dev-master",
                 "doctrine/doctrine-bundle": "^3.2",
+                "doctrine/doctrine-migrations-bundle": "^4.0",
                 "doctrine/orm": "^3.3",
                 "easycorp/easyadmin-bundle": "^5.0",
                 "interfacing/interface": "dev-master",
@@ -10310,6 +10376,79 @@
                 "proprietary"
             ],
             "description": "Shipping process app",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "smartresponsor/walleting",
+            "version": "dev-task/walleting-ledger-foundation",
+            "dist": {
+                "type": "path",
+                "url": "../Walleting",
+                "reference": "efd4dbbfbbf1add98c250ff962415253ab6d3568"
+            },
+            "require": {
+                "doctrine/dbal": "^4.3",
+                "doctrine/doctrine-bundle": "^3.0",
+                "doctrine/doctrine-migrations-bundle": "^4.0",
+                "doctrine/orm": "^3.4",
+                "objecting/object": "dev-master",
+                "php": ">=8.4",
+                "symfony/config": "^8.1",
+                "symfony/console": "^8.1",
+                "symfony/dependency-injection": "^8.1",
+                "symfony/doctrine-messenger": "^8.1",
+                "symfony/dotenv": "^8.1",
+                "symfony/flex": "^2.6",
+                "symfony/framework-bundle": "^8.1",
+                "symfony/messenger": "^8.1",
+                "symfony/runtime": "^8.1",
+                "symfony/uid": "^8.1",
+                "symfony/yaml": "^8.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^12.3",
+                "symfony/phpunit-bridge": "^8.1"
+            },
+            "type": "library",
+            "extra": {
+                "symfony": {
+                    "allow-contrib": false,
+                    "require": "^8.1"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "App\\Walleting\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "App\\Walleting\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "auto-scripts": {
+                    "cache:clear": "symfony-cmd",
+                    "assets:install %PUBLIC_DIR%": "symfony-cmd"
+                },
+                "test": [
+                    "phpunit"
+                ],
+                "test:integration": [
+                    "@php bin/test-integration.php"
+                ],
+                "lint": [
+                    "@php bin/console lint:container",
+                    "@php bin/console doctrine:schema:validate --skip-sync"
+                ]
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Symfony-native immutable double-entry walleting component",
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -18039,7 +18178,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Vendoring",
-                "reference": "68fc9f6709e40c1fe7293c5651d8aa60348aaf6d"
+                "reference": "eea249e15f2b7447abc4c1691b817501ec382aeb"
             },
             "require": {
                 "cruding/crud": "*@dev",
@@ -21975,6 +22114,7 @@
         "rolling/role": 20,
         "searching/search": 20,
         "shipping/shipment": 20,
+        "smartresponsor/walleting": 20,
         "subscripting/subscription": 20,
         "tagging/tag": 20,
         "taxating/taxation": 20,

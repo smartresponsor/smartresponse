@@ -424,6 +424,22 @@ navigation:
             navigation_scope: business
             root_only: true
             crud_index_only: true
+        wallet:
+          type: link
+          label: Wallet
+          icon: WalletOutlined
+          priority: 125
+          path: /wallet/index
+          metadata:
+            namespace_provider: App\Walleting
+            business_visible: true
+            route_name: wallet.index
+            domain: wallet
+            resource: wallet
+            operation: index
+            navigation_scope: business
+            root_only: true
+            crud_index_only: true
         finance:
           type: link
           label: Finance

@@ -6,16 +6,24 @@
 cruding:
     route_guard:
         runtime_entity_env: APP_RUNTIME_ENTITY_FROM_LOCK
-        runtime_lock_glob: config/kernel/runtime_scope.lock.php
+        runtime_lock_glob: config/kernel/runtime_scope.{env}.lock.php
     entity_class_alias_map:
         vendor: 'App\Vendoring\Entity\Vendor\VendorEntity'
+        domain/declaration: 'App\Domaining\Entity\DomainDeclaration'
         attachment: 'App\Attaching\Entity\Attachment\Attachment'
         task: 'App\Retailing\Entity\Retail\RetailEntity'
         service: 'App\Retailing\Entity\Retail\RetailEntity'
         product: 'App\Retailing\Entity\Retail\RetailEntity'
         message: 'App\Messaging\Entity\Message\MessageEntity'
         order: 'App\Ordering\Entity\Order\OrderEntity'
+        shipment: 'App\Shipping\Entity\Shipping\ShipmentEntity'
         payment: 'App\Paying\Entity\PaymentEntity'
+        wallet: 'App\Walleting\Entity\Wallet'
+        account: 'App\Walleting\Entity\Account'
+        reservation: 'App\Walleting\Entity\Reservation'
+        funding: 'App\Walleting\Entity\Funding'
+        withdrawal: 'App\Walleting\Entity\Withdrawal'
+        payment-instrument: 'App\Walleting\Entity\PaymentInstrument'
         project: 'App\Projecting\Entity\Project\ProjectEntity'
         retail: 'App\Retailing\Entity\Retail\RetailEntity'
         catalog: 'App\Cataloging\Entity\Catalog\CatalogCatalogEntity'
@@ -26,4 +34,5 @@ cruding:
         page-grant: 'App\Paging\Entity\PageGrant'
         page-acceptance: 'App\Paging\Entity\PageAcceptance'
     form_type_map:
+        'App\Domaining\Entity\DomainDeclaration': 'App\Domaining\Form\DomainDeclarationType'
         'App\Retailing\Entity\Retail\RetailEntity': 'App\Retailing\Form\Retail\RetailType'

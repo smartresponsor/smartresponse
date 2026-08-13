@@ -12,6 +12,7 @@ managing:
     - ordering
     - paging
     - paying
+    - walleting
     - shipping
     - subscripting
     - tagging
@@ -33,6 +34,7 @@ when@prod:
       - ordering
       - paging
       - paying
+      - walleting
       - shipping
       - subscripting
       - tagging

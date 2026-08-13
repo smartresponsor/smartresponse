@@ -1,8 +1,11 @@
+parameters:
+    app.base_uri_default: 'http://127.0.0.1:8000'
+
 framework:
     router:
         # Configure how to generate URLs in non-HTTP contexts, such as CLI commands.
         # See https://symfony.com/doc/current/routing.html#generating-urls-in-commands
-        default_uri: 'http://127.0.0.1:8001/'
+        default_uri: '%env(default:app.base_uri_default:APP_BASE_URI)%'
 
 when@prod:
     framework:

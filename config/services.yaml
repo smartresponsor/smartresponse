@@ -7,7 +7,6 @@
 imports:
     - { resource: '../vendor/localizing/locale/config/services.yaml' }
     - { resource: '../vendor/cataloging/catalog/config/component/services.yaml' }
-    - { resource: '../vendor/retailing/retail/config/services.yaml' }
     - { resource: '../vendor/vendoring/vendor/config/component/optional/attaching_profile_bridge.yaml' }
 
 parameters:
@@ -148,6 +147,13 @@ services:
         arguments:
             $ownerTypeByResourcePath: '%app.crud.attachment_owner_type_by_resource_path%'
         tags: ['cruding.mutation_lifecycle_subscriber']
+
+    App\Service\Placement\AppRetailPlacementOrderLifecycleSubscriber:
+        tags: ['cruding.mutation_lifecycle_subscriber']
+
+    navigating.walleting_database_config_debug:
+        alias: App\Navigating\Service\Navigation\Provide\NavigationDatabaseConfigProvideService
+        public: true
 
     App\Contract\Ui\AppDashboardContract: '@App\Service\Dashboard\AppDashboardBuilderService'
     App\Interfacing\ProviderInterface\Localization\InterfaceLocaleTemplateSelectorProviderInterface:

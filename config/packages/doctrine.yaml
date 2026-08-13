@@ -1,6 +1,6 @@
 parameters:
-    app.platform_data_database_default: 'postgresql://app:!ChangeMe!@127.0.0.1:5432/app?serverVersion=16&charset=utf8'
-    app.object_review_database_default: 'postgresql://app:!ChangeMe!@127.0.0.1:5432/app_review?serverVersion=16&charset=utf8'
+    app.platform_data_database_default: '%env(DATABASE_URL)%'
+    app.object_review_database_default: '%env(DATABASE_URL)%'
     app.platform_system_database_default: 'sqlite:///%kernel.project_dir%/var/platform_system.sqlite'
 
 doctrine:
@@ -60,6 +60,12 @@ doctrine:
                         dir: '%kernel.project_dir%/vendor/accessing/access/src/Entity'
                         prefix: 'App\Accessing\Entity'
                         alias: Accessing
+                    Domaining:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/vendor/domaining/domain/src/Entity'
+                        prefix: 'App\Domaining\Entity'
+                        alias: Domaining
                     Vendoring:
                         is_bundle: false
                         type: attribute
@@ -114,6 +120,36 @@ doctrine:
                         dir: '%kernel.project_dir%/vendor/retailing/retail/src/Entity'
                         prefix: 'App\Retailing\Entity'
                         alias: Retailing
+                    Ordering:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/vendor/ordering/order/src/Entity'
+                        prefix: 'App\Ordering\Entity'
+                        alias: Ordering
+                    Shipping:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/vendor/shipping/shipment/src/Entity'
+                        prefix: 'App\Shipping\Entity'
+                        alias: Shipping
+                    Paying:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/vendor/paying/payment/src/Entity'
+                        prefix: 'App\Paying\Entity'
+                        alias: Paying
+                    Projecting:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/vendor/projecting/project/src/Entity'
+                        prefix: 'App\Projecting\Entity'
+                        alias: Projecting
+                    Walleting:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/vendor/smartresponsor/walleting/src/Entity'
+                        prefix: 'App\Walleting\Entity'
+                        alias: Walleting
             review:
                 connection: review
                 auto_mapping: false

@@ -176,6 +176,13 @@
         },
         {
             "type": "path",
+            "url": "../Walleting",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
             "url": "../Cruding",
             "options": {
                 "symlink": true
@@ -354,6 +361,7 @@
         "ordering/order": "*@dev",
         "paging/page": "*@dev",
         "paying/payment": "*@dev",
+        "smartresponsor/walleting": "*@dev",
         "projecting/project": "*@dev",
         "retailing/retail": "*@dev",
         "rolling/role": "*@dev",
