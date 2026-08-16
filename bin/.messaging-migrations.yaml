@@ -1,0 +1,5 @@
+table_storage:
+    table_name: doctrine_migration_versions
+migrations_paths:
+    'App\Messaging\Migrations\Baseline': '../Messaging/migrations/baseline'
+all_or_nothing: true

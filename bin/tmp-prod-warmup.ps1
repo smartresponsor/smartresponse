@@ -1,0 +1,1 @@
+$env:APP_ENV='prod'; $env:APP_DEBUG='0'; php bin/console cache:warmup --env=prod --no-debug; $code=$LASTEXITCODE; Remove-Item -LiteralPath $PSCommandPath -Force -ErrorAction SilentlyContinue; exit $code
