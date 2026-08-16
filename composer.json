@@ -113,6 +113,13 @@
         },
         {
             "type": "path",
+            "url": "../Notifying",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
             "url": "../Delivering",
             "options": {
                 "symlink": true
@@ -363,6 +370,7 @@
         "merchandising/merch": "*@dev",
         "nelmio/api-doc-bundle": "^5.0",
         "messaging/message": "*@dev",
+        "smartresponsor/notifying": "*@dev",
         "navigating/navigation": "*@dev",
         "objecting/object": "*@dev",
         "observabiliting/observability": "*@dev",

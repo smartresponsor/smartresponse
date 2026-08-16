@@ -22,10 +22,12 @@ when@dev:
             'App\Carting\Migrations': '%kernel.project_dir%/vendor/carting/cart/migrations'
             'App\Cataloging\Migrations': '%kernel.project_dir%/../Cataloging/migrations'
             'App\Vendoring\Migrations': '%kernel.project_dir%/vendor/vendoring/vendor/migrations'
-            'App\Administering\Migrations': '%kernel.project_dir%/../Administering/migrations'
-            'App\Commercializing\Migrations': '%kernel.project_dir%/../Commercializing/migrations'
-            'App\Exchanging\Migrations': '%kernel.project_dir%/../Exchanging/migrations'
-            'App\Tagging\Migrations': '%kernel.project_dir%/../Tagging/migrations'
-            'App\Commissioning\Migrations': '%kernel.project_dir%/../Commissioning/migrations'
+            # Administering currently owns no Doctrine migrations.
+            # Commercializing currently owns no available Doctrine migrations.
+            # Exchanging currently owns no available Doctrine migrations.
+            # Tagging currently owns no available Doctrine migrations.
+            # Commissioning currently owns no available Doctrine migrations.
             'App\Paging\Migrations': '%kernel.project_dir%/../Paging/migrations'
             'App\Walleting\Migrations': '%kernel.project_dir%/vendor/smartresponsor/walleting/migrations'
+            'App\Messaging\Migrations\Baseline': '%kernel.project_dir%/../Messaging/migrations/baseline'
+            'App\Notifying\Migrations\Baseline': '%kernel.project_dir%/../Notifying/migrations/baseline'

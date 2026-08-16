@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e13b302c2dc525333988df212da0e783",
+    "content-hash": "6ac7bdad11c7f846707c0921d81aac72",
     "packages": [
         {
             "name": "accessing/access",
@@ -5245,24 +5245,23 @@
             "dist": {
                 "type": "path",
                 "url": "../Locating",
-                "reference": "4173dc829472489fbb5efa7e11422435430f0dfc"
+                "reference": "f31741ef523db6f28f8485d7496091bf37dfc490"
             },
             "require": {
                 "ext-json": "*",
-                "objecting/object": "*@dev",
+                "objecting/object": "dev-master",
                 "php": "^8.4",
-                "symfony/config": "^7.2 || ^8.0",
-                "symfony/console": "^7.2 || ^8.0",
-                "symfony/dependency-injection": "^7.2 || ^8.0",
-                "symfony/http-foundation": "^7.2 || ^8.0",
-                "symfony/http-kernel": "^7.2 || ^8.0",
-                "symfony/routing": "^7.2 || ^8.0"
+                "symfony/config": "^8.0",
+                "symfony/console": "^8.0",
+                "symfony/dependency-injection": "^8.0",
+                "symfony/http-foundation": "^8.0",
+                "symfony/http-kernel": "^8.0",
+                "symfony/routing": "^8.0"
             },
             "require-dev": {
-                "doctrine/doctrine-fixtures-bundle": "^3.6",
-                "doctrine/doctrine-migrations-bundle": "^3.4",
+                "doctrine/doctrine-fixtures-bundle": "^4.3",
+                "doctrine/doctrine-migrations-bundle": "^4.0",
                 "friendsofphp/php-cs-fixer": "^3.94",
-                "phpmd/phpmd": "^2.15",
                 "phpstan/phpstan": "^2.1",
                 "phpstan/phpstan-phpunit": "^2.0",
                 "phpunit/phpunit": "^10.5"
@@ -5272,8 +5271,7 @@
                 "smartresponsor-canon": {
                     "workspace_name": "Locating",
                     "entity_name": "Location",
-                    "root_namespace": "App\\",
-                    "transition_namespace_compat": "Smartresponsor\\",
+                    "root_namespace": "App\\Locating\\",
                     "author": "Oleksandr Tishchenko",
                     "author_email": "dev@highhopesamerica.com",
                     "deploy_nginx": "deploy/nginx/nginx.conf"
@@ -5281,16 +5279,12 @@
             },
             "autoload": {
                 "psr-4": {
-                    "App\\": "src/",
-                    "Smartresponsor\\": "src/"
-                },
-                "classmap": [
-                    "src/"
-                ]
+                    "App\\Locating\\": "src/"
+                }
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Tests\\": "tests/"
+                    "App\\Locating\\Tests\\": "tests/"
                 }
             },
             "scripts": {
@@ -5354,15 +5348,6 @@
                     "php -l tools/canon/location-service-provider-location-path-audit.php",
                     "php -l src/Service/Provider/Location/AddressReverseResultNormalizer.php",
                     "php -l src/Service/Provider/Location/AddressSuggestionRanker.php",
-                    "php -l src/Service/Provider/Location/LegacyCostAwareAddressReverseSourceCostPolicy.php",
-                    "php -l src/Service/Provider/Location/LegacyCostAwareAddressSuggestionSourceCostPolicy.php",
-                    "php -l src/Service/Provider/Location/LegacyHealthAwareAddressReverseSourceHealthPolicy.php",
-                    "php -l src/Service/Provider/Location/LegacyHealthAwareAddressSuggestionSourceHealthPolicy.php",
-                    "php -l src/Service/Provider/Location/LegacyProviderCostSignalReader.php",
-                    "php -l src/Service/Provider/Location/LegacyProviderHealthSignalReader.php",
-                    "php -l src/Service/Provider/Location/LegacyProviderQuotaSignalReader.php",
-                    "php -l src/Service/Provider/Location/LegacyQuotaAwareAddressReverseSourceQuotaPolicy.php",
-                    "php -l src/Service/Provider/Location/LegacyQuotaAwareAddressSuggestionSourceQuotaPolicy.php",
                     "php -l src/Service/Provider/Location/OrderedAddressReverseProvider.php",
                     "php -l src/Service/Provider/Location/OrderedAddressSuggestionProvider.php",
                     "php -l src/Service/Provider/Location/PolicyAddressReverseSourceOrder.php",
@@ -5388,12 +5373,6 @@
                     "php -l src/ServiceInterface/Provider/Location/ProviderQuotaSignalReaderInterface.php",
                     "php -l .gate/check/location-service-bridge-batch-location-path-canon.php",
                     "php -l tools/canon/location-service-bridge-batch-location-path-audit.php",
-                    "php -l src/Service/Bridge/Batch/Location/LegacyAddressResultFactory.php",
-                    "php -l src/ServiceInterface/Bridge/Batch/Location/LegacyAddressResultFactoryInterface.php",
-                    "php -l .gate/check/location-service-locator-legacy-canon.php",
-                    "php -l tools/canon/location-service-locator-legacy-audit.php",
-                    "php -l .gate/check/location-service-locator-address-legacy-canon.php",
-                    "php -l tools/canon/location-service-locator-address-legacy-audit.php",
                     "php -l .gate/check/location-service-locator-address-reference-canon.php",
                     "php -l tools/canon/location-service-locator-address-reference-audit.php",
                     "php -l tools/canon/location-service-locator-address-core-path-audit.php",
@@ -5401,14 +5380,13 @@
                     "php -l src/Service/Address/Location/AddressStandardizeService.php",
                     "php -l src/ServiceInterface/Address/Location/AddressParseServiceInterface.php",
                     "php -l src/ServiceInterface/Address/Location/AddressStandardizeServiceInterface.php",
-                    "php -l src/Infrastructure/Locator/Http/Kernel.php",
+                    "php -l src/Infrastructure/Provider/Location/Http/Kernel.php",
                     "php -l .gate/check/location-service-locator-address-ranker-path-canon.php",
                     "php -l tools/canon/location-service-locator-address-ranker-path-audit.php",
                     "php -l src/Service/Address/Location/AddressSuggestRanker.php",
                     "php -l src/ServiceInterface/Address/Location/AddressSuggestRankerInterface.php",
                     "php -l .gate/check/location-service-locator-address-suggest-service-path-canon.php",
                     "php -l tools/canon/location-service-locator-address-suggest-service-path-audit.php",
-                    "php -l src/Service/Address/Location/AddressSuggestLegacyService.php",
                     "php -l .gate/check/location-service-locator-address-canonicalizer-path-canon.php",
                     "php -l tools/canon/location-service-locator-address-canonicalizer-path-audit.php",
                     "php -l src/Service/Address/Location/AddressCanonicalizerService.php",
@@ -5416,73 +5394,32 @@
                     "php -l tools/canon/location-service-locator-address-hint-bias-path-audit.php",
                     "php -l src/Service/Address/Location/AddressHintBiasService.php",
                     "php -l src/ServiceInterface/Address/Location/AddressHintBiasServiceInterface.php",
-                    "php -l src/Service/Locator/AdaptiveOrdering.php",
                     "php -l .gate/check/location-service-locator-address-quota-guard-path-canon.php",
                     "php -l tools/canon/location-service-locator-address-quota-guard-path-audit.php",
                     "php -l src/Service/Address/Location/AddressQuotaGuard.php",
-                    "php -l src/Service/Http/Location/SmartresponsorLocationQuotaGuardBackend.php",
+                    "php -l src/Service/Http/Location/LocationQuotaGuardBackend.php",
                     "php -l .gate/check/location-service-locator-address-normalizer-path-canon.php",
                     "php -l tools/canon/location-service-locator-address-normalizer-path-audit.php",
                     "php -l src/Service/Address/Location/AddressNormalizerService.php",
                     "php -l src/ServiceInterface/Address/Location/AddressNormalizerServiceInterface.php",
                     "php -l .gate/check/location-service-locator-address-reverse-path-canon.php",
                     "php -l tools/canon/location-service-locator-address-reverse-path-audit.php",
-                    "php -l src/Service/Address/Location/AddressReverseLegacyService.php",
-                    "php -l .gate/check/location-service-locator-address-suggest-ranker-legacy-path-canon.php",
-                    "php -l tools/canon/location-service-locator-address-suggest-ranker-legacy-path-audit.php",
-                    "php -l src/Service/Address/Location/AddressSuggestRankerLegacyService.php",
-                    "php -l src/ServiceInterface/Address/Location/AddressSuggestRankerLegacyServiceInterface.php",
-                    "php -l .gate/check/location-service-locator-address-hint-bias-legacy-path-canon.php",
-                    "php -l tools/canon/location-service-locator-address-hint-bias-legacy-path-audit.php",
                     "php -l src/Service/Address/Location/AddressHintBiasService.php",
                     "php -l src/ServiceInterface/Address/Location/AddressHintBiasServiceInterface.php",
-                    "php -l .gate/check/location-service-locator-provider-ranker-legacy-path-canon.php",
-                    "php -l tools/canon/location-service-locator-provider-ranker-legacy-path-audit.php",
                     "php -l src/Service/Provider/Location/ProviderRankerService.php",
                     "php -l src/ServiceInterface/Provider/Location/ProviderRankerServiceInterface.php",
-                    "php -l src/Service/Locator/Provider/ProviderRouter.php",
-                    "php -l .gate/check/location-service-locator-provider-here-legacy-path-canon.php",
-                    "php -l tools/canon/location-service-locator-provider-here-legacy-path-audit.php",
                     "php -l src/Service/Provider/Location/HereProviderService.php",
-                    "php -l .gate/check/location-service-locator-provider-mapbox-legacy-path-canon.php",
-                    "php -l tools/canon/location-service-locator-provider-mapbox-legacy-path-audit.php",
                     "php -l src/Service/Provider/Location/MapboxProviderService.php",
-                    "php -l .gate/check/location-service-locator-provider-nominatim-legacy-path-canon.php",
-                    "php -l tools/canon/location-service-locator-provider-nominatim-legacy-path-audit.php",
                     "php -l src/Service/Provider/Location/NominatimProviderService.php",
-                    "php -l .gate/check/location-service-locator-provider-authz-policy-legacy-path-canon.php",
-                    "php -l tools/canon/location-service-locator-provider-authz-policy-legacy-path-audit.php",
                     "php -l src/Service/Provider/Location/ProviderAuthzPolicyService.php",
-                    "php -l .gate/check/location-service-locator-provider-order-legacy-path-canon.php",
-                    "php -l tools/canon/location-service-locator-provider-order-legacy-path-audit.php",
                     "php -l src/Service/Provider/Location/ProviderOrderService.php",
-                    "php -l .gate/check/location-service-locator-health-ewma-legacy-path-canon.php",
-                    "php -l tools/canon/location-service-locator-health-ewma-legacy-path-audit.php",
                     "php -l src/Service/Provider/Location/HealthEwmaService.php",
-                    "php -l src/Service/Locator/RouterOrchestrator.php",
-                    "php -l .gate/check/location-service-locator-score-ensemble-legacy-path-canon.php",
-                    "php -l tools/canon/location-service-locator-score-ensemble-legacy-path-audit.php",
                     "php -l src/Service/Provider/Location/ScoreEnsembleService.php",
                     "php -l src/ServiceInterface/Provider/Location/ScoreEnsembleServiceInterface.php",
-                    "php -l .gate/check/location-service-locator-provider-stat-aggregator-legacy-path-canon.php",
-                    "php -l tools/canon/location-service-locator-provider-stat-aggregator-legacy-path-audit.php",
                     "php -l src/Service/Provider/Location/ProviderStatAggregatorService.php",
-                    "php -l .gate/check/location-service-locator-provider-key-vault-legacy-path-canon.php",
-                    "php -l tools/canon/location-service-locator-provider-key-vault-legacy-path-audit.php",
                     "php -l src/Service/Provider/Location/ProviderKeyVaultService.php",
-                    "php -l .gate/check/location-service-locator-provider-key-rotation-legacy-path-canon.php",
-                    "php -l tools/canon/location-service-locator-provider-key-rotation-legacy-path-audit.php",
                     "php -l src/Service/Provider/Location/ProviderKeyRotationService.php",
-                    "php -l tools/canon/location-service-locator-provider-cost-catalog-legacy-path-audit.php",
-                    "php -l .gate/check/location-service-locator-provider-cost-catalog-legacy-path-canon.php",
-                    "php -l .gate/check/location-service-locator-provider-failover-router-legacy-path-canon.php",
-                    "php -l tools/canon/location-service-locator-provider-failover-router-legacy-path-audit.php",
-                    "php -l src/Service/Provider/Location/ProviderFailoverRouterLegacyService.php",
-                    "php -l .gate/check/location-service-locator-budget-guard-legacy-path-canon.php",
-                    "php -l tools/canon/location-service-locator-budget-guard-legacy-path-audit.php",
                     "php -l src/Service/Provider/Location/BudgetGuardService.php",
-                    "php -l .gate/check/location-service-locator-cost-cap-policy-legacy-path-canon.php",
-                    "php -l tools/canon/location-service-locator-cost-cap-policy-legacy-path-audit.php",
                     "php -l src/Service/Provider/Location/CostCapPolicyService.php"
                 ],
                 "stan": [
@@ -5502,12 +5439,6 @@
                 ],
                 "test:location": [
                     "phpunit -c phpunit.xml.dist"
-                ],
-                "bridge:squeeze": [
-                    "php .gate/check/location-bridge-squeeze.php"
-                ],
-                "bridge:shutdown:readiness": [
-                    "php .gate/check/location-bridge-shutdown-readiness.php"
                 ],
                 "security:composer-audit": [
                     "composer audit --locked --format=plain"
@@ -5531,9 +5462,7 @@
                     "@security:importmap-audit",
                     "@security:gitleaks",
                     "@security:semgrep",
-                    "@canon",
-                    "@bridge:squeeze",
-                    "@bridge:shutdown:readiness"
+                    "@canon"
                 ],
                 "canon:structure": [
                     "php tools/canon/location-structure-audit.php"
@@ -5557,8 +5486,6 @@
                     "@canon:service-observability-location-path",
                     "@canon:service-provider-location-path",
                     "@canon:service-bridge-batch-location-path",
-                    "@canon:service-locator-legacy",
-                    "@canon:service-locator-address-legacy",
                     "@canon:service-locator-address-references",
                     "@canon:service-locator-address-core-path",
                     "@canon:service-locator-address-ranker-path",
@@ -5567,31 +5494,14 @@
                     "@canon:service-locator-address-hint-bias-path",
                     "@canon:service-locator-address-quota-guard-path",
                     "@canon:service-locator-address-normalizer-path",
-                    "@canon:service-locator-address-hint-bias-legacy-path",
-                    "@canon:service-locator-provider-ranker-legacy-path",
                     "@canon:structure",
-                    "@canon:service-locator-address-reverse-path",
-                    "@canon:service-locator-address-suggest-ranker-legacy-path",
-                    "@canon:service-locator-provider-here-legacy-path",
-                    "@canon:service-locator-provider-mapbox-legacy-path",
-                    "@canon:service-locator-provider-nominatim-legacy-path",
-                    "@canon:service-locator-provider-authz-policy-legacy-path",
-                    "@canon:service-locator-provider-order-legacy-path",
-                    "@canon:service-locator-health-ewma-legacy-path",
-                    "@canon:service-locator-score-ensemble-legacy-path",
-                    "@canon:service-locator-provider-stat-aggregator-legacy-path",
-                    "@canon:service-locator-provider-key-vault-legacy-path",
-                    "@canon:service-locator-provider-key-rotation-legacy-path",
-                    "@canon:service-locator-provider-cost-catalog-legacy-path",
-                    "@canon:service-locator-provider-failover-router-legacy-path",
-                    "@canon:service-locator-budget-guard-legacy-path",
-                    "@canon:service-locator-cost-cap-policy-legacy-path"
+                    "@canon:service-locator-address-reverse-path"
                 ],
                 "cs:check": [
-                    "php-cs-fixer fix --dry-run --diff --config=.php-cs-fixer.dist.php"
+                    "php-cs-fixer fix --dry-run --diff --allow-risky=yes --config=.php-cs-fixer.dist.php"
                 ],
                 "cs:fix": [
-                    "php-cs-fixer fix --config=.php-cs-fixer.dist.php"
+                    "php-cs-fixer fix --allow-risky=yes --config=.php-cs-fixer.dist.php"
                 ],
                 "canon:entity-first": [
                     "php tools/canon/location-entity-first-inventory.php"
@@ -5623,12 +5533,6 @@
                 "canon:service-bridge-batch-location-path": [
                     "php tools/canon/location-service-bridge-batch-location-path-audit.php"
                 ],
-                "canon:service-locator-legacy": [
-                    "php tools/canon/location-service-locator-legacy-audit.php"
-                ],
-                "canon:service-locator-address-legacy": [
-                    "php tools/canon/location-service-locator-address-legacy-audit.php"
-                ],
                 "canon:service-locator-address-references": [
                     "php tools/canon/location-service-locator-address-reference-audit.php"
                 ],
@@ -5655,57 +5559,6 @@
                 ],
                 "canon:service-locator-address-reverse-path": [
                     "php .gate/check/location-service-locator-address-reverse-path-canon.php"
-                ],
-                "canon:service-locator-address-suggest-ranker-legacy-path": [
-                    "php .gate/check/location-service-locator-address-suggest-ranker-legacy-path-canon.php"
-                ],
-                "canon:service-locator-address-hint-bias-legacy-path": [
-                    "php .gate/check/location-service-locator-address-hint-bias-legacy-path-canon.php"
-                ],
-                "canon:service-locator-provider-ranker-legacy-path": [
-                    "php .gate/check/location-service-locator-provider-ranker-legacy-path-canon.php"
-                ],
-                "canon:service-locator-provider-here-legacy-path": [
-                    "php .gate/check/location-service-locator-provider-here-legacy-path-canon.php"
-                ],
-                "canon:service-locator-provider-mapbox-legacy-path": [
-                    "php .gate/check/location-service-locator-provider-mapbox-legacy-path-canon.php"
-                ],
-                "canon:service-locator-provider-nominatim-legacy-path": [
-                    "php .gate/check/location-service-locator-provider-nominatim-legacy-path-canon.php"
-                ],
-                "canon:service-locator-provider-authz-policy-legacy-path": [
-                    "php .gate/check/location-service-locator-provider-authz-policy-legacy-path-canon.php"
-                ],
-                "canon:service-locator-provider-order-legacy-path": [
-                    "php .gate/check/location-service-locator-provider-order-legacy-path-canon.php"
-                ],
-                "canon:service-locator-health-ewma-legacy-path": [
-                    "php .gate/check/location-service-locator-health-ewma-legacy-path-canon.php"
-                ],
-                "canon:service-locator-score-ensemble-legacy-path": [
-                    "php .gate/check/location-service-locator-score-ensemble-legacy-path-canon.php"
-                ],
-                "canon:service-locator-provider-stat-aggregator-legacy-path": [
-                    "php .gate/check/location-service-locator-provider-stat-aggregator-legacy-path-canon.php"
-                ],
-                "canon:service-locator-provider-key-vault-legacy-path": [
-                    "php .gate/check/location-service-locator-provider-key-vault-legacy-path-canon.php"
-                ],
-                "canon:service-locator-provider-key-rotation-legacy-path": [
-                    "php .gate/check/location-service-locator-provider-key-rotation-legacy-path-canon.php"
-                ],
-                "canon:service-locator-provider-cost-catalog-legacy-path": [
-                    "php .gate/check/location-service-locator-provider-cost-catalog-legacy-path-canon.php"
-                ],
-                "canon:service-locator-provider-failover-router-legacy-path": [
-                    "php .gate/check/location-service-locator-provider-failover-router-legacy-path-canon.php"
-                ],
-                "canon:service-locator-budget-guard-legacy-path": [
-                    "php .gate/check/location-service-locator-budget-guard-legacy-path-canon.php"
-                ],
-                "canon:service-locator-cost-cap-policy-legacy-path": [
-                    "php .gate/check/location-service-locator-cost-cap-policy-legacy-path-canon.php"
                 ]
             },
             "license": [
@@ -10648,6 +10501,73 @@
                 "proprietary"
             ],
             "description": "Shipping process app",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "smartresponsor/notifying",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "../Notifying",
+                "reference": "e1c7c62a170d7c693f295577a8708f17de49a675"
+            },
+            "require": {
+                "cruding/crud": "dev-master",
+                "doctrine/dbal": "^4.2",
+                "doctrine/doctrine-bundle": "^3.2",
+                "doctrine/doctrine-migrations-bundle": "^4.0",
+                "doctrine/orm": "^3.3",
+                "easycorp/easyadmin-bundle": "^5.0",
+                "ext-json": "*",
+                "interfacing/interface": "dev-master",
+                "objecting/object": "dev-master",
+                "php": "^8.4",
+                "symfony/asset": "^8.1",
+                "symfony/console": "^8.1",
+                "symfony/dotenv": "^8.1",
+                "symfony/form": "^8.1",
+                "symfony/framework-bundle": "^8.1",
+                "symfony/runtime": "^8.1",
+                "symfony/security-bundle": "^8.1",
+                "symfony/serializer": "^8.1",
+                "symfony/twig-bundle": "^8.1",
+                "symfony/validator": "^8.1",
+                "symfony/yaml": "^8.1",
+                "twig/twig": "^3.27",
+                "viewing/view": "dev-master"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^12.0",
+                "symfony/phpunit-bridge": "^8.0"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "symfony": {
+                    "require": "^8.1"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "App\\Notifying\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "App\\Notifying\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "phpunit --testdox tests"
+                ]
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Smart Responsor Notifying platform component: notification center, inbox, preferences, subscriptions, and delivery planning.",
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -22388,6 +22308,7 @@
         "rolling/role": 20,
         "searching/search": 20,
         "shipping/shipment": 20,
+        "smartresponsor/notifying": 20,
         "smartresponsor/walleting": 20,
         "subscripting/subscription": 20,
         "tagging/tag": 20,

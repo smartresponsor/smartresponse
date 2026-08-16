@@ -188,3 +188,20 @@ doctrine:
                         dir: '%kernel.project_dir%/vendor/administering/administration/src/Entity'
                         prefix: 'App\Administering\Entity'
                         alias: Administering
+
+when@dev:
+    doctrine:
+        orm:
+            entity_managers:
+                postgres:
+                    mappings:
+                        Messaging:
+                            is_bundle: false
+                            type: attribute
+                            dir: '%kernel.project_dir%/../Messaging/src/Entity'
+                            prefix: 'App\Messaging\Entity\Message'
+                        Notifying:
+                            is_bundle: false
+                            type: attribute
+                            dir: '%kernel.project_dir%/../Notifying/src/Entity'
+                            prefix: 'App\Notifying\Entity'

@@ -155,9 +155,18 @@ services:
         arguments:
             $inner: '@App\Shipping\Service\ShipmentService'
 
-    App\Locating\Service\AddressPipeline: ~
-    App\Locating\ServiceInterface\AddressPipelineInterface:
-        alias: App\Locating\Service\AddressPipeline
+    App\Locating\Service\Address\Location\AddressParser: ~
+    App\Locating\ServiceInterface\Address\Location\AddressParserInterface:
+        alias: App\Locating\Service\Address\Location\AddressParser
+    App\Locating\Service\Address\Location\AddressNormalizer: ~
+    App\Locating\ServiceInterface\Address\Location\AddressNormalizerInterface:
+        alias: App\Locating\Service\Address\Location\AddressNormalizer
+    App\Locating\Service\Address\Location\AddressValidator: ~
+    App\Locating\ServiceInterface\Address\Location\AddressValidatorInterface:
+        alias: App\Locating\Service\Address\Location\AddressValidator
+    App\Locating\Service\Address\Location\AddressPipeline: ~
+    App\Locating\ServiceInterface\Address\Location\AddressPipelineInterface:
+        alias: App\Locating\Service\Address\Location\AddressPipeline
 
     App\Shipping\Service\Http\Shipment\ShipmentNewService:
         arguments:

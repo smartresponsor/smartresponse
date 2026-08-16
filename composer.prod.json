@@ -123,6 +123,16 @@
         },
         {
             "type": "vcs",
+            "url": "git@github.com:smartresponsor/messaging.git",
+            "no-api": true
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/smartresponsor/notifying.git",
+            "no-api": true
+        },
+        {
+            "type": "vcs",
             "url": "git@github.com:smartresponsor/domaining.git",
             "no-api": true
         },
@@ -165,6 +175,8 @@
         "interfacing/interface": "dev-master",
         "localizing/locale": "dev-master",
         "managing/manage": "dev-master",
+        "messaging/message": "dev-master",
+        "smartresponsor/notifying": "dev-master",
         "navigating/navigation": "dev-master",
         "objecting/object": "dev-master",
         "ordering/order": "dev-master",

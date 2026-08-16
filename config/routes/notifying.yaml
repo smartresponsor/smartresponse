@@ -1,0 +1,2 @@
+notifying_routes:
+  resource: '../../vendor/smartresponsor/notifying/config/component/routes.yaml'
