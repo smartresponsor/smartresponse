@@ -120,6 +120,13 @@
         },
         {
             "type": "path",
+            "url": "../Streaming",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
             "url": "../Delivering",
             "options": {
                 "symlink": true
@@ -371,6 +378,7 @@
         "nelmio/api-doc-bundle": "^5.0",
         "messaging/message": "*@dev",
         "smartresponsor/notifying": "*@dev",
+        "smartresponsor/streaming": "*@dev",
         "navigating/navigation": "*@dev",
         "objecting/object": "*@dev",
         "observabiliting/observability": "*@dev",
