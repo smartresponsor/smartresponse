@@ -17,18 +17,12 @@ final class AppAddressPlacementType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('originLine1', TextType::class, ['label' => 'Origin address'])
-            ->add('originLine2', TextType::class, ['label' => 'Origin address line 2', 'required' => false])
-            ->add('originCity', TextType::class, ['label' => 'Origin city'])
-            ->add('originRegion', TextType::class, ['label' => 'Origin state / region', 'required' => false])
-            ->add('originPostalCode', TextType::class, ['label' => 'Origin postal code', 'required' => false])
-            ->add('originCountryCode', CountryType::class, ['label' => 'Origin country'])
-            ->add('destinationLine1', TextType::class, ['label' => 'Destination address'])
-            ->add('destinationLine2', TextType::class, ['label' => 'Destination address line 2', 'required' => false])
-            ->add('destinationCity', TextType::class, ['label' => 'Destination city'])
-            ->add('destinationRegion', TextType::class, ['label' => 'Destination state / region', 'required' => false])
-            ->add('destinationPostalCode', TextType::class, ['label' => 'Destination postal code', 'required' => false])
-            ->add('destinationCountryCode', CountryType::class, ['label' => 'Destination country']);
+            ->add('line1', TextType::class, ['label' => 'Address'])
+            ->add('line2', TextType::class, ['label' => 'Address line 2', 'required' => false])
+            ->add('city', TextType::class, ['label' => 'City'])
+            ->add('region', TextType::class, ['label' => 'State / region', 'required' => false])
+            ->add('postalCode', TextType::class, ['label' => 'Postal code', 'required' => false])
+            ->add('countryCode', CountryType::class, ['label' => 'Country']);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

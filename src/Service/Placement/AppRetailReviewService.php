@@ -52,6 +52,9 @@ final readonly class AppRetailReviewService
         if (null === $retail->getFulfillmentProfile()) {
             return $this->redirect('fulfillment/new');
         }
+        if ($this->requiresExactAddress($retail) && null === $retail->getLocationProfile()) {
+            return $this->redirect('address/new');
+        }
         if (null === $retail->getPricingProfile()) {
             return $this->redirect('pricing/new');
         }
@@ -61,6 +64,7 @@ final readonly class AppRetailReviewService
         $data->kind = $retail->getKind()->label();
         $data->catalog = $retail->getCatalogCode() ?? '';
         $data->category = $retail->getCategoryId() ?? '';
+        $data->location = null === $retail->getLocationProfile() ? 'Not required' : $this->encoded($retail->getLocationProfile());
         $data->fulfillment = $this->encoded($retail->getFulfillmentProfile());
         $data->pricing = $this->encoded($retail->getPricingProfile());
 
@@ -83,6 +87,17 @@ final readonly class AppRetailReviewService
             $data,
             $formView,
         );
+    }
+
+    private function requiresExactAddress(RetailEntity $retail): bool
+    {
+        $mode = $retail->getFulfillmentProfile()['mode'] ?? null;
+
+        return match ($retail->getKind()->value) {
+            'goods' => in_array($mode, ['shipping', 'pickup'], true),
+            'task' => in_array($mode, ['onsite', 'hybrid'], true),
+            default => false,
+        };
     }
 
     /** @return array{retailId: string, vendorId: string}|null */

@@ -52,6 +52,9 @@ final readonly class AppPricingNewService
         if (null === $retail || null === $retail->getFulfillmentProfile()) {
             return $this->redirect('fulfillment/new');
         }
+        if ($this->requiresExactAddress($retail) && null === $retail->getLocationProfile()) {
+            return $this->redirect('address/new');
+        }
 
         $data = new AppPricingPlacementFormData();
         $existing = $retail->getPricingProfile() ?? [];
@@ -99,6 +102,17 @@ final readonly class AppPricingNewService
             'service', 'goods' => 'fixed',
             'task', 'project' => 'budget',
             default => 'fixed',
+        };
+    }
+
+    private function requiresExactAddress(RetailEntity $retail): bool
+    {
+        $mode = $retail->getFulfillmentProfile()['mode'] ?? null;
+
+        return match ($retail->getKind()->value) {
+            'goods' => in_array($mode, ['shipping', 'pickup'], true),
+            'task' => in_array($mode, ['onsite', 'hybrid'], true),
+            default => false,
         };
     }
 

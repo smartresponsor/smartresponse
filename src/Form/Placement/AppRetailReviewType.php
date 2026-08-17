@@ -21,6 +21,7 @@ final class AppRetailReviewType extends AbstractType
             ->add('kind', TextType::class, ['disabled' => true])
             ->add('catalog', TextType::class, ['disabled' => true])
             ->add('category', TextType::class, ['disabled' => true])
+            ->add('location', TextareaType::class, ['disabled' => true])
             ->add('fulfillment', TextareaType::class, ['disabled' => true])
             ->add('pricing', TextareaType::class, ['disabled' => true])
             ->add('publish', CheckboxType::class, ['required' => true, 'label' => 'Publish this listing']);

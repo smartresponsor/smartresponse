@@ -74,7 +74,7 @@ final readonly class AppFulfillmentNewService
                 $placement['fulfillmentConfigured'] = true;
                 $context->request->getSession()->set(self::SESSION_KEY, $placement);
 
-                return $this->redirect('pricing/new');
+                return $this->redirect($this->requiresExactAddress($retail, $profile) ? 'address/new' : 'pricing/new');
             } catch (\InvalidArgumentException $exception) {
                 $form->addError(new FormError($exception->getMessage()));
             }
@@ -117,6 +117,18 @@ final readonly class AppFulfillmentNewService
         $retail = $manager->getRepository(RetailEntity::class)->find((int) $retailId);
 
         return $retail instanceof RetailEntity && $retail->getOwner() === $vendorId ? $retail : null;
+    }
+
+    /** @param array<string, mixed> $profile */
+    private function requiresExactAddress(RetailEntity $retail, array $profile): bool
+    {
+        $mode = is_string($profile['mode'] ?? null) ? $profile['mode'] : '';
+
+        return match ($retail->getKind()->value) {
+            'goods' => in_array($mode, ['shipping', 'pickup'], true),
+            'task' => in_array($mode, ['onsite', 'hybrid'], true),
+            default => false,
+        };
     }
 
     private function redirect(string $crudPath): RedirectResponse
