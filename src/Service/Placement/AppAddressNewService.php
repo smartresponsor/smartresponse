@@ -90,12 +90,12 @@ final readonly class AppAddressNewService
             $origin = $this->addressInputFactory->fromManageDto($this->originDto($data, $placement['vendorId']), [
                 'sourceSystem' => 'placement',
                 'sourceType' => 'manual',
-                'sourceReference' => $placement['orderId'].':origin',
+                'sourceReference' => $placement['placementReference'].':origin',
             ]);
             $destination = $this->addressInputFactory->fromManageDto($this->destinationDto($data, $user->getObjectUuid()), [
                 'sourceSystem' => 'placement',
                 'sourceType' => 'manual',
-                'sourceReference' => $placement['orderId'].':destination',
+                'sourceReference' => $placement['placementReference'].':destination',
             ]);
 
             $this->addressWriteService->create($origin);
@@ -128,7 +128,7 @@ final readonly class AppAddressNewService
         );
     }
 
-    /** @return array{orderId: string, vendorId: string}|null */
+    /** @return array{orderId: string, placementReference: string, vendorId: string}|null */
     private function placement(CrudServiceContext $context): ?array
     {
         if (!$context->request->hasSession()) {
@@ -142,14 +142,18 @@ final readonly class AppAddressNewService
 
         $orderId = $placement['orderId'] ?? null;
         $vendorId = $placement['vendorId'] ?? null;
-        if (!is_scalar($orderId) || !is_scalar($vendorId)) {
+        $placementReference = $placement['placementReference'] ?? null;
+        if (!is_scalar($orderId) || !is_scalar($vendorId) || !is_scalar($placementReference)) {
             return null;
         }
 
         $orderId = trim((string) $orderId);
         $vendorId = trim((string) $vendorId);
+        $placementReference = trim((string) $placementReference);
 
-        return '' !== $orderId && '' !== $vendorId ? ['orderId' => $orderId, 'vendorId' => $vendorId] : null;
+        return '' !== $orderId && '' !== $vendorId && '' !== $placementReference
+            ? ['orderId' => $orderId, 'placementReference' => $placementReference, 'vendorId' => $vendorId]
+            : null;
     }
 
     private function originDto(AppAddressPlacementFormData $data, string $vendorId): AddressManageDto
