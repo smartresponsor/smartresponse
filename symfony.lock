@@ -252,6 +252,9 @@
     "smartresponsor/walleting": {
         "version": "dev-task/walleting-ledger-foundation"
     },
+    "smartresponsor/withdrawing": {
+        "version": "dev-master"
+    },
     "symfony/asset-mapper": {
         "version": "8.0",
         "recipe": {

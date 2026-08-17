@@ -26,9 +26,12 @@ return [
     App\Attaching\AttachingBundle::class => ['all' => true],
     App\Messaging\MessagingBundle::class => ['all' => true],
     App\Notifying\NotifyingBundle::class => ['all' => true],
+    App\Streaming\StreamingBundle::class => ['all' => true],
     App\Carting\CartingBundle::class => ['dev' => true, 'test' => true],
     App\Ordering\OrderingBundle::class => ['all' => true],
     App\Shipping\ShipmentBundle::class => ['all' => true],
     App\Paying\PayingBundle::class => ['all' => true],
     App\Walleting\WalletingBundle::class => ['all' => true],
+    App\Withdrawing\WithdrawingBundle::class => ['all' => true],
+    App\Locating\LocatingBundle::class => ['all' => true],
 ];

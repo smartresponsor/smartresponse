@@ -1,0 +1,3 @@
+retail_placement_api:
+    resource: '../../src/Controller/Retail/'
+    type: attribute

@@ -155,6 +155,11 @@
             "type": "vcs",
             "url": "git@github.com:smartresponsor/paying.git",
             "no-api": true
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:smartresponsor/locating.git",
+            "no-api": true
         }
     ],
     "require": {
@@ -174,6 +179,7 @@
         "domaining/domain": "dev-master",
         "interfacing/interface": "dev-master",
         "localizing/locale": "dev-master",
+        "locating/location": "dev-master",
         "managing/manage": "dev-master",
         "messaging/message": "dev-master",
         "smartresponsor/notifying": "dev-master",

@@ -10,41 +10,21 @@ final class AppAddressPlacementFormData
 {
     #[Assert\NotBlank]
     #[Assert\Length(max: 256)]
-    public string $originLine1 = '';
+    public string $line1 = '';
 
     #[Assert\Length(max: 256)]
-    public ?string $originLine2 = null;
+    public ?string $line2 = null;
 
     #[Assert\NotBlank]
     #[Assert\Length(max: 128)]
-    public string $originCity = '';
+    public string $city = '';
 
     #[Assert\Length(max: 32)]
-    public ?string $originRegion = null;
+    public ?string $region = null;
 
     #[Assert\Length(max: 32)]
-    public ?string $originPostalCode = null;
+    public ?string $postalCode = null;
 
     #[Assert\Country]
-    public string $originCountryCode = 'US';
-
-    #[Assert\NotBlank]
-    #[Assert\Length(max: 256)]
-    public string $destinationLine1 = '';
-
-    #[Assert\Length(max: 256)]
-    public ?string $destinationLine2 = null;
-
-    #[Assert\NotBlank]
-    #[Assert\Length(max: 128)]
-    public string $destinationCity = '';
-
-    #[Assert\Length(max: 32)]
-    public ?string $destinationRegion = null;
-
-    #[Assert\Length(max: 32)]
-    public ?string $destinationPostalCode = null;
-
-    #[Assert\Country]
-    public string $destinationCountryCode = 'US';
+    public string $countryCode = 'US';
 }

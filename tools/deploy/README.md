@@ -52,3 +52,43 @@ curl
 ```
 
 The server resets the checkout to the exact `origin/master` commit and therefore does not preserve uncommitted server-side changes.
+
+## Notification push workers
+
+The Host owns the Notifying → Delivering orchestration boundary. `app:notification:dispatch` claims one bounded Notifying batch, enqueues `DeliveringSendPush` messages, and marks successfully enqueued plans as handed off. Physical APNs/FCM delivery and retries stay on the `delivering_async` Messenger transport.
+
+For a host with a long-running process supervisor, run the Scheduler and Delivering queue together:
+
+```bash
+/opt/alt/php84/usr/bin/php bin/console messenger:consume scheduler_default delivering_async --env=prod --no-debug --time-limit=3600 --memory-limit=256M --no-interaction
+```
+
+The default Host schedule emits `AppNotificationDispatchTick` every minute. Restart the consumer normally through the process supervisor when its time limit expires.
+
+For cPanel cron, do not start a sub-minute Scheduler worker that exits before the first recurring tick. Configure one cron entry once per minute and invoke the canonical bounded entrypoint from the production checkout:
+
+```bash
+bash /path/to/App/tools/deploy/notification-cron.sh
+```
+
+The entrypoint first runs `delivering:push:status` and exits before claiming anything when APNs/FCM configuration is incomplete. It then claims one bounded Notifying batch and drains `delivering_async` for at most 50 seconds. A repository-local lock directory prevents overlapping cron invocations. Limits can be tuned with `SMARTRESPONSOR_NOTIFICATION_CLAIM_LIMIT`, `SMARTRESPONSOR_NOTIFICATION_LEASE_SECONDS`, `SMARTRESPONSOR_DELIVERING_CONSUME_LIMIT`, and `SMARTRESPONSOR_DELIVERING_CONSUME_SECONDS`.
+
+Notifying claims are atomic and lease-bound. Delivering uses the deterministic `notification-dispatch:{planId}` idempotency key, so a reclaimed plan cannot create a second physical delivery record.
+
+### Push provider environment
+
+Provider credentials belong in production environment/secrets, never Git:
+
+```text
+DELIVERING_APNS_TEAM_ID
+DELIVERING_APNS_KEY_ID
+DELIVERING_APNS_PRIVATE_KEY
+DELIVERING_APNS_TOPIC_MAP
+DELIVERING_APNS_ENVIRONMENT
+DELIVERING_FCM_SERVICE_ACCOUNT_JSON
+DELIVERING_FCM_PROJECT_MAP
+```
+
+`DELIVERING_APNS_TOPIC_MAP` maps canonical application keys to bundle topics, for example `{"one_tasker":"com.smartresponsor.mobile.onetasker","platform":"com.smartresponsor.mobile.platform"}`. `DELIVERING_FCM_PROJECT_MAP` maps the same application keys (`one_tasker`, `platform`) to Firebase project IDs. The APNs private key may be stored with literal `\\n` separators; Delivering normalizes them before signing. The FCM service-account value must contain the complete JSON credential object. Missing credentials or missing app mappings fail closed.
+
+When push delivery is provisioned on production, set `SMARTRESPONSOR_REQUIRE_PUSH_READY=1` in the server environment. The deployment script will then run `delivering:push:status` immediately after the production Composer install and abort the deployment before migrations if APNs or FCM readiness is RED. Leave the flag unset while provider credentials are intentionally not provisioned; this avoids blocking unrelated deployments during rollout while the cron entrypoint itself still refuses to claim notifications without ready providers.

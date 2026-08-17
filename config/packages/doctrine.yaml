@@ -156,6 +156,12 @@ doctrine:
                         dir: '%kernel.project_dir%/vendor/smartresponsor/walleting/src/Entity'
                         prefix: 'App\Walleting\Entity'
                         alias: Walleting
+                    Withdrawing:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/vendor/smartresponsor/withdrawing/src/Entity'
+                        prefix: 'App\Withdrawing\Entity'
+                        alias: Withdrawing
             review:
                 connection: review
                 auto_mapping: false

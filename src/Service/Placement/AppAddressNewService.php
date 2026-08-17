@@ -20,6 +20,8 @@ use App\Form\Placement\AppAddressPlacementType;
 use App\Locating\Model\Location\AddressInput;
 use App\Locating\Model\Location\AddressPipelineResult;
 use App\Locating\ServiceInterface\Address\Location\AddressPipelineInterface;
+use App\Retailing\Entity\Retail\RetailEntity;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -37,6 +39,7 @@ final readonly class AppAddressNewService
         private AddressWriteService $addressWriteService,
         private AddressValidatedApplierService $addressValidatedApplierService,
         private AddressPipelineInterface $addressPipeline,
+        private ManagerRegistry $managerRegistry,
         private Security $security,
         private UrlGeneratorInterface $urlGenerator,
     ) {
@@ -59,6 +62,11 @@ final readonly class AppAddressNewService
             return $this->redirect('retail/new');
         }
 
+        $retail = $this->retail($placement['retailId'], $placement['vendorId']);
+        if (null === $retail) {
+            return $this->redirect('retail/new');
+        }
+
         $user = $this->security->getUser();
         if (!$user instanceof AccessEntity) {
             throw new \DomainException('Address placement requires an authenticated owner.');
@@ -69,54 +77,49 @@ final readonly class AppAddressNewService
         $form->handleRequest($context->request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $originValidation = $this->addressPipeline->process(new AddressInput('', [
-                'street' => $data->originLine1,
-                'city' => $data->originCity,
-                'region' => $data->originRegion ?? '',
-                'postalCode' => $data->originPostalCode ?? '',
-                'countryCode' => $data->originCountryCode,
+            $validation = $this->addressPipeline->process(new AddressInput('', [
+                'street' => $data->line1,
+                'city' => $data->city,
+                'region' => $data->region ?? '',
+                'postalCode' => $data->postalCode ?? '',
+                'countryCode' => $data->countryCode,
             ]));
-            $destinationValidation = $this->addressPipeline->process(new AddressInput('', [
-                'street' => $data->destinationLine1,
-                'city' => $data->destinationCity,
-                'region' => $data->destinationRegion ?? '',
-                'postalCode' => $data->destinationPostalCode ?? '',
-                'countryCode' => $data->destinationCountryCode,
-            ]));
-            if (AddressPipelineResult::STATUS_VERIFIED !== $originValidation->status() || AddressPipelineResult::STATUS_VERIFIED !== $destinationValidation->status()) {
-                throw new \DomainException('Shipment placement requires verified origin and destination addresses.');
+            if (AddressPipelineResult::STATUS_VERIFIED !== $validation->status()) {
+                throw new \DomainException('Listing placement requires a verified exact address.');
             }
 
-            $origin = $this->addressInputFactory->fromManageDto($this->originDto($data, $placement['vendorId']), [
-                'sourceSystem' => 'placement',
-                'sourceType' => 'manual',
-                'sourceReference' => $placement['orderId'].':origin',
-            ]);
-            $destination = $this->addressInputFactory->fromManageDto($this->destinationDto($data, $user->getObjectUuid()), [
-                'sourceSystem' => 'placement',
-                'sourceType' => 'manual',
-                'sourceReference' => $placement['orderId'].':destination',
-            ]);
+            $role = $this->addressRole($retail);
+            $ownerId = 'task' === $retail->getKind()->value ? $user->getObjectUuid() : null;
+            $vendorId = 'goods' === $retail->getKind()->value ? $placement['vendorId'] : null;
+            $record = $this->addressInputFactory->fromManageDto(
+                $this->listingDto($data, $ownerId, $vendorId),
+                [
+                    'sourceSystem' => 'placement',
+                    'sourceType' => 'manual',
+                    'sourceReference' => $placement['placementReference'].':'.$role,
+                ],
+            );
 
-            $this->addressWriteService->create($origin);
-            $this->addressWriteService->create($destination);
+            $this->addressWriteService->create($record);
             $this->addressValidatedApplierService->apply(
-                $origin->id(),
-                $this->validatedMessage($origin, $originValidation),
-                null,
-                $placement['vendorId'],
+                $record->id(),
+                $this->validatedMessage($record, $validation),
+                $ownerId,
+                $vendorId,
             );
-            $this->addressValidatedApplierService->apply(
-                $destination->id(),
-                $this->validatedMessage($destination, $destinationValidation),
-                $user->getObjectUuid(),
-                null,
-            );
-            $placement['originAddressId'] = $origin->id();
-            $placement['destinationAddressId'] = $destination->id();
+            $retail->setLocationProfile([
+                'version' => 1,
+                'addressId' => $record->id(),
+                'role' => $role,
+            ]);
+            $manager = $this->managerRegistry->getManagerForClass(RetailEntity::class) ?? $this->managerRegistry->getManager();
+            $manager->persist($retail);
+            $manager->flush();
+            $placement['listingAddressId'] = $record->id();
+            $placement['addressRole'] = $role;
             $context->request->getSession()->set(self::SESSION_KEY, $placement);
 
-            return $this->redirect('shipment/new');
+            return $this->redirect('pricing/new');
         }
 
         $formView = $form->createView();
@@ -128,7 +131,7 @@ final readonly class AppAddressNewService
         );
     }
 
-    /** @return array{orderId: string, vendorId: string}|null */
+    /** @return array{retailId: string, placementReference: string, vendorId: string}|null */
     private function placement(CrudServiceContext $context): ?array
     {
         if (!$context->request->hasSession()) {
@@ -136,46 +139,68 @@ final readonly class AppAddressNewService
         }
 
         $placement = $context->request->getSession()->get(self::SESSION_KEY);
-        if (!is_array($placement)) {
+        if (!is_array($placement) || true !== ($placement['fulfillmentConfigured'] ?? false)) {
             return null;
         }
 
-        $orderId = $placement['orderId'] ?? null;
+        $retailId = $placement['retailId'] ?? null;
         $vendorId = $placement['vendorId'] ?? null;
-        if (!is_scalar($orderId) || !is_scalar($vendorId)) {
+        $placementReference = $placement['placementReference'] ?? null;
+        if (!is_scalar($retailId) || !is_scalar($vendorId) || !is_scalar($placementReference)) {
             return null;
         }
 
-        $orderId = trim((string) $orderId);
+        $retailId = trim((string) $retailId);
         $vendorId = trim((string) $vendorId);
+        $placementReference = trim((string) $placementReference);
 
-        return '' !== $orderId && '' !== $vendorId ? ['orderId' => $orderId, 'vendorId' => $vendorId] : null;
+        return '' !== $retailId && '' !== $vendorId && '' !== $placementReference
+            ? ['retailId' => $retailId, 'placementReference' => $placementReference, 'vendorId' => $vendorId]
+            : null;
     }
 
-    private function originDto(AppAddressPlacementFormData $data, string $vendorId): AddressManageDto
+    private function retail(string $retailId, string $vendorId): ?RetailEntity
     {
-        $dto = new AddressManageDto();
-        $dto->line1 = $data->originLine1;
-        $dto->line2 = $data->originLine2;
-        $dto->city = $data->originCity;
-        $dto->region = $data->originRegion;
-        $dto->postalCode = $data->originPostalCode;
-        $dto->countryCode = $data->originCountryCode;
-        $dto->vendorId = $vendorId;
+        if (!ctype_digit($retailId)) {
+            return null;
+        }
+        $manager = $this->managerRegistry->getManagerForClass(RetailEntity::class) ?? $this->managerRegistry->getManager();
+        $retail = $manager->getRepository(RetailEntity::class)->find((int) $retailId);
 
-        return $dto;
+        return $retail instanceof RetailEntity && $retail->getOwner() === $vendorId ? $retail : null;
     }
 
-    private function destinationDto(AppAddressPlacementFormData $data, string $ownerId): AddressManageDto
+    private function addressRole(RetailEntity $retail): string
     {
+        $mode = $retail->getFulfillmentProfile()['mode'] ?? null;
+
+        return match ($retail->getKind()->value) {
+            'goods' => match ($mode) {
+                'shipping' => 'ship-from',
+                'pickup' => 'pickup-base',
+                default => throw new \DomainException('Selected goods fulfillment does not require an exact address.'),
+            },
+            'task' => in_array($mode, ['onsite', 'hybrid'], true)
+                ? 'job-site'
+                : throw new \DomainException('Selected task fulfillment does not require an exact address.'),
+            default => throw new \DomainException('Selected Retail fulfillment does not require an exact address.'),
+        };
+    }
+
+    private function listingDto(
+        AppAddressPlacementFormData $data,
+        ?string $ownerId,
+        ?string $vendorId,
+    ): AddressManageDto {
         $dto = new AddressManageDto();
-        $dto->line1 = $data->destinationLine1;
-        $dto->line2 = $data->destinationLine2;
-        $dto->city = $data->destinationCity;
-        $dto->region = $data->destinationRegion;
-        $dto->postalCode = $data->destinationPostalCode;
-        $dto->countryCode = $data->destinationCountryCode;
+        $dto->line1 = $data->line1;
+        $dto->line2 = $data->line2;
+        $dto->city = $data->city;
+        $dto->region = $data->region;
+        $dto->postalCode = $data->postalCode;
+        $dto->countryCode = $data->countryCode;
         $dto->ownerId = $ownerId;
+        $dto->vendorId = $vendorId;
 
         return $dto;
     }

@@ -39,6 +39,11 @@ export APP_ENV=prod
 export APP_DEBUG=0
 bash "$remote_root/composer-prod-install.sh" "$remote_root"
 
+if [[ "${SMARTRESPONSOR_REQUIRE_PUSH_READY:-0}" == "1" ]]; then
+  step 'Push provider readiness'
+  "$PHP_BIN" bin/console delivering:push:status --env=prod --no-debug --no-interaction
+fi
+
 step 'Doctrine migrations'
 "$PHP_BIN" bin/console doctrine:migrations:migrate --env=prod --no-debug --no-interaction --allow-no-migration
 
