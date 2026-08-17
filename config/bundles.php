@@ -32,5 +32,6 @@ return [
     App\Shipping\ShipmentBundle::class => ['all' => true],
     App\Paying\PayingBundle::class => ['all' => true],
     App\Walleting\WalletingBundle::class => ['all' => true],
+    App\Withdrawing\WithdrawingBundle::class => ['all' => true],
     App\Locating\LocatingBundle::class => ['all' => true],
 ];

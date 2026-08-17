@@ -10,6 +10,7 @@ doctrine_migrations:
         'App\Vendoring\Migrations': '%kernel.project_dir%/vendor/vendoring/vendor/migrations'
         'App\Paging\Migrations': '%kernel.project_dir%/../Paging/migrations'
         'App\Walleting\Migrations': '%kernel.project_dir%/vendor/smartresponsor/walleting/migrations'
+        'App\Withdrawing\Migrations': '%kernel.project_dir%/vendor/smartresponsor/withdrawing/migrations'
     enable_profiler: false
 
 when@dev:
@@ -29,5 +30,6 @@ when@dev:
             # Commissioning currently owns no available Doctrine migrations.
             'App\Paging\Migrations': '%kernel.project_dir%/../Paging/migrations'
             'App\Walleting\Migrations': '%kernel.project_dir%/vendor/smartresponsor/walleting/migrations'
+            'App\Withdrawing\Migrations': '%kernel.project_dir%/vendor/smartresponsor/withdrawing/migrations'
             'App\Messaging\Migrations\Baseline': '%kernel.project_dir%/../Messaging/migrations/baseline'
             'App\Notifying\Migrations\Baseline': '%kernel.project_dir%/../Notifying/migrations/baseline'

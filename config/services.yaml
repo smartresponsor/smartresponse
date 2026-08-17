@@ -155,6 +155,9 @@ services:
         arguments:
             $inner: '@App\Shipping\Service\ShipmentService'
 
+    App\Service\Withdrawing\WalletWithdrawalSourceService:
+        tags: ['app.withdrawing.source']
+
     App\Locating\Service\Address\Location\AddressParser: ~
     App\Locating\ServiceInterface\Address\Location\AddressParserInterface:
         alias: App\Locating\Service\Address\Location\AddressParser

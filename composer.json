@@ -204,6 +204,13 @@
         },
         {
             "type": "path",
+            "url": "../Withdrawing",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
             "url": "../Cruding",
             "options": {
                 "symlink": true
@@ -386,6 +393,7 @@
         "paging/page": "*@dev",
         "paying/payment": "*@dev",
         "smartresponsor/walleting": "*@dev",
+        "smartresponsor/withdrawing": "*@dev",
         "projecting/project": "*@dev",
         "retailing/retail": "*@dev",
         "rolling/role": "*@dev",
