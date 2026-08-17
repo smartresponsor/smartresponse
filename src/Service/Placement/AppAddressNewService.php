@@ -116,7 +116,7 @@ final readonly class AppAddressNewService
             $placement['destinationAddressId'] = $destination->id();
             $context->request->getSession()->set(self::SESSION_KEY, $placement);
 
-            return $this->redirect('shipment/new');
+            return $this->redirect('fulfillment/new');
         }
 
         $formView = $form->createView();
@@ -128,7 +128,7 @@ final readonly class AppAddressNewService
         );
     }
 
-    /** @return array{orderId: string, placementReference: string, vendorId: string}|null */
+    /** @return array{placementReference: string, vendorId: string}|null */
     private function placement(CrudServiceContext $context): ?array
     {
         if (!$context->request->hasSession()) {
@@ -140,19 +140,17 @@ final readonly class AppAddressNewService
             return null;
         }
 
-        $orderId = $placement['orderId'] ?? null;
         $vendorId = $placement['vendorId'] ?? null;
         $placementReference = $placement['placementReference'] ?? null;
-        if (!is_scalar($orderId) || !is_scalar($vendorId) || !is_scalar($placementReference)) {
+        if (!is_scalar($vendorId) || !is_scalar($placementReference)) {
             return null;
         }
 
-        $orderId = trim((string) $orderId);
         $vendorId = trim((string) $vendorId);
         $placementReference = trim((string) $placementReference);
 
-        return '' !== $orderId && '' !== $vendorId && '' !== $placementReference
-            ? ['orderId' => $orderId, 'placementReference' => $placementReference, 'vendorId' => $vendorId]
+        return '' !== $vendorId && '' !== $placementReference
+            ? ['placementReference' => $placementReference, 'vendorId' => $vendorId]
             : null;
     }
 
