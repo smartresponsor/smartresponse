@@ -126,6 +126,8 @@ services:
         tags: ['controller.service_arguments']
     App\Accessing\ServiceInterface\Vendor\AccessPhoneVerificationProviderServiceInterface:
         alias: App\Service\Access\AppAccessDeliveringPhoneVerificationProvider
+    App\Delivering\ServiceInterface\Command\Delivery\DeliveringPushTokenResolverInterface:
+        alias: App\Service\Notification\AppNotifyingPushTokenResolver
     App\Cataloging\Controller\Catalog\CatalogCategoryMerchantController:
         public: true
         autowire: true

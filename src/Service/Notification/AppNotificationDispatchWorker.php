@@ -45,7 +45,7 @@ final readonly class AppNotificationDispatchWorker
 
                 $message = new DeliveringSendPush(
                     platform: (string) ($delivery['provider'] ?? ''),
-                    token: (string) ($delivery['token'] ?? ''),
+                    tokenHash: (string) ($delivery['tokenHash'] ?? ''),
                     appKey: (string) ($delivery['appKey'] ?? ''),
                     title: (string) ($delivery['title'] ?? ''),
                     body: (string) ($delivery['body'] ?? ''),
