@@ -54,6 +54,8 @@ services:
             - '../src/EventSubscriber/View/AppCrudResourceViewSubscriber.php'
             - '../src/EventSubscriber/View/AppCrudResourceViewKernelViewSubscriber.php'
             - '../src/EventSubscriber/View/AppCrudResourceViewBridgeSubscriber.php'
+            - '../src/Service/Projecting/AppProjectingVendorSlaRateLimitSubscriber.php'
+            - '../src/Service/Paying/DemoPayoutRailService.php'
 
     App\Service\Dashboard\AppDashboardBuilderService:
         public: true
@@ -117,6 +119,11 @@ services:
         autowire: true
         autoconfigure: true
         tags: ['controller.service_arguments']
+    App\Controller\Wallet\ApiWalletController:
+        public: true
+        autowire: true
+        autoconfigure: true
+        tags: ['controller.service_arguments']
     App\Accessing\ServiceInterface\Vendor\AccessPhoneVerificationProviderServiceInterface:
         alias: App\Service\Access\AppAccessDeliveringPhoneVerificationProvider
     App\Cataloging\Controller\Catalog\CatalogCategoryMerchantController:
@@ -157,6 +164,10 @@ services:
 
     App\Service\Withdrawing\WalletWithdrawalSourceService:
         tags: ['app.withdrawing.source']
+    App\Service\Withdrawing\PayingWithdrawalRailService:
+        arguments:
+            $rails: !tagged_iterator app.paying.payout_rail
+        tags: ['app.withdrawing.rail']
 
     App\Locating\Service\Address\Location\AddressParser: ~
     App\Locating\ServiceInterface\Address\Location\AddressParserInterface:
@@ -216,3 +227,16 @@ services:
 when@dev:
     services:
         Doctrine\Bundle\FixturesBundle\Loader\SymfonyFixturesLoader: '@doctrine.fixtures.loader'
+        App\DataFixtures\WalletDemoFixtures:
+            autowire: true
+            autoconfigure: true
+        App\Service\Paying\DemoPayoutRailService:
+            autowire: true
+            autoconfigure: true
+            tags: ['app.paying.payout_rail']
+        App\Projecting\Http\Subscriber\VendorSlaRateLimitSubscriber:
+            autowire: true
+            autoconfigure: false
+        App\Service\Projecting\AppProjectingVendorSlaRateLimitSubscriber:
+            autowire: true
+            autoconfigure: true

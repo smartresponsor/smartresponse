@@ -1,0 +1,3 @@
+wallet_application_api:
+    resource: '../../src/Controller/Wallet/'
+    type: attribute
