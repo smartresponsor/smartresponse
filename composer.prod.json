@@ -191,6 +191,7 @@
         "rolling/role": "dev-master",
         "searching/search": "dev-master",
         "shipping/shipment": "dev-master",
+        "stripe/stripe-php": "^19.3",
         "paying/payment": "dev-master",
         "smartresponsor/walleting": "dev-master",
         "doctrine/dbal": "^4.3",

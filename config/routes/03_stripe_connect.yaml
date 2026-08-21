@@ -1,0 +1,3 @@
+stripe_connect_payout_webhook:
+    resource: '../../src/Controller/Paying/StripeConnectPayoutWebhookController.php'
+    type: attribute

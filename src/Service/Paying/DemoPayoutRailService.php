@@ -35,6 +35,13 @@ final class DemoPayoutRailService implements PayoutRailInterface
         return str_starts_with($railReference, self::REFERENCE_PREFIX);
     }
 
+    public function compensateFailure(string $railReference, string $idempotencyKey): void
+    {
+        if (!$this->supportsReference($railReference) || '' === trim($idempotencyKey)) {
+            throw new \InvalidArgumentException('Demo payout failure compensation is invalid.');
+        }
+    }
+
     public function reverse(string $railReference, string $idempotencyKey): void
     {
         if (!$this->supportsReference($railReference) || '' === trim($idempotencyKey)) {

@@ -14,6 +14,8 @@ parameters:
     paying.messenger.dsn: 'sync://'
     app.back_uri_token_default: 'ea'
     app.back_uri_token: '%env(default:app.back_uri_token_default:APP_BACK_URI_TOKEN)%'
+    stripe.secret_key_default: ''
+    stripe.connect_webhook_secret_default: ''
     app.crud.attachment_owner_type_by_resource_path:
         vendor: vendor
         project: project
@@ -124,6 +126,13 @@ services:
         autowire: true
         autoconfigure: true
         tags: ['controller.service_arguments']
+    App\Controller\Paying\StripeConnectPayoutWebhookController:
+        public: true
+        autowire: true
+        autoconfigure: true
+        arguments:
+            $webhookSecret: '%env(default:stripe.connect_webhook_secret_default:STRIPE_CONNECT_WEBHOOK_SECRET)%'
+        tags: ['controller.service_arguments']
     App\Accessing\ServiceInterface\Vendor\AccessPhoneVerificationProviderServiceInterface:
         alias: App\Service\Access\AppAccessDeliveringPhoneVerificationProvider
     App\Delivering\ServiceInterface\Command\Delivery\DeliveringPushTokenResolverInterface:
@@ -163,6 +172,11 @@ services:
     App\Service\Placement\AppAddressingShipmentService:
         arguments:
             $inner: '@App\Shipping\Service\ShipmentService'
+
+    App\Service\Paying\StripePayoutRailService:
+        arguments:
+            $secretKey: '%env(default:stripe.secret_key_default:STRIPE_SECRET_KEY)%'
+        tags: ['app.paying.payout_rail']
 
     App\Service\Withdrawing\WalletWithdrawalSourceService:
         tags: ['app.withdrawing.source']

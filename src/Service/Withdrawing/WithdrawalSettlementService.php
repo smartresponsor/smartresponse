@@ -27,7 +27,7 @@ final readonly class WithdrawalSettlementService
     public function fail(string $railReference, string $reason): Withdrawal
     {
         $withdrawal = $this->withdrawal($railReference);
-        $this->withdrawing->fail($withdrawal, $reason);
+        $this->withdrawing->fail($withdrawal);
 
         return $withdrawal;
     }

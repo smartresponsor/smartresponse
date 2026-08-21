@@ -76,6 +76,7 @@ security:
         - { path: ^/docs, roles: PUBLIC_ACCESS }
         - { path: ^/api/applicating/doc, roles: PUBLIC_ACCESS }
         - { path: ^/api/access(?:/|$), roles: PUBLIC_ACCESS }
+        - { path: ^/api/paying/stripe/connect/webhook$, methods: [POST], roles: PUBLIC_ACCESS }
         - { path: ^/app(?:/|$), roles: PUBLIC_ACCESS }
 
         # 2FA
