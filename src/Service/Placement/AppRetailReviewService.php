@@ -63,7 +63,7 @@ final readonly class AppRetailReviewService
         $data->title = $retail->getTitle();
         $data->kind = $retail->getKind()->label();
         $data->catalog = $retail->getCatalogCode() ?? '';
-        $data->category = $retail->getCategoryId() ?? '';
+        $data->typePath = $retail->getTypePath() ?? '';
         $data->location = null === $retail->getLocationProfile() ? 'Not required' : $this->encoded($retail->getLocationProfile());
         $data->fulfillment = $this->encoded($retail->getFulfillmentProfile());
         $data->pricing = $this->encoded($retail->getPricingProfile());

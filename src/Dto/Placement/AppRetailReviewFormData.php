@@ -9,7 +9,7 @@ final class AppRetailReviewFormData
     public string $title = '';
     public string $kind = '';
     public string $catalog = '';
-    public string $category = '';
+    public string $typePath = '';
     public string $location = '';
     public string $fulfillment = '';
     public string $pricing = '';

@@ -147,7 +147,7 @@ final readonly class AppRetailResponseApiService
             throw new \InvalidArgumentException('serviceId must be a positive numeric identifier.');
         }
         $service = $this->manager()->getRepository(RetailEntity::class)->find((int) $id);
-        if (!$service instanceof RetailEntity || 'service' !== $service->getKind()->value || 'vendor' !== $service->getOwnerType() || $service->getOwner() !== $vendorId || $service->getCategoryId() !== $request->getCategoryId()) {
+        if (!$service instanceof RetailEntity || 'service' !== $service->getKind()->value || 'vendor' !== $service->getOwnerType() || $service->getOwner() !== $vendorId || $service->getTypePath() !== $request->getTypePath()) {
             throw new \DomainException('Marketplace service was not found in the current vendor and category scope.');
         }
 

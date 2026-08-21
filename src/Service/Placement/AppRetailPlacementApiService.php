@@ -143,7 +143,7 @@ final readonly class AppRetailPlacementApiService
             'retailId' => (string) $retail->getId(),
             'kind' => $retail->getKind()->value,
             'catalogCode' => $retail->getCatalogCode(),
-            'categoryId' => $retail->getCategoryId(),
+            'typePath' => $retail->getTypePath(),
             'title' => $retail->getTitle(),
             'description' => $retail->getDescription(),
             'locationProfile' => $retail->getLocationProfile(),
