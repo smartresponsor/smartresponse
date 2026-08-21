@@ -10,8 +10,8 @@ use App\Cruding\Service\Crud\Resource\CrudResourceContractFactory;
 use App\Cruding\Value\Resource\CrudResourceContract;
 use App\Dto\Placement\AppPricingPlacementFormData;
 use App\Form\Placement\AppPricingPlacementType;
-use App\Paying\Service\Placement\ListingPricingProfileNormalizer;
 use App\Retailing\Entity\Retail\RetailEntity;
+use App\Retailing\Service\Pricing\RetailPricingProfileNormalizer;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -26,7 +26,7 @@ final readonly class AppPricingNewService
         private FormFactoryInterface $formFactory,
         private CrudPageDefinitionProvider $pageDefinitionProvider,
         private CrudResourceContractFactory $contractFactory,
-        private ListingPricingProfileNormalizer $profileNormalizer,
+        private RetailPricingProfileNormalizer $profileNormalizer,
         private ManagerRegistry $managerRegistry,
         private UrlGeneratorInterface $urlGenerator,
     ) {

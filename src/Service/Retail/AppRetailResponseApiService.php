@@ -6,13 +6,16 @@ namespace App\Service\Retail;
 
 use App\Retailing\Entity\Retail\RetailEntity;
 use App\Retailing\Entity\Retail\RetailResponseEntity;
+use App\Retailing\Service\Marketplace\RetailResponseAcceptanceService;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 
 final readonly class AppRetailResponseApiService
 {
-    public function __construct(private ManagerRegistry $managerRegistry)
-    {
+    public function __construct(
+        private ManagerRegistry $managerRegistry,
+        private RetailResponseAcceptanceService $acceptanceService,
+    ) {
     }
 
     /** @param array<string, mixed> $input */
@@ -96,17 +99,7 @@ final readonly class AppRetailResponseApiService
             throw new \DomainException('Retail response was not found in the current customer scope.');
         }
 
-        $retail->acceptResponse($response);
-        $manager = $this->manager();
-        foreach ($manager->getRepository(RetailResponseEntity::class)->findBy(['retail' => $retail->getId(), 'status' => 'submitted']) as $other) {
-            if ($other instanceof RetailResponseEntity && $other->getId() !== $response->getId()) {
-                $other->reject();
-                $manager->persist($other);
-            }
-        }
-        $manager->persist($response);
-        $manager->persist($retail);
-        $manager->flush();
+        $retail = $this->acceptanceService->accept($response);
 
         return [
             'retailId' => (string) $retail->getId(),

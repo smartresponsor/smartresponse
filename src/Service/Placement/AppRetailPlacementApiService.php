@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Service\Placement;
 
-use App\Paying\Service\Placement\ListingPricingProfileNormalizer;
 use App\Retailing\Entity\Retail\RetailEntity;
+use App\Retailing\Service\Pricing\RetailPricingProfileNormalizer;
 use App\Shipping\Service\Placement\ListingFulfillmentProfileNormalizer;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -14,7 +14,7 @@ final readonly class AppRetailPlacementApiService
     public function __construct(
         private ManagerRegistry $managerRegistry,
         private ListingFulfillmentProfileNormalizer $fulfillmentNormalizer,
-        private ListingPricingProfileNormalizer $pricingNormalizer,
+        private RetailPricingProfileNormalizer $pricingNormalizer,
         private AppRetailLocationPlacementService $locationPlacement,
     ) {
     }
