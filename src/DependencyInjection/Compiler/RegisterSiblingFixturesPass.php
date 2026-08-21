@@ -93,9 +93,7 @@ final class RegisterSiblingFixturesPass implements CompilerPassInterface
                 continue;
             }
 
-            if ($container->hasDefinition($fqcn) || $container->hasAlias($fqcn)) {
-                continue;
-            }
+            $serviceAlreadyRegistered = $container->hasDefinition($fqcn) || $container->hasAlias($fqcn);
 
             if (!class_exists($fqcn, false)) {
                 require_once $fileInfo->getPathname();
@@ -110,15 +108,23 @@ final class RegisterSiblingFixturesPass implements CompilerPassInterface
                 continue;
             }
 
-            if (!is_a($fqcn, FixtureInterface::class, true) && !(str_starts_with($fqcn, 'App\\Localizing\\DataFixtures\\') && $reflectionClass->hasMethod('load'))) {
+            $isDoctrineFixture = is_a($fqcn, FixtureInterface::class, true);
+            $isLegacyLocalizingFixture = str_starts_with($fqcn, 'App\\Localizing\\DataFixtures\\') && $reflectionClass->hasMethod('load');
+            if (!$isDoctrineFixture && !$isLegacyLocalizingFixture) {
                 continue;
             }
 
-            $definition = new Definition($fqcn);
-            $definition->setAutowired(true);
-            $definition->setAutoconfigured(true);
+            if (!$serviceAlreadyRegistered) {
+                $definition = new Definition($fqcn);
+                $definition->setAutowired(true);
+                $definition->setAutoconfigured(true);
 
-            $container->setDefinition($fqcn, $definition);
+                $container->setDefinition($fqcn, $definition);
+            }
+
+            if (!$isDoctrineFixture) {
+                continue;
+            }
 
             $groups = [$reflectionClass->getShortName()];
             if (is_a($fqcn, FixtureGroupInterface::class, true)) {
