@@ -135,6 +135,11 @@ services:
         tags: ['controller.service_arguments']
     App\Accessing\ServiceInterface\Vendor\AccessPhoneVerificationProviderServiceInterface:
         alias: App\Service\Access\AppAccessDeliveringPhoneVerificationProvider
+    App\Service\Fact\FactCurrentSubjectProvider:
+        autowire: true
+        autoconfigure: true
+    App\ServiceInterface\Fact\FactCurrentSubjectProviderInterface:
+        alias: App\Service\Fact\FactCurrentSubjectProvider
     App\Delivering\ServiceInterface\Command\Delivery\DeliveringPushTokenResolverInterface:
         alias: App\Service\Notification\AppNotifyingPushTokenResolver
     App\Cataloging\Controller\Catalog\CatalogCategoryMerchantController:

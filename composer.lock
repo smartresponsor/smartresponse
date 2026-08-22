@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fc7cd9b8e45f7af391dc42610cb64613",
+    "content-hash": "7a9fd084d27485344eaac306e6a24689",
     "packages": [
         {
             "name": "accessing/access",
@@ -4087,6 +4087,77 @@
             "license": [
                 "proprietary"
             ],
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "facting/fact",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "../Facting",
+                "reference": "d43bb6b1416c38d21f5e7fb4514711db7d740b62"
+            },
+            "require": {
+                "accessing/access": "dev-master",
+                "cruding/crud": "dev-master || dev-feature/http-api-crud-classification",
+                "doctrine/doctrine-bundle": "^3.2",
+                "doctrine/orm": "^3.3",
+                "easycorp/easyadmin-bundle": "^5.0",
+                "ext-json": "*",
+                "ext-pdo": "*",
+                "ext-pdo_pgsql": "*",
+                "interfacing/interface": "dev-master",
+                "objecting/object": "dev-master",
+                "php": ">=8.4",
+                "symfony/config": "^8.1",
+                "symfony/console": "^8.1",
+                "symfony/dependency-injection": "^8.1",
+                "symfony/framework-bundle": "^8.1",
+                "symfony/http-foundation": "^8.1",
+                "symfony/http-kernel": "^8.1",
+                "symfony/process": "^8.1",
+                "symfony/routing": "^8.1",
+                "symfony/runtime": "^8.1",
+                "symfony/security-bundle": "^8.1",
+                "symfony/yaml": "^8.1",
+                "viewing/view": "dev-master"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.60",
+                "league/openapi-psr7-validator": "^0.22.0",
+                "nyholm/psr7": "^1.8",
+                "phpunit/phpunit": "^10.0",
+                "symfony/browser-kit": "^8.1"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "symfony": {
+                    "bundle": "App\\Facting\\FactingBundle"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "App\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "App\\Test\\": "test/",
+                    "App\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "phpunit -c phpunit.xml.dist"
+                ]
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Append-oriented auditable business fact ledger for SmartResponsor platform capabilities",
             "transport-options": {
                 "symlink": true,
                 "relative": true
@@ -22599,6 +22670,7 @@
         "domaining/domain": 20,
         "exchanging/exchange": 20,
         "faceting/facet": 20,
+        "facting/fact": 20,
         "gating/gate": 20,
         "indexing/index": 20,
         "interfacing/interface": 20,

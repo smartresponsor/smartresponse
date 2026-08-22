@@ -38,6 +38,11 @@
         },
         {
             "type": "vcs",
+            "url": "git@github.com:smartresponsor/facting.git",
+            "no-api": true
+        },
+        {
+            "type": "vcs",
             "url": "git@github.com:smartresponsor/accessing.git",
             "no-api": true
         },
@@ -188,6 +193,7 @@
         "cruding/crud": "dev-master#7e672ebb75acec3f272c9c2544e61e7426376c29",
         "delivering/delivery": "dev-master",
         "domaining/domain": "dev-master",
+        "facting/fact": "dev-master",
         "interfacing/interface": "dev-master",
         "localizing/locale": "dev-master",
         "locating/location": "dev-master",

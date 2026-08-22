@@ -30,6 +30,7 @@ return [
     App\Streaming\StreamingBundle::class => ['all' => true],
     App\Carting\CartingBundle::class => ['dev' => true, 'test' => true],
     App\Casing\CasingBundle::class => ['all' => true],
+    App\Facting\FactingBundle::class => ['all' => true],
     App\Ordering\OrderingBundle::class => ['all' => true],
     App\Shipping\ShipmentBundle::class => ['all' => true],
     App\Paying\PayingBundle::class => ['all' => true],

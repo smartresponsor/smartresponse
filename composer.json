@@ -391,6 +391,7 @@
         "easycorp/easyadmin-bundle": "^5.0",
         "exchanging/exchange": "*@dev",
         "faceting/facet": "*@dev",
+        "facting/fact": "dev-master",
         "indexing/index": "*@dev",
         "interfacing/interface": "*@dev",
         "localizing/locale": "*@dev",

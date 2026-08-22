@@ -1,0 +1,3 @@
+facting_routes:
+  resource: '../../vendor/facting/fact/src/Http/Fact/'
+  type: attribute
