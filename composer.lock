@@ -1633,7 +1633,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Casing",
-                "reference": "08f65e4c7a1ad804576e0aae5fe7a9cbadae2ecb"
+                "reference": "e392bcc0f403acd67eec7d10e87683d119291de5"
             },
             "require": {
                 "attaching/attachment": "*@dev",
@@ -9770,7 +9770,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Relating",
-                "reference": "f8483b6a02f7c004f64db86e7b3d5051910bb4c3"
+                "reference": "e93c50b4b66c175ddb8bc6d1dd6fdaac01546237"
             },
             "require": {
                 "doctrine/orm": "^3.0",
