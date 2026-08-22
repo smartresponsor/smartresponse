@@ -43,6 +43,9 @@
     "carting/cart": {
         "version": "dev-main"
     },
+    "casing/case": {
+        "version": "dev-master"
+    },
     "cataloging/catalog": {
         "version": "dev-master"
     },

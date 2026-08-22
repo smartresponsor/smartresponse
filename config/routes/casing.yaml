@@ -1,0 +1,3 @@
+casing_routes:
+  resource: '../../vendor/casing/case/src/Controller/'
+  type: attribute
