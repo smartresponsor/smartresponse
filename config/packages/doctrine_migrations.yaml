@@ -4,6 +4,7 @@ doctrine_migrations:
         # as migrations classes should NOT be autoloaded
         'DoctrineMigrations': '%kernel.project_dir%/migrations'
         'App\Domaining\Migrations': '%kernel.project_dir%/vendor/domaining/domain/migrations'
+        'App\Addressing\Migrations': '%kernel.project_dir%/vendor/addressing/address/migrations'
         'App\Retailing\Migrations': '%kernel.project_dir%/vendor/retailing/retail/migrations'
         'App\Attaching\Migrations': '%kernel.project_dir%/vendor/attaching/attachment/migrations'
         'App\Carting\Migrations': '%kernel.project_dir%/vendor/carting/cart/migrations'
