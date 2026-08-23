@@ -11,6 +11,7 @@ use App\Ordering\Entity\Order\OrderEntity;
 use App\Ordering\Entity\Order\OrderOutboxMessageEntity;
 use App\Ordering\Event\Domain\Order\OrderPaidEvent;
 use App\Ordering\Event\Domain\Order\OrderPlacedEvent;
+use App\Ordering\Event\Domain\Order\OrderShippedEvent;
 use App\Ordering\Service\Outbox\OutboxProcessor;
 use App\Service\Fact\AppOrderFactSubscriber;
 use App\ServiceInterface\Fact\FactSubjectCommitterInterface;
@@ -158,6 +159,63 @@ final class AppOrderFactSubscriberTest extends TestCase
             )
             ->willReturn(new FactRecord(
                 FactEnvelope::dynamic('order.paid', [], $order->slug(), 'order'),
+                0,
+            ));
+
+        $dispatcher = new EventDispatcher();
+        $dispatcher->addSubscriber(new AppOrderFactSubscriber($entityManager, $factCommitter));
+
+        self::assertSame(1, (new OutboxProcessor($entityManager, $dispatcher))->process());
+        self::assertTrue($outboxMessage->isDispatched());
+    }
+
+    public function testDurableShippedOutboxCreatesShippingFact(): void
+    {
+        $order = new OrderEntity('USD', '100.00');
+        $order->setCustomerId('accessing:user:42');
+
+        $outboxMessage = new OrderOutboxMessageEntity(
+            $order->slug(),
+            OrderShippedEvent::class,
+            [
+                'orderId' => $order->slug(),
+                'carrier' => 'UPS',
+                'trackingCode' => '1ZTRACK100',
+            ],
+        );
+
+        $outboxRepository = $this->createMock(EntityRepository::class);
+        $outboxRepository->method('findBy')->willReturn([$outboxMessage]);
+
+        $orderRepository = $this->createMock(EntityRepository::class);
+        $orderRepository->method('findOneBy')->willReturn($order);
+
+        $entityManager = $this->createMock(EntityManagerInterface::class);
+        $entityManager->method('getRepository')->willReturnCallback(
+            static fn (string $class): EntityRepository => OrderOutboxMessageEntity::class === $class
+                ? $outboxRepository
+                : $orderRepository,
+        );
+        $entityManager->expects(self::once())->method('flush');
+
+        $factCommitter = $this->createMock(FactSubjectCommitterInterface::class);
+        $factCommitter->expects(self::once())
+            ->method('commit')
+            ->with(
+                self::isInstanceOf(FactStream::class),
+                'order.shipped',
+                self::callback(static fn (array $payload): bool => 'UPS' === $payload['carrier']
+                    && '1ZTRACK100' === $payload['trackingCode']),
+                'accessing:user:42',
+                self::stringContains('Tracking: 1ZTRACK100'),
+                ['source' => 'ordering'],
+                'ordering:order:'.$order->slug().':shipment:1ZTRACK100',
+                1,
+                $order->getUpdatedAt(),
+                'ordering:service',
+            )
+            ->willReturn(new FactRecord(
+                FactEnvelope::dynamic('order.shipped', [], $order->slug(), 'order'),
                 0,
             ));
 

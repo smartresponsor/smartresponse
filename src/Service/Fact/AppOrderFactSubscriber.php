@@ -9,6 +9,7 @@ use App\Facting\Fact\FactStream;
 use App\Ordering\Entity\Order\OrderEntity;
 use App\Ordering\Event\Domain\Order\OrderPaidEvent;
 use App\Ordering\Event\Domain\Order\OrderPlacedEvent;
+use App\Ordering\Event\Domain\Order\OrderShippedEvent;
 use App\ServiceInterface\Fact\FactSubjectCommitterInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -26,6 +27,7 @@ final readonly class AppOrderFactSubscriber implements EventSubscriberInterface
         return [
             OrderPlacedEvent::class => 'onOrderPlaced',
             OrderPaidEvent::class => 'onOrderPaid',
+            OrderShippedEvent::class => 'onOrderShipped',
         ];
     }
 
@@ -91,6 +93,46 @@ final readonly class AppOrderFactSubscriber implements EventSubscriberInterface
             sprintf('Payment of %s %s recorded for order %s.', $event->amount, $event->currency, $order->getNumber()),
             ['source' => 'ordering'],
             sprintf('ordering:order:%s:payment:%s', $order->slug(), $externalRef),
+            occurredAt: $order->getUpdatedAt(),
+            actor: 'ordering:service',
+        );
+    }
+
+    public function onOrderShipped(OrderShippedEvent $event): void
+    {
+        $trackingCode = trim((string) $event->trackingCode);
+        if ('' === $trackingCode) {
+            return;
+        }
+
+        $order = $this->findOrder($event->orderId);
+        if (!$order instanceof OrderEntity) {
+            return;
+        }
+
+        $subjectIdentifier = $this->resolveSubjectIdentifier($order->getCustomerId());
+        if (null === $subjectIdentifier) {
+            return;
+        }
+
+        $carrier = null === $event->carrier ? null : trim($event->carrier);
+        $summary = '' !== (string) $carrier
+            ? sprintf('Order %s shipped via %s. Tracking: %s.', $order->getNumber(), $carrier, $trackingCode)
+            : sprintf('Order %s shipped. Tracking: %s.', $order->getNumber(), $trackingCode);
+
+        $this->factCommitter->commit(
+            new FactStream($order->slug(), 'order'),
+            'order.shipped',
+            [
+                'orderId' => $order->slug(),
+                'number' => $order->getNumber(),
+                'carrier' => '' === (string) $carrier ? null : $carrier,
+                'trackingCode' => $trackingCode,
+            ],
+            $subjectIdentifier,
+            $summary,
+            ['source' => 'ordering'],
+            sprintf('ordering:order:%s:shipment:%s', $order->slug(), $trackingCode),
             occurredAt: $order->getUpdatedAt(),
             actor: 'ordering:service',
         );
