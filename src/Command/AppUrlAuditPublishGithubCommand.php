@@ -45,8 +45,8 @@ final class AppUrlAuditPublishGithubCommand extends Command
         }
 
         $urls = [];
-        $failures = (array) ($report['failures'] ?? []);
-        foreach ($failures as $index => $failure) {
+        $findings = $this->publishableFindings($report);
+        foreach ($findings as $index => $failure) {
             $fingerprint = (string) $failure['fingerprint'];
             $title = sprintf('[URL Audit] %s (%s)', $failure['type'], substr($fingerprint, 0, 12));
             $affectedPaths = implode("\n", array_map(
@@ -58,7 +58,7 @@ final class AppUrlAuditPublishGithubCommand extends Command
             if (!is_array($issue)) {
                 $url = trim($this->runGh(['gh', 'issue', 'create', '--repo', $repository, '--title', $title, '--body', $body, '--milestone', $milestone]));
                 $urls[] = $url;
-                $output->writeln(sprintf('[%d/%d] created %s', $index + 1, count($failures), $url));
+                $output->writeln(sprintf('[%d/%d] created %s', $index + 1, count($findings), $url));
                 continue;
             }
 
@@ -68,12 +68,70 @@ final class AppUrlAuditPublishGithubCommand extends Command
                 $this->runGh(['gh', 'issue', 'reopen', $number, '--repo', $repository]);
             }
             $urls[] = (string) ($issue['url'] ?? '');
-            $output->writeln(sprintf('[%d/%d] updated %s', $index + 1, count($failures), (string) ($issue['url'] ?? '#'.$number)));
+            $output->writeln(sprintf('[%d/%d] updated %s', $index + 1, count($findings), (string) ($issue['url'] ?? '#'.$number)));
         }
 
         $output->writeln(json_encode(['milestone' => $milestone, 'issues' => $urls], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR));
 
         return Command::SUCCESS;
+    }
+
+    /**
+     * @param array<string, mixed> $report
+     *
+     * @return list<array<string, mixed>>
+     */
+    private function publishableFindings(array $report): array
+    {
+        $findings = array_values(array_filter(
+            (array) ($report['failures'] ?? []),
+            'is_array',
+        ));
+
+        $performance = $report['performance'] ?? null;
+        $routes = is_array($performance) ? ($performance['routes'] ?? []) : [];
+        if (!is_array($routes)) {
+            return $findings;
+        }
+
+        foreach ($routes as $route) {
+            if (!is_array($route)) {
+                continue;
+            }
+
+            $classification = (string) ($route['classification'] ?? '');
+            if (!in_array($classification, ['sustained_slow', 'unstable', 'payload_heavy', 'first_touch'], true)) {
+                continue;
+            }
+
+            $routeName = (string) ($route['route'] ?? 'unknown');
+            $path = (string) ($route['path'] ?? '/');
+            $fingerprint = hash('sha256', implode('|', ['performance', $classification, $routeName, $path]));
+            $evidence = sprintf(
+                'classification=%s; responseBytes=%d; coldMs=%d; warmAvgMs=%d; p50Ms=%d; p95Ms=%d; maxMs=%d; investigate=%s',
+                $classification,
+                (int) ($route['responseBytes'] ?? 0),
+                (int) ($route['coldMs'] ?? 0),
+                (int) ($route['warmAvgMs'] ?? 0),
+                (int) ($route['p50Ms'] ?? 0),
+                (int) ($route['p95Ms'] ?? 0),
+                (int) ($route['maxMs'] ?? 0),
+                (string) ($route['investigate'] ?? ''),
+            );
+
+            $findings[] = [
+                'fingerprint' => $fingerprint,
+                'type' => 'performance_'.$classification,
+                'route' => $routeName,
+                'path' => $path,
+                'status' => (int) ($route['status'] ?? 0),
+                'occurrences' => 1,
+                'affectedPaths' => [$path],
+                'evidence' => $evidence,
+            ];
+        }
+
+        return $findings;
     }
 
     /** @param list<string> $command */

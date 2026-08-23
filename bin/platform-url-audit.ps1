@@ -177,7 +177,7 @@ try {
         if ($null -eq $reportFile) {
             throw 'No URL audit report was found.'
         }
-        php bin/console app:url-audit:publish-github $reportFile.FullName --repository=smartresponsor/smartresponse --date=2026-07-30 --no-debug
+        php bin/console app:url-audit:publish-github $reportFile.FullName --repository=smartresponsor/smartresponse --no-debug
         exit $LASTEXITCODE
     }
 
