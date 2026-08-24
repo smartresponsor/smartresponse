@@ -44,6 +44,46 @@ final class AppCaseFactSubscriberTest extends TestCase
         $subscriber->onResolved(new CaseResolvedEvent('01CASE', 'accessing:user:42', 'retailing.product', 'retailing.product.return', '2026-08-24T09:30:00-05:00'));
     }
 
+    public function testEmailActorResolvesToCanonicalSubject(): void
+    {
+        $account = new \App\Accessing\Entity\AccessEntity('user@example.com');
+        $id = new \ReflectionProperty($account, 'id');
+        $id->setValue($account, 42);
+
+        $repository = $this->createMock(\Doctrine\ORM\EntityRepository::class);
+        $repository->expects(self::once())
+            ->method('findOneBy')
+            ->with(['email' => 'user@example.com'])
+            ->willReturn($account);
+
+        $entityManager = $this->createMock(EntityManagerInterface::class);
+        $entityManager->expects(self::once())
+            ->method('getRepository')
+            ->with(\App\Accessing\Entity\AccessEntity::class)
+            ->willReturn($repository);
+
+        $committer = $this->createMock(FactSubjectCommitterInterface::class);
+        $committer->expects(self::once())
+            ->method('commit')
+            ->with(
+                self::isInstanceOf(FactStream::class),
+                'case.opened',
+                self::isType('array'),
+                'accessing:user:42',
+                self::isType('string'),
+                ['source' => 'casing'],
+                self::isType('string'),
+                1,
+                self::isInstanceOf(\DateTimeImmutable::class),
+                'casing:service',
+            )
+            ->willReturn(new FactRecord(FactEnvelope::dynamic('case.opened', [], '01CASE', 'case'), 0));
+
+        (new AppCaseFactSubscriber($entityManager, $committer))->onOpened(
+            new CaseOpenedEvent('01CASE', 'user@example.com', 'retailing.product', 'retailing.product.return', '2026-08-24T09:00:00-05:00'),
+        );
+    }
+
     public function testOpaqueActorIsIgnored(): void
     {
         $entityManager = $this->createMock(EntityManagerInterface::class);
