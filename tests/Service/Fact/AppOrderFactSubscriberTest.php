@@ -9,6 +9,7 @@ use App\Facting\Fact\FactRecord;
 use App\Facting\Fact\FactStream;
 use App\Ordering\Entity\Order\OrderEntity;
 use App\Ordering\Entity\Order\OrderOutboxMessageEntity;
+use App\Ordering\Event\Domain\Order\OrderCancelledEvent;
 use App\Ordering\Event\Domain\Order\OrderPaidEvent;
 use App\Ordering\Event\Domain\Order\OrderPlacedEvent;
 use App\Ordering\Event\Domain\Order\OrderShippedEvent;
@@ -100,6 +101,62 @@ final class AppOrderFactSubscriberTest extends TestCase
             )
             ->willReturn(new FactRecord(
                 FactEnvelope::dynamic('order.created', [], $order->slug(), 'order'),
+                0,
+            ));
+
+        $dispatcher = new EventDispatcher();
+        $dispatcher->addSubscriber(new AppOrderFactSubscriber($entityManager, $factCommitter));
+
+        self::assertSame(1, (new OutboxProcessor($entityManager, $dispatcher))->process());
+        self::assertTrue($outboxMessage->isDispatched());
+    }
+
+    public function testDurableCancelledOutboxCreatesCancellationFact(): void
+    {
+        $order = new OrderEntity('USD', '100.00');
+        $order->setCustomerId('accessing:user:42');
+        $order->setVendorId('vendor-7');
+
+        $outboxMessage = new OrderOutboxMessageEntity(
+            $order->slug(),
+            OrderCancelledEvent::class,
+            [
+                'orderId' => $order->slug(),
+                'vendorId' => 'vendor-7',
+            ],
+        );
+
+        $outboxRepository = $this->createMock(EntityRepository::class);
+        $outboxRepository->method('findBy')->willReturn([$outboxMessage]);
+
+        $orderRepository = $this->createMock(EntityRepository::class);
+        $orderRepository->method('findOneBy')->willReturn($order);
+
+        $entityManager = $this->createMock(EntityManagerInterface::class);
+        $entityManager->method('getRepository')->willReturnCallback(
+            static fn (string $class): EntityRepository => OrderOutboxMessageEntity::class === $class
+                ? $outboxRepository
+                : $orderRepository,
+        );
+        $entityManager->expects(self::once())->method('flush');
+
+        $factCommitter = $this->createMock(FactSubjectCommitterInterface::class);
+        $factCommitter->expects(self::once())
+            ->method('commit')
+            ->with(
+                self::isInstanceOf(FactStream::class),
+                'order.cancelled',
+                self::callback(static fn (array $payload): bool => 'vendor-7' === $payload['vendorId']),
+                'accessing:user:42',
+                self::stringContains('was cancelled'),
+                ['source' => 'ordering'],
+                'ordering:order:'.$order->slug().':cancelled',
+                1,
+                $order->getUpdatedAt(),
+                'ordering:service',
+            )
+            ->willReturn(new FactRecord(
+                FactEnvelope::dynamic('order.cancelled', [], $order->slug(), 'order'),
                 0,
             ));
 
