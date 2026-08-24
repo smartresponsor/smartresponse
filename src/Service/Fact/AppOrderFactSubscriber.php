@@ -11,6 +11,7 @@ use App\Ordering\Event\Domain\Order\OrderCancelledEvent;
 use App\Ordering\Event\Domain\Order\OrderCompletedEvent;
 use App\Ordering\Event\Domain\Order\OrderPaidEvent;
 use App\Ordering\Event\Domain\Order\OrderPlacedEvent;
+use App\Ordering\Event\Domain\Order\OrderRefundCompletedEvent;
 use App\Ordering\Event\Domain\Order\OrderShippedEvent;
 use App\ServiceInterface\Fact\FactSubjectCommitterInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -31,6 +32,7 @@ final readonly class AppOrderFactSubscriber implements EventSubscriberInterface
             OrderCancelledEvent::class => 'onOrderCancelled',
             OrderCompletedEvent::class => 'onOrderCompleted',
             OrderPaidEvent::class => 'onOrderPaid',
+            OrderRefundCompletedEvent::class => 'onOrderRefunded',
             OrderShippedEvent::class => 'onOrderShipped',
         ];
     }
@@ -156,6 +158,53 @@ final readonly class AppOrderFactSubscriber implements EventSubscriberInterface
             ['source' => 'ordering'],
             sprintf('ordering:order:%s:payment:%s', $order->slug(), $externalRef),
             occurredAt: $order->getUpdatedAt(),
+            actor: 'ordering:service',
+        );
+    }
+
+    public function onOrderRefunded(OrderRefundCompletedEvent $event): void
+    {
+        $refundId = trim($event->refundId);
+        $externalRef = trim($event->externalRef);
+        $amount = trim($event->amount);
+        $currency = strtoupper(trim($event->currency));
+        $occurredAtRaw = trim($event->occurredAt);
+        if ('' === $refundId || '' === $externalRef || '' === $amount || '' === $currency || '' === $occurredAtRaw) {
+            return;
+        }
+
+        try {
+            $occurredAt = new \DateTimeImmutable($occurredAtRaw);
+        } catch (\Exception) {
+            return;
+        }
+
+        $order = $this->findOrder($event->orderId);
+        if (!$order instanceof OrderEntity) {
+            return;
+        }
+
+        $subjectIdentifier = $this->resolveSubjectIdentifier($order->getCustomerId());
+        if (null === $subjectIdentifier) {
+            return;
+        }
+
+        $this->factCommitter->commit(
+            new FactStream($order->slug(), 'order'),
+            'order.refunded',
+            [
+                'orderId' => $order->slug(),
+                'number' => $order->getNumber(),
+                'refundId' => $refundId,
+                'amount' => $amount,
+                'currency' => $currency,
+                'externalRef' => $externalRef,
+            ],
+            $subjectIdentifier,
+            sprintf('Refund of %s %s recorded for order %s.', $amount, $currency, $order->getNumber()),
+            ['source' => 'ordering'],
+            sprintf('ordering:order:%s:refund:%s', $order->slug(), $externalRef),
+            occurredAt: $occurredAt,
             actor: 'ordering:service',
         );
     }
