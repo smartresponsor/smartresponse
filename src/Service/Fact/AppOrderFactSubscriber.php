@@ -8,6 +8,7 @@ use App\Accessing\Entity\AccessEntity;
 use App\Facting\Fact\FactStream;
 use App\Ordering\Entity\Order\OrderEntity;
 use App\Ordering\Event\Domain\Order\OrderCancelledEvent;
+use App\Ordering\Event\Domain\Order\OrderCompletedEvent;
 use App\Ordering\Event\Domain\Order\OrderPaidEvent;
 use App\Ordering\Event\Domain\Order\OrderPlacedEvent;
 use App\Ordering\Event\Domain\Order\OrderShippedEvent;
@@ -28,6 +29,7 @@ final readonly class AppOrderFactSubscriber implements EventSubscriberInterface
         return [
             OrderPlacedEvent::class => 'onOrderPlaced',
             OrderCancelledEvent::class => 'onOrderCancelled',
+            OrderCompletedEvent::class => 'onOrderCompleted',
             OrderPaidEvent::class => 'onOrderPaid',
             OrderShippedEvent::class => 'onOrderShipped',
         ];
@@ -88,6 +90,35 @@ final readonly class AppOrderFactSubscriber implements EventSubscriberInterface
             sprintf('Order %s was cancelled.', $order->getNumber()),
             ['source' => 'ordering'],
             sprintf('ordering:order:%s:cancelled', $order->slug()),
+            occurredAt: $order->getUpdatedAt(),
+            actor: 'ordering:service',
+        );
+    }
+
+    public function onOrderCompleted(OrderCompletedEvent $event): void
+    {
+        $order = $this->findOrder($event->orderId);
+        if (!$order instanceof OrderEntity) {
+            return;
+        }
+
+        $subjectIdentifier = $this->resolveSubjectIdentifier($order->getCustomerId());
+        if (null === $subjectIdentifier) {
+            return;
+        }
+
+        $this->factCommitter->commit(
+            new FactStream($order->slug(), 'order'),
+            'order.completed',
+            [
+                'orderId' => $order->slug(),
+                'number' => $order->getNumber(),
+                'vendorId' => $event->vendorId ?? $order->getVendorId(),
+            ],
+            $subjectIdentifier,
+            sprintf('Order %s was completed.', $order->getNumber()),
+            ['source' => 'ordering'],
+            sprintf('ordering:order:%s:completed', $order->slug()),
             occurredAt: $order->getUpdatedAt(),
             actor: 'ordering:service',
         );
