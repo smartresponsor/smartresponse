@@ -146,7 +146,7 @@ services:
         arguments:
             $webhookSecret: '%env(default:stripe.connect_webhook_secret_default:STRIPE_CONNECT_WEBHOOK_SECRET)%'
         tags: ['controller.service_arguments']
-    App\Accessing\Provider\PhoneVerification\AccessPhoneVerificationProviderInterface:
+    App\Accessing\ProviderInterface\PhoneVerification\AccessPhoneVerificationProviderInterface:
         alias: App\Service\Access\AccessDeliveringPhoneVerificationProvider
     App\Service\Fact\FactCurrentSubjectProvider:
         autowire: true

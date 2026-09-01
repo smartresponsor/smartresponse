@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Access;
 
-use App\Accessing\Provider\PhoneVerification\AccessPhoneVerificationProviderInterface;
+use App\Accessing\ProviderInterface\PhoneVerification\AccessPhoneVerificationProviderInterface;
 use App\Delivering\Message\DeliveringSendSms;
 use Symfony\Component\Messenger\MessageBusInterface;
 
