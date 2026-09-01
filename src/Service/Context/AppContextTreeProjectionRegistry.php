@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Context;
 
-use App\ServiceInterface\Context\AppContextTreeProjectionProviderInterface;
+use App\Service\Context\AppContextTreeProjectionProviderInterface;
 
 final class AppContextTreeProjectionRegistry
 {

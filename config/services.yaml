@@ -53,16 +53,24 @@ services:
             - '../src/Fixture/'
             - '../src/DataFixtures/'
             - '../src/Kernel.php'
-            - '../src/Controller/Access/ApiAccessController.php'
+            - '../src/Controller/Access/AccessApiController.php'
             - '../src/EventSubscriber/View/AppCrudResourceViewSubscriber.php'
             - '../src/EventSubscriber/View/AppCrudResourceViewKernelViewSubscriber.php'
             - '../src/EventSubscriber/View/AppCrudResourceViewBridgeSubscriber.php'
-            - '../src/Service/Projecting/AppProjectingVendorSlaRateLimitSubscriber.php'
+            - '../src/EventSubscriber/Projecting/ProjectingVendorSlaRateLimitSubscriber.php'
             - '../src/Service/Paying/DemoPayoutRailService.php'
 
-    App\Service\Runtime\AppEffectiveApplicationRuntimeService:
+    App\Service\Runtime\AppEffectiveRuntimeService:
         arguments:
             $centralHostOrigin: '%env(default:app.base_uri_default:APP_BASE_URI)%'
+
+    App\Messaging\Service\Thread\MessageMentionService: ~
+    App\Messaging\Service\Moderation\MessageModerationAppealService: ~
+    App\Messaging\Service\Moderation\MessageTrustOverrideService: ~
+    App\Messaging\Service\MessageAIModerationService: ~
+    App\Messaging\Service\Moderation\MessageModerationRuleEngineService: ~
+    App\Messaging\Service\Observability\MessagePrometheusMetricsService: ~
+    App\Messaging\Service\Outbox\MessageOutboxService: ~
 
     App\Service\Dashboard\AppDashboardBuilderService:
         public: true
@@ -80,7 +88,7 @@ services:
         autowire: false
         arguments:
             $registry: '@doctrine'
-    App\Vendoring\Service\Runtime\Mobile\VendorMobilePayoutShowService:
+    App\Service\Vendoring\Runtime\Mobile\VendorMobilePayoutShowService:
         public: true
         tags: ['controller.service_arguments']
     App\Vendoring\Service\Vendor\Profile\VendorProfileHttpService:
@@ -121,12 +129,12 @@ services:
         autowire: true
         autoconfigure: true
         tags: ['controller.service_arguments']
-    App\Controller\Access\ApiAccessController:
+    App\Controller\Access\AccessApiController:
         public: true
         autowire: true
         autoconfigure: true
         tags: ['controller.service_arguments']
-    App\Controller\Wallet\ApiWalletController:
+    App\Controller\Wallet\WalletApiController:
         public: true
         autowire: true
         autoconfigure: true
@@ -138,15 +146,15 @@ services:
         arguments:
             $webhookSecret: '%env(default:stripe.connect_webhook_secret_default:STRIPE_CONNECT_WEBHOOK_SECRET)%'
         tags: ['controller.service_arguments']
-    App\Accessing\ServiceInterface\Vendor\AccessPhoneVerificationProviderServiceInterface:
-        alias: App\Service\Access\AppAccessDeliveringPhoneVerificationProvider
+    App\Accessing\Provider\PhoneVerification\AccessPhoneVerificationProviderInterface:
+        alias: App\Service\Access\AccessDeliveringPhoneVerificationProvider
     App\Service\Fact\FactCurrentSubjectProvider:
         autowire: true
         autoconfigure: true
     App\ServiceInterface\Fact\FactCurrentSubjectProviderInterface:
         alias: App\Service\Fact\FactCurrentSubjectProvider
     App\Delivering\ServiceInterface\Command\Delivery\DeliveringPushTokenResolverInterface:
-        alias: App\Service\Notification\AppNotifyingPushTokenResolver
+        alias: App\Service\Notification\NotifyingPushTokenResolver
     App\Cataloging\Controller\Catalog\CatalogCategoryMerchantController:
         public: true
         autowire: true
@@ -171,15 +179,15 @@ services:
         arguments:
             $transitionMap: '%app.object_visibility.transition_map%'
 
-    App\Service\Crud\AppAttachmentOwnerPurgeLifecycleSubscriber:
+    App\EventSubscriber\Crud\AppAttachmentOwnerPurgeLifecycleSubscriber:
         arguments:
             $ownerTypeByResourcePath: '%app.crud.attachment_owner_type_by_resource_path%'
         tags: ['cruding.mutation_lifecycle_subscriber']
 
-    App\Service\Placement\AppRetailPlacementOrderLifecycleSubscriber:
+    App\EventSubscriber\Placement\RetailPlacementOrderLifecycleSubscriber:
         tags: ['cruding.mutation_lifecycle_subscriber']
 
-    App\Service\Placement\AppAddressingShipmentService:
+    App\Service\Placement\AddressingShipmentService:
         arguments:
             $inner: '@App\Shipping\Service\ShipmentService'
 
@@ -210,7 +218,7 @@ services:
 
     App\Shipping\Service\Http\Shipment\ShipmentNewService:
         arguments:
-            $shipmentService: '@App\Service\Placement\AppAddressingShipmentService'
+            $shipmentService: '@App\Service\Placement\AddressingShipmentService'
 
     navigating.walleting_database_config_debug:
         alias: App\Navigating\Service\Navigation\Provide\NavigationDatabaseConfigProvideService
@@ -221,19 +229,19 @@ services:
         alias: App\Service\Localization\AppLocaleTemplateSelectorProvider
     App\Interfacing\ProviderInterface\Localization\InterfaceLocaleTemplateContextProviderInterface:
         alias: App\Service\Localization\AppLocaleTemplateContextProvider
-    App\ServiceInterface\InterfaceLocation\AppInterfaceLocationComposeServiceInterface:
+    App\Service\InterfaceLocation\AppInterfaceLocationComposeServiceInterface:
         alias: App\Service\InterfaceLocation\AppInterfaceLocationComposeService
     App\Viewing\ServiceInterface\View\ViewInterfaceLocationComposeServiceInterface:
         alias: App\Service\InterfaceLocation\AppInterfaceLocationComposeService
 
 
-    App\Service\Catalog\AppCatalogContextTreeProjectionService:
+    App\Service\Catalog\CatalogContextTreeProjectionService:
         tags: ['app.context_tree_projection_provider']
     App\Service\Context\AppContextTreeProjectionRegistry:
         arguments:
             $providers: !tagged_iterator app.context_tree_projection_provider
 
-    App\Service\View\AppCrudResourceViewPayloadNormalizer:
+    App\Service\View\CrudResourceViewPayloadNormalizer:
         arguments:
             $inner: '@App\Viewing\Service\View\ViewPayloadNormalizer'
             $requestStack: '@request_stack'
@@ -247,7 +255,7 @@ services:
             $interfaceLocationComposeService: '@App\Service\InterfaceLocation\AppInterfaceLocationComposeService'
     App\Viewing\Subscriber\View\ViewKernelViewSubscriber:
         arguments:
-            $payloadNormalizer: '@App\Service\View\AppCrudResourceViewPayloadNormalizer'
+            $payloadNormalizer: '@App\Service\View\CrudResourceViewPayloadNormalizer'
 
 
 when@dev:
@@ -263,6 +271,6 @@ when@dev:
         App\Projecting\Http\Subscriber\VendorSlaRateLimitSubscriber:
             autowire: true
             autoconfigure: false
-        App\Service\Projecting\AppProjectingVendorSlaRateLimitSubscriber:
+        App\EventSubscriber\Projecting\ProjectingVendorSlaRateLimitSubscriber:
             autowire: true
             autoconfigure: true
