@@ -1,0 +1,7 @@
+services:
+    App\Controller\Retail\ApiRetailResponseController:
+        public: true
+        autowire: true
+        autoconfigure: true
+        tags: ['controller.service_arguments']
+
