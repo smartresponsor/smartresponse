@@ -5,6 +5,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 imports:
+    - { resource: '../vendor/applicating/application/config/component/services.yaml' }
     - { resource: '../vendor/localizing/locale/config/services.yaml' }
     - { resource: '../vendor/cataloging/catalog/config/component/services.yaml' }
     - { resource: '../vendor/vendoring/vendor/config/component/optional/attaching_profile_bridge.yaml' }
@@ -58,6 +59,10 @@ services:
             - '../src/EventSubscriber/View/AppCrudResourceViewBridgeSubscriber.php'
             - '../src/Service/Projecting/AppProjectingVendorSlaRateLimitSubscriber.php'
             - '../src/Service/Paying/DemoPayoutRailService.php'
+
+    App\Service\Runtime\AppEffectiveApplicationRuntimeService:
+        arguments:
+            $centralHostOrigin: '%env(default:app.base_uri_default:APP_BASE_URI)%'
 
     App\Service\Dashboard\AppDashboardBuilderService:
         public: true

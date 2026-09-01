@@ -3,6 +3,7 @@ doctrine_migrations:
         # namespace is arbitrary but should be different from App\Migrations
         # as migrations classes should NOT be autoloaded
         'DoctrineMigrations': '%kernel.project_dir%/migrations'
+        'App\Applicating\Migrations': '%kernel.project_dir%/vendor/applicating/application/migrations'
         'App\Domaining\Migrations': '%kernel.project_dir%/vendor/domaining/domain/migrations'
         'App\Addressing\Migrations': '%kernel.project_dir%/vendor/addressing/address/migrations'
         'App\Retailing\Migrations': '%kernel.project_dir%/vendor/retailing/retail/migrations'
@@ -21,6 +22,7 @@ when@dev:
         migrations_paths:
             # namespace is arbitrary but should be different from App\Migrations
             # as migrations classes should NOT be autoloaded
+            'App\Applicating\Migrations': '%kernel.project_dir%/vendor/applicating/application/migrations'
             'App\Domaining\Migrations': '%kernel.project_dir%/vendor/domaining/domain/migrations'
             'App\Retailing\Migrations': '%kernel.project_dir%/vendor/retailing/retail/migrations'
             'App\Carting\Migrations': '%kernel.project_dir%/vendor/carting/cart/migrations'

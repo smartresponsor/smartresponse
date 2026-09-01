@@ -20,6 +20,7 @@ return [
     Twig\Extra\TwigExtraBundle\TwigExtraBundle::class => ['all' => true],
     EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle::class => ['all' => true],
     App\Administering\AdministeringBundle::class => ['all' => true],
+    App\Domaining\DomainingBundle::class => ['all' => true],
     App\Addressing\AddressingBundle::class => ['all' => true],
     Scheb\TwoFactorBundle\SchebTwoFactorBundle::class => ['all' => true],
     App\Retailing\RetailingBundle::class => ['all' => true],
