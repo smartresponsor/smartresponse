@@ -121,7 +121,7 @@ services:
             $fixturesLoader: '@?doctrine.fixtures.loader'
         tags: ['console.command']
     App\Vendoring\DataFixtures\VendorAccessBootstrapFixture: ~
-    App\Accessing\Service\Http\Api\Access\ApiAccessFlowService:
+    App\Accessing\Service\Http\Api\Access\AccessApiFlowService:
         public: true
         autowire: true
         autoconfigure: true

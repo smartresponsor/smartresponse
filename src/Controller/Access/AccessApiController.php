@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Access;
 
-use App\Accessing\Service\Http\Api\Access\ApiAccessFlowService;
+use App\Accessing\Service\Http\Api\Access\AccessApiFlowService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final readonly class AccessApiController
 {
     public function __construct(
-        private ApiAccessFlowService $flow,
+        private AccessApiFlowService $flow,
     ) {
     }
 
