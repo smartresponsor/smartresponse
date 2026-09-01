@@ -1,1 +1,1 @@
-pricing.new: { path: /pricing/new, service: App\Service\Placement\PricingNewService }
+pricing.new: { path: /pricing/new, service: App\Service\Placement\Retail\RetailPlacementPricingNewService }

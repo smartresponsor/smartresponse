@@ -54,11 +54,8 @@ services:
             - '../src/DataFixtures/'
             - '../src/Kernel.php'
             - '../src/Controller/Access/AccessApiController.php'
-            - '../src/EventSubscriber/View/AppCrudResourceViewSubscriber.php'
-            - '../src/EventSubscriber/View/AppCrudResourceViewKernelViewSubscriber.php'
-            - '../src/EventSubscriber/View/AppCrudResourceViewBridgeSubscriber.php'
             - '../src/EventSubscriber/Projecting/ProjectingVendorSlaRateLimitSubscriber.php'
-            - '../src/Service/Paying/DemoPayoutRailService.php'
+            - '../src/Service/Paying/PaymentDemoPayoutRailService.php'
 
     App\Service\Runtime\AppEffectiveRuntimeService:
         arguments:
@@ -115,7 +112,7 @@ services:
         tags: ['console.command']
     App\Command\AppUrlAuditRunCommand:
         tags: ['console.command']
-    App\Command\AppUrlAuditPublishGithubCommand:
+    App\Command\AppUrlAuditPublishGitHubCommand:
         tags: ['console.command']
     App\Command\GatingCheckCommand:
         tags: ['console.command']
@@ -147,14 +144,14 @@ services:
             $webhookSecret: '%env(default:stripe.connect_webhook_secret_default:STRIPE_CONNECT_WEBHOOK_SECRET)%'
         tags: ['controller.service_arguments']
     App\Accessing\ProviderInterface\PhoneVerification\AccessPhoneVerificationProviderInterface:
-        alias: App\Service\Access\AccessDeliveringPhoneVerificationProvider
+        alias: App\Provider\Access\AccessDeliveringPhoneVerificationProvider
     App\Service\Fact\FactCurrentSubjectProvider:
         autowire: true
         autoconfigure: true
     App\ServiceInterface\Fact\FactCurrentSubjectProviderInterface:
         alias: App\Service\Fact\FactCurrentSubjectProvider
     App\Delivering\ServiceInterface\Command\Delivery\DeliveringPushTokenResolverInterface:
-        alias: App\Service\Notification\NotifyingPushTokenResolver
+        alias: App\Resolver\Notification\NotifyingPushTokenResolver
     App\Cataloging\Controller\Catalog\CatalogCategoryMerchantController:
         public: true
         autowire: true
@@ -175,30 +172,30 @@ services:
     doctrine.orm.data_entity_manager:
         alias: doctrine.orm.postgres_entity_manager
 
-    App\Service\ObjectMeta\ObjectVisibilityManager:
+    App\Manager\ObjectMeta\ObjectVisibilityManager:
         arguments:
             $transitionMap: '%app.object_visibility.transition_map%'
 
-    App\EventSubscriber\Crud\AppAttachmentOwnerPurgeLifecycleSubscriber:
+    App\EventSubscriber\Crud\AttachmentOwnerPurgeLifecycleSubscriber:
         arguments:
             $ownerTypeByResourcePath: '%app.crud.attachment_owner_type_by_resource_path%'
         tags: ['cruding.mutation_lifecycle_subscriber']
 
-    App\EventSubscriber\Placement\RetailPlacementOrderLifecycleSubscriber:
+    App\EventSubscriber\Placement\Retail\RetailPlacementOrderLifecycleSubscriber:
         tags: ['cruding.mutation_lifecycle_subscriber']
 
-    App\Service\Placement\AddressingShipmentService:
+    App\Service\Shipping\ShipmentAddressService:
         arguments:
             $inner: '@App\Shipping\Service\ShipmentService'
 
-    App\Service\Paying\StripePayoutRailService:
+    App\Service\Paying\PaymentStripePayoutRailService:
         arguments:
             $secretKey: '%env(default:stripe.secret_key_default:STRIPE_SECRET_KEY)%'
         tags: ['app.paying.payout_rail']
 
-    App\Service\Withdrawing\WalletWithdrawalSourceService:
+    App\Service\Withdrawing\WithdrawalWalletSourceService:
         tags: ['app.withdrawing.source']
-    App\Service\Withdrawing\PayingWithdrawalRailService:
+    App\Service\Withdrawing\WithdrawalPaymentRailService:
         arguments:
             $rails: !tagged_iterator app.paying.payout_rail
         tags: ['app.withdrawing.rail']
@@ -218,34 +215,34 @@ services:
 
     App\Shipping\Service\Http\Shipment\ShipmentNewService:
         arguments:
-            $shipmentService: '@App\Service\Placement\AddressingShipmentService'
+            $shipmentService: '@App\Service\Shipping\ShipmentAddressService'
 
     navigating.walleting_database_config_debug:
         alias: App\Navigating\Service\Navigation\Provide\NavigationDatabaseConfigProvideService
         public: true
 
-    App\Contract\Ui\AppDashboardContract: '@App\Service\Dashboard\AppDashboardBuilderService'
+    App\ServiceInterface\Dashboard\AppDashboardBuilderServiceInterface: '@App\Service\Dashboard\AppDashboardBuilderService'
     App\Interfacing\ProviderInterface\Localization\InterfaceLocaleTemplateSelectorProviderInterface:
-        alias: App\Service\Localization\AppLocaleTemplateSelectorProvider
+        alias: App\Provider\Localization\AppLocaleTemplateSelectorProvider
     App\Interfacing\ProviderInterface\Localization\InterfaceLocaleTemplateContextProviderInterface:
-        alias: App\Service\Localization\AppLocaleTemplateContextProvider
-    App\Service\InterfaceLocation\AppInterfaceLocationComposeServiceInterface:
+        alias: App\Provider\Localization\AppLocaleTemplateContextProvider
+    App\ServiceInterface\InterfaceLocation\AppInterfaceLocationComposeServiceInterface:
         alias: App\Service\InterfaceLocation\AppInterfaceLocationComposeService
     App\Viewing\ServiceInterface\View\ViewInterfaceLocationComposeServiceInterface:
         alias: App\Service\InterfaceLocation\AppInterfaceLocationComposeService
 
 
-    App\Service\Catalog\CatalogContextTreeProjectionService:
+    App\Provider\Catalog\CatalogContextTreeProjectionProvider:
         tags: ['app.context_tree_projection_provider']
-    App\Service\Context\AppContextTreeProjectionRegistry:
+    App\Registry\Context\AppContextTreeProjectionRegistry:
         arguments:
             $providers: !tagged_iterator app.context_tree_projection_provider
 
-    App\Service\View\CrudResourceViewPayloadNormalizer:
+    App\Normalizer\View\CrudResourceViewPayloadNormalizer:
         arguments:
             $inner: '@App\Viewing\Service\View\ViewPayloadNormalizer'
             $requestStack: '@request_stack'
-            $contextTreeProjectionResolver: '@App\Service\Context\AppContextTreeProjectionResolver'
+            $contextTreeProjectionResolver: '@App\Resolver\Context\AppContextTreeProjectionResolver'
             $interfaceLocationProjectionProvider: '@?navigating.interface_location_projection_provider'
             $vendorPublicProfileSummaryProvider: '@App\Vendoring\ServiceInterface\Profile\VendorPublicProfileSummaryProviderServiceInterface'
 
@@ -255,7 +252,7 @@ services:
             $interfaceLocationComposeService: '@App\Service\InterfaceLocation\AppInterfaceLocationComposeService'
     App\Viewing\Subscriber\View\ViewKernelViewSubscriber:
         arguments:
-            $payloadNormalizer: '@App\Service\View\CrudResourceViewPayloadNormalizer'
+            $payloadNormalizer: '@App\Normalizer\View\CrudResourceViewPayloadNormalizer'
 
 
 when@dev:
@@ -264,7 +261,7 @@ when@dev:
         App\DataFixtures\WalletDemoFixtures:
             autowire: true
             autoconfigure: true
-        App\Service\Paying\DemoPayoutRailService:
+        App\Service\Paying\PaymentDemoPayoutRailService:
             autowire: true
             autoconfigure: true
             tags: ['app.paying.payout_rail']

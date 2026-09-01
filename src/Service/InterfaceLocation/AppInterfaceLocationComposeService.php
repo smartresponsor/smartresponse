@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Service\InterfaceLocation;
 
 use App\Navigating\ServiceInterface\Navigation\Provide\NavigationTemplateDataProvideServiceInterface;
-use App\Service\InterfaceLocation\AppInterfaceLocationComposeServiceInterface;
+use App\ServiceInterface\InterfaceLocation\AppInterfaceLocationComposeServiceInterface;
 use App\Viewing\ServiceInterface\View\ViewInterfaceLocationComposeServiceInterface;
 use Symfony\Component\HttpFoundation\Request;
 

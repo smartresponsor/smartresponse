@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\DependencyInjection\Compiler;
 
-use App\Service\View\CrudResourceViewPayloadNormalizer;
+use App\Normalizer\View\CrudResourceViewPayloadNormalizer;
 use App\Viewing\Subscriber\View\ViewKernelViewSubscriber;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

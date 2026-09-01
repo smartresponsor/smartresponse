@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Service\CodeMemory\CodeMemoryScopeResolver;
+use App\Resolver\CodeMemory\CodeMemoryScopeResolver;
 
 require dirname(__DIR__, 2).DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'autoload.php';
 

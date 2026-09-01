@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Retail;
 
 use App\Accessing\Entity\AccessEntity;
-use App\Service\Placement\RetailPlacementApiService;
+use App\Service\Placement\Retail\RetailPlacementApiService;
 use App\Vendoring\Entity\Vendor\VendorEntity;
 use App\Vendoring\RepositoryInterface\Vendor\VendorRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

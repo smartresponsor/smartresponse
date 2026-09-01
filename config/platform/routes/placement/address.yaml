@@ -1,1 +1,1 @@
-address.new: { path: /address/new, service: App\Service\Placement\AddressNewService }
+address.new: { path: /address/new, service: App\Service\Placement\Retail\RetailPlacementAddressNewService }

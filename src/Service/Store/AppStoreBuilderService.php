@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 namespace App\Service\Store;
 
-use App\Contract\Ui\AppStoreContract;
 use App\Dto\Store\AppStorePayload;
+use App\ServiceInterface\Store\AppStoreBuilderServiceInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -22,7 +22,7 @@ use Symfony\Component\HttpKernel\Attribute\AsController;
  * that the decision layer selects from.
  */
 #[AsController]
-final class AppStoreBuilderService implements AppStoreContract
+final class AppStoreBuilderService implements AppStoreBuilderServiceInterface
 {
     public function __construct(
         #[Autowire(service: 'navigating.interface_location_projection_provider')]

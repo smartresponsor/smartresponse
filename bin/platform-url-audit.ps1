@@ -16,7 +16,7 @@ param(
     [switch]$AuditFirstTouch,
     [switch]$AuditAccessProfile,
     [switch]$PublishLatest,
-    [switch]$GithubAuditCount,
+    [switch]$GitHubAuditCount,
     [switch]$DoctrineSystemStatus,
     [switch]$DoctrineConfigStatus,
     [switch]$DoctrineFailurePaths,
@@ -182,7 +182,7 @@ try {
         exit $LASTEXITCODE
     }
 
-    if ($GithubAuditCount) {
+    if ($GitHubAuditCount) {
         $issues = gh issue list --repo smartresponsor/smartresponse --state all --search 'in:body URL-AUDIT-FINGERPRINT:' --limit 1000 --json number
         if ($LASTEXITCODE -ne 0) {
             exit $LASTEXITCODE
