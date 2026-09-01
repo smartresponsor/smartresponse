@@ -4,6 +4,7 @@ param(
     [int]$Timeout = 15,
     [int]$ProfileSamples = 1,
     [int]$SlowMs = 250,
+    [switch]$SkipRuntimePreflight,
     [switch]$CacheClear,
     [switch]$AuditStatus,
     [switch]$AuditSummary,
@@ -265,7 +266,16 @@ try {
         exit $LASTEXITCODE
     }
 
-    & (Join-Path $root 'tools/platform-url-audit.ps1') -BaseUrl $BaseUrl -Timeout $Timeout -Samples $ProfileSamples -SlowMs $SlowMs
+    $auditArguments = @{
+        BaseUrl = $BaseUrl
+        Timeout = $Timeout
+        Samples = $ProfileSamples
+        SlowMs = $SlowMs
+    }
+    if ($SkipRuntimePreflight) {
+        $auditArguments.SkipRuntimePreflight = $true
+    }
+    & (Join-Path $root 'tools/platform-url-audit.ps1') @auditArguments
 }
 finally {
     Pop-Location
