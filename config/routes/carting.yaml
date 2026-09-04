@@ -1,1 +1,3 @@
-# Carting routes are disabled by the production runtime scope.
+app_carting_routes:
+  resource: '../../src/Controller/Cart/'
+  type: attribute

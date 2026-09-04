@@ -29,7 +29,7 @@ return [
     App\Messaging\MessagingBundle::class => ['all' => true],
     App\Notifying\NotifyingBundle::class => ['all' => true],
     App\Streaming\StreamingBundle::class => ['all' => true],
-    App\Carting\CartingBundle::class => ['dev' => true, 'test' => true],
+    App\Carting\CartingBundle::class => ['all' => true],
     App\Casing\CasingBundle::class => ['all' => true],
     App\Facting\FactingBundle::class => ['all' => true],
     App\Ordering\OrderingBundle::class => ['all' => true],

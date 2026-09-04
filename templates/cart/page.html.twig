@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cart</title>
+    {{ importmap('app') }}
+</head>
+<body>
+<main data-controller="cart" data-cart-current-url-value="{{ path('api.cart.current') }}" data-cart-checkout-url-value="{{ path('api.cart.checkout_handoff') }}">
+    <h1>Cart</h1>
+    <p data-cart-target="status">Loading cart…</p>
+    <div data-cart-target="empty" hidden>Your cart is empty.</div>
+    <ul data-cart-target="items"></ul>
+    <p><strong>Total:</strong> <span data-cart-target="total">—</span></p>
+    <button type="button" data-action="cart#refresh">Refresh</button>
+    <button type="button" data-action="cart#checkout" data-cart-target="checkout">Prepare checkout</button>
+</main>
+</body>
+</html>

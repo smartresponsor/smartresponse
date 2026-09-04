@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Normalizer\View;
 
-use App\Attaching\Repository\Attachment\AttachmentLinkRepository;
-use App\Attaching\Repository\Attachment\AttachmentRepository;
+use App\Attaching\Repository\Doctrine\Attachment\AttachmentLinkRepository;
+use App\Attaching\Repository\Doctrine\Attachment\AttachmentRepository;
 use App\Cruding\Value\Resource\CrudResourceContract;
 use App\Resolver\Context\AppContextTreeProjectionResolver;
 use App\Vendoring\ServiceInterface\Profile\VendorPublicProfileSummaryProviderServiceInterface;

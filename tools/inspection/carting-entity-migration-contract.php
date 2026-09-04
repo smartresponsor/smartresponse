@@ -40,10 +40,14 @@ try {
     $schema = (new SchemaTool($entityManager))->getSchemaFromMetadata($metadata);
     $migrationPath = dirname(__DIR__, 2).'/migrations/Version20260712012000.php';
     $migration = file_get_contents($migrationPath);
+    $componentMigrationPath = dirname(__DIR__, 2).'/vendor/carting/cart/migrations/Version20260904223100.php';
+    $componentMigration = file_get_contents($componentMigrationPath);
 
-    if (false === $migration) {
-        throw new RuntimeException('Unable to read Carting host migration.');
+    if (false === $migration || false === $componentMigration) {
+        throw new RuntimeException('Unable to read Carting host baseline and component forward migrations.');
     }
+
+    $migration .= "\n".$componentMigration;
 
     $failures = [];
 
@@ -63,7 +67,7 @@ try {
 
         foreach ($table->getColumns() as $column) {
             $fragment = columnFragment($column, $table->getPrimaryKey()?->getColumns() ?? []);
-            if (!str_contains($createLine, $fragment)) {
+            if (!str_contains($createLine, $fragment) && !migrationHasAddedColumn($migration, $tableName, $fragment)) {
                 $failures[] = sprintf('%s.%s mismatch: expected migration fragment "%s".', $tableName, $column->getName(), $fragment);
             }
         }
@@ -146,6 +150,13 @@ function migrationLine(string $migration, string $needle): ?string
     }
 
     return null;
+}
+
+function migrationHasAddedColumn(string $migration, string $tableName, string $fragment): bool
+{
+    $needle = sprintf('ALTER TABLE %s ADD COLUMN IF NOT EXISTS %s', $tableName, $fragment);
+
+    return str_contains($migration, $needle);
 }
 
 /** @param list<string> $columns */

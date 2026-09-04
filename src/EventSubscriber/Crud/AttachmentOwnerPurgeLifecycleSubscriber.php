@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber\Crud;
 
-use App\Attaching\ServiceInterface\Attachment\AttachmentOwnerPurgeServiceInterface;
+use App\Attaching\ServiceInterface\Linking\Attachment\AttachmentOwnerPurgeServiceInterface;
 use App\Cruding\Dto\Crud\CrudMutationLifecycleContext;
 use App\Cruding\ServiceInterface\Crud\CrudMutationLifecycleSubscriberInterface;
 
