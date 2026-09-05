@@ -76,7 +76,12 @@ security:
         - { path: ^/docs, roles: PUBLIC_ACCESS }
         - { path: ^/api/applicating/doc, roles: PUBLIC_ACCESS }
         - { path: ^/api/access(?:/|$), roles: PUBLIC_ACCESS }
+        - { path: ^/api/paying/stripe/connect/webhook$, methods: [POST], roles: PUBLIC_ACCESS }
         - { path: ^/app(?:/|$), roles: PUBLIC_ACCESS }
+
+        # Facting
+        - { path: '^/fact/journal$', methods: [GET], roles: ROLE_USER }
+        - { path: '^/fact', roles: ROLE_ADMIN }
 
         # 2FA
         - { path: ^/2fa, roles: IS_AUTHENTICATED_2FA_IN_PROGRESS }

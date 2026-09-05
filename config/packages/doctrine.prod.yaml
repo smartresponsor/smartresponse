@@ -78,12 +78,30 @@ doctrine:
                         dir: '%kernel.project_dir%/vendor/carting/cart/src/Entity'
                         prefix: 'App\Carting\Entity'
                         alias: Carting
+                    Casing:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/vendor/casing/case/src/Entity'
+                        prefix: 'App\Casing\Entity'
+                        alias: Casing
+                    Facting:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/vendor/facting/fact/src/Entity'
+                        prefix: 'App\Entity\Fact'
+                        alias: Facting
                     Retailing:
                         is_bundle: false
                         type: attribute
                         dir: '%kernel.project_dir%/vendor/retailing/retail/src/Entity'
                         prefix: 'App\Retailing\Entity'
                         alias: Retailing
+                    Relating:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/vendor/relating/relation/src/Entity'
+                        prefix: 'App\Entity'
+                        alias: Relating
                     Ordering:
                         is_bundle: false
                         type: attribute

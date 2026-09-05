@@ -1,1 +1,1 @@
-retail.review: { path: /retail/review, service: App\Service\Placement\AppRetailReviewService }
+retail.review: { path: /retail/review, service: App\Service\Placement\Retail\RetailPlacementReviewService }

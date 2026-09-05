@@ -3,10 +3,14 @@ doctrine_migrations:
         # namespace is arbitrary but should be different from App\Migrations
         # as migrations classes should NOT be autoloaded
         'DoctrineMigrations': '%kernel.project_dir%/migrations'
+        'App\Applicating\Migrations': '%kernel.project_dir%/vendor/applicating/application/migrations'
         'App\Domaining\Migrations': '%kernel.project_dir%/vendor/domaining/domain/migrations'
+        'App\Addressing\Migrations': '%kernel.project_dir%/vendor/addressing/address/migrations'
         'App\Retailing\Migrations': '%kernel.project_dir%/vendor/retailing/retail/migrations'
+        'App\Attaching\Migrations': '%kernel.project_dir%/vendor/attaching/attachment/migrations'
         'App\Carting\Migrations': '%kernel.project_dir%/vendor/carting/cart/migrations'
         'App\Cataloging\Migrations': '%kernel.project_dir%/vendor/cataloging/catalog/migrations'
+        'App\Casing\Migrations': '%kernel.project_dir%/vendor/casing/case/migrations'
         'App\Vendoring\Migrations': '%kernel.project_dir%/vendor/vendoring/vendor/migrations'
         'App\Paging\Migrations': '%kernel.project_dir%/../Paging/migrations'
         'App\Walleting\Migrations': '%kernel.project_dir%/vendor/smartresponsor/walleting/migrations'
@@ -18,10 +22,13 @@ when@dev:
         migrations_paths:
             # namespace is arbitrary but should be different from App\Migrations
             # as migrations classes should NOT be autoloaded
+            'App\Applicating\Migrations': '%kernel.project_dir%/vendor/applicating/application/migrations'
             'App\Domaining\Migrations': '%kernel.project_dir%/vendor/domaining/domain/migrations'
             'App\Retailing\Migrations': '%kernel.project_dir%/vendor/retailing/retail/migrations'
             'App\Carting\Migrations': '%kernel.project_dir%/vendor/carting/cart/migrations'
             'App\Cataloging\Migrations': '%kernel.project_dir%/../Cataloging/migrations'
+            'App\Casing\Migrations': '%kernel.project_dir%/../Casing/migrations'
+            'App\Attaching\Migrations': '%kernel.project_dir%/../Attaching/migrations'
             'App\Vendoring\Migrations': '%kernel.project_dir%/vendor/vendoring/vendor/migrations'
             # Administering currently owns no Doctrine migrations.
             # Commercializing currently owns no available Doctrine migrations.

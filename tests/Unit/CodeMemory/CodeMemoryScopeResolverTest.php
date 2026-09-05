@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\CodeMemory;
 
-use App\Service\CodeMemory\CodeMemoryScopeResolver;
+use App\Resolver\CodeMemory\CodeMemoryScopeResolver;
 use PHPUnit\Framework\TestCase;
 
 final class CodeMemoryScopeResolverTest extends TestCase

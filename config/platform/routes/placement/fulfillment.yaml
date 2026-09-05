@@ -1,1 +1,1 @@
-fulfillment.new: { path: /fulfillment/new, service: App\Service\Placement\AppFulfillmentNewService }
+fulfillment.new: { path: /fulfillment/new, service: App\Service\Placement\Retail\RetailPlacementFulfillmentNewService }

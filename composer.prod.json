@@ -38,6 +38,11 @@
         },
         {
             "type": "vcs",
+            "url": "git@github.com:smartresponsor/facting.git",
+            "no-api": true
+        },
+        {
+            "type": "vcs",
             "url": "git@github.com:smartresponsor/accessing.git",
             "no-api": true
         },
@@ -99,6 +104,16 @@
         {
             "type": "vcs",
             "url": "git@github.com:smartresponsor/carting.git",
+            "no-api": true
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:smartresponsor/casing.git",
+            "no-api": true
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:smartresponsor/relating.git",
             "no-api": true
         },
         {
@@ -173,10 +188,12 @@
         "attaching/attachment": "dev-master#bfdcc769bb389fa9b2a25cdc91e306925df6fc78",
         "cataloging/catalog": "dev-master",
         "carting/cart": "dev-master",
+        "casing/case": "dev-master",
         "configuring/config": "dev-master",
         "cruding/crud": "dev-master#7e672ebb75acec3f272c9c2544e61e7426376c29",
         "delivering/delivery": "dev-master",
         "domaining/domain": "dev-master",
+        "facting/fact": "dev-master",
         "interfacing/interface": "dev-master",
         "localizing/locale": "dev-master",
         "locating/location": "dev-master",
@@ -187,10 +204,12 @@
         "objecting/object": "dev-master",
         "ordering/order": "dev-master",
         "paging/page": "dev-master",
+        "relating/relation": "dev-master",
         "retailing/retail": "dev-master",
         "rolling/role": "dev-master",
         "searching/search": "dev-master",
         "shipping/shipment": "dev-master",
+        "stripe/stripe-php": "^19.3",
         "paying/payment": "dev-master",
         "smartresponsor/walleting": "dev-master",
         "doctrine/dbal": "^4.3",

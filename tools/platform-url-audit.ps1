@@ -3,7 +3,8 @@ param(
     [string]$BaseUrl = 'http://127.0.0.1:8000',
     [int]$Timeout = 15,
     [int]$Samples = 1,
-    [int]$SlowMs = 250
+    [int]$SlowMs = 250,
+    [switch]$SkipRuntimePreflight
 )
 
 $ErrorActionPreference = 'Stop'
@@ -16,17 +17,23 @@ $env:APP_DEBUG = '0'
 $env:XDEBUG_MODE = 'off'
 Push-Location $root
 $runtimeStartedAt = [System.Diagnostics.Stopwatch]::StartNew()
-try {
-    $runtimeResponse = Invoke-WebRequest -UseBasicParsing -Uri ($BaseUrl.TrimEnd('/') + '/access/signin') -TimeoutSec ([Math]::Max(1, [Math]::Min($Timeout, 5)))
-    $runtimeStartedAt.Stop()
-    if ($runtimeResponse.StatusCode -ge 500) {
-        throw "HTTP runtime preflight returned status $($runtimeResponse.StatusCode)."
+if (-not $SkipRuntimePreflight) {
+    try {
+        $runtimeResponse = Invoke-WebRequest -UseBasicParsing -Uri ($BaseUrl.TrimEnd('/') + '/access/signin') -TimeoutSec ([Math]::Max(1, [Math]::Min($Timeout, 5)))
+        $runtimeStartedAt.Stop()
+        if ($runtimeResponse.StatusCode -ge 500) {
+            throw "HTTP runtime preflight returned status $($runtimeResponse.StatusCode)."
+        }
+        Write-Output ("HTTP runtime preflight: {0} ms ({1})" -f $runtimeStartedAt.ElapsedMilliseconds, $runtimeResponse.StatusCode)
     }
-    Write-Output ("HTTP runtime preflight: {0} ms ({1})" -f $runtimeStartedAt.ElapsedMilliseconds, $runtimeResponse.StatusCode)
+    catch {
+        $runtimeStartedAt.Stop()
+        throw "HTTP runtime preflight failed after $($runtimeStartedAt.ElapsedMilliseconds) ms at $BaseUrl. The server may be stopped or blocked: $($_.Exception.Message)"
+    }
 }
-catch {
+else {
     $runtimeStartedAt.Stop()
-    throw "HTTP runtime preflight failed after $($runtimeStartedAt.ElapsedMilliseconds) ms at $BaseUrl. The server may be stopped or blocked: $($_.Exception.Message)"
+    Write-Output 'HTTP runtime preflight: skipped (kernel-only audit mode)'
 }
 
 $inventoryErrorFile = Join-Path $root 'var/url-audit/latest-inventory.stderr.log'

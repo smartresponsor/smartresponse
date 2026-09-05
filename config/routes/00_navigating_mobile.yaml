@@ -1,3 +1,11 @@
+application_runtime_show:
+    path: /api/application/runtime/{applicationKey}/{environment}
+    controller: App\Controller\Runtime\ApiApplicationRuntimeController
+    methods: [GET]
+    requirements:
+        applicationKey: '[A-Za-z0-9_-]+'
+        environment: '[A-Za-z0-9_-]+'
+
 navigation_mobile_shell:
     path: /api/navigation/mobile/shell
     controller: App\Navigating\Service\Http\Navigation\NavigationHttpService::mobileShell

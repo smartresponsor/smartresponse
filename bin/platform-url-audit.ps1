@@ -4,6 +4,7 @@ param(
     [int]$Timeout = 15,
     [int]$ProfileSamples = 1,
     [int]$SlowMs = 250,
+    [switch]$SkipRuntimePreflight,
     [switch]$CacheClear,
     [switch]$AuditStatus,
     [switch]$AuditSummary,
@@ -15,7 +16,7 @@ param(
     [switch]$AuditFirstTouch,
     [switch]$AuditAccessProfile,
     [switch]$PublishLatest,
-    [switch]$GithubAuditCount,
+    [switch]$GitHubAuditCount,
     [switch]$DoctrineSystemStatus,
     [switch]$DoctrineConfigStatus,
     [switch]$DoctrineFailurePaths,
@@ -177,11 +178,11 @@ try {
         if ($null -eq $reportFile) {
             throw 'No URL audit report was found.'
         }
-        php bin/console app:url-audit:publish-github $reportFile.FullName --repository=smartresponsor/smartresponse --date=2026-07-30 --no-debug
+        php bin/console app:url-audit:publish-github $reportFile.FullName --repository=smartresponsor/smartresponse --no-debug
         exit $LASTEXITCODE
     }
 
-    if ($GithubAuditCount) {
+    if ($GitHubAuditCount) {
         $issues = gh issue list --repo smartresponsor/smartresponse --state all --search 'in:body URL-AUDIT-FINGERPRINT:' --limit 1000 --json number
         if ($LASTEXITCODE -ne 0) {
             exit $LASTEXITCODE
@@ -265,7 +266,16 @@ try {
         exit $LASTEXITCODE
     }
 
-    & (Join-Path $root 'tools/platform-url-audit.ps1') -BaseUrl $BaseUrl -Timeout $Timeout -Samples $ProfileSamples -SlowMs $SlowMs
+    $auditArguments = @{
+        BaseUrl = $BaseUrl
+        Timeout = $Timeout
+        Samples = $ProfileSamples
+        SlowMs = $SlowMs
+    }
+    if ($SkipRuntimePreflight) {
+        $auditArguments.SkipRuntimePreflight = $true
+    }
+    & (Join-Path $root 'tools/platform-url-audit.ps1') @auditArguments
 }
 finally {
     Pop-Location

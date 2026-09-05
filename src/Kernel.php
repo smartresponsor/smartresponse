@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\DependencyInjection\Compiler\AppCrudingEntityAliasAuthorityPass;
-use App\DependencyInjection\Compiler\AppCrudResourceViewPayloadNormalizerPass;
+use App\DependencyInjection\Compiler\CrudingEntityAliasAuthorityPass;
+use App\DependencyInjection\Compiler\CrudResourceViewPayloadNormalizerPass;
 use App\DependencyInjection\Compiler\RegisterSiblingFixturesPass;
 use App\Kernel\RuntimeBundleIterator;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
@@ -38,14 +38,14 @@ class Kernel extends BaseKernel
     {
         parent::build($container);
 
-        $container->addCompilerPass(new AppCrudingEntityAliasAuthorityPass());
+        $container->addCompilerPass(new CrudingEntityAliasAuthorityPass());
 
         if (!\in_array($this->environment, ['dev', 'test'], true)) {
             return;
         }
 
         $container->addCompilerPass(new RegisterSiblingFixturesPass());
-        $container->addCompilerPass(new AppCrudResourceViewPayloadNormalizerPass());
+        $container->addCompilerPass(new CrudResourceViewPayloadNormalizerPass());
     }
 
     protected function configureRoutes(RoutingConfigurator $routes): void

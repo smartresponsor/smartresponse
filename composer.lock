@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9f56a5dcd74229ce2ffa075327e85108",
+    "content-hash": "7a9fd084d27485344eaac306e6a24689",
     "packages": [
         {
             "name": "accessing/access",
@@ -203,6 +203,9 @@
                 "rector:dry": [
                     "vendor/bin/rector process --dry-run"
                 ],
+                "qodana": [
+                    "pwsh -NoProfile -ExecutionPolicy Bypass -File bin/qodana-local.ps1"
+                ],
                 "quality": [
                     "@stan",
                     "@rector:dry"
@@ -221,6 +224,9 @@
                 ],
                 "qa:cs": [
                     "php vendor/bin/php-cs-fixer fix --dry-run --diff --config=.php-cs-fixer.dist.php"
+                ],
+                "qa:qodana": [
+                    "@qodana"
                 ],
                 "qa": [
                     "@qa:phpstan",
@@ -1622,12 +1628,88 @@
             }
         },
         {
+            "name": "casing/case",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "../Casing",
+                "reference": "e392bcc0f403acd67eec7d10e87683d119291de5"
+            },
+            "require": {
+                "attaching/attachment": "*@dev",
+                "cataloging/catalog": "*@dev",
+                "cruding/crud": "*@dev",
+                "doctrine/dbal": "^4.3",
+                "doctrine/doctrine-bundle": "^3.2",
+                "doctrine/doctrine-migrations-bundle": "^4.0",
+                "doctrine/orm": "^3.3",
+                "easycorp/easyadmin-bundle": "^5.0",
+                "interfacing/interface": "*@dev",
+                "objecting/object": "*@dev",
+                "ordering/order": "*@dev",
+                "paying/payment": "*@dev",
+                "php": "^8.4",
+                "relating/relation": "*@dev",
+                "shipping/shipment": "*@dev",
+                "symfony/dependency-injection": "^8.1",
+                "symfony/form": "^8.1",
+                "symfony/framework-bundle": "^8.1",
+                "symfony/http-foundation": "^8.1",
+                "symfony/http-kernel": "^8.1",
+                "symfony/routing": "^8.1",
+                "symfony/security-bundle": "^8.1",
+                "symfony/uid": "^8.1",
+                "symfony/validator": "^8.1",
+                "viewing/view": "*@dev"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.95",
+                "phpstan/phpstan": "^2.1",
+                "phpunit/phpunit": "^12.5"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "symfony": {
+                    "bundle": "App\\Casing\\CasingBundle"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "App\\Casing\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "App\\Casing\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "cs:check": [
+                    "php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php --dry-run --diff"
+                ],
+                "cs:fix": [
+                    "php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php"
+                ],
+                "test": [
+                    "php vendor/bin/phpunit -c phpunit.xml.dist"
+                ]
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "SmartResponsor case intake and lifecycle component",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "cataloging/catalog",
             "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "../Cataloging",
-                "reference": "d22d7180370e9a8ab94c8c72a79850b25a850fcc"
+                "reference": "50a48dc1f2a83994f58e59838157b291fc946c05"
             },
             "require": {
                 "api-platform/doctrine-orm": "^4.3",
@@ -2225,11 +2307,11 @@
         },
         {
             "name": "delivering/delivery",
-            "version": "dev-master",
+            "version": "dev-release/delivering-20260817",
             "dist": {
                 "type": "path",
                 "url": "../Delivering",
-                "reference": "5219353342a9fd01173a1906de23b23e87b51d87"
+                "reference": "229b70dfe344b870b2f69fe83e31bb2504c104d3"
             },
             "require": {
                 "doctrine/orm": "^3.3",
@@ -2237,6 +2319,7 @@
                 "psr/log": "^3.0",
                 "symfony/dependency-injection": "^8.1",
                 "symfony/doctrine-messenger": "^8.1",
+                "symfony/event-dispatcher-contracts": "^3.7",
                 "symfony/framework-bundle": "^8.1",
                 "symfony/http-client": "^8.1",
                 "symfony/http-foundation": "^8.1",
@@ -2246,6 +2329,7 @@
                 "symfony/uid": "^8.1"
             },
             "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.95.17",
                 "phpunit/phpunit": "^11.5"
             },
             "type": "symfony-bundle",
@@ -4009,6 +4093,77 @@
             }
         },
         {
+            "name": "facting/fact",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "../Facting",
+                "reference": "d43bb6b1416c38d21f5e7fb4514711db7d740b62"
+            },
+            "require": {
+                "accessing/access": "dev-master",
+                "cruding/crud": "dev-master || dev-feature/http-api-crud-classification",
+                "doctrine/doctrine-bundle": "^3.2",
+                "doctrine/orm": "^3.3",
+                "easycorp/easyadmin-bundle": "^5.0",
+                "ext-json": "*",
+                "ext-pdo": "*",
+                "ext-pdo_pgsql": "*",
+                "interfacing/interface": "dev-master",
+                "objecting/object": "dev-master",
+                "php": ">=8.4",
+                "symfony/config": "^8.1",
+                "symfony/console": "^8.1",
+                "symfony/dependency-injection": "^8.1",
+                "symfony/framework-bundle": "^8.1",
+                "symfony/http-foundation": "^8.1",
+                "symfony/http-kernel": "^8.1",
+                "symfony/process": "^8.1",
+                "symfony/routing": "^8.1",
+                "symfony/runtime": "^8.1",
+                "symfony/security-bundle": "^8.1",
+                "symfony/yaml": "^8.1",
+                "viewing/view": "dev-master"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.60",
+                "league/openapi-psr7-validator": "^0.22.0",
+                "nyholm/psr7": "^1.8",
+                "phpunit/phpunit": "^10.0",
+                "symfony/browser-kit": "^8.1"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "symfony": {
+                    "bundle": "App\\Facting\\FactingBundle"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "App\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "App\\Test\\": "test/",
+                    "App\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "phpunit -c phpunit.xml.dist"
+                ]
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Append-oriented auditable business fact ledger for SmartResponsor platform capabilities",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "firebase/php-jwt",
             "version": "v7.1.0",
             "source": {
@@ -5245,10 +5400,14 @@
             "dist": {
                 "type": "path",
                 "url": "../Locating",
-                "reference": "f31741ef523db6f28f8485d7496091bf37dfc490"
+                "reference": "fc093680a80b20b78b504bcd3fa1408e7af30bc0"
             },
             "require": {
+                "cruding/crud": "dev-master",
+                "easycorp/easyadmin-bundle": "^5.0",
                 "ext-json": "*",
+                "interfacing/interface": "dev-master",
+                "navigating/navigation": "dev-master",
                 "objecting/object": "dev-master",
                 "php": "^8.4",
                 "symfony/config": "^8.0",
@@ -5256,7 +5415,8 @@
                 "symfony/dependency-injection": "^8.0",
                 "symfony/http-foundation": "^8.0",
                 "symfony/http-kernel": "^8.0",
-                "symfony/routing": "^8.0"
+                "symfony/routing": "^8.0",
+                "viewing/view": "dev-master"
             },
             "require-dev": {
                 "doctrine/doctrine-fixtures-bundle": "^4.3",
@@ -6208,11 +6368,11 @@
         },
         {
             "name": "navigating/navigation",
-            "version": "dev-w31-db-backed-navigation-sqlite",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "../Navigating",
-                "reference": "b5914eddae10caefa7b617313bb7d420116aa3d8"
+                "reference": "2d42ea038ad871aaeb1549a41f8084bfa08b13e6"
             },
             "require": {
                 "cruding/crud": "dev-master",
@@ -7631,7 +7791,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Paying",
-                "reference": "bb20060b5fb0b9ad6434cea11f440edd93c9419f"
+                "reference": "e88a1e3a0bf353a22e7d5363ff8f2cc69d64d705"
             },
             "require": {
                 "cruding/crud": "*@dev",
@@ -9676,14 +9836,70 @@
             "time": "2024-06-11T12:45:25+00:00"
         },
         {
+            "name": "relating/relation",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "../Relating",
+                "reference": "e93c50b4b66c175ddb8bc6d1dd6fdaac01546237"
+            },
+            "require": {
+                "doctrine/orm": "^3.0",
+                "php": ">=8.4 <8.5",
+                "symfony/console": "8.1.*",
+                "symfony/framework-bundle": "8.1.*",
+                "symfony/runtime": "8.1.*",
+                "symfony/yaml": "8.1.*"
+            },
+            "require-dev": {
+                "doctrine/doctrine-bundle": "^3.0",
+                "friendsofphp/php-cs-fixer": "^3.95",
+                "phpunit/phpunit": "^12.0"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "symfony": {
+                    "allow-contrib": false,
+                    "require": "8.1.*"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "App\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "App\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "cs:check": [
+                    "php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php --dry-run --diff"
+                ],
+                "test": [
+                    "phpunit tests"
+                ]
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "SmartResponsor Relating CRM relationship lifecycle component.",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
             "name": "retailing/retail",
             "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "../Retailing",
-                "reference": "e1cfa6654422ba5bd829fc65e91bbd9766e2f485"
+                "reference": "a3c703ccbbe9d018ed86992e9d9c91da7d3ce295"
             },
             "require": {
+                "cataloging/catalog": "dev-master",
                 "cruding/crud": "dev-master",
                 "doctrine/doctrine-bundle": "^3.2",
                 "doctrine/doctrine-migrations-bundle": "^4.0",
@@ -10268,7 +10484,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Shipping",
-                "reference": "23ca792de2a19f710e15647b1414bbfb079191a0"
+                "reference": "bfacfc8e289339ff45236bfc905a3e148d814522"
             },
             "require": {
                 "administering/administration": "dev-master",
@@ -10361,23 +10577,11 @@
                 "pipeline:local:strict": [
                     "php tools/ci/shipping_local_pipeline.php strict"
                 ],
-                "report:demo-state": [
-                    "php tools/inspection/shipping_demo_state_report.php"
-                ],
-                "report:demo-surface": [
-                    "php tools/inspection/shipping_demo_surface_report.php"
-                ],
                 "report:route-inventory": [
                     "php tools/inspection/shipping_route_inventory_report.php"
                 ],
                 "report:runtime-proof": [
                     "php tools/inspection/shipping_runtime_proof_report.php"
-                ],
-                "smoke:demo-state": [
-                    "php tools/smoke/shipping_demo_state_smoke.php"
-                ],
-                "smoke:demo-surface": [
-                    "php tools/smoke/shipping_demo_surface_smoke.php"
                 ],
                 "smoke:runtime": [
                     "php tools/smoke/shipping_runtime_smoke.php"
@@ -10394,11 +10598,8 @@
                 "test:e2e": [
                     "php vendor/bin/phpunit --testsuite e2e"
                 ],
-                "test:e2e:playwright": [
-                    "sh tools/ci/run-playwright.sh"
-                ],
-                "fixture:demo:load": [
-                    "php bin/console doctrine:fixtures:load --group=shipment_demo --no-interaction"
+                "fixture:load": [
+                    "php bin/console doctrine:fixtures:load --no-interaction"
                 ],
                 "canon:namespaces": [
                     "php tools/linter/shipment_namespace_path_check.php"
@@ -10478,9 +10679,6 @@
                 "canon:controller-support-naming": [
                     "php tools/linter/shipment_controller_support_naming_check.php"
                 ],
-                "canon:demo-service-naming": [
-                    "php tools/linter/shipment_demo_service_naming_check.php"
-                ],
                 "canon:ops-version-suffixes": [
                     "php tools/linter/shipment_ops_version_suffix_check.php"
                 ],
@@ -10508,11 +10706,11 @@
         },
         {
             "name": "smartresponsor/notifying",
-            "version": "dev-master",
+            "version": "dev-release/notifying-20260817",
             "dist": {
                 "type": "path",
                 "url": "../Notifying",
-                "reference": "e1c7c62a170d7c693f295577a8708f17de49a675"
+                "reference": "45314d833c2b2fec3ca2379a234c44402c525855"
             },
             "require": {
                 "cruding/crud": "dev-master",
@@ -10540,6 +10738,7 @@
                 "viewing/view": "dev-master"
             },
             "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.95.17",
                 "phpunit/phpunit": "^12.0",
                 "symfony/phpunit-bridge": "^8.0"
             },
@@ -10579,7 +10778,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Streaming",
-                "reference": "7aafa0b296fd3c8b879aba0780ec0145d543d57c"
+                "reference": "c136ecb6a271c28251697401276ea55bcb0339cf"
             },
             "require": {
                 "cruding/crud": "dev-master",
@@ -10701,7 +10900,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Withdrawing",
-                "reference": "0aa8a64"
+                "reference": "0aa8a647f37641ef8e507b126792080ed8ba67b9"
             },
             "require": {
                 "cruding/crud": "dev-master",
@@ -11017,6 +11216,65 @@
                 }
             ],
             "time": "2026-07-16T10:28:45+00:00"
+        },
+        {
+            "name": "stripe/stripe-php",
+            "version": "v19.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stripe/stripe-php.git",
+                "reference": "095384404587d07de2ad1154c389c4051c5ed92f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/095384404587d07de2ad1154c389c4051c5ed92f",
+                "reference": "095384404587d07de2ad1154c389c4051c5ed92f",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "3.94.0",
+                "phpstan/phpstan": "^1.2",
+                "phpunit/phpunit": "^5.7 || ^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Stripe\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stripe and contributors",
+                    "homepage": "https://github.com/stripe/stripe-php/contributors"
+                }
+            ],
+            "description": "Stripe PHP Library",
+            "homepage": "https://stripe.com/",
+            "keywords": [
+                "api",
+                "payment processing",
+                "stripe"
+            ],
+            "support": {
+                "issues": "https://github.com/stripe/stripe-php/issues",
+                "source": "https://github.com/stripe/stripe-php/tree/v19.4.1"
+            },
+            "time": "2026-03-06T22:53:13+00:00"
         },
         {
             "name": "subscripting/subscription",
@@ -22401,6 +22659,7 @@
         "attaching/attachment": 20,
         "billing/billing": 20,
         "carting/cart": 20,
+        "casing/case": 20,
         "cataloging/catalog": 20,
         "commissioning/commission": 20,
         "configuring/config": 20,
@@ -22411,6 +22670,7 @@
         "domaining/domain": 20,
         "exchanging/exchange": 20,
         "faceting/facet": 20,
+        "facting/fact": 20,
         "gating/gate": 20,
         "indexing/index": 20,
         "interfacing/interface": 20,
@@ -22426,6 +22686,7 @@
         "paging/page": 20,
         "paying/payment": 20,
         "projecting/project": 20,
+        "relating/relation": 20,
         "retailing/retail": 20,
         "rolling/role": 20,
         "searching/search": 20,

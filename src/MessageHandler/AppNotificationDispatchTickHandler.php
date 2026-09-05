@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\MessageHandler;
 
 use App\Message\AppNotificationDispatchTick;
-use App\Service\Notification\AppNotificationDispatchWorker;
+use App\Worker\Notification\AppNotificationDispatchWorker;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 

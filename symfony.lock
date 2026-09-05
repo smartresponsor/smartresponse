@@ -2,6 +2,9 @@
     "accessing/access": {
         "version": "dev-master"
     },
+    "addressing/address": {
+        "version": "dev-master"
+    },
     "administering/admin": {
         "version": "dev-main"
     },
@@ -39,6 +42,9 @@
     },
     "carting/cart": {
         "version": "dev-main"
+    },
+    "casing/case": {
+        "version": "dev-master"
     },
     "cataloging/catalog": {
         "version": "dev-master"
@@ -151,6 +157,9 @@
     "localizing/locale": {
         "version": "dev-master"
     },
+    "locating/location": {
+        "version": "dev-env/locating-l2"
+    },
     "managing/manage": {
         "version": "dev-master"
     },
@@ -249,11 +258,17 @@
     "smartresponsor/notifying": {
         "version": "dev-master"
     },
+    "smartresponsor/streaming": {
+        "version": "dev-master"
+    },
     "smartresponsor/walleting": {
         "version": "dev-task/walleting-ledger-foundation"
     },
     "smartresponsor/withdrawing": {
         "version": "dev-master"
+    },
+    "stripe/stripe-php": {
+        "version": "v19.4.1"
     },
     "symfony/asset-mapper": {
         "version": "8.0",

@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 namespace App\Service\Dashboard;
 
-use App\Contract\Ui\AppDashboardContract;
 use App\Dto\Dashboard\AppDashboardPayload;
+use App\ServiceInterface\Dashboard\AppDashboardBuilderServiceInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
  * render decision boundary, while Interfacing provides the shell and templates
  * that the decision layer selects from.
  */
-final class AppDashboardBuilderService implements AppDashboardContract
+final class AppDashboardBuilderService implements AppDashboardBuilderServiceInterface
 {
     public function __construct(
         private readonly object $interfaceLocationProjectionProvider,

@@ -22,6 +22,13 @@
         },
         {
             "type": "path",
+            "url": "../Casing",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
             "url": "../Carting",
             "options": {
                 "symlink": true
@@ -337,6 +344,13 @@
         },
         {
             "type": "path",
+            "url": "../Relating",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
             "url": "../Retailing",
             "options": {
                 "symlink": true
@@ -361,6 +375,7 @@
         "attaching/attachment": "*@dev",
         "billing/billing": "*@dev",
         "carting/cart": "*@dev",
+        "casing/case": "*@dev",
         "cataloging/catalog": "*@dev",
         "commissioning/commission": "*@dev",
         "configuring/config": "*@dev",
@@ -376,6 +391,7 @@
         "easycorp/easyadmin-bundle": "^5.0",
         "exchanging/exchange": "*@dev",
         "faceting/facet": "*@dev",
+        "facting/fact": "dev-master",
         "indexing/index": "*@dev",
         "interfacing/interface": "*@dev",
         "localizing/locale": "*@dev",
@@ -395,12 +411,14 @@
         "smartresponsor/walleting": "*@dev",
         "smartresponsor/withdrawing": "*@dev",
         "projecting/project": "*@dev",
+        "relating/relation": "*@dev",
         "retailing/retail": "*@dev",
         "rolling/role": "*@dev",
         "scheb/2fa-bundle": "^8.5",
         "scheb/2fa-totp": "^8.5",
         "searching/search": "*@dev",
         "shipping/shipment": "*@dev",
+        "stripe/stripe-php": "^19.3",
         "subscripting/subscription": "*@dev",
         "symfony/asset": "^8.1",
         "symfony/console": "^8.1",

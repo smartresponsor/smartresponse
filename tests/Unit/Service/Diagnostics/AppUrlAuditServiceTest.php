@@ -14,7 +14,7 @@ final class AppUrlAuditServiceTest extends TestCase
         self::assertFileExists($root.'/src/Service/Diagnostics/AppUrlAuditService.php');
         self::assertFileExists($root.'/src/Command/AppUrlAuditInventoryCommand.php');
         self::assertFileExists($root.'/src/Command/AppUrlAuditRunCommand.php');
-        self::assertFileExists($root.'/src/Command/AppUrlAuditPublishGithubCommand.php');
+        self::assertFileExists($root.'/src/Command/AppUrlAuditPublishGitHubCommand.php');
         self::assertFileExists($root.'/tools/platform-url-audit.ps1');
     }
 }

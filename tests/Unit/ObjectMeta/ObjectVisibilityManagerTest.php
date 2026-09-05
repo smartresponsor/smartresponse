@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Unit\ObjectMeta;
 
 use App\Cruding\ServiceInterface\Crud\CrudFormHandlerInterface;
-use App\Service\ObjectMeta\ObjectVisibilityManager;
+use App\Manager\ObjectMeta\ObjectVisibilityManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
