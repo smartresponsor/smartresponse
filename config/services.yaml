@@ -232,6 +232,12 @@ services:
         alias: App\Service\InterfaceLocation\AppInterfaceLocationComposeService
 
 
+    App\Provider\Cart\CartCatalogOfferProvider: ~
+    App\Carting\ServiceInterface\Cart\CartOfferProviderInterface:
+        alias: App\Provider\Cart\CartCatalogOfferProvider
+    App\Carting\ServiceInterface\Cart\CartAvailabilityCheckerInterface:
+        alias: App\Provider\Cart\CartCatalogOfferProvider
+
     App\Provider\Catalog\CatalogContextTreeProjectionProvider:
         tags: ['app.context_tree_projection_provider']
     App\Registry\Context\AppContextTreeProjectionRegistry:
