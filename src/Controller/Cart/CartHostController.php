@@ -6,9 +6,9 @@ namespace App\Controller\Cart;
 
 use App\Carting\Entity\Cart;
 use App\Carting\RepositoryInterface\CartRepositoryInterface;
-use App\Carting\Service\Cart\CartCheckoutPreparationService;
-use App\Carting\Service\Cart\CartMutationService;
-use App\Carting\Service\Cart\CartSummaryService;
+use App\Carting\Service\CartCheckoutPreparationService;
+use App\Carting\Service\CartMutationService;
+use App\Carting\Service\CartSummaryService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
