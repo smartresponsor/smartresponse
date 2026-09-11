@@ -1,21 +1,39 @@
-# Gating
+# Gating Gate
 
-This directory is the policy layer for the `App` repository.
+Gating is the executable Smart Responsor ecosystem gate.
 
-## Contents
+Canonical naming:
 
-- `profile/component/app.yaml`: component profile consumed by `gating/gate`.
-- `profile/rule-set/local-dev.yaml`: default local rule set for `gating:check`.
-- `config/severity.yaml`: severity policy for the App gate runner.
-- `ai/review-contract.v1.json`: scope semantics, model profiles, metadata contract, and exit codes.
-- `ai/prompts/changed-review.v1.md`: the base prompt for diff-aware review.
-- `ai/schemas/review-result.v1.schema.json`: the review result schema used by the validator.
-- `ai/metadata-template.v1.json`: compact metadata envelope for Cloudflare AI Gateway.
+- repository: `Gating`
+- component runtime: `src/`
+- consumer config surface: `.gating/`
+- Composer package: `gating/gate`
+- Symfony Console CLI entrypoint: `bin/gating`
 
-## Operating rules
+The package is Symfony-oriented and starts as a standalone Symfony Console tooling package, not as a Symfony web application. The first responsibility remains repository and component validation.
 
-- `gating:check` is the repository gate runner backed by `gating/gate`.
-- `codex-cf-review -Scope Changed -Path D:\PhpstormProjects\www\App` is the default daily review flow.
-- `cf-ai-verify` and `cf-ai-test` are diagnostics, not daily rituals.
-- `tools/gating/validate-ai-review.php` is the blocking gate for structured review output.
-- `codex-cf-review` is advisory until its output is validated by the gate.
+## Boundary
+
+- `policy/` describes what is accepted.
+- `profile/` provides component-specific values.
+- `schema/` defines machine-readable result/report/evidence contracts.
+- `report/` and `evidence/` store generated output.
+- `gate.sh` and `gate.ps1` preserve the existing shell gate.
+- `bin/gating` is the package-level CLI entrypoint.
+- `.gating/` remains the consumer-facing configuration surface for repository-specific policy data.
+
+## Responsibility
+
+Gating consolidates repeated local checks into one executable platform standard. Local component tools may remain as thin wrappers while the shared policy and checks mature.
+
+Gating should stay decoupled from individual ecosystem components. Component-specific values belong in profiles/policy, not in hardcoded rule logic.
+
+## Canon-linked rules
+
+Executable rules that directly enforce a Canonization architecture rule use the
+same `CanonNNN<SemanticName>Rule` identity as the normative document, changing
+only the file extension from `.md` to `.php`.
+
+Existing generic rules may remain reusable enforcement primitives. They must not
+be renamed to a `CanonNNN...Rule` unless they enforce the corresponding canon
+rule with the declared coverage. See `docs/canon-rule-contract.md`.
