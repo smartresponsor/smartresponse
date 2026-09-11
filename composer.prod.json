@@ -191,6 +191,7 @@
         "casing/case": "dev-master",
         "configuring/config": "dev-master",
         "cruding/crud": "dev-master#7e672ebb75acec3f272c9c2544e61e7426376c29",
+        "currencing/currency": "dev-master",
         "delivering/delivery": "dev-master",
         "domaining/domain": "dev-master",
         "facting/fact": "dev-master",

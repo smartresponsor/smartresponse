@@ -16,7 +16,6 @@ $componentBundleClasses = [
     App\Commissioning\CommissioningBundle::class,
     App\Configuring\ConfiguringBundle::class,
     App\Cruding\CrudingBundle::class,
-    App\Currencing\CurrencingBundle::class,
     App\Discovering\DiscoveringBundle::class,
     App\Delivering\DeliveringBundle::class,
     App\Domaining\DomainingBundle::class,

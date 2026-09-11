@@ -14,7 +14,7 @@ final class DoctrineSchemaTablePrefixTest extends KernelTestCase
     {
         yield 'Commissioning' => ['App\\Commissioning\\Entity\\', 'commission_'];
         yield 'Subscripting' => ['App\\Subscripting\\Entity\\', 'subscription_'];
-        yield 'Currencing' => ['App\\Entity\\Currency\\', 'currency_'];
+        yield 'Currencing' => ['App\\Currencing\\Entity\\Currency\\', 'currency_'];
         yield 'Exchanging' => ['App\\Exchanging\\Entity\\', 'exchange_'];
     }
 

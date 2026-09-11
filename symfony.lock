@@ -55,6 +55,9 @@
     "cruding/crud": {
         "version": "dev-master"
     },
+    "currencing/currency": {
+        "version": "dev-master"
+    },
     "delivering/delivery": {
         "version": "dev-main"
     },

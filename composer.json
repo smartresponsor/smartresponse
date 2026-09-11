@@ -461,10 +461,7 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": [
-                "src/",
-                "../Currencing/src/"
-            ]
+            "App\\": "src/"
         }
     },
     "autoload-dev": {

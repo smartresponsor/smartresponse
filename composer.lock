@@ -2218,93 +2218,117 @@
             }
         },
         {
-            "name": "currencing/currency",
-            "version": "dev-master",
-            "dist": {
-                "type": "path",
-                "url": "../Currencing",
-                "reference": "a8d93ad7fff3a03daf90026d567fb6e72dcc42d4"
-            },
-            "require": {
-                "doctrine/dbal": "^4.2",
-                "doctrine/doctrine-bundle": "^3.2",
-                "doctrine/doctrine-migrations-bundle": "^4.0",
-                "doctrine/orm": "^3.3",
-                "ext-ctype": "*",
-                "ext-iconv": "*",
-                "ext-intl": "*",
-                "objecting/object": "*@dev",
-                "php": "^8.4",
-                "symfony/asset": "^7.3 || ^8.0",
-                "symfony/console": "^7.3 || ^8.0",
-                "symfony/dotenv": "^7.3 || ^8.0",
-                "symfony/flex": "^2.4",
-                "symfony/form": "^7.3 || ^8.0",
-                "symfony/framework-bundle": "^7.3 || ^8.0",
-                "symfony/runtime": "^7.3 || ^8.0",
-                "symfony/twig-bundle": "^7.3 || ^8.0",
-                "symfony/validator": "^7.3 || ^8.0",
-                "symfony/var-exporter": "^7.3 || ^8.0",
-                "symfony/yaml": "^7.3 || ^8.0",
-                "twig/extra-bundle": "^3.21",
-                "twig/twig": "^3.21"
-            },
-            "require-dev": {
-                "doctrine/doctrine-fixtures-bundle": "^4.0",
-                "friendsofphp/php-cs-fixer": "^3.94",
-                "phpstan/phpstan": "^2.1",
-                "phpunit/phpunit": "^11.5 || ^12.0"
-            },
-            "type": "project",
-            "extra": {
-                "symfony": {
-                    "allow-contrib": false,
-                    "require": "^7.3 || ^8.0"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "App\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "App\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "auto-scripts": {
-                    "cache:clear": "symfony-cmd",
-                    "assets:install %PUBLIC_DIR%": "symfony-cmd"
-                },
-                "post-install-cmd": [
-                    "@auto-scripts"
-                ],
-                "post-update-cmd": [
-                    "@auto-scripts"
-                ],
-                "currencing:gates": [
-                    "php tools/currencing-structure-check.php",
-                    "php tools/currencing-runtime-smoke-check.php",
-                    "php tools/currencing-autoload-smoke-check.php",
-                    "php tools/currencing-service-alias-closure-check.php",
-                    "php tools/currencing-template-bridge-contract-check.php",
-                    "php tools/currencing-console-runtime-proof-check.php",
-                    "php tools/currencing-database-runtime-proof-check.php",
-                    "php tools/currencing-api-contract-check.php",
-                    "php tools/currencing-release-candidate-check.php",
-                    "php tools/currencing-standalone-runtime-foundation-check.php"
-                ]
-            },
-            "license": [
-                "proprietary"
-            ],
-            "description": "Currencing process app",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
-        },
+                         "name":  "currencing/currency",
+                         "version":  "dev-master",
+                         "dist":  {
+                                      "type":  "path",
+                                      "url":  "../Currencing",
+                                      "reference":  "e89487ed46eca97aa00a84b647607ccedc324472"
+                                  },
+                         "require":  {
+                                         "cruding/crud":  "dev-master",
+                                         "doctrine/dbal":  "^4.4",
+                                         "doctrine/doctrine-bundle":  "^3.2",
+                                         "doctrine/doctrine-migrations-bundle":  "^4.0",
+                                         "doctrine/orm":  "^3.3",
+                                         "easycorp/easyadmin-bundle":  "^5.0",
+                                         "ext-ctype":  "*",
+                                         "ext-iconv":  "*",
+                                         "ext-intl":  "*",
+                                         "interfacing/interface":  "dev-master",
+                                         "objecting/object":  "dev-master",
+                                         "php":  "^8.4",
+                                         "symfony/asset":  "^8.1",
+                                         "symfony/console":  "^8.1",
+                                         "symfony/dotenv":  "^8.1",
+                                         "symfony/flex":  "^2.4",
+                                         "symfony/form":  "^8.1",
+                                         "symfony/framework-bundle":  "^8.1",
+                                         "symfony/runtime":  "^8.1",
+                                         "symfony/serializer":  "^8.1",
+                                         "symfony/twig-bundle":  "^8.1",
+                                         "symfony/validator":  "^8.1",
+                                         "symfony/var-exporter":  "^8.1",
+                                         "symfony/yaml":  "^8.1",
+                                         "twig/extra-bundle":  "^3.21",
+                                         "twig/twig":  "^3.21",
+                                         "viewing/view":  "dev-master"
+                                     },
+                         "require-dev":  {
+                                             "doctrine/doctrine-fixtures-bundle":  "^4.0",
+                                             "friendsofphp/php-cs-fixer":  "^3.94",
+                                             "phpstan/phpstan":  "^2.1",
+                                             "phpunit/phpunit":  "^11.5 || ^12.0"
+                                         },
+                         "type":  "symfony-bundle",
+                         "extra":  {
+                                       "symfony":  {
+                                                       "allow-contrib":  false,
+                                                       "require":  "^8.1",
+                                                       "bundle":  "App\\Currencing\\CurrencingBundle"
+                                                   }
+                                   },
+                         "autoload":  {
+                                          "psr-4":  {
+                                                        "App\\Currencing\\":  "src/"
+                                                    }
+                                      },
+                         "autoload-dev":  {
+                                              "psr-4":  {
+                                                            "App\\Currencing\\Tests\\":  "tests/"
+                                                        }
+                                          },
+                         "scripts":  {
+                                         "auto-scripts":  {
+                                                              "cache:clear":  "symfony-cmd",
+                                                              "assets:install %PUBLIC_DIR%":  "symfony-cmd",
+                                                              "importmap:install":  "symfony-cmd"
+                                                          },
+                                         "post-install-cmd":  [
+                                                                  "@auto-scripts"
+                                                              ],
+                                         "post-update-cmd":  [
+                                                                 "@auto-scripts"
+                                                             ],
+                                         "cs:check":  [
+                                                          "php-cs-fixer fix --dry-run --diff --verbose"
+                                                      ],
+                                         "cs:fix":  [
+                                                        "php-cs-fixer fix --verbose"
+                                                    ],
+                                         "phpstan":  [
+                                                         "phpstan analyse -c phpstan.dist.neon"
+                                                     ],
+                                         "test":  [
+                                                      "phpunit"
+                                                  ],
+                                         "schema:parity":  [
+                                                               "php tools/currencing-schema-migration-mirror-check.php",
+                                                               "php bin/console doctrine:schema:validate --skip-sync"
+                                                           ],
+                                         "currencing:gates":  [
+                                                                  "php tools/currencing-structure-check.php",
+                                                                  "php tools/currencing-runtime-smoke-check.php",
+                                                                  "php tools/currencing-autoload-smoke-check.php",
+                                                                  "php tools/currencing-service-alias-closure-check.php",
+                                                                  "php tools/currencing-template-bridge-contract-check.php",
+                                                                  "php tools/currencing-console-runtime-proof-check.php",
+                                                                  "php tools/currencing-database-runtime-proof-check.php",
+                                                                  "php tools/currencing-schema-migration-mirror-check.php",
+                                                                  "php tools/currencing-api-contract-check.php",
+                                                                  "php tools/currencing-release-candidate-check.php",
+                                                                  "php tools/currencing-standalone-runtime-foundation-check.php"
+                                                              ]
+                                     },
+                         "license":  [
+                                         "proprietary"
+                                     ],
+                         "description":  "Currencing process app",
+                         "transport-options":  {
+                                                   "symlink":  true,
+                                                   "relative":  true
+                                               }
+                     },
         {
             "name": "delivering/delivery",
             "version": "dev-release/delivering-20260817",

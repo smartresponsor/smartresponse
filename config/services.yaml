@@ -9,6 +9,7 @@ imports:
     - { resource: '../vendor/localizing/locale/config/services.yaml' }
     - { resource: '../vendor/cataloging/catalog/config/component/services.yaml' }
     - { resource: '../vendor/vendoring/vendor/config/component/optional/attaching_profile_bridge.yaml' }
+    - { resource: '../vendor/currencing/currency/config/services/currencing.yaml' }
 
 parameters:
     redis.dsn: 'redis://127.0.0.1:6379/0'
@@ -233,9 +234,9 @@ services:
 
 
     App\Provider\Cart\CartCatalogOfferProvider: ~
-    App\Carting\ServiceInterface\Cart\CartOfferProviderInterface:
+    App\Carting\ServiceInterface\CartOfferProviderInterface:
         alias: App\Provider\Cart\CartCatalogOfferProvider
-    App\Carting\ServiceInterface\Cart\CartAvailabilityCheckerInterface:
+    App\Carting\ServiceInterface\CartAvailabilityCheckerInterface:
         alias: App\Provider\Cart\CartCatalogOfferProvider
 
     App\Provider\Catalog\CatalogContextTreeProjectionProvider:

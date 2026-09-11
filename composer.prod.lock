@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e2d9c5e0b8b1429efce019cce3d05953",
+    "content-hash": "9473cb8b34cfa23461364dc34ad1c77c",
     "packages": [
         {
             "name": "accessing/access",
@@ -1623,6 +1623,49 @@
             ],
             "description": "Universal CRUD route processor bundle for Symfony host applications.",
             "time": "2026-07-29T23:56:41+00:00"
+        },
+        {
+            "name": "currencing/currency",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:smartresponsor/currencing.git",
+                "reference": "e89487ed46eca97aa00a84b647607ccedc324472"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/smartresponsor/currencing/zipball/e89487ed46eca97aa00a84b647607ccedc324472",
+                "reference": "e89487ed46eca97aa00a84b647607ccedc324472",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/dbal": "^4.2",
+                "doctrine/doctrine-bundle": "^3.2",
+                "doctrine/doctrine-migrations-bundle": "^4.0",
+                "doctrine/orm": "^3.3",
+                "ext-ctype": "*",
+                "ext-iconv": "*",
+                "ext-intl": "*",
+                "objecting/object": "dev-master",
+                "php": "^8.4",
+                "symfony/asset": "^7.3 || ^8.0",
+                "symfony/console": "^7.3 || ^8.0",
+                "symfony/dotenv": "^7.3 || ^8.0",
+                "symfony/flex": "^2.4",
+                "symfony/form": "^7.3 || ^8.0",
+                "symfony/framework-bundle": "^7.3 || ^8.0",
+                "symfony/runtime": "^7.3 || ^8.0",
+                "symfony/twig-bundle": "^7.3 || ^8.0",
+                "symfony/validator": "^7.3 || ^8.0",
+                "symfony/var-exporter": "^7.3 || ^8.0",
+                "symfony/yaml": "^7.3 || ^8.0",
+                "twig/extra-bundle": "^3.21",
+                "twig/twig": "^3.21"
+            },
+            "type": "project",
+            "autoload": { "psr-4": { "App\\": "src/" } },
+            "license": ["proprietary"],
+            "description": "Currencing process app"
         },
         {
             "name": "delivering/delivery",

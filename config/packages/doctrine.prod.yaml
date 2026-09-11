@@ -78,6 +78,12 @@ doctrine:
                         dir: '%kernel.project_dir%/vendor/carting/cart/src/Entity'
                         prefix: 'App\Carting\Entity'
                         alias: Carting
+                    Currencing:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/vendor/currencing/currency/src/Entity/Currency'
+                        prefix: 'App\Currencing\Entity\Currency'
+                        alias: Currencing
                     Casing:
                         is_bundle: false
                         type: attribute
