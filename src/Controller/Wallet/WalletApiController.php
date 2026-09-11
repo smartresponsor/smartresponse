@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Wallet;
 
+use App\Currencing\ServiceInterface\CurrencyCodeValidatorInterface;
 use App\Vendoring\Entity\Vendor\VendorEntity;
 use App\Vendoring\RepositoryInterface\Vendor\VendorRepositoryInterface;
 use App\Walleting\Entity\PaymentInstrument;
@@ -29,6 +30,7 @@ final class WalletApiController extends AbstractController
         private readonly EntityManagerInterface $entityManager,
         private readonly WalletingFacade $walleting,
         private readonly WithdrawalApplicationService $withdrawing,
+        private readonly CurrencyCodeValidatorInterface $currencyCodeValidator,
     ) {
     }
 
@@ -176,7 +178,7 @@ final class WalletApiController extends AbstractController
         $currency = strtoupper(trim((string) ($payload['currency'] ?? '')));
         $instrumentId = trim((string) ($payload['paymentInstrumentId'] ?? ''));
         $idempotencyKey = trim((string) ($payload['idempotencyKey'] ?? ''));
-        if (!is_int($amountMinor) || $amountMinor <= 0 || 1 !== preg_match('/^[A-Z]{3}$/', $currency) || '' === $instrumentId || '' === $idempotencyKey || strlen($idempotencyKey) > 128) {
+        if (!is_int($amountMinor) || $amountMinor <= 0 || !$this->currencyCodeValidator->supports($currency) || '' === $instrumentId || '' === $idempotencyKey || strlen($idempotencyKey) > 128) {
             return $this->json(['code' => 'invalid_request', 'message' => 'Positive amountMinor, ISO currency, paymentInstrumentId, and idempotencyKey are required.'], 422);
         }
 

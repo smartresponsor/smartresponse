@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace App\Provider\Cart;
 
-use App\Carting\ServiceInterface\Cart\CartAvailabilityCheckerInterface;
-use App\Carting\ServiceInterface\Cart\CartOfferProviderInterface;
-use App\Carting\Snapshot\Cart\CartOfferSnapshot;
+use App\Carting\ServiceInterface\CartAvailabilityCheckerInterface;
+use App\Carting\ServiceInterface\CartOfferProviderInterface;
+use App\Carting\Snapshot\CartOfferSnapshot;
 use App\Cataloging\RepositoryInterface\Catalog\CatalogCollectionProjectionRepositoryInterface;
+use App\Currencing\ServiceInterface\CurrencyPrecisionResolverInterface;
 
 final readonly class CartCatalogOfferProvider implements CartOfferProviderInterface, CartAvailabilityCheckerInterface
 {
     public function __construct(
         private CatalogCollectionProjectionRepositoryInterface $catalogRepository,
+        private CurrencyPrecisionResolverInterface $currencyPrecisionResolver,
     ) {
     }
 
@@ -34,12 +36,14 @@ final readonly class CartCatalogOfferProvider implements CartOfferProviderInterf
 
         $brand = trim((string) ($offer['brand'] ?? ''));
         $title = '' !== $brand ? sprintf('%s — %s', $brand, $offerReference) : $offerReference;
+        $currencyCode = strtoupper(trim((string) ($offer['currencyCode'] ?? $offer['currency'] ?? 'USD')));
+        $factor = $this->currencyPrecisionResolver->factorFor($currencyCode);
 
         return new CartOfferSnapshot(
             offerReference: $offerReference,
             title: $title,
-            unitPriceMinor: (int) round(((float) $price) * 100),
-            currencyCode: 'USD',
+            unitPriceMinor: (int) round(((float) $price) * $factor),
+            currencyCode: $currencyCode,
             metadata: [
                 'catalogRecordId' => $offerReference,
                 'brand' => '' !== $brand ? $brand : null,
