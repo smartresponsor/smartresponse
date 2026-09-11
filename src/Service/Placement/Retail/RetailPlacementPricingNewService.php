@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Placement\Retail;
 
-use App\Cruding\Dto\Crud\Entrypoint\CrudServiceContext;
+use App\Cruding\Dto\Entrypoint\CrudServiceContextDTO;
 use App\Cruding\Provider\Crud\CrudPageDefinitionProvider;
 use App\Cruding\Service\Crud\Resource\CrudResourceContractFactory;
 use App\Cruding\Value\Resource\CrudResourceContract;
@@ -32,17 +32,17 @@ final readonly class RetailPlacementPricingNewService
     ) {
     }
 
-    public function get(CrudServiceContext $context): CrudResourceContract|RedirectResponse
+    public function get(CrudServiceContextDTO $context): CrudResourceContract|RedirectResponse
     {
         return $this->handle($context);
     }
 
-    public function post(CrudServiceContext $context): CrudResourceContract|RedirectResponse
+    public function post(CrudServiceContextDTO $context): CrudResourceContract|RedirectResponse
     {
         return $this->handle($context);
     }
 
-    private function handle(CrudServiceContext $context): CrudResourceContract|RedirectResponse
+    private function handle(CrudServiceContextDTO $context): CrudResourceContract|RedirectResponse
     {
         $placement = $this->placement($context);
         if (null === $placement) {
@@ -117,7 +117,7 @@ final readonly class RetailPlacementPricingNewService
     }
 
     /** @return array{retailId: string, vendorId: string}|null */
-    private function placement(CrudServiceContext $context): ?array
+    private function placement(CrudServiceContextDTO $context): ?array
     {
         if (!$context->request->hasSession()) {
             return null;

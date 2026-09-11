@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\EventSubscriber\Crud;
 
 use App\Attaching\ServiceInterface\Linking\Attachment\AttachmentOwnerPurgeServiceInterface;
-use App\Cruding\Dto\Crud\CrudMutationLifecycleContext;
-use App\Cruding\ServiceInterface\Crud\CrudMutationLifecycleSubscriberInterface;
+use App\Cruding\Dto\CrudMutationLifecycleContextDTO;
+use App\Cruding\ServiceInterface\CrudMutationLifecycleSubscriberInterface;
 
 final readonly class AttachmentOwnerPurgeLifecycleSubscriber implements CrudMutationLifecycleSubscriberInterface
 {
@@ -19,13 +19,13 @@ final readonly class AttachmentOwnerPurgeLifecycleSubscriber implements CrudMuta
     ) {
     }
 
-    public function supports(CrudMutationLifecycleContext $context): bool
+    public function supports(CrudMutationLifecycleContextDTO $context): bool
     {
         return 'delete' === $context->operation
             && isset($this->ownerTypeByResourcePath[$context->crudContext->resourcePath]);
     }
 
-    public function before(CrudMutationLifecycleContext $context): void
+    public function before(CrudMutationLifecycleContextDTO $context): void
     {
         $resourcePath = $context->crudContext->resourcePath;
         $ownerId = $context->crudContext->identifierValue;
@@ -41,7 +41,7 @@ final readonly class AttachmentOwnerPurgeLifecycleSubscriber implements CrudMuta
         $this->attachmentOwnerPurgeService->purge($this->ownerTypeByResourcePath[$resourcePath], (string) $ownerId);
     }
 
-    public function after(CrudMutationLifecycleContext $context): void
+    public function after(CrudMutationLifecycleContextDTO $context): void
     {
     }
 }
