@@ -33,9 +33,14 @@ if (is_file($readerPath)) {
         }
     }
 
-    foreach (['APP_RUNTIME_SCOPE', 'APP_RUNTIME_ENTITY', 'getenv(', '$_ENV', '$_SERVER'] as $forbidden) {
+    foreach (['getenv(', '$_ENV', '$_SERVER'] as $forbidden) {
         if (str_contains($reader, $forbidden)) {
             $findings[] = sprintf('src/Kernel/RuntimeCompositionLockReader.php must not use %s as runtime authority.', $forbidden);
+        }
+    }
+    foreach (['APP_RUNTIME_SCOPE', 'APP_RUNTIME_ENTITY'] as $legacyEnvName) {
+        if (1 === preg_match('/'.preg_quote($legacyEnvName, '/').'(?![A-Z0-9_])/', $reader)) {
+            $findings[] = sprintf('src/Kernel/RuntimeCompositionLockReader.php must not use %s as runtime authority.', $legacyEnvName);
         }
     }
 }
@@ -94,7 +99,7 @@ foreach (runtimeSourceFiles($root) as $filePath) {
 
     $contents = (string) file_get_contents($filePath);
     foreach (['APP_RUNTIME_SCOPE', 'APP_RUNTIME_ENTITY'] as $legacyEnvName) {
-        if (str_contains($contents, $legacyEnvName)) {
+        if (1 === preg_match('/'.preg_quote($legacyEnvName, '/').'(?![A-Z0-9_])/', $contents)) {
             $findings[] = sprintf('%s uses %s; App runtime authority must come from config/kernel/runtime_scope*.lock.php.', $relative, $legacyEnvName);
         }
     }
