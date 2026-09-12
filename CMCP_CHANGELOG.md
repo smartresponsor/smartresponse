@@ -80,3 +80,21 @@ Integration action: stage and commit only `CMCP_CHANGELOG.md`, `config/services.
 Что имеем? Bounded App changes are source-verified and separated cleanly from unrelated dirty worktree state.
 
 Что осталось? Create/push the coherent task commit, then perform Iteration 5 post-integration HEAD/worktree/upstream acceptance and report the external Retailing prerequisite.
+
+### Iteration 5 — FINAL_ACCEPTANCE_AND_HANDOFF
+
+Task implementation commit: `876007c32f7e5a5fa13f12218283181b409f7ec6` (`fix(app): align host component contracts`), signed and containing only the task journal plus the two App-owned integration fixes. Pre-existing `.gating` modifications were never staged.
+
+Push attempt through Console MCP was blocked by the repository safety guard because the worktree still contains the four pre-existing `.gating` modifications. No stash/reset/force operation was used. At acceptance time the branch is `ahead 1`, `behind 0` relative to `origin/release/app-push-token-secrets-20260817`.
+
+All verification-only generated Composer edits under `vendor/composer/` were explicitly reverted to their pre-task hashes before final acceptance. The final unmodified generated state therefore reproduces the first external shared-workspace blocker: `App\\Facting\\FactingBundle` cannot be autoloaded because current dirty Facting has migrated to `App\\Facting\\ => src/` while App's lock/generated projection correctly describes its older locked Facting commit as `App\\ => src/`.
+
+During controlled diagnostic projection of the current Facting layout, Symfony boot advanced through the App fixes and reached the next external blocker in read-only Retailing, whose subscriber still imports obsolete Cruding lifecycle symbols. This confirms both repaired App registrations are materially exercised while also proving the shared component migration is not yet integration-green.
+
+Final gates/evidence: `composer validate --check-lock` PASS; changed PHP syntax PASS; signed implementation commit PASS; `gating:check` BLOCKED by external/local path-package migration state; push BLOCKED by dirty-worktree safety guard caused solely by pre-existing `.gating` changes.
+
+Final status: `BLOCKED_EXTERNAL_INTEGRATION_AND_PUSH_GUARD`. The bounded App-owned fixes selected during this task are implemented and committed; factual RC completion is not claimed until the Facting/Retailing shared migration is synchronized and the App commit can be published without disturbing unrelated work.
+
+Что имеем? Five iterations completed, App-owned fixes committed, no sibling repository mutated, no destructive operation used, and no diagnostic vendor workaround left behind.
+
+Что осталось? Synchronize/commit the dependent Facting and Retailing namespace migrations in their owning repositories, refresh App path-package projection normally, obtain a green `gating:check`, and push the existing App commits once the pre-existing `.gating` worktree state no longer triggers the safety guard.
