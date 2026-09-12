@@ -162,3 +162,17 @@ Integration plan: create one signed commit containing only the four task-owned f
 Что имеем? A bounded, tested App change set is separated from unrelated dirty work.
 
 Что осталось? Commit, push attempt, and final HEAD/worktree/upstream acceptance.
+
+### Iteration 5 — FINAL_ACCEPTANCE_AND_HANDOFF
+
+Implementation commit created successfully despite the commit tool returning a hook-level false status: `dda19e679c41a55020324cd0fc4bde99dda7c0d8` (`fix(app): restore test tooling and Cruding contract`). Post-commit status proves all four task-owned implementation files are clean; only the 26 pre-existing dirty paths remain.
+
+Push through Console MCP was attempted and blocked by the repository safety guard `working_tree_dirty`. No stash/reset/force operation was used. Current branch is `ahead 3`, `behind 0` relative to `origin/release/app-push-token-secrets-20260817`.
+
+Final verification state: `composer validate --check-lock` PASS; ordinary PHPUnit execution reaches 47 tests and confirms the repaired ObjectVisibilityManager tests now pass, but suite remains RED with 11 errors and 4 failures tied to sibling/in-flight contract drift; corrected coverage execution starts under Xdebug with path/branch evidence enabled but remains RED for the same suite failures; `gating:check` is BLOCKED before App rule execution by unresolved conflict markers in read-only sibling Cruding.
+
+Final task status: `BLOCKED_EXTERNAL_INTEGRATION_AND_PUSH_GUARD`. The bounded App-owned RC work selected here is implemented and committed; factual full-platform green is not claimed while sibling state and pre-existing dirty work prevent complete gate/push acceptance.
+
+Что имеем? Five iterations completed; App gained canonical test/coverage Composer entrypoints; stale App-to-Cruding interface usage was repaired and materially verified; one signed implementation commit exists; no sibling repository was mutated and no destructive operation was used.
+
+Что осталось? Resolve/commit the owning Cruding conflict state and remaining sibling contract migrations, rerun App tests/coverage/gating to green, then push the already-created App commits once the worktree safety guard is clear.
