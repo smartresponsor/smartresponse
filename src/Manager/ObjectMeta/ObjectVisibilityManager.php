@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Manager\ObjectMeta;
 
-use App\Cruding\ServiceInterface\Crud\CrudFormHandlerInterface;
+use App\Cruding\ServiceInterface\CrudFormHandlerInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 final readonly class ObjectVisibilityManager
