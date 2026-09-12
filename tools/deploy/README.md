@@ -55,7 +55,7 @@ The server resets the checkout to the exact `origin/master` commit and therefore
 
 ## Notification push workers
 
-The Host owns the Notifying → Delivering orchestration boundary. `app:notification:dispatch` claims one bounded Notifying batch, enqueues `DeliveringSendPush` messages, and marks successfully enqueued plans as handed off. Physical APNs/FCM delivery and retries stay on the `delivering_async` Messenger transport.
+The Host owns the Notifying → Delivering orchestration boundary. `app:notification:dispatch` claims one bounded Notifying batch, enqueues `DeliverySendPush` messages, and marks successfully enqueued plans as handed off. Physical APNs/FCM delivery and retries stay on the `delivering_async` Messenger transport.
 
 For a host with a long-running process supervisor, run the Scheduler and Delivering queue together:
 

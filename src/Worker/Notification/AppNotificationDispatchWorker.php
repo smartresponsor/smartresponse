@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Worker\Notification;
 
-use App\Delivering\Message\DeliveringSendPush;
+use App\Delivering\Message\Command\Delivery\DeliverySendPush;
 use App\Notifying\Service\NotificationDispatchPlanService;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -43,7 +43,7 @@ final readonly class AppNotificationDispatchWorker
                     throw new \RuntimeException('Claimed push plan does not contain a physical delivery payload.');
                 }
 
-                $message = new DeliveringSendPush(
+                $message = new DeliverySendPush(
                     platform: (string) ($delivery['provider'] ?? ''),
                     tokenHash: (string) ($delivery['tokenHash'] ?? ''),
                     appKey: (string) ($delivery['appKey'] ?? ''),
