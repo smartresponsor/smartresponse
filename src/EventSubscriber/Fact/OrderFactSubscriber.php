@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\EventSubscriber\Fact;
 
 use App\Accessing\Entity\AccessEntity;
-use App\Facting\Fact\FactStream;
+use App\Facting\ServiceInterface\FactSubjectCommitterInterface;
+use App\Facting\ValueObject\FactStream;
 use App\Ordering\Entity\Order\OrderEntity;
 use App\Ordering\Event\Domain\Order\OrderCancelledEvent;
 use App\Ordering\Event\Domain\Order\OrderCompletedEvent;
@@ -13,7 +14,6 @@ use App\Ordering\Event\Domain\Order\OrderPaidEvent;
 use App\Ordering\Event\Domain\Order\OrderPlacedEvent;
 use App\Ordering\Event\Domain\Order\OrderRefundCompletedEvent;
 use App\Ordering\Event\Domain\Order\OrderShippedEvent;
-use App\ServiceInterface\Fact\FactSubjectCommitterInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 

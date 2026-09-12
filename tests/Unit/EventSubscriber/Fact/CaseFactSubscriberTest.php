@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\EventSubscriber\Fact;
 
-use App\Casing\Event\Domain\CaseOpenedEvent;
-use App\Casing\Event\Domain\CaseResolvedEvent;
-use App\Facting\Fact\FactEnvelope;
-use App\Facting\Fact\FactRecord;
-use App\Facting\Fact\FactStream;
+use App\Casing\Event\CaseOpenedEvent;
+use App\Casing\Event\CaseResolvedEvent;
 use App\EventSubscriber\Fact\CaseFactSubscriber;
-use App\ServiceInterface\Fact\FactSubjectCommitterInterface;
+use App\Facting\ServiceInterface\FactSubjectCommitterInterface;
+use App\Facting\ValueObject\FactEnvelope;
+use App\Facting\ValueObject\FactRecord;
+use App\Facting\ValueObject\FactStream;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 

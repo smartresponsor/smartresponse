@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\EventSubscriber\Fact;
 
-use App\Facting\Fact\FactEnvelope;
-use App\Facting\Fact\FactRecord;
-use App\Facting\Fact\FactStream;
+use App\EventSubscriber\Fact\OrderFactSubscriber;
+use App\Facting\ServiceInterface\FactSubjectCommitterInterface;
+use App\Facting\ValueObject\FactEnvelope;
+use App\Facting\ValueObject\FactRecord;
+use App\Facting\ValueObject\FactStream;
 use App\Ordering\Entity\Order\OrderEntity;
 use App\Ordering\Entity\Order\OrderOutboxMessageEntity;
 use App\Ordering\Event\Domain\Order\OrderCancelledEvent;
@@ -16,8 +18,6 @@ use App\Ordering\Event\Domain\Order\OrderPlacedEvent;
 use App\Ordering\Event\Domain\Order\OrderRefundCompletedEvent;
 use App\Ordering\Event\Domain\Order\OrderShippedEvent;
 use App\Ordering\Service\Outbox\OutboxProcessor;
-use App\EventSubscriber\Fact\OrderFactSubscriber;
-use App\ServiceInterface\Fact\FactSubjectCommitterInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use PHPUnit\Framework\TestCase;
