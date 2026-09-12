@@ -54,14 +54,7 @@ final class Canon029MandatoryPhpQualityToolingRule extends AbstractCanonRule
         if (!is_file($context->targetPath.'/.php-cs-fixer.dist.php') && !is_file($context->targetPath.'/.php-cs-fixer.php')) {
             $hits[] = 'Missing PHP-CS-Fixer config.';
         }
-
-        $phpStanConfig = false;
-        foreach (['phpstan.neon', 'phpstan.neon.dist', 'phpstan.dist.neon'] as $file) {
-            if (is_file($context->targetPath.'/'.$file)) {
-                $phpStanConfig = true;
-                break;
-            }
-        }
+        $phpStanConfig = array_any(['phpstan.neon', 'phpstan.neon.dist', 'phpstan.dist.neon'], fn ($file) => is_file($context->targetPath.'/'.$file));
         if (!$phpStanConfig && [] !== (glob($context->targetPath.'/.gating/quality/*/php/phpstan.neon') ?: [])) {
             $phpStanConfig = true;
         }

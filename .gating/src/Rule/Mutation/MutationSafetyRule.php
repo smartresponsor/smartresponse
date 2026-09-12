@@ -40,6 +40,7 @@ final class MutationSafetyRule implements RuleInterface
     /** @var list<string> */
     private const array IGNORED_SEGMENTS = [
         '/.git/',
+        '/.gating/',
         '/vendor/',
         '/node_modules/',
         '/var/',

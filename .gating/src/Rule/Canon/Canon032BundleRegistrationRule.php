@@ -25,7 +25,10 @@ final class Canon032BundleRegistrationRule extends AbstractCanonRule
      */
     public function check(RuleContext $context): RuleResult
     {
-        if (!is_file($context->targetPath.'/bin/console') || !is_file($context->targetPath.'/src/Kernel.php')) {
+        $kernelPath = is_file($context->targetPath.'/app/Kernel.php')
+            ? $context->targetPath.'/app/Kernel.php'
+            : $context->targetPath.'/src/Kernel.php';
+        if (!is_file($context->targetPath.'/bin/console') || !is_file($kernelPath)) {
             return $this->result('skipped', 'Target is not a standalone Symfony application.');
         }
 
@@ -34,7 +37,7 @@ final class Canon032BundleRegistrationRule extends AbstractCanonRule
             return $this->result('failed', 'Standalone component has no reusable src/*Bundle.php surface.');
         }
 
-        $registrationText = (string) file_get_contents($context->targetPath.'/src/Kernel.php');
+        $registrationText = (string) file_get_contents($kernelPath);
         $configPath = $context->targetPath.'/config';
         if (is_dir($configPath)) {
             $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($configPath, \FilesystemIterator::SKIP_DOTS));

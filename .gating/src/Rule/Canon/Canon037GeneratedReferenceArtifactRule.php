@@ -33,7 +33,7 @@ final class Canon037GeneratedReferenceArtifactRule extends AbstractCanonRule
             return $this->result('passed', 'No generated config/reference.php source artifact is present.');
         }
 
-        $trackingState = (new GitTrackingService())->isTracked($context->targetPath, $relativePath);
+        $trackingState = new GitTrackingService()->isTracked($context->targetPath, $relativePath);
 
         if (true === $trackingState) {
             return $this->result(

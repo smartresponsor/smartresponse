@@ -26,7 +26,10 @@ final class Canon035SymfonyContainerReuseRule extends AbstractCanonRule
     public function check(RuleContext $context): RuleResult
     {
         $composerPath = $context->targetPath.'/composer.json';
-        if (!is_file($composerPath) || !is_file($context->targetPath.'/src/Kernel.php')) {
+        $kernelPath = is_file($context->targetPath.'/app/Kernel.php')
+            ? $context->targetPath.'/app/Kernel.php'
+            : $context->targetPath.'/src/Kernel.php';
+        if (!is_file($composerPath) || !is_file($kernelPath)) {
             return $this->result('skipped', 'Target is not a standalone Symfony kernel application.');
         }
 
@@ -51,7 +54,7 @@ final class Canon035SymfonyContainerReuseRule extends AbstractCanonRule
             }
         }
 
-        $kernel = (string) file_get_contents($context->targetPath.'/src/Kernel.php');
+        $kernel = (string) file_get_contents($kernelPath);
         if (str_contains($kernel, 'function getContainerClass(')) {
             $warnings[] = 'Kernel overrides getContainerClass(); verify that container identity is stable and not request/time/random dependent.';
         }
