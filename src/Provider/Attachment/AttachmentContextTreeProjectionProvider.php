@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Provider\Attachment;
 
-use App\Attaching\Enum\Attachment\AttachmentDocumentKind;
-use App\Attaching\Enum\Attachment\AttachmentMediaKind;
-use App\Attaching\Enum\Attachment\AttachmentType;
+use App\Attaching\Enum\Classification\Attachment\AttachmentDocumentKind;
+use App\Attaching\Enum\Classification\Attachment\AttachmentMediaKind;
+use App\Attaching\Enum\Classification\Attachment\AttachmentType;
 use App\ProviderInterface\Context\AppContextTreeProjectionProviderInterface;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use Symfony\Component\HttpFoundation\Request;

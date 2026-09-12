@@ -176,3 +176,21 @@ Final task status: `BLOCKED_EXTERNAL_INTEGRATION_AND_PUSH_GUARD`. The bounded Ap
 Что имеем? Five iterations completed; App gained canonical test/coverage Composer entrypoints; stale App-to-Cruding interface usage was repaired and materially verified; one signed implementation commit exists; no sibling repository was mutated and no destructive operation was used.
 
 Что осталось? Resolve/commit the owning Cruding conflict state and remaining sibling contract migrations, rerun App tests/coverage/gating to green, then push the already-created App commits once the worktree safety guard is clear.
+
+### Iteration 6 — CONTINUOUS_RC_EXECUTION
+
+Continued App-only repair against the current read-only sibling contracts. Verified current owner namespaces directly in Facting, Casing, and Attaching, then retargeted App imports: Casing events moved from `Event\\Domain` to `Event`; Facting `FactEnvelope`, `FactRecord`, and `FactStream` use `ValueObject`; Attaching classification enums use `Enum\\Classification\\Attachment`.
+
+Under the pre-existing generated sibling projection, these source repairs reduced PHPUnit from 11 errors + 4 failures to 0 errors + 4 failures (47 tests, 294 assertions). The remaining four assertion failures are Commissioning fixture registration and Vendoring schema/Objecting contract assertions.
+
+A canonical `composer run autoload:refresh` then regenerated App autoload metadata from the current lock and exposed the deeper App integration blocker: the lock projection for Facting is stale relative to the current sibling worktree, so `App\\Facting\\ServiceInterface\\FactSubjectCommitterInterface` disappears after canonical dump-autoload. This proves the earlier zero-error run depended on a newer generated projection than the lock currently describes.
+
+Package-scoped Composer reconciliation was tested only in dry-run mode for Facting, Commissioning, Attaching, and Casing. It is not safely solvable in isolation because the root dependency graph has unrelated drift: Streaming cannot be resolved from configured repositories, Projecting requires Doctrine Migrations Bundle ^3.4 while App requires ^4.0, and Faceting/Subscripting require EasyAdmin ^5.5 while the partial-update lock fixes 5.4.1. No lock mutation was performed.
+
+`Cruding/config/services.yaml` still contains unresolved merge markers, so `gating:check` remains externally blocked before App rule execution.
+
+Commit discipline: `src/Provider/Attachment/AttachmentContextTreeProjectionProvider.php` was clean before this continuation and may be committed as task-owned. The Fact subscriber/test files already contained pre-existing uncommitted migration hunks before Iteration 6; Console MCP supports file-level staging only, so they are intentionally not committed here to avoid claiming/staging unrelated pre-existing changes.
+
+Что имеем? Current source contracts are identified precisely, App import drift is repaired in the working tree, and the canonical dependency-lock blocker is proven without broad Composer mutation.
+
+Что осталось? Resolve the root Composer graph and sibling-owned contract debt, regenerate App autoload from a coherent lock, rerun PHPUnit/coverage/gating, then package the remaining mixed dirty Fact files only when their pre-existing hunks are owned by the same integration change.
