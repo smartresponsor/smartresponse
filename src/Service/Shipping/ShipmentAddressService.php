@@ -7,7 +7,7 @@ namespace App\Service\Shipping;
 use App\Accessing\Entity\AccessEntity;
 use App\Addressing\EntityInterface\Record\AddressInterface;
 use App\Addressing\Service\Application\AddressReadService;
-use App\Shipping\ServiceInterface\Shipping\ShipmentServiceInterface;
+use App\Shipping\ServiceInterface\ShipmentServiceInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 
 final readonly class ShipmentAddressService implements ShipmentServiceInterface
