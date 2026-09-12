@@ -8,8 +8,13 @@ imports:
     - { resource: '../vendor/applicating/application/config/component/services.yaml' }
     - { resource: '../vendor/localizing/locale/config/services.yaml' }
     - { resource: '../vendor/cataloging/catalog/config/component/services.yaml' }
+    - { resource: '../vendor/messaging/message/config/component/services.yaml' }
+    - { resource: '../vendor/messaging/message/config/services/message_pin.yaml' }
+    - { resource: '../vendor/messaging/message/config/services_realtime_qos.yaml' }
+    - { resource: '../vendor/messaging/message/config/services_semantic_search_v1.yaml' }
+    - { resource: '../vendor/messaging/message/config/services_search_v21.yaml' }
     - { resource: '../vendor/vendoring/vendor/config/component/optional/attaching_profile_bridge.yaml' }
-    - { resource: '../vendor/currencing/currency/config/services/currencing.yaml' }
+    - { resource: '../vendor/currencing/currency/config/services/currency_services.yaml' }
 
 parameters:
     redis.dsn: 'redis://127.0.0.1:6379/0'
@@ -67,6 +72,53 @@ services:
     App\Messaging\Service\Moderation\MessageTrustOverrideService: ~
     App\Messaging\Service\MessageAIModerationService: ~
     App\Messaging\Service\Moderation\MessageModerationRuleEngineService: ~
+    App\Messaging\Service\ACL\MessageAclAuditLoggerService: ~
+    App\Messaging\Service\ACL\MessagePermissionEvaluatorService: ~
+    App\Messaging\Service\ACL\MessageScopeResolverService: ~
+    App\Messaging\Service\ACL\MessageRoleAssignerService: ~
+    App\Messaging\Service\ACL\MessageAclCacheService: ~
+    App\Messaging\Service\Pin\MessagePinService: ~
+    App\Messaging\Service\Presence\MessageUserPresenceService: ~
+    App\Messaging\Service\Realtime\MessageMercureFanoutService:
+        arguments:
+            $publishUrl: '%mercure.publish_url%'
+            $jwtSecret: '%mercure.jwt_secret%'
+    App\Messaging\Service\Realtime\MessageTopicResolverService: ~
+    App\Messaging\Service\Realtime\MessagePresenceGatewayService: ~
+    App\Messaging\Service\Realtime\MessageRealtimeService: ~
+    App\Messaging\Service\Realtime\MessageRetryAckService: ~
+    App\Messaging\Service\Realtime\MessageRealtimeHubShardRouterService: ~
+    App\Messaging\Service\Presence\MessagePresenceBroadcasterService: ~
+    App\Messaging\Service\Presence\MessageTypingService: ~
+    App\Messaging\Service\Privacy\MessagePrivacyDeleteService: ~
+    App\Messaging\Service\Privacy\MessagePrivacyExportService: ~
+    App\Messaging\Service\MessageQuarantineService: ~
+    App\Messaging\Service\MessageReactionPublisherService: ~
+    App\Messaging\Service\MessageReactionService: ~
+    App\Messaging\Service\MessageReportService: ~
+    App\Messaging\Service\Message\MessageSecureService: ~
+    App\Messaging\Service\Abuse\MessageAbuseShieldService: ~
+    App\Messaging\Service\Abuse\MessageProofOfWorkService: ~
+    App\Messaging\Service\Storage\MessageStorageService: ~
+    App\Messaging\Service\Search\MessageMeiliClientService:
+        arguments:
+            $url: '%meili.url%'
+            $key: '%meili.master_key%'
+    App\Messaging\Service\Search\MessageSearchService: ~
+    App\Messaging\Service\Search\MessageVectorEmbedderService: ~
+    App\Messaging\Service\Search\MessagePermissionFilterService: ~
+    App\Messaging\Service\Search\MessageHybridSearchService: ~
+    App\Messaging\Service\Search\MessageThreadSearchService: ~
+    App\Messaging\Service\Search\MessageThreadSearchIndexerService: ~
+    App\Messaging\Service\Security\MessageRequestUserService: ~
+    App\Messaging\Service\Security\MessageTenantService: ~
+    App\Messaging\Service\Room\MessageModerationService: ~
+    App\Messaging\Service\Room\MessageRoomService: ~
+    App\Messaging\Service\Room\MessageInviteService: ~
+    App\Messaging\Service\Room\MessageRoomPolicyService: ~
+    App\Messaging\Service\Room\MessageUnreadService: ~
+    App\Messaging\Service\Thread\MessageReplyService: ~
+    App\Messaging\Service\Thread\MessageThreadPermissionService: ~
     App\Messaging\Service\Observability\MessagePrometheusMetricsService: ~
     App\Messaging\Service\Outbox\MessageOutboxService: ~
 

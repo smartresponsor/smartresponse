@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Service\Placement\Retail;
 
 use App\Cruding\Dto\Entrypoint\CrudServiceContextDTO;
-use App\Cruding\Provider\Crud\CrudPageDefinitionProvider;
-use App\Cruding\Service\Crud\Resource\CrudResourceContractFactory;
+use App\Cruding\Provider\CrudPageDefinitionProvider;
+use App\Cruding\Service\Resource\CrudResourceContractFactory;
 use App\Cruding\Value\Resource\CrudResourceContract;
 use App\Dto\Placement\Retail\RetailPlacementPricingFormData;
 use App\Form\Placement\Retail\RetailPlacementPricingType;

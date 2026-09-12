@@ -196,3 +196,19 @@ Further root-cause inspection proved the Composer reconciliation blocker is exte
 Что имеем? App source-level Casing/Facting/Attaching namespace migrations are now committed, with no mixed dirty Fact files remaining. The remaining Composer failure is precisely isolated to sibling in-flight dependency metadata plus the legacy Streaming package-name drift that cannot be safely locked while Projecting is unresolved.
 
 Что осталось? Finish or reconcile the owning Projecting dependency migration (and other sibling graph drift), then update App from `smartresponsor/streaming` to canonical `streaming/stream`, regenerate a coherent App lock/autoload, and rerun PHPUnit/coverage/gating.
+
+### Iteration 7 — HOST_INTEGRATION_CLOSURE
+
+Continued App-only runtime integration against current local component contracts. Retail placement services were aligned to current Cruding provider/resource namespaces and Shipping's current fulfillment-normalizer interface. App host wiring now imports Currencing's active `currency_services.yaml` and Messaging's canonical component, pin, realtime QoS, semantic-search, and legacy-search fragments.
+
+Messaging DI closure was driven strictly by repeated `composer run gating:check` failures. App now explicitly bridges current Messaging ACL, presence, realtime, privacy, reaction, room, search, security, storage, abuse, secure-message, thread, and reporting services that are referenced by Messaging controllers but not exported by the current dirty Messaging component configuration. No Messaging source file was mutated.
+
+The closure materially advanced Symfony boot through all encountered Messaging missing-service failures. After `MessageStorageService` registration, `gating:check` progressed beyond Messaging and stopped at a new external contract: `App\\Addressing\\AddressingBundle` is registered for prod but unavailable. Direct inspection of the current Addressing owner repository shows no `AddressingBundle` class at all; the repository currently exposes a standalone Symfony `Kernel.php`. This is therefore not another generated-autoload projection issue and is not safe to paper over inside App without an explicit Addressing/App integration decision.
+
+Verification: `composer validate --check-lock` PASS with only existing unbound development-constraint warnings; changed tracked PHP syntax PASS. Exact App-owned diff review confirms the Retail placement changes are mechanical namespace/interface alignment and `config/services.yaml` contains only the host-integration closure described above.
+
+Important concurrent state: `.gating/` accumulated additional pre-existing/unowned changes during this execution window. They remain excluded from this task's staging/commit ownership. No stash/reset/force operation is authorized or used.
+
+Что имеем? App host integration now passes the previously failing Currencing, Cruding, Shipping, Retailing, Facting diagnostic projection, and extensive Messaging DI surface, reaching the independent Addressing bundle-contract blocker.
+
+Что осталось? Resolve Addressing ownership/packaging semantics (restore/provide `App\\Addressing\\AddressingBundle` or remove the stale App bundle registration through a coordinated owner decision), then rerun canonical Composer projection and `gating:check`. Publish App commits only when the dirty-worktree push guard can be satisfied without discarding unrelated `.gating` work.

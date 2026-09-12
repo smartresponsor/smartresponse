@@ -6,14 +6,14 @@ namespace App\Service\Placement\Retail;
 
 use App\Retailing\Entity\Retail\RetailEntity;
 use App\Retailing\Service\Pricing\RetailPricingProfileNormalizer;
-use App\Shipping\Service\Placement\ListingFulfillmentProfileNormalizer;
+use App\Shipping\ServiceInterface\Placement\ShipmentListingFulfillmentProfileNormalizerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 final readonly class RetailPlacementApiService
 {
     public function __construct(
         private ManagerRegistry $managerRegistry,
-        private ListingFulfillmentProfileNormalizer $fulfillmentNormalizer,
+        private ShipmentListingFulfillmentProfileNormalizerInterface $fulfillmentNormalizer,
         private RetailPricingProfileNormalizer $pricingNormalizer,
         private RetailPlacementLocationService $locationPlacement,
     ) {
