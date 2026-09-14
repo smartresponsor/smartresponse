@@ -203,7 +203,7 @@ services:
         autoconfigure: true
     App\Facting\ServiceInterface\FactCurrentSubjectProviderInterface:
         alias: App\Facting\Provider\FactCurrentSubjectProvider
-    App\Delivering\ServiceInterface\Command\Delivery\DeliveringPushTokenResolverInterface:
+    App\Delivering\ServiceInterface\Command\Delivery\DeliveryPushTokenResolverInterface:
         alias: App\Resolver\Notification\NotifyingPushTokenResolver
     App\Cataloging\Controller\Catalog\CatalogCategoryMerchantController:
         public: true

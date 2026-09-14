@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Service\Placement\Retail;
 
 use App\Retailing\Entity\Retail\RetailEntity;
-use App\Retailing\Service\Pricing\RetailPricingProfileNormalizer;
+use App\Retailing\Normalizer\RetailPricingProfileNormalizer;
 use App\Shipping\ServiceInterface\Placement\ShipmentListingFulfillmentProfileNormalizerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
