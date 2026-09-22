@@ -1009,7 +1009,7 @@
             ],
             "authors": [
                 {
-                    "name": "Kévin Dunglas",
+                    "name": "Kevin Dunglas",
                     "email": "kevin@dunglas.fr",
                     "homepage": "https://dunglas.fr"
                 }
@@ -3955,7 +3955,7 @@
                     "email": "igor@wiedler.ch"
                 }
             ],
-            "description": "Événement is a very simple event dispatching library for PHP",
+            "description": "Evenement is a very simple event dispatching library for PHP",
             "keywords": [
                 "event-dispatcher",
                 "event-emitter"
@@ -4560,7 +4560,7 @@
                     "homepage": "https://github.com/Nyholm"
                 },
                 {
-                    "name": "Márk Sági-Kazár",
+                    "name": "Mark Sagi-Kazar",
                     "email": "mark.sagikazar@gmail.com",
                     "homepage": "https://github.com/sagikazarmark"
                 },
@@ -4759,7 +4759,7 @@
                     "homepage": "https://github.com/Nyholm"
                 },
                 {
-                    "name": "Márk Sági-Kazár",
+                    "name": "Mark Sagi-Kazar",
                     "email": "mark.sagikazar@gmail.com",
                     "homepage": "https://github.com/sagikazarmark"
                 },
@@ -4769,7 +4769,7 @@
                     "homepage": "https://github.com/Tobion"
                 },
                 {
-                    "name": "Márk Sági-Kazár",
+                    "name": "Mark Sagi-Kazar",
                     "email": "mark.sagikazar@gmail.com",
                     "homepage": "https://sagikazarmark.hu"
                 }
@@ -5211,7 +5211,7 @@
             ],
             "authors": [
                 {
-                    "name": "Luís Cobucci",
+                    "name": "Luis Cobucci",
                     "email": "lcobucci@gmail.com",
                     "role": "Developer"
                 }
@@ -8244,7 +8244,7 @@
             ],
             "authors": [
                 {
-                    "name": "Márk Sági-Kazár",
+                    "name": "Mark Sagi-Kazar",
                     "email": "mark.sagikazar@gmail.com"
                 }
             ],
@@ -8527,7 +8527,7 @@
             ],
             "authors": [
                 {
-                    "name": "Till Krüss",
+                    "name": "Till Kruss",
                     "homepage": "https://till.im",
                     "role": "Maintainer"
                 }
@@ -8682,7 +8682,7 @@
             ],
             "authors": [
                 {
-                    "name": "Lukas Kämmerling",
+                    "name": "Lukas Kammerling",
                     "email": "kontakt@lukas-kaemmerling.de"
                 }
             ],
@@ -9441,7 +9441,7 @@
             ],
             "authors": [
                 {
-                    "name": "Christian Lück",
+                    "name": "Christian Luck",
                     "email": "christian@clue.engineering",
                     "homepage": "https://clue.engineering/"
                 },
@@ -9517,7 +9517,7 @@
             ],
             "authors": [
                 {
-                    "name": "Christian Lück",
+                    "name": "Christian Luck",
                     "email": "christian@clue.engineering",
                     "homepage": "https://clue.engineering/"
                 },
@@ -9591,7 +9591,7 @@
             ],
             "authors": [
                 {
-                    "name": "Christian Lück",
+                    "name": "Christian Luck",
                     "email": "christian@clue.engineering",
                     "homepage": "https://clue.engineering/"
                 },
@@ -9669,7 +9669,7 @@
                     "homepage": "https://sorgalla.com/"
                 },
                 {
-                    "name": "Christian Lück",
+                    "name": "Christian Luck",
                     "email": "christian@clue.engineering",
                     "homepage": "https://clue.engineering/"
                 },
@@ -9741,7 +9741,7 @@
             ],
             "authors": [
                 {
-                    "name": "Christian Lück",
+                    "name": "Christian Luck",
                     "email": "christian@clue.engineering",
                     "homepage": "https://clue.engineering/"
                 },
@@ -9816,7 +9816,7 @@
             ],
             "authors": [
                 {
-                    "name": "Christian Lück",
+                    "name": "Christian Luck",
                     "email": "christian@clue.engineering",
                     "homepage": "https://clue.engineering/"
                 },
@@ -13641,7 +13641,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jérémy Derussé",
+                    "name": "Jeremy Derusse",
                     "email": "jeremy@derusse.com"
                 },
                 {
@@ -13815,7 +13815,7 @@
             ],
             "authors": [
                 {
-                    "name": "Kévin Dunglas",
+                    "name": "Kevin Dunglas",
                     "email": "dunglas@gmail.com"
                 },
                 {
@@ -13896,7 +13896,7 @@
             ],
             "authors": [
                 {
-                    "name": "Kévin Dunglas",
+                    "name": "Kevin Dunglas",
                     "email": "dunglas@gmail.com"
                 },
                 {
@@ -15290,7 +15290,7 @@
             ],
             "authors": [
                 {
-                    "name": "Grégoire Pineau",
+                    "name": "Gregoire Pineau",
                     "email": "lyrixx@lyrixx.info"
                 },
                 {
@@ -15520,7 +15520,7 @@
             ],
             "authors": [
                 {
-                    "name": "Kévin Dunglas",
+                    "name": "Kevin Dunglas",
                     "email": "dunglas@gmail.com"
                 },
                 {
@@ -17215,7 +17215,7 @@
             ],
             "authors": [
                 {
-                    "name": "Grégoire Pineau",
+                    "name": "Gregoire Pineau",
                     "email": "lyrixx@lyrixx.info"
                 },
                 {
@@ -17417,7 +17417,7 @@
             ],
             "authors": [
                 {
-                    "name": "Kévin Dunglas",
+                    "name": "Kevin Dunglas",
                     "email": "kevin@dunglas.fr"
                 },
                 {
@@ -17853,7 +17853,7 @@
             ],
             "authors": [
                 {
-                    "name": "Kévin Dunglas",
+                    "name": "Kevin Dunglas",
                     "email": "dunglas@gmail.com"
                 },
                 {
@@ -17947,7 +17947,7 @@
                     "email": "fabien@symfony.com"
                 },
                 {
-                    "name": "Grégoire Pineau",
+                    "name": "Gregoire Pineau",
                     "email": "lyrixx@lyrixx.info"
                 },
                 {
@@ -19815,7 +19815,7 @@
             ],
             "authors": [
                 {
-                    "name": "Christian Lück",
+                    "name": "Christian Luck",
                     "email": "christian@clue.engineering"
                 }
             ],
@@ -20213,7 +20213,7 @@
             ],
             "authors": [
                 {
-                    "name": "Andreas Möller",
+                    "name": "Andreas Moller",
                     "email": "am@localheinz.com",
                     "homepage": "https://localheinz.com"
                 }
@@ -20275,7 +20275,7 @@
             ],
             "authors": [
                 {
-                    "name": "François Zaninotto"
+                    "name": "Francois Zaninotto"
                 }
             ],
             "description": "Faker is a PHP library that generates fake data for you.",
@@ -20330,7 +20330,7 @@
             ],
             "authors": [
                 {
-                    "name": "Théo FIDRY",
+                    "name": "Theo FIDRY",
                     "email": "theo.fidry@gmail.com"
                 }
             ],
@@ -20433,7 +20433,7 @@
                     "email": "fabien@symfony.com"
                 },
                 {
-                    "name": "Dariusz Rumiński",
+                    "name": "Dariusz Ruminski",
                     "email": "dariusz.ruminski@gmail.com"
                 }
             ],
@@ -20462,7 +20462,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Gating",
-                "reference": "8a26f439a6fcc95d854bcde047949d7739c0f85f"
+                "reference": "957e9d5ade835d089d11e13560cd1f1d24632ac6"
             },
             "require": {
                 "php": "^8.4",
@@ -20471,13 +20471,19 @@
                 "symfony/finder": "^8.1",
                 "symfony/yaml": "^8.1"
             },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.95.4",
+                "phpstan/phpstan": "^2.2.2",
+                "phpunit/phpunit": "^13.3.3",
+                "rector/rector": "^2.4.1"
+            },
             "bin": [
                 "bin/gating"
             ],
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Gating\\Gate\\": "src/"
+                    "App\\Gating\\": "src/"
                 }
             },
             "scripts": {
@@ -20486,6 +20492,37 @@
                 ],
                 "scan": [
                     "@php bin/gating scan --target=."
+                ],
+                "test": [
+                    "@php tests/calibration.php"
+                ],
+                "test:unit": [
+                    "phpunit tests/Unit"
+                ],
+                "test:coverage": [
+                    "@php -d xdebug.mode=coverage vendor/bin/phpunit --branch-coverage --coverage-text=var/coverage/summary.txt"
+                ],
+                "cs:check": [
+                    "php-cs-fixer fix --dry-run --diff --verbose"
+                ],
+                "cs:fix": [
+                    "php-cs-fixer fix --verbose"
+                ],
+                "phpstan": [
+                    "phpstan analyse -c .gating/quality/owner/php/phpstan.neon"
+                ],
+                "rector:check": [
+                    "rector process --dry-run --config .gating/quality/owner/php/rector.php"
+                ],
+                "rector:fix": [
+                    "rector process --config .gating/quality/owner/php/rector.php"
+                ],
+                "quality": [
+                    "@cs:check",
+                    "@phpstan",
+                    "@rector:check",
+                    "@test",
+                    "@gate"
                 ]
             },
             "license": [
@@ -21169,7 +21206,7 @@
             ],
             "authors": [
                 {
-                    "name": "Christian Lück",
+                    "name": "Christian Luck",
                     "email": "christian@clue.engineering",
                     "homepage": "https://clue.engineering/"
                 },
@@ -22353,7 +22390,7 @@
                     "email": "fabien@symfony.com"
                 },
                 {
-                    "name": "Jean-François Simon",
+                    "name": "Jean-Francois Simon",
                     "email": "jeanfrancois.simon@sensiolabs.com"
                 },
                 {
