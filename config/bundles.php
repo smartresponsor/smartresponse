@@ -19,6 +19,7 @@ return [
     Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle::class => ['dev' => true, 'test' => true],
     Twig\Extra\TwigExtraBundle\TwigExtraBundle::class => ['all' => true],
     EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle::class => ['all' => true],
+    App\Objecting\ObjectBundle::class => ['all' => true],
     App\Administering\AdministeringBundle::class => ['all' => true],
     App\Domaining\DomainingBundle::class => ['all' => true],
     App\Addressing\AddressingBundle::class => ['all' => true],
