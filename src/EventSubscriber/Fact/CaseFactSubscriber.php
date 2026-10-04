@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber\Fact;
 
-use App\Accessing\Entity\AccessEntity;
+use App\Accessing\Entity\Access\AccessEntity;
 use App\Casing\Event\CaseOpenedEvent;
 use App\Casing\Event\CaseResolvedEvent;
 use App\Facting\ServiceInterface\FactSubjectCommitterInterface;
