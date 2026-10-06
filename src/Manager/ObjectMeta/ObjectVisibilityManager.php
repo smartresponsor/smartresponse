@@ -9,6 +9,9 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 final readonly class ObjectVisibilityManager
 {
+    /**
+     * @param array<string, array{writes?: array<string, mixed>}> $transitionMap
+     */
     public function __construct(
         private CrudFormHandlerInterface $formHandler,
         private array $transitionMap = [],

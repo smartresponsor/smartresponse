@@ -43,7 +43,12 @@ final class LocaleRequestSubscriber implements EventSubscriberInterface
 
     private function requestedLocale(Request $request): ?string
     {
-        $locale = trim((string) $request->query->get('locale', ''));
+        $value = $request->query->get('locale', '');
+        if (!is_string($value)) {
+            return null;
+        }
+
+        $locale = trim($value);
         if ('' === $locale || !Locales::exists($locale)) {
             return null;
         }
@@ -57,7 +62,12 @@ final class LocaleRequestSubscriber implements EventSubscriberInterface
             return null;
         }
 
-        $locale = trim((string) $request->getSession()->get('_app_locale', ''));
+        $value = $request->getSession()->get('_app_locale', '');
+        if (!is_string($value)) {
+            return null;
+        }
+
+        $locale = trim($value);
         if ('' === $locale || !Locales::exists($locale)) {
             return null;
         }
