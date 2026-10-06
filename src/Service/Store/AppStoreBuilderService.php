@@ -147,10 +147,27 @@ final class AppStoreBuilderService implements AppStoreBuilderServiceInterface
             throw new \LogicException('Navigation interface location projection provider must return an array payload.');
         }
 
-        $locations = \is_array($payload['locations'] ?? null) ? $payload['locations'] : [];
-        $active = \is_array($payload['active'] ?? null) ? $payload['active'] : [];
+        $locations = self::stringKeyedArray($payload['locations'] ?? null);
+        $active = self::stringKeyedArray($payload['active'] ?? null);
 
         return ['locations' => $locations, 'active' => $active];
+    }
+
+    /** @return array<string, mixed> */
+    private static function stringKeyedArray(mixed $value): array
+    {
+        if (!is_array($value)) {
+            return [];
+        }
+
+        $normalized = [];
+        foreach ($value as $key => $item) {
+            if (is_string($key)) {
+                $normalized[$key] = $item;
+            }
+        }
+
+        return $normalized;
     }
 
     /**
