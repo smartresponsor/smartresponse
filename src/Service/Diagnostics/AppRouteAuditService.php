@@ -39,8 +39,8 @@ final readonly class AppRouteAuditService
 
         $summary = [
             'total' => count($rows),
-            'httpOkHuman' => count(array_filter($rows, static fn (array $row): bool => (($row['human']['status'] ?? 0) >= 200 && ($row['human']['status'] ?? 0) < 400))),
-            'httpOkBot' => count(array_filter($rows, static fn (array $row): bool => (($row['bot']['status'] ?? 0) >= 200 && ($row['bot']['status'] ?? 0) < 400))),
+            'httpOkHuman' => count(array_filter($rows, static fn (array $row): bool => ($row['human']['status'] >= 200 && $row['human']['status'] < 400))),
+            'httpOkBot' => count(array_filter($rows, static fn (array $row): bool => ($row['bot']['status'] >= 200 && $row['bot']['status'] < 400))),
             'fallbackHuman' => count(array_filter($rows, static fn (array $row): bool => (bool) ($row['human']['fallback'] ?? false))),
             'fallbackBot' => count(array_filter($rows, static fn (array $row): bool => (bool) ($row['bot']['fallback'] ?? false))),
             'botJsonPolicy' => count(array_filter($rows, static fn (array $row): bool => (bool) ($row['bot']['viewingBotJsonPolicy'] ?? false))),
@@ -143,7 +143,8 @@ final readonly class AppRouteAuditService
         if ($isJson) {
             $payload = json_decode($content, true);
             if (is_array($payload)) {
-                $viewingReasons = is_array($payload['_viewing']['reasons'] ?? null) ? $payload['_viewing']['reasons'] : [];
+                $viewing = $payload['_viewing'] ?? null;
+                $viewingReasons = self::stringList(is_array($viewing) ? ($viewing['reasons'] ?? null) : null);
                 if (in_array('template_missing_json_fallback', $viewingReasons, true)) {
                     $fallback = true;
                     $fallbackReason = 'template_missing_json_fallback';
@@ -169,5 +170,22 @@ final readonly class AppRouteAuditService
             'viewingReasons' => $viewingReasons,
             'viewingBotJsonPolicy' => $viewingBotJsonPolicy,
         ];
+    }
+
+    /** @return list<string> */
+    private static function stringList(mixed $value): array
+    {
+        if (!is_array($value)) {
+            return [];
+        }
+
+        $strings = [];
+        foreach ($value as $item) {
+            if (is_string($item)) {
+                $strings[] = $item;
+            }
+        }
+
+        return $strings;
     }
 }
