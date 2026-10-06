@@ -81,7 +81,7 @@ final class StripeConnectPayoutWebhookController extends AbstractController
             return $this->json(['data' => ['accepted' => true, 'ignored' => 'test_event_in_production']], 202);
         }
 
-        if (!$isPayoutSettlement || null === $railReference) {
+        if (!$isPayoutSettlement) {
             $this->settlementEvents->ignored($settlementEvent);
 
             return $this->json(['data' => ['accepted' => true, 'ignored' => $event->type]], 202);
@@ -93,8 +93,8 @@ final class StripeConnectPayoutWebhookController extends AbstractController
             if ('payout.paid' === $event->type) {
                 $withdrawal = $this->settlement->succeed($railReference);
             } else {
-                $failureCode = trim((string) ($payout->failure_code ?? 'stripe_payout_failed'));
-                $failureMessage = trim((string) ($payout->failure_message ?? $failureCode));
+                $failureCode = is_string($payout->failure_code ?? null) ? trim($payout->failure_code) : 'stripe_payout_failed';
+                $failureMessage = is_string($payout->failure_message ?? null) ? trim($payout->failure_message) : $failureCode;
                 $withdrawal = $this->settlement->fail($railReference, $failureMessage);
             }
             $this->settlementEvents->processed($settlementEvent, $failureCode, $failureMessage);
