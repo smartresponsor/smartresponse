@@ -28,8 +28,8 @@ final readonly class AppNotificationDispatchWorker
         ];
 
         foreach ($claimed as $plan) {
-            $planId = trim((string) ($plan['id'] ?? ''));
-            $claimLeaseId = trim((string) ($plan['claimLeaseId'] ?? ''));
+            $planId = self::stringValue($plan['id'] ?? null);
+            $claimLeaseId = self::stringValue($plan['claimLeaseId'] ?? null);
             if ('' === $planId || '' === $claimLeaseId) {
                 ++$result['failed'];
                 $result['errors'][] = ['id' => $planId, 'error' => 'Claim payload is missing id or claimLeaseId.'];
@@ -44,14 +44,14 @@ final readonly class AppNotificationDispatchWorker
                 }
 
                 $message = new DeliverySendPush(
-                    platform: (string) ($delivery['provider'] ?? ''),
-                    tokenHash: (string) ($delivery['tokenHash'] ?? ''),
-                    appKey: (string) ($delivery['appKey'] ?? ''),
-                    title: (string) ($delivery['title'] ?? ''),
-                    body: (string) ($delivery['body'] ?? ''),
-                    actionUrl: isset($delivery['actionUrl']) ? (string) $delivery['actionUrl'] : null,
-                    payload: is_array($delivery['payload'] ?? null) ? $delivery['payload'] : [],
-                    correlationId: (string) ($delivery['correlationId'] ?? $planId),
+                    platform: self::stringValue($delivery['provider'] ?? null),
+                    tokenHash: self::stringValue($delivery['tokenHash'] ?? null),
+                    appKey: self::stringValue($delivery['appKey'] ?? null),
+                    title: self::stringValue($delivery['title'] ?? null),
+                    body: self::stringValue($delivery['body'] ?? null),
+                    actionUrl: self::nullableStringValue($delivery['actionUrl'] ?? null),
+                    payload: self::stringKeyedArray($delivery['payload'] ?? null),
+                    correlationId: self::stringValue($delivery['correlationId'] ?? $planId),
                     idempotencyKey: 'notification-dispatch:'.$planId,
                 );
 
@@ -77,6 +77,37 @@ final readonly class AppNotificationDispatchWorker
         }
 
         return $result;
+    }
+
+    private static function stringValue(mixed $value): string
+    {
+        return is_string($value) ? trim($value) : '';
+    }
+
+    private static function nullableStringValue(mixed $value): ?string
+    {
+        if (null === $value) {
+            return null;
+        }
+
+        return is_string($value) ? $value : null;
+    }
+
+    /** @return array<string, mixed> */
+    private static function stringKeyedArray(mixed $value): array
+    {
+        if (!is_array($value)) {
+            return [];
+        }
+
+        $normalized = [];
+        foreach ($value as $key => $item) {
+            if (is_string($key)) {
+                $normalized[$key] = $item;
+            }
+        }
+
+        return $normalized;
     }
 
     private function failureReason(\Throwable $exception): string
