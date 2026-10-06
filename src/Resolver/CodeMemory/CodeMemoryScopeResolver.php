@@ -41,14 +41,14 @@ final class CodeMemoryScopeResolver
                     'weight' => 1.0,
                 ],
             ],
-            'readProjects' => array_values(array_merge([
+            'readProjects' => array_merge([
                 [
                     'project' => $activeProject,
                     'root' => $this->normalizePath($activeRoot),
                     'reason' => 'active-root',
                     'weight' => 1.0,
                 ],
-            ], $pathRepositories)),
+            ], $pathRepositories),
             'globalProject' => [
                 'project' => $this->memoryProjectName($this->workspaceRoot($activeRoot)),
                 'root' => $this->normalizePath($this->workspaceRoot($activeRoot)),
@@ -246,7 +246,18 @@ final class CodeMemoryScopeResolver
             return [];
         }
 
-        return is_array($decoded) ? $decoded : [];
+        if (!is_array($decoded)) {
+            return [];
+        }
+
+        $normalized = [];
+        foreach ($decoded as $key => $value) {
+            if (is_string($key)) {
+                $normalized[$key] = $value;
+            }
+        }
+
+        return $normalized;
     }
 
     /** @return array<string, true> */
@@ -305,12 +316,12 @@ final class CodeMemoryScopeResolver
         $seen = [];
         $unique = [];
         foreach ($projects as $project) {
-            $key = (string) ($project['project'] ?? '');
-            if ('' === $key || isset($seen[$key])) {
+            $projectName = $project['project'] ?? null;
+            if (!is_string($projectName) || '' === $projectName || isset($seen[$projectName])) {
                 continue;
             }
 
-            $seen[$key] = true;
+            $seen[$projectName] = true;
             $unique[] = $project;
         }
 
