@@ -6,7 +6,7 @@ namespace App\Provider\Localization;
 
 use App\Interfacing\Contract\Localization\InterfaceLocaleTemplateContext;
 use App\Interfacing\ProviderInterface\Localization\InterfaceLocaleTemplateContextProviderInterface;
-use App\Localizing\ServiceInterface\Locale\LocaleFallbackResolverInterface;
+use App\Localizing\Resolver\LocaleFallbackResolverInterface;
 use App\Localizing\ServiceInterface\LocaleRegistryServiceInterface;
 
 final readonly class AppLocaleTemplateContextProvider implements InterfaceLocaleTemplateContextProviderInterface
