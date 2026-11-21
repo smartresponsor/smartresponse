@@ -25,6 +25,9 @@ composer.phar
 /yarn-debug.log*
 /yarn-error.log*
 
+# Local document-root diagnostic marker (never deploy)
+/public/__app_probe.txt
+
 # IDE and local workstation files
 /.idea/
 *.iws
