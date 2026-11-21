@@ -36,4 +36,4 @@ cruding:
         page-acceptance: 'App\Paging\Entity\PageAcceptance'
     form_type_map:
         'App\Domaining\Entity\DomainDeclaration': 'App\Domaining\Form\DomainDeclarationType'
-        'App\Retailing\Entity\Retail\RetailEntity': 'App\Retailing\Form\Retail\RetailType'
+        'App\Retailing\Entity\Retail\RetailEntity': 'App\Retailing\Form\RetailType'

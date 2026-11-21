@@ -1,2 +1,2 @@
 app_currencing_routes:
-  resource: '../../vendor/currencing/currency/config/routes/currencing.yaml'
+  resource: '../../vendor/currencing/currency/config/routes/currency_routes.yaml'
