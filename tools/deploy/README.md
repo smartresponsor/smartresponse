@@ -10,15 +10,15 @@ SSH is only the internal transport used by `tools/deploy/deploy.ps1`. No manual 
 
 ## Workstation environment
 
-Define these values in the Windows user environment, never in repository files:
+For the Smart Responsor consumer/domain deployment, define these existing machine-identity values in the Windows user environment, never in repository files:
 
 ```powershell
 [Environment]::SetEnvironmentVariable('SMARTRESPONSOR_SSH_HOST', 'host.example.com', 'User')
 [Environment]::SetEnvironmentVariable('SMARTRESPONSOR_SSH_USER', 'deploy', 'User')
 [Environment]::SetEnvironmentVariable('SMARTRESPONSOR_SSH_PORT', '22', 'User')
 [Environment]::SetEnvironmentVariable('SMARTRESPONSOR_SSH_KEY', '%USERPROFILE%\.ssh\id_ed25519', 'User')
-[Environment]::SetEnvironmentVariable('SMARTRESPONSOR_REMOTE_ROOT', '/var/www/smartresponsor/App', 'User')
-[Environment]::SetEnvironmentVariable('SMARTRESPONSOR_SMOKE_URL', 'https://smartresponsor.com/health', 'User')
+[Environment]::SetEnvironmentVariable('SMARTRESPONSOR_REMOTE_ROOT', '/var/www/smartresponsor/App', 'User') # Smart Responsor consumer/domain deployment root.
+[Environment]::SetEnvironmentVariable('SMARTRESPONSOR_SMOKE_URL', 'https://smartresponsor.com/health', 'User') # Smart Responsor consumer/domain health endpoint.
 [Environment]::SetEnvironmentVariable('SMARTRESPONSOR_DEPLOY_BRANCH', 'master', 'User')
 ```
 
@@ -89,6 +89,6 @@ DELIVERING_FCM_SERVICE_ACCOUNT_JSON
 DELIVERING_FCM_PROJECT_MAP
 ```
 
-`DELIVERING_APNS_TOPIC_MAP` maps canonical application keys to bundle topics, for example `{"one_tasker":"com.smartresponsor.mobile.onetasker","platform":"com.smartresponsor.mobile.platform"}`. `DELIVERING_FCM_PROJECT_MAP` maps the same application keys (`one_tasker`, `platform`) to Firebase project IDs. The APNs private key may be stored with literal `\\n` separators; Delivering normalizes them before signing. The FCM service-account value must contain the complete JSON credential object. Missing credentials or missing app mappings fail closed.
+For the Smart Responsor consumer/domain deployment, `DELIVERING_APNS_TOPIC_MAP` maps canonical application keys to bundle topics, for example `{"one_tasker":"com.smartresponsor.mobile.onetasker","platform":"com.smartresponsor.mobile.platform"}`. `DELIVERING_FCM_PROJECT_MAP` maps the same application keys (`one_tasker`, `platform`) to Firebase project IDs. The APNs private key may be stored with literal `\\n` separators; Delivering normalizes them before signing. The FCM service-account value must contain the complete JSON credential object. Missing credentials or missing app mappings fail closed.
 
 When push delivery is provisioned on production, set `SMARTRESPONSOR_REQUIRE_PUSH_READY=1` in the server environment. The deployment script will then run `delivering:push:status` immediately after the production Composer install and abort the deployment before migrations if APNs or FCM readiness is RED. Leave the flag unset while provider credentials are intentionally not provisioned; this avoids blocking unrelated deployments during rollout while the cron entrypoint itself still refuses to claim notifications without ready providers.
