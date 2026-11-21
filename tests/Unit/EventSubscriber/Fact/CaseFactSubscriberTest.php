@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\EventSubscriber\Fact;
 
-use App\Casing\Event\Domain\CaseOpenedEvent;
-use App\Casing\Event\Domain\CaseResolvedEvent;
-use App\Facting\Fact\FactEnvelope;
-use App\Facting\Fact\FactRecord;
-use App\Facting\Fact\FactStream;
+use App\Casing\Event\CaseOpenedEvent;
+use App\Casing\Event\CaseResolvedEvent;
 use App\EventSubscriber\Fact\CaseFactSubscriber;
-use App\ServiceInterface\Fact\FactSubjectCommitterInterface;
+use App\Facting\ServiceInterface\FactSubjectCommitterInterface;
+use App\Facting\ValueObject\FactEnvelope;
+use App\Facting\ValueObject\FactRecord;
+use App\Facting\ValueObject\FactStream;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 
@@ -46,7 +46,7 @@ final class CaseFactSubscriberTest extends TestCase
 
     public function testEmailActorResolvesToCanonicalSubject(): void
     {
-        $account = new \App\Accessing\Entity\AccessEntity('user@example.com');
+        $account = new \App\Accessing\Entity\Access\AccessEntity('user@example.com');
         $id = new \ReflectionProperty($account, 'id');
         $id->setValue($account, 42);
 
@@ -59,7 +59,7 @@ final class CaseFactSubscriberTest extends TestCase
         $entityManager = $this->createMock(EntityManagerInterface::class);
         $entityManager->expects(self::once())
             ->method('getRepository')
-            ->with(\App\Accessing\Entity\AccessEntity::class)
+            ->with(\App\Accessing\Entity\Access\AccessEntity::class)
             ->willReturn($repository);
 
         $committer = $this->createMock(FactSubjectCommitterInterface::class);

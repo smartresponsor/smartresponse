@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber\Projecting;
 
-use App\Projecting\Http\Subscriber\VendorSlaRateLimitSubscriber;
+use App\Projecting\EventSubscriber\Http\Projecting\ProjectVendorSlaRateLimitSubscriber;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 final readonly class ProjectingVendorSlaRateLimitSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private VendorSlaRateLimitSubscriber $inner)
+    public function __construct(private ProjectVendorSlaRateLimitSubscriber $inner)
     {
     }
 

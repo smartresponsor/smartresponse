@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller\Retail;
 
-use App\Accessing\Entity\AccessEntity;
+use App\Accessing\Entity\Access\AccessEntity;
 use App\Service\Placement\Retail\RetailPlacementApiService;
 use App\Vendoring\Entity\Vendor\VendorEntity;
-use App\Vendoring\RepositoryInterface\Vendor\VendorRepositoryInterface;
+use App\Vendoring\RepositoryInterface\VendorRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -94,10 +94,10 @@ final class RetailPlacementApiController extends AbstractController
     private function payload(Request $request): array
     {
         $payload = json_decode($request->getContent(), true);
-        if (!is_array($payload)) {
+        if (!is_array($payload) || array_is_list($payload)) {
             throw new \InvalidArgumentException('Request body must be a JSON object.');
         }
 
-        return $payload;
+        return array_filter($payload, static fn (string|int $key): bool => is_string($key), ARRAY_FILTER_USE_KEY);
     }
 }

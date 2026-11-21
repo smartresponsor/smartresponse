@@ -22,6 +22,10 @@
     <testsuites>
         <testsuite name="CommerceProjectEntity Test Suite">
             <directory>tests</directory>
+            <!-- External infrastructure diagnostics run with phpunit.workstation.xml. -->
+            <exclude>tests/Unit/Ai</exclude>
+            <exclude>tests/Unit/Mcp</exclude>
+            <exclude>tests/Unit/DoctrineSchemaTablePrefixTest.php</exclude>
         </testsuite>
     </testsuites>
 

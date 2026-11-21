@@ -27,7 +27,7 @@ $composer = readJsonFile($composerPath, $findings);
 $prodComposer = readJsonFile($prodComposerPath, $findings);
 
 if (is_array($composer)) {
-    assertPackageRequirement($composer, 'rolling/role', '*@dev', 'composer.json', $findings);
+    assertPackageRequirement($composer, 'rolling/role', 'dev-master', 'composer.json', $findings);
     assertPathRepository($composer, '../Rolling', true, 'composer.json', $findings);
 }
 
@@ -116,7 +116,11 @@ if ([] === $findings && is_file($vendorAutoloadPath)) {
                 $exception->getMessage(),
             );
         } finally {
-            $kernel->shutdown();
+            try {
+                $kernel->shutdown();
+            } catch (Throwable $exception) {
+                $warnings[] = sprintf('Host kernel shutdown cleanup was skipped: %s: %s', $exception::class, $exception->getMessage());
+            }
         }
     }
 }

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controller\Cart;
 
-use App\Carting\Entity\Cart;
+use App\Carting\Entity\Cart\CartEntity;
 use App\Carting\RepositoryInterface\CartRepositoryInterface;
-use App\Carting\Service\Cart\CartCheckoutPreparationService;
-use App\Carting\Service\Cart\CartMutationService;
-use App\Carting\Service\Cart\CartSummaryService;
+use App\Carting\Service\CartCheckoutPreparationService;
+use App\Carting\Service\CartMutationService;
+use App\Carting\Service\CartSummaryService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,8 +49,10 @@ final class CartHostController extends AbstractController
     {
         [$cart, $created] = $this->resolveCart($request);
         $payload = $request->toArray();
-        $offerReference = trim((string) ($payload['offerReference'] ?? ''));
-        $quantity = (int) ($payload['quantity'] ?? 1);
+        $offerReferenceValue = $payload['offerReference'] ?? '';
+        $quantityValue = $payload['quantity'] ?? 1;
+        $offerReference = is_string($offerReferenceValue) ? trim($offerReferenceValue) : '';
+        $quantity = is_int($quantityValue) ? $quantityValue : (is_string($quantityValue) && ctype_digit($quantityValue) ? (int) $quantityValue : 0);
 
         if ('' === $offerReference || $quantity < 1) {
             return new JsonResponse(['code' => 'invalid_cart_item', 'message' => 'offerReference and positive quantity are required.'], Response::HTTP_UNPROCESSABLE_ENTITY);
@@ -70,7 +72,9 @@ final class CartHostController extends AbstractController
     {
         [$cart] = $this->resolveCart($request);
         $payload = $request->toArray();
-        $result = $this->mutationService->updateItemQuantity($cart, $id, (int) ($payload['quantity'] ?? 0));
+        $quantityValue = $payload['quantity'] ?? 0;
+        $quantity = is_int($quantityValue) ? $quantityValue : (is_string($quantityValue) && ctype_digit($quantityValue) ? (int) $quantityValue : 0);
+        $result = $this->mutationService->updateItemQuantity($cart, $id, $quantity);
 
         return $this->cartResponse($cart, $request, false, $result->changed ? Response::HTTP_OK : Response::HTTP_NOT_FOUND);
     }
@@ -109,7 +113,7 @@ final class CartHostController extends AbstractController
         return $response;
     }
 
-    /** @return array{Cart, bool} */
+    /** @return array{CartEntity, bool} */
     private function resolveCart(Request $request): array
     {
         $token = trim((string) $request->headers->get(self::TOKEN_HEADER, ''));
@@ -119,7 +123,7 @@ final class CartHostController extends AbstractController
 
         if ('' !== $token) {
             $cart = $this->cartRepository->findActiveByToken($token);
-            if ($cart instanceof Cart) {
+            if ($cart instanceof CartEntity) {
                 return [$cart, false];
             }
         }
@@ -127,7 +131,7 @@ final class CartHostController extends AbstractController
         return [$this->mutationService->create('USD'), true];
     }
 
-    private function cartResponse(Cart $cart, Request $request, bool $created, int $status = Response::HTTP_OK): JsonResponse
+    private function cartResponse(CartEntity $cart, Request $request, bool $created, int $status = Response::HTTP_OK): JsonResponse
     {
         $summary = $this->summaryService->summarize($cart)->toArray();
         $payload = $summary + [
@@ -135,7 +139,7 @@ final class CartHostController extends AbstractController
             'ownerReference' => $cart->getOwnerReference(),
             'status' => $cart->getStatus()->value,
             'expiresAt' => $cart->getExpiresAt()?->format(DATE_ATOM),
-            'updatedAt' => $cart->getUpdatedAt()->format(DATE_ATOM),
+            'updatedAt' => ($cart->getModifiedAt() ?? $cart->getCreatedAt())->format(DATE_ATOM),
         ];
         $response = new JsonResponse($payload, $created && Response::HTTP_OK === $status ? Response::HTTP_CREATED : $status);
         $this->attachToken($response, $request, $cart);
@@ -143,7 +147,7 @@ final class CartHostController extends AbstractController
         return $response;
     }
 
-    private function attachToken(Response $response, Request $request, Cart $cart): void
+    private function attachToken(Response $response, Request $request, CartEntity $cart): void
     {
         $response->headers->set(self::TOKEN_HEADER, $cart->getCartToken());
         $response->headers->setCookie(new \Symfony\Component\HttpFoundation\Cookie(

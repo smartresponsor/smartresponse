@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Normalizer\View;
 
-use App\Attaching\Repository\Doctrine\Attachment\AttachmentLinkRepository;
-use App\Attaching\Repository\Doctrine\Attachment\AttachmentRepository;
-use App\Cruding\Value\Resource\CrudResourceContract;
+use App\Attaching\RepositoryInterface\Persistence\Attachment\AttachmentLinkRepositoryInterface;
+use App\Attaching\RepositoryInterface\Persistence\Attachment\AttachmentRepositoryInterface;
+use App\Cruding\ValueObject\Resource\CrudResourceContract;
 use App\Resolver\Context\AppContextTreeProjectionResolver;
-use App\Vendoring\ServiceInterface\Profile\VendorPublicProfileSummaryProviderServiceInterface;
-use App\Viewing\ServiceInterface\View\ViewPayloadNormalizerInterface;
-use App\Viewing\Value\View\ViewPayload;
+use App\Vendoring\ProviderInterface\Profile\VendorPublicProfileSummaryProviderInterface;
+use App\Viewing\ServiceInterface\ViewPayloadNormalizerInterface;
+use App\Viewing\Value\ViewPayload;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -22,9 +22,9 @@ final readonly class CrudResourceViewPayloadNormalizer implements ViewPayloadNor
         private RequestStack $requestStack,
         private AppContextTreeProjectionResolver $contextTreeProjectionResolver,
         private ?object $interfaceLocationProjectionProvider,
-        private VendorPublicProfileSummaryProviderServiceInterface $vendorPublicProfileSummaryProvider,
-        private AttachmentLinkRepository $attachmentLinkRepository,
-        private AttachmentRepository $attachmentRepository,
+        private VendorPublicProfileSummaryProviderInterface $vendorPublicProfileSummaryProvider,
+        private AttachmentLinkRepositoryInterface $attachmentLinkRepository,
+        private AttachmentRepositoryInterface $attachmentRepository,
         private Security $security,
     ) {
     }
@@ -59,7 +59,7 @@ final readonly class CrudResourceViewPayloadNormalizer implements ViewPayloadNor
 
         $bodyBlockData = $locations['body'][0]['data'] ?? [];
         $bodyLocation = \is_array($bodyBlockData) ? $bodyBlockData : [];
-        $rows = \is_array($bodyLocation['rows'] ?? null) ? $bodyLocation['rows'] : [];
+        $rows = \is_array($bodyLocation['rows'] ?? null) ? array_values($bodyLocation['rows']) : [];
         $rows = $this->withVendorPageProfileMedia($rows, $routeContext);
         $rows = $this->withAttachmentIndexLinks($rows, $routeContext);
         if (isset($locations['body'][0]['data']) && \is_array($locations['body'][0]['data'])) {
@@ -70,9 +70,13 @@ final readonly class CrudResourceViewPayloadNormalizer implements ViewPayloadNor
             }
         }
         if ([] !== $rows && $request instanceof Request) {
-            $contextTreeNodes = $this->contextTreeProjectionResolver->resolve($locations, $rows, $routeContext, $request);
+            /** @var list<array<string, mixed>> $projectionRows */
+            $projectionRows = array_values(array_filter($rows, static fn (mixed $row): bool => is_array($row) && !array_is_list($row)));
+            $contextTreeNodes = $this->contextTreeProjectionResolver->resolve($locations, $projectionRows, $routeContext, $request);
             if ([] !== $contextTreeNodes) {
-                $locations['body'][0]['data']['contextTreeNodes'] = $contextTreeNodes;
+                if (isset($locations['body'][0]['data']) && is_array($locations['body'][0]['data'])) {
+                    $locations['body'][0]['data']['contextTreeNodes'] = $contextTreeNodes;
+                }
             }
         }
 
@@ -102,29 +106,12 @@ final readonly class CrudResourceViewPayloadNormalizer implements ViewPayloadNor
         );
     }
 
-    private function withNavigatingLocations(ViewPayload $payload): ViewPayload
+    /** @param array<mixed> $data
+     * @return array<string, mixed>
+     */
+    private function stringKeyed(array $data): array
     {
-        $locations = $this->mergeLocations($payload->locations, $this->navigatingLocations());
-        $data = $payload->data;
-        $interface = \is_array($data['interface'] ?? null) ? $data['interface'] : [];
-        $interface['locations'] = $locations;
-        $shell = \is_array($data['shell'] ?? null) ? $data['shell'] : [];
-        $shell['locations'] = $locations;
-        $data['interface'] = $interface;
-        $data['shell'] = $shell;
-        $data['locations'] = $locations;
-
-        return new ViewPayload(
-            surface: $payload->surface,
-            operation: $payload->operation,
-            format: $payload->format,
-            intent: $payload->intent,
-            component: $payload->component,
-            locations: $locations,
-            data: $data,
-            meta: $payload->meta,
-            debug: $payload->debug,
-        );
+        return array_filter($data, static fn (string|int $key): bool => is_string($key), ARRAY_FILTER_USE_KEY);
     }
 
     /**
@@ -139,18 +126,18 @@ final readonly class CrudResourceViewPayloadNormalizer implements ViewPayloadNor
         $fallbackWorkbench = \is_array($fallbackData['workbench'] ?? null) ? $fallbackData['workbench'] : [];
 
         if (\is_array($templateWorkbench['routeContext'] ?? null)) {
-            return $templateWorkbench['routeContext'];
+            return $this->stringKeyed($templateWorkbench['routeContext']);
         }
 
         if (\is_array($fallbackWorkbench['routeContext'] ?? null)) {
-            return $fallbackWorkbench['routeContext'];
+            return $this->stringKeyed($fallbackWorkbench['routeContext']);
         }
 
         if (\is_array($templateContext['routeContext'] ?? null)) {
-            return $templateContext['routeContext'];
+            return $this->stringKeyed($templateContext['routeContext']);
         }
 
-        return \is_array($fallbackData['routeContext'] ?? null) ? $fallbackData['routeContext'] : [];
+        return \is_array($fallbackData['routeContext'] ?? null) ? $this->stringKeyed($fallbackData['routeContext']) : [];
     }
 
     /**
@@ -162,18 +149,18 @@ final readonly class CrudResourceViewPayloadNormalizer implements ViewPayloadNor
     private function locationsFrom(array $templateContext, array $fallbackData): array
     {
         if (\is_array($templateContext['interface'] ?? null) && \is_array($templateContext['interface']['locations'] ?? null)) {
-            return $templateContext['interface']['locations'];
+            return $this->stringKeyed($templateContext['interface']['locations']);
         }
 
         if (\is_array($fallbackData['interface'] ?? null) && \is_array($fallbackData['interface']['locations'] ?? null)) {
-            return $fallbackData['interface']['locations'];
+            return $this->stringKeyed($fallbackData['interface']['locations']);
         }
 
         if (\is_array($templateContext['locations'] ?? null)) {
-            return $templateContext['locations'];
+            return $this->stringKeyed($templateContext['locations']);
         }
 
-        return \is_array($fallbackData['locations'] ?? null) ? $fallbackData['locations'] : [];
+        return \is_array($fallbackData['locations'] ?? null) ? $this->stringKeyed($fallbackData['locations']) : [];
     }
 
     /**
@@ -238,7 +225,7 @@ final readonly class CrudResourceViewPayloadNormalizer implements ViewPayloadNor
                 continue;
             }
 
-            $merged[$location] = array_values(array_merge($merged[$location] ?? [], $blocks));
+            $merged[$location] = array_merge($merged[$location] ?? [], $blocks);
         }
 
         return $merged;
@@ -262,7 +249,7 @@ final readonly class CrudResourceViewPayloadNormalizer implements ViewPayloadNor
             $normalizedBlocks = [];
             foreach ($blocks as $block) {
                 if (\is_array($block)) {
-                    $normalizedBlocks[] = $block;
+                    $normalizedBlocks[] = $this->stringKeyed($block);
                 }
             }
 
@@ -283,10 +270,10 @@ final readonly class CrudResourceViewPayloadNormalizer implements ViewPayloadNor
     private function metaFrom(array $templateContext, array $fallbackData): array
     {
         if (\is_array($templateContext['meta'] ?? null)) {
-            return $templateContext['meta'];
+            return $this->stringKeyed($templateContext['meta']);
         }
 
-        return \is_array($fallbackData['meta'] ?? null) ? $fallbackData['meta'] : [];
+        return \is_array($fallbackData['meta'] ?? null) ? $this->stringKeyed($fallbackData['meta']) : [];
     }
 
     /**
@@ -427,31 +414,34 @@ final readonly class CrudResourceViewPayloadNormalizer implements ViewPayloadNor
                 continue;
             }
 
+            /** @var array<string, mixed> $typedRow */
+            $typedRow = $row;
             $attachment = $attachmentsById[$attachmentId] ?? null;
             if (null !== $attachment) {
-                $rows[$index]['type'] = $attachment->getType()->value;
-                $rows[$index]['mediaKind'] = $attachment->getMediaKind()?->value;
-                $rows[$index]['documentKind'] = $attachment->getDocumentKind()?->value;
-                $rows[$index]['originalName'] = $attachment->getOriginalName();
-                $rows[$index]['title'] = $attachment->getTitle() ?? $attachment->getOriginalName();
-                $rows[$index]['mimeType'] = $attachment->getMimeType();
-                $rows[$index]['extension'] = $attachment->getExtension();
-                $rows[$index]['size'] = $attachment->getSize();
-                $rows[$index]['width'] = $attachment->getWidth();
-                $rows[$index]['height'] = $attachment->getHeight();
-                $rows[$index]['durationMs'] = $attachment->getDurationMs();
-                $rows[$index]['pageCount'] = $attachment->getPageCount();
-                $rows[$index]['altText'] = $attachment->getAltText();
-                $rows[$index]['createdAt'] = $attachment->getCreatedAt()->format(DATE_ATOM);
+                $typedRow['type'] = $attachment->getType()->value;
+                $typedRow['mediaKind'] = $attachment->getMediaKind()?->value;
+                $typedRow['documentKind'] = $attachment->getDocumentKind()?->value;
+                $typedRow['originalName'] = $attachment->getOriginalName();
+                $typedRow['title'] = $attachment->getTitle() ?? $attachment->getOriginalName();
+                $typedRow['mimeType'] = $attachment->getMimeType();
+                $typedRow['extension'] = $attachment->getExtension();
+                $typedRow['size'] = $attachment->getSize();
+                $typedRow['width'] = $attachment->getWidth();
+                $typedRow['height'] = $attachment->getHeight();
+                $typedRow['durationMs'] = $attachment->getDurationMs();
+                $typedRow['pageCount'] = $attachment->getPageCount();
+                $typedRow['altText'] = $attachment->getAltText();
+                $typedRow['createdAt'] = $attachment->getCreatedAt()->format(DATE_ATOM);
             }
 
             $links = $linksByAttachmentId[$attachmentId] ?? [];
-            $rows[$index]['attachmentLinks'] = $links;
-            $rows[$index]['downloadUrl'] = sprintf('/attachment/%d/download', $attachmentId);
-            $rows[$index]['categorySlots'] = array_values(array_unique(array_filter(array_map(
+            $typedRow['attachmentLinks'] = $links;
+            $typedRow['downloadUrl'] = sprintf('/attachment/%d/download', $attachmentId);
+            $typedRow['categorySlots'] = array_values(array_unique(array_filter(array_map(
                 static fn (array $link): ?string => \is_string($link['slot'] ?? null) ? $link['slot'] : null,
                 $links,
             ))));
+            $rows[$index] = $typedRow;
         }
 
         return array_values($rows);

@@ -33,6 +33,9 @@ final class RuntimeCompositionLockReader
             if (!\is_string($bundleClass) || '' === $bundleClass) {
                 throw new \RuntimeException('Runtime scope lock contains an invalid bundle class entry.');
             }
+            if (!class_exists($bundleClass)) {
+                throw new \RuntimeException(sprintf('Runtime scope lock references unknown bundle class "%s".', $bundleClass));
+            }
 
             $bundleClassList[] = $bundleClass;
         }
@@ -59,7 +62,16 @@ final class RuntimeCompositionLockReader
             throw new \RuntimeException(sprintf('Runtime scope lock "%s" must return an array.', $resolvedLockPath));
         }
 
-        return $lock;
+        $normalized = [];
+        foreach ($lock as $key => $value) {
+            if (!is_string($key)) {
+                throw new \RuntimeException(sprintf('Runtime scope lock "%s" must use string keys.', $resolvedLockPath));
+            }
+
+            $normalized[$key] = $value;
+        }
+
+        return $normalized;
     }
 
     public static function isStrict(string $projectDir, string $environment, ?string $lockPath = null): bool

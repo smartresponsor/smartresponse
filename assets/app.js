@@ -1,4 +1,6 @@
 import './stimulus_bootstrap.js';
+import { registerWebMcpSmokeTool } from './webmcp_registration.js';
+registerWebMcpSmokeTool();
 /*
  * Welcome to your app's main JavaScript file!
  *

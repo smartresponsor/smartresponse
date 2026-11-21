@@ -1,2 +1,2 @@
-import{e}from"./chunks/registry-V5OFkfe5.js";e();
+import{e}from"./chunks/registry-DkcD6j1E.js";e();
 //# sourceMappingURL=provider-registry.js.map

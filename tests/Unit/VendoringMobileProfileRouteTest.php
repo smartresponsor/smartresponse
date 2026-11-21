@@ -45,7 +45,7 @@ final class VendoringMobileProfileRouteTest extends TestCase
         $routes = new RouteCollection();
 
         $routes->addCollection($loader->load($root.'/config/routes/00_vendoring_mobile.yaml'));
-        $routes->addCollection($loader->load(dirname($root).'/Cruding/config/routes/cruding_api_crud.yaml'));
+        $routes->addCollection($loader->load(dirname($root).'/Cruding/config/routes/crud_api_crud.yaml'));
 
         return $routes;
     }

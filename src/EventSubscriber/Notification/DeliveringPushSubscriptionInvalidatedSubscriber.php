@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber\Notification;
 
-use App\Delivering\Event\DeliveringPushSubscriptionInvalidated;
+use App\Delivering\Event\DeliveryPushSubscriptionInvalidated;
 use App\Notifying\Service\NotificationSubscriptionService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -20,11 +20,11 @@ final readonly class DeliveringPushSubscriptionInvalidatedSubscriber implements 
     public static function getSubscribedEvents(): array
     {
         return [
-            DeliveringPushSubscriptionInvalidated::class => 'onInvalidated',
+            DeliveryPushSubscriptionInvalidated::class => 'onInvalidated',
         ];
     }
 
-    public function onInvalidated(DeliveringPushSubscriptionInvalidated $event): void
+    public function onInvalidated(DeliveryPushSubscriptionInvalidated $event): void
     {
         $result = $this->subscriptionService->disableInvalidSubscription(
             tokenHash: $event->tokenHash,
@@ -39,8 +39,8 @@ final readonly class DeliveringPushSubscriptionInvalidatedSubscriber implements 
             'reason_code' => $event->reasonCode,
             'correlation_id' => $event->correlationId,
             'idempotency_key' => $event->idempotencyKey,
-            'subscription_found' => (bool) ($result['disabled'] ?? false),
-            'suppressed_dispatch_plan_count' => count($result['suppressedDispatchPlans'] ?? []),
+            'subscription_found' => (bool) $result['disabled'],
+            'suppressed_dispatch_plan_count' => count($result['suppressedDispatchPlans']),
         ]);
     }
 }

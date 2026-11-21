@@ -6,14 +6,14 @@ namespace App\Provider\Localization;
 
 use App\Interfacing\Contract\Localization\InterfaceLocaleTemplateSelectorOption;
 use App\Interfacing\ProviderInterface\Localization\InterfaceLocaleTemplateSelectorProviderInterface;
-use App\Localizing\ServiceInterface\Locale\LocaleCodeNameConverterInterface;
-use App\Localizing\ServiceInterface\Locale\LocaleRegistryInterface;
+use App\Localizing\ServiceInterface\LocaleCodeNameConverterServiceInterface;
+use App\Localizing\ServiceInterface\LocaleRegistryServiceInterface;
 
 final readonly class AppLocaleTemplateSelectorProvider implements InterfaceLocaleTemplateSelectorProviderInterface
 {
     public function __construct(
-        private LocaleRegistryInterface $localeRegistry,
-        private LocaleCodeNameConverterInterface $codeNameConverter,
+        private LocaleRegistryServiceInterface $localeRegistry,
+        private LocaleCodeNameConverterServiceInterface $codeNameConverter,
     ) {
     }
 

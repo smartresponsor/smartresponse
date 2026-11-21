@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Service\Placement\Retail;
 
-use App\Cruding\Dto\Crud\Entrypoint\CrudServiceContext;
-use App\Cruding\Provider\Crud\CrudPageDefinitionProvider;
-use App\Cruding\Service\Crud\Resource\CrudResourceContractFactory;
-use App\Cruding\Value\Resource\CrudResourceContract;
+use App\Cruding\DTO\Entrypoint\CrudServiceContextDTO;
+use App\Cruding\Factory\Resource\CrudResourceContractFactory;
+use App\Cruding\Provider\CrudPageDefinitionProvider;
+use App\Cruding\ValueObject\Resource\CrudResourceContract;
 use App\Dto\Placement\Retail\RetailPlacementReviewFormData;
 use App\Form\Placement\Retail\RetailPlacementReviewType;
 use App\Retailing\Entity\Retail\RetailEntity;
@@ -29,17 +29,17 @@ final readonly class RetailPlacementReviewService
     ) {
     }
 
-    public function get(CrudServiceContext $context): CrudResourceContract|RedirectResponse
+    public function get(CrudServiceContextDTO $context): CrudResourceContract|RedirectResponse
     {
         return $this->handle($context);
     }
 
-    public function post(CrudServiceContext $context): CrudResourceContract|RedirectResponse
+    public function post(CrudServiceContextDTO $context): CrudResourceContract|RedirectResponse
     {
         return $this->handle($context);
     }
 
-    private function handle(CrudServiceContext $context): CrudResourceContract|RedirectResponse
+    private function handle(CrudServiceContextDTO $context): CrudResourceContract|RedirectResponse
     {
         $placement = $this->placement($context);
         if (null === $placement) {
@@ -63,7 +63,7 @@ final readonly class RetailPlacementReviewService
         $data->title = $retail->getTitle();
         $data->kind = $retail->getKind()->label();
         $data->catalog = $retail->getCatalogCode() ?? '';
-        $data->typePath = $retail->getTypePath() ?? '';
+        $data->typePath = '';
         $data->location = null === $retail->getLocationProfile() ? 'Not required' : $this->encoded($retail->getLocationProfile());
         $data->fulfillment = $this->encoded($retail->getFulfillmentProfile());
         $data->pricing = $this->encoded($retail->getPricingProfile());
@@ -101,7 +101,7 @@ final readonly class RetailPlacementReviewService
     }
 
     /** @return array{retailId: string, vendorId: string}|null */
-    private function placement(CrudServiceContext $context): ?array
+    private function placement(CrudServiceContextDTO $context): ?array
     {
         if (!$context->request->hasSession()) {
             return null;

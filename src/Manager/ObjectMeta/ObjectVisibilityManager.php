@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App\Manager\ObjectMeta;
 
-use App\Cruding\ServiceInterface\Crud\CrudFormHandlerInterface;
+use App\Cruding\ServiceInterface\CrudFormHandlerInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 final readonly class ObjectVisibilityManager
 {
+    /**
+     * @param array<string, array{writes?: array<string, mixed>}> $transitionMap
+     */
     public function __construct(
         private CrudFormHandlerInterface $formHandler,
         private array $transitionMap = [],
@@ -35,7 +38,7 @@ final readonly class ObjectVisibilityManager
         }
 
         foreach ($writes as $method => $value) {
-            if (!is_string($method) || !method_exists($object, $method)) {
+            if (!method_exists($object, $method)) {
                 throw new BadRequestHttpException(sprintf('Unsupported visibility transition: %s', $transition));
             }
 

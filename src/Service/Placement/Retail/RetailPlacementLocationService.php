@@ -12,6 +12,7 @@ use App\Addressing\Service\Application\AddressValidatedApplierService;
 use App\Addressing\Service\Application\AddressWriteService;
 use App\Locating\Model\Location\AddressInput;
 use App\Locating\Model\Location\AddressPipelineResult;
+use App\Locating\ModelInterface\Location\AddressPipelineResultInterface;
 use App\Locating\ServiceInterface\Address\Location\AddressPipelineInterface;
 use App\Retailing\Entity\Retail\RetailEntity;
 use Doctrine\Persistence\ManagerRegistry;
@@ -96,7 +97,7 @@ final readonly class RetailPlacementLocationService
         };
     }
 
-    private function validatedMessage(AddressInterface $record, AddressPipelineResult $result): AddressValidated
+    private function validatedMessage(AddressInterface $record, AddressPipelineResultInterface $result): AddressValidated
     {
         $view = $result->address();
         if (AddressPipelineResult::STATUS_VERIFIED !== $result->status() || null === $view) {

@@ -40,17 +40,26 @@ final class CodeMemoryScopeResolverTest extends TestCase
         ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
         $scope = (new CodeMemoryScopeResolver())->resolve($app);
+        self::assertIsArray($scope['editProjects']);
+        self::assertIsArray($scope['readProjects']);
+        self::assertIsArray($scope['rules']);
+        /** @var list<array{project: string, package: string|null, presentInLock: bool}> $readProjects */
+        $readProjects = $scope['readProjects'];
+        /** @var list<array{project: string}> $editProjects */
+        $editProjects = $scope['editProjects'];
+        /** @var array{rawUnscopedGraphSearchAllowed: bool, linkedProjectEditAllowedByDefault: bool} $rules */
+        $rules = $scope['rules'];
 
         self::assertSame('host-with-composer-links', $scope['mode']);
         self::assertSame($this->expectedProjectName($app), $scope['activeProject']);
-        self::assertCount(1, $scope['editProjects']);
-        self::assertSame($this->expectedProjectName($app), $scope['editProjects'][0]['project']);
-        self::assertCount(2, $scope['readProjects']);
-        self::assertSame($this->expectedProjectName($billing), $scope['readProjects'][1]['project']);
-        self::assertSame('smartresponsor/billing', $scope['readProjects'][1]['package']);
-        self::assertTrue($scope['readProjects'][1]['presentInLock']);
-        self::assertFalse($scope['rules']['rawUnscopedGraphSearchAllowed']);
-        self::assertFalse($scope['rules']['linkedProjectEditAllowedByDefault']);
+        self::assertCount(1, $editProjects);
+        self::assertSame($this->expectedProjectName($app), $editProjects[0]['project']);
+        self::assertCount(2, $readProjects);
+        self::assertSame($this->expectedProjectName($billing), $readProjects[1]['project']);
+        self::assertSame('smartresponsor/billing', $readProjects[1]['package']);
+        self::assertTrue($readProjects[1]['presentInLock']);
+        self::assertFalse($rules['rawUnscopedGraphSearchAllowed']);
+        self::assertFalse($rules['linkedProjectEditAllowedByDefault']);
     }
 
     public function testComponentWithoutComposerPathRepositoriesUsesRepoLocalMode(): void
@@ -63,12 +72,18 @@ final class CodeMemoryScopeResolverTest extends TestCase
         ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
         $scope = (new CodeMemoryScopeResolver())->resolve($component);
+        self::assertIsArray($scope['readProjects']);
+        self::assertIsArray($scope['editProjects']);
+        /** @var list<array{project: string}> $readProjects */
+        $readProjects = $scope['readProjects'];
+        /** @var list<array{project: string}> $editProjects */
+        $editProjects = $scope['editProjects'];
 
         self::assertSame('repo-local', $scope['mode']);
-        self::assertCount(1, $scope['readProjects']);
-        self::assertCount(1, $scope['editProjects']);
-        self::assertSame($scope['activeProject'], $scope['readProjects'][0]['project']);
-        self::assertSame($scope['activeProject'], $scope['editProjects'][0]['project']);
+        self::assertCount(1, $readProjects);
+        self::assertCount(1, $editProjects);
+        self::assertSame($scope['activeProject'], $readProjects[0]['project']);
+        self::assertSame($scope['activeProject'], $editProjects[0]['project']);
     }
 
     private function createWorkspace(): string

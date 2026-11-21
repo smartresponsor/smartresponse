@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Controller\Wallet;
 
+use App\Accessing\Entity\Access\AccessEntity;
+use App\Currencing\ServiceInterface\CurrencyCodeValidatorInterface;
 use App\Vendoring\Entity\Vendor\VendorEntity;
-use App\Vendoring\RepositoryInterface\Vendor\VendorRepositoryInterface;
-use App\Walleting\Entity\PaymentInstrument;
+use App\Vendoring\RepositoryInterface\VendorRepositoryInterface;
 use App\Walleting\Entity\Wallet;
-use App\Walleting\Enum\PaymentInstrumentStatus;
+use App\Walleting\Entity\WalletPaymentInstrument as PaymentInstrument;
+use App\Walleting\Enum\WalletPaymentInstrumentStatus as PaymentInstrumentStatus;
 use App\Walleting\Service\WalletingFacade;
 use App\Withdrawing\Entity\Withdrawal;
 use App\Withdrawing\Service\WithdrawalApplicationService;
@@ -29,6 +31,7 @@ final class WalletApiController extends AbstractController
         private readonly EntityManagerInterface $entityManager,
         private readonly WalletingFacade $walleting,
         private readonly WithdrawalApplicationService $withdrawing,
+        private readonly CurrencyCodeValidatorInterface $currencyCodeValidator,
     ) {
     }
 
@@ -36,11 +39,11 @@ final class WalletApiController extends AbstractController
     public function balance(): JsonResponse
     {
         $user = $this->security->getUser();
-        if (null === $user || !method_exists($user, 'getId') || null === $user->getId()) {
+        if (!$user instanceof AccessEntity || null === $user->getId()) {
             return $this->json(['code' => 'authentication_required'], 401);
         }
 
-        $vendorId = $this->currentVendorId((int) $user->getId());
+        $vendorId = $this->currentVendorId($user->getId());
         if (null === $vendorId) {
             return $this->json(['code' => 'vendor_not_found'], 404);
         }
@@ -79,10 +82,10 @@ final class WalletApiController extends AbstractController
     public function withdrawal(Request $request): JsonResponse
     {
         $user = $this->security->getUser();
-        if (null === $user || !method_exists($user, 'getId') || null === $user->getId()) {
+        if (!$user instanceof AccessEntity || null === $user->getId()) {
             return $this->json(['code' => 'authentication_required'], 401);
         }
-        $vendorId = $this->currentVendorId((int) $user->getId());
+        $vendorId = $this->currentVendorId($user->getId());
         if (null === $vendorId) {
             return $this->json(['code' => 'vendor_not_found'], 404);
         }
@@ -173,10 +176,13 @@ final class WalletApiController extends AbstractController
             return $this->json(['code' => 'invalid_request', 'message' => 'Withdrawal request body must be valid JSON.'], 400);
         }
         $amountMinor = filter_var($payload['amountMinor'] ?? null, FILTER_VALIDATE_INT);
-        $currency = strtoupper(trim((string) ($payload['currency'] ?? '')));
-        $instrumentId = trim((string) ($payload['paymentInstrumentId'] ?? ''));
-        $idempotencyKey = trim((string) ($payload['idempotencyKey'] ?? ''));
-        if (!is_int($amountMinor) || $amountMinor <= 0 || 1 !== preg_match('/^[A-Z]{3}$/', $currency) || '' === $instrumentId || '' === $idempotencyKey || strlen($idempotencyKey) > 128) {
+        $currencyValue = $payload['currency'] ?? null;
+        $instrumentValue = $payload['paymentInstrumentId'] ?? null;
+        $idempotencyValue = $payload['idempotencyKey'] ?? null;
+        $currency = is_string($currencyValue) ? strtoupper(trim($currencyValue)) : '';
+        $instrumentId = is_string($instrumentValue) ? trim($instrumentValue) : '';
+        $idempotencyKey = is_string($idempotencyValue) ? trim($idempotencyValue) : '';
+        if (!is_int($amountMinor) || $amountMinor <= 0 || !$this->currencyCodeValidator->supports($currency) || '' === $instrumentId || '' === $idempotencyKey || strlen($idempotencyKey) > 128) {
             return $this->json(['code' => 'invalid_request', 'message' => 'Positive amountMinor, ISO currency, paymentInstrumentId, and idempotencyKey are required.'], 422);
         }
 
@@ -249,10 +255,10 @@ final class WalletApiController extends AbstractController
     public function transaction(Request $request): JsonResponse
     {
         $user = $this->security->getUser();
-        if (null === $user || !method_exists($user, 'getId') || null === $user->getId()) {
+        if (!$user instanceof AccessEntity || null === $user->getId()) {
             return $this->json(['code' => 'authentication_required'], 401);
         }
-        $vendorId = $this->currentVendorId((int) $user->getId());
+        $vendorId = $this->currentVendorId($user->getId());
         if (null === $vendorId) {
             return $this->json(['code' => 'vendor_not_found'], 404);
         }
@@ -284,10 +290,10 @@ final class WalletApiController extends AbstractController
     private function currentWalletContext(): array|JsonResponse
     {
         $user = $this->security->getUser();
-        if (null === $user || !method_exists($user, 'getId') || null === $user->getId()) {
+        if (!$user instanceof AccessEntity || null === $user->getId()) {
             return $this->json(['code' => 'authentication_required'], 401);
         }
-        $vendorId = $this->currentVendorId((int) $user->getId());
+        $vendorId = $this->currentVendorId($user->getId());
         if (null === $vendorId) {
             return $this->json(['code' => 'vendor_not_found'], 404);
         }
@@ -331,10 +337,10 @@ final class WalletApiController extends AbstractController
     private function operation(Request $request, string $type): JsonResponse
     {
         $user = $this->security->getUser();
-        if (null === $user || !method_exists($user, 'getId') || null === $user->getId()) {
+        if (!$user instanceof AccessEntity || null === $user->getId()) {
             return $this->json(['code' => 'authentication_required'], 401);
         }
-        $vendorId = $this->currentVendorId((int) $user->getId());
+        $vendorId = $this->currentVendorId($user->getId());
         if (null === $vendorId) {
             return $this->json(['code' => 'vendor_not_found'], 404);
         }

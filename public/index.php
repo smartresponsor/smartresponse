@@ -10,12 +10,21 @@ if ('cli-server' === PHP_SAPI) {
 }
 
 use App\Kernel;
+use App\Resolving\Factory\ResolveHttpBootstrapFactory;
+use App\Resolving\Factory\ResolveHttpBoundaryFactory;
+use App\Resolving\Service\ResolveRuntimeActivationService;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Request;
 
 require_once dirname(__DIR__).'/vendor/autoload.php';
 
-(new Dotenv())->bootEnv(dirname(__DIR__).'/.env');
+$projectDir = dirname(__DIR__);
+(new Dotenv())->bootEnv($projectDir.'/.env');
+
+$resolveProfile = (new ResolveHttpBootstrapFactory())->create($projectDir)->activate(
+    (new ResolveHttpBoundaryFactory())->fromServer($_SERVER),
+    $projectDir.'/config/resolve_profiles.yaml',
+);
 
 $kernel = new Kernel(
     (string) ($_SERVER['APP_ENV'] ?? 'dev'),
@@ -23,6 +32,7 @@ $kernel = new Kernel(
 );
 
 $request = Request::createFromGlobals();
+(new ResolveRuntimeActivationService())->attach($request, $resolveProfile);
 $response = $kernel->handle($request);
 $response->send();
 $kernel->terminate($request, $response);

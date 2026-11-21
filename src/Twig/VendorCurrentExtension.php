@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Twig;
 
-use App\Vendoring\ServiceInterface\Profile\VendorPublicProfileSummaryProviderServiceInterface;
+use App\Vendoring\ProviderInterface\Profile\VendorPublicProfileSummaryProviderInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -13,7 +13,7 @@ final class VendorCurrentExtension extends AbstractExtension
 {
     public function __construct(
         private readonly Security $security,
-        private readonly VendorPublicProfileSummaryProviderServiceInterface $vendorPublicProfileSummaryProvider,
+        private readonly VendorPublicProfileSummaryProviderInterface $vendorPublicProfileSummaryProvider,
     ) {
     }
 
@@ -49,7 +49,7 @@ final class VendorCurrentExtension extends AbstractExtension
         return '' !== trim($summary->publicName) ? trim($summary->publicName) : null;
     }
 
-    private function currentVendorSummary(): ?\App\Vendoring\Projection\Vendor\VendorPublicProfileSummary
+    private function currentVendorSummary(): ?\App\Vendoring\Projection\VendorPublicProfileSummary
     {
         $user = $this->security->getUser();
         if (!\is_object($user) || !method_exists($user, 'getId')) {

@@ -57,5 +57,5 @@ The Host must not remove the pre-production `schema:update --force` reset fallba
 
 ## Current production consumers
 
-- `smartresponsor.com`: platform-origin production declaration.
+- `smartresponsor.com`: production host for the Smart Responsor consumer/domain.
 - `1tasker.com`: shared-runtime production consumer; declaration and claim exist, DNS verification is pending.

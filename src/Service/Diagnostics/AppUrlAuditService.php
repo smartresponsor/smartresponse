@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Service\Diagnostics;
 
-use App\Administering\Entity\AdministrationConnectedComponentRecord;
+use App\Administering\Entity\AdministrationConnectedComponentRecordEntity;
 use App\Cataloging\Entity\Catalog\CatalogRecordIndexEntity;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\HttpKernel\TerminableInterface;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Yaml\Yaml;
@@ -41,7 +43,7 @@ final readonly class AppUrlAuditService
             $metadata = $manager->getMetadataFactory()->getAllMetadata();
             $classes = array_map(static fn ($item): string => $item->getName(), $metadata);
             sort($classes);
-            $connectionParams = $manager->getConnection()->getParams();
+            $connectionParams = $manager instanceof EntityManagerInterface ? $manager->getConnection()->getParams() : [];
             $managers[(string) $name] = [
                 'class' => $manager::class,
                 'metadataCount' => count($classes),
@@ -54,10 +56,10 @@ final readonly class AppUrlAuditService
             ];
         }
 
-        $manager = $this->doctrine->getManagerForClass(AdministrationConnectedComponentRecord::class);
+        $manager = $this->doctrine->getManagerForClass(AdministrationConnectedComponentRecordEntity::class);
 
         return [
-            'targetClass' => AdministrationConnectedComponentRecord::class,
+            'targetClass' => AdministrationConnectedComponentRecordEntity::class,
             'managerForClass' => null === $manager ? null : $manager::class,
             'managerNames' => $this->doctrine->getManagerNames(),
             'managers' => $managers,
@@ -68,7 +70,7 @@ final readonly class AppUrlAuditService
     public function catalogRecordIndexSchemaDiagnostic(): array
     {
         $manager = $this->doctrine->getManagerForClass(CatalogRecordIndexEntity::class);
-        if (null === $manager) {
+        if (!$manager instanceof EntityManagerInterface) {
             return [
                 'entity' => CatalogRecordIndexEntity::class,
                 'valid' => false,
@@ -126,17 +128,17 @@ final readonly class AppUrlAuditService
         $installed = $this->readJson($root.'/vendor/composer/installed.json');
         $repositories = [];
 
-        foreach (($composer['repositories'] ?? []) as $repository) {
+        foreach (is_array($composer['repositories'] ?? null) ? $composer['repositories'] : [] as $repository) {
             if (!is_array($repository) || 'path' !== ($repository['type'] ?? null)) {
                 continue;
             }
-            $configured = (string) ($repository['url'] ?? '');
+            $configured = is_string($repository['url'] ?? null) ? $repository['url'] : '';
             $resolved = realpath($root.'/'.$configured);
             $repositories[] = [
                 'configured' => $configured,
                 'resolved' => false === $resolved ? null : str_replace('\\', '/', $resolved),
                 'exists' => false !== $resolved,
-                'symlinkRequested' => (bool) ($repository['options']['symlink'] ?? false),
+                'symlinkRequested' => is_array($repository['options'] ?? null) && true === ($repository['options']['symlink'] ?? false),
             ];
         }
 
@@ -205,11 +207,13 @@ final readonly class AppUrlAuditService
                 $sampleSets[] = $this->probeKernelMany($route, $checkpoint.'.'.$sample);
             }
             $profile = $this->performanceProfile($sampleSets, $slowThresholdMs);
+            /** @var list<array<string, mixed>> $firstSample */
+            $firstSample = $sampleSets[0];
 
             return [
                 'warmupProbe' => $warmupProbe,
-                'probe' => $sampleSets[0][0],
-                'performance' => $profile['routes'][0] ?? [],
+                'probe' => $firstSample[0] ?? null,
+                'performance' => is_array($profile['routes'] ?? null) && is_array($profile['routes'][0] ?? null) ? $profile['routes'][0] : [],
             ];
         } finally {
             @unlink($checkpoint);
@@ -236,12 +240,19 @@ final readonly class AppUrlAuditService
             $sampleCheckpoint = 0 === $sample ? $checkpoint : $directory.'/probes.sample-'.$sample.'.jsonl';
             $sampleSets[] = $this->probeKernelMany($candidates, $sampleCheckpoint);
         }
+        /** @var list<array<string, mixed>> $probes */
         $probes = $sampleSets[0];
         $performance = $this->performanceProfile($sampleSets, $slowThresholdMs);
+        /** @var array<string, mixed> $performanceSummary */
+        $performanceSummary = is_array($performance['summary'] ?? null) ? $performance['summary'] : [];
         $failures = [];
         foreach ($probes as $probe) {
-            foreach ($probe['findings'] as $finding) {
-                $source = strtolower($finding.'|'.$probe['bodyPreview']);
+            foreach (is_array($probe['findings'] ?? null) ? $probe['findings'] : [] as $finding) {
+                if (!is_string($finding)) {
+                    continue;
+                }
+                $preview = is_string($probe['bodyPreview'] ?? null) ? $probe['bodyPreview'] : '';
+                $source = strtolower($finding.'|'.$preview);
                 $source = (string) preg_replace('/\b\d+\b/', '{n}', $source);
                 $fingerprint = hash('sha256', $source);
                 $failures[$fingerprint] ??= [
@@ -255,8 +266,8 @@ final readonly class AppUrlAuditService
                     'affectedPaths' => [],
                 ];
                 ++$failures[$fingerprint]['occurrences'];
-                $failures[$fingerprint]['affectedPaths'][$probe['path']] = $probe['path'];
-                $failures[$fingerprint]['affectedPaths'] = array_values($failures[$fingerprint]['affectedPaths']);
+                $path = is_string($probe['path'] ?? null) ? $probe['path'] : '';
+                $failures[$fingerprint]['affectedPaths'][$path] = $path;
             }
         }
 
@@ -271,13 +282,13 @@ final readonly class AppUrlAuditService
                 'rootCauses' => count($failures),
                 'performanceSamples' => max(1, $samples),
                 'slowThresholdMs' => $slowThresholdMs,
-                'slowRoutes' => $performance['summary']['slowRoutes'],
-                'heavyPayloadRoutes' => $performance['summary']['heavyPayloadRoutes'],
-                'firstTouchRoutes' => $performance['summary']['firstTouchRoutes'],
-                'negativeProbes' => $performance['summary']['negativeProbes'],
-                'p50Ms' => $performance['summary']['p50Ms'],
-                'p95Ms' => $performance['summary']['p95Ms'],
-                'maxMs' => $performance['summary']['maxMs'],
+                'slowRoutes' => $performanceSummary['slowRoutes'],
+                'heavyPayloadRoutes' => $performanceSummary['heavyPayloadRoutes'],
+                'firstTouchRoutes' => $performanceSummary['firstTouchRoutes'],
+                'negativeProbes' => $performanceSummary['negativeProbes'],
+                'p50Ms' => $performanceSummary['p50Ms'],
+                'p95Ms' => $performanceSummary['p95Ms'],
+                'maxMs' => $performanceSummary['maxMs'],
             ],
             'failures' => array_values($failures),
             'performance' => $performance,
@@ -297,99 +308,13 @@ final readonly class AppUrlAuditService
      */
     private function performanceProfile(array $sampleSets, int $slowThresholdMs): array
     {
-        $routes = [];
-        foreach ($sampleSets as $sampleIndex => $sampleSet) {
-            foreach ($sampleSet as $probe) {
-                $key = (string) $probe['route'].'|'.(string) $probe['path'];
-                $routes[$key] ??= [
-                    'route' => $probe['route'],
-                    'path' => $probe['path'],
-                    'source' => $probe['source'] ?? 'symfony',
-                    'status' => $probe['status'],
-                    'contentType' => $probe['contentType'],
-                    'responseBytes' => (int) ($probe['responseBytes'] ?? 0),
-                    'samplesMs' => [],
-                    'stageSamples' => [],
-                ];
-                $routes[$key]['samplesMs'][$sampleIndex] = (int) $probe['durationMs'];
-                $stageTimings = is_array($probe['stageTimings'] ?? null) ? $probe['stageTimings'] : [];
-                foreach ($stageTimings as $stage => $duration) {
-                    if (!is_string($stage) || !is_numeric($duration)) {
-                        continue;
-                    }
-                    $routes[$key]['stageSamples'][$stage][$sampleIndex] = (float) $duration;
-                }
-            }
-        }
-
+        $routes = $this->performanceRouteSamples($sampleSets);
         $allWarm = [];
-        foreach ($routes as &$route) {
-            ksort($route['samplesMs']);
-            $samples = array_values($route['samplesMs']);
-            $warm = count($samples) > 1 ? array_slice($samples, 1) : $samples;
-            sort($warm);
-            $coldMs = $samples[0] ?? 0;
-            $warmAvgMs = [] === $warm ? $coldMs : (int) round(array_sum($warm) / count($warm));
-            $p50Ms = $this->percentile($warm, 0.50);
-            $p95Ms = $this->percentile($warm, 0.95);
-            $maxMs = [] === $warm ? $coldMs : max($warm);
-            $minMs = [] === $warm ? $coldMs : min($warm);
-            $spreadMs = $maxMs - $minMs;
-            $stageProfile = [];
-            foreach ($route['stageSamples'] as $stage => $stageSamples) {
-                ksort($stageSamples);
-                $orderedStageSamples = array_values($stageSamples);
-                $warmStageSamples = count($orderedStageSamples) > 1 ? array_slice($orderedStageSamples, 1) : $orderedStageSamples;
-                sort($warmStageSamples);
-                $stageProfile[$stage] = [
-                    'samplesMs' => array_map(static fn (float $value): float => round($value, 2), $orderedStageSamples),
-                    'coldMs' => round($orderedStageSamples[0] ?? 0.0, 2),
-                    'warmAvgMs' => round([] === $warmStageSamples ? ($orderedStageSamples[0] ?? 0.0) : array_sum($warmStageSamples) / count($warmStageSamples), 2),
-                    'warmP50Ms' => round($this->floatPercentile($warmStageSamples, 0.50), 2),
-                    'warmP95Ms' => round($this->floatPercentile($warmStageSamples, 0.95), 2),
-                ];
-            }
-            $classification = 'healthy';
-            $investigate = 'No performance action indicated.';
-            if ((int) $route['status'] >= 400) {
-                $classification = 'negative_probe';
-                $investigate = 'Expected negative-path timing; exclude from actionable route optimization.';
-            } elseif ((int) $route['status'] >= 300) {
-                $classification = 'redirect_response';
-                $investigate = 'Redirect timing is not actionable route-rendering latency; inspect only when the redirect is reported as unexpected.';
-            } elseif ((int) $route['responseBytes'] >= 262144) {
-                $classification = 'payload_heavy';
-                $investigate = 'Inspect pagination, projection size, duplicated shell locations, and embedded diagnostics.';
-            } elseif ($p50Ms >= $slowThresholdMs) {
-                $classification = 'sustained_slow';
-                $investigate = str_contains((string) $route['contentType'], 'html')
-                    ? 'Inspect controller queries, Viewing composition, Twig rendering, and response payload size.'
-                    : 'Inspect controller queries, external I/O, serialization, and payload size.';
-            } elseif ($coldMs >= max($slowThresholdMs * 2, $warmAvgMs * 3)) {
-                $classification = 'first_touch';
-                $investigate = 'First-touch effect inside the shared sweep process; verify with an isolated sequence probe before optimizing.';
-            } elseif (count($warm) >= 4 && $p95Ms >= $slowThresholdMs && $spreadMs >= max(100, $p50Ms)) {
-                $classification = 'unstable';
-                $investigate = 'Inspect nondeterministic database work, external I/O, locks, cache misses, and oversized result sets.';
-            }
 
-            $route += [
-                'coldMs' => $coldMs,
-                'warmAvgMs' => $warmAvgMs,
-                'p50Ms' => $p50Ms,
-                'p95Ms' => $p95Ms,
-                'minMs' => $minMs,
-                'maxMs' => $maxMs,
-                'spreadMs' => $spreadMs,
-                'stageProfile' => $stageProfile,
-                'classification' => $classification,
-                'investigate' => $investigate,
-            ];
-            foreach ($warm as $duration) {
-                $allWarm[] = $duration;
-            }
+        foreach ($routes as $key => $route) {
+            [$routes[$key], $warm] = $this->finalizePerformanceRoute($route, $slowThresholdMs);
+            array_push($allWarm, ...$warm);
         }
-        unset($route);
 
         usort($routes, static fn (array $left, array $right): int => $right['warmAvgMs'] <=> $left['warmAvgMs']);
         sort($allWarm);
@@ -407,8 +332,203 @@ final readonly class AppUrlAuditService
                 'p95Ms' => $this->percentile($allWarm, 0.95),
                 'maxMs' => [] === $allWarm ? 0 : max($allWarm),
             ],
-            'routes' => array_values($routes),
+            'routes' => $routes,
         ];
+    }
+
+    /**
+     * @param list<list<array<string, mixed>>> $sampleSets
+     *
+     * @return array<string, array<string, mixed>>
+     */
+    private function performanceRouteSamples(array $sampleSets): array
+    {
+        $routes = [];
+        foreach ($sampleSets as $sampleIndex => $sampleSet) {
+            foreach ($sampleSet as $probe) {
+                $routeName = $this->stringValue($probe['route'] ?? null);
+                $path = $this->stringValue($probe['path'] ?? null);
+                $key = $routeName.'|'.$path;
+                $routes[$key] ??= [
+                    'route' => $routeName,
+                    'path' => $path,
+                    'source' => $this->stringValue($probe['source'] ?? null, 'symfony'),
+                    'status' => $this->integerValue($probe['status'] ?? null),
+                    'contentType' => $this->stringValue($probe['contentType'] ?? null),
+                    'responseBytes' => $this->integerValue($probe['responseBytes'] ?? null),
+                    'samplesMs' => [],
+                    'stageSamples' => [],
+                ];
+                $routes[$key]['samplesMs'][$sampleIndex] = $this->integerValue($probe['durationMs'] ?? null);
+                $this->appendStageSamples($routes[$key]['stageSamples'], $probe['stageTimings'] ?? null, $sampleIndex);
+            }
+        }
+
+        return $routes;
+    }
+
+    /** @param array<string, array<int, float>> $stageSamples */
+    private function appendStageSamples(array &$stageSamples, mixed $timings, int $sampleIndex): void
+    {
+        if (!is_array($timings)) {
+            return;
+        }
+
+        foreach ($timings as $stage => $duration) {
+            if (!is_string($stage) || !is_numeric($duration)) {
+                continue;
+            }
+
+            $stageSamples[$stage][$sampleIndex] = (float) $duration;
+        }
+    }
+
+    /**
+     * @param array<string, mixed> $route
+     *
+     * @return array{0: array<string, mixed>, 1: list<int>}
+     */
+    private function finalizePerformanceRoute(array $route, int $slowThresholdMs): array
+    {
+        $rawSamples = $route['samplesMs'] ?? [];
+        $samples = [];
+        if (is_array($rawSamples)) {
+            ksort($rawSamples);
+            foreach ($rawSamples as $sample) {
+                $samples[] = $this->integerValue($sample);
+            }
+        }
+        $warm = count($samples) > 1 ? array_slice($samples, 1) : $samples;
+        sort($warm);
+
+        $coldMs = $samples[0] ?? 0;
+        $warmAvgMs = [] === $warm ? $coldMs : (int) round(array_sum($warm) / count($warm));
+        $p50Ms = $this->percentile($warm, 0.50);
+        $p95Ms = $this->percentile($warm, 0.95);
+        $maxMs = [] === $warm ? $coldMs : max($warm);
+        $minMs = [] === $warm ? $coldMs : min($warm);
+        $spreadMs = $maxMs - $minMs;
+        [$classification, $investigate] = $this->performanceClassification(
+            $route,
+            $warm,
+            $coldMs,
+            $warmAvgMs,
+            $p50Ms,
+            $p95Ms,
+            $spreadMs,
+            $slowThresholdMs,
+        );
+
+        $route += [
+            'coldMs' => $coldMs,
+            'warmAvgMs' => $warmAvgMs,
+            'p50Ms' => $p50Ms,
+            'p95Ms' => $p95Ms,
+            'minMs' => $minMs,
+            'maxMs' => $maxMs,
+            'spreadMs' => $spreadMs,
+            'stageProfile' => $this->stagePerformanceProfile($this->floatStageSamples($route['stageSamples'] ?? null)),
+            'classification' => $classification,
+            'investigate' => $investigate,
+        ];
+
+        return [$route, $warm];
+    }
+
+    /** @return array<string, array<int, float>> */
+    private function floatStageSamples(mixed $value): array
+    {
+        if (!is_array($value)) {
+            return [];
+        }
+        $result = [];
+        foreach ($value as $stage => $samples) {
+            if (!is_string($stage) || !is_array($samples)) {
+                continue;
+            }
+            foreach ($samples as $index => $sample) {
+                if (is_int($index) && (is_float($sample) || is_int($sample))) {
+                    $result[$stage][$index] = (float) $sample;
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param array<string, array<int, float>> $stageSamples
+     *
+     * @return array<string, array<string, mixed>>
+     */
+    private function stagePerformanceProfile(array $stageSamples): array
+    {
+        $profile = [];
+        foreach ($stageSamples as $stage => $samples) {
+            ksort($samples);
+            $ordered = [];
+            foreach ($samples as $sample) {
+                $ordered[] = $sample;
+            }
+            $warm = count($ordered) > 1 ? array_slice($ordered, 1) : $ordered;
+            sort($warm);
+            $profile[$stage] = [
+                'samplesMs' => array_map(static fn (float $value): float => round($value, 2), $ordered),
+                'coldMs' => round($ordered[0] ?? 0.0, 2),
+                'warmAvgMs' => round([] === $warm ? ($ordered[0] ?? 0.0) : array_sum($warm) / count($warm), 2),
+                'warmP50Ms' => round($this->floatPercentile($warm, 0.50), 2),
+                'warmP95Ms' => round($this->floatPercentile($warm, 0.95), 2),
+            ];
+        }
+
+        return $profile;
+    }
+
+    /**
+     * @param array<string, mixed> $route
+     * @param list<int>            $warm
+     *
+     * @return array{0: string, 1: string}
+     */
+    private function performanceClassification(
+        array $route,
+        array $warm,
+        int $coldMs,
+        int $warmAvgMs,
+        int $p50Ms,
+        int $p95Ms,
+        int $spreadMs,
+        int $slowThresholdMs,
+    ): array {
+        $status = $this->integerValue($route['status'] ?? null);
+        $responseBytes = $this->integerValue($route['responseBytes'] ?? null);
+        $contentType = $this->stringValue($route['contentType'] ?? null);
+
+        if ($status >= 400) {
+            return ['negative_probe', 'Expected negative-path timing; exclude from actionable route optimization.'];
+        }
+        if ($status >= 300) {
+            return ['redirect_response', 'Redirect timing is not actionable route-rendering latency; inspect only when the redirect is reported as unexpected.'];
+        }
+        if ($responseBytes >= 262144) {
+            return ['payload_heavy', 'Inspect pagination, projection size, duplicated shell locations, and embedded diagnostics.'];
+        }
+        if ($p50Ms >= $slowThresholdMs) {
+            return [
+                'sustained_slow',
+                str_contains($contentType, 'html')
+                    ? 'Inspect controller queries, Viewing composition, Twig rendering, and response payload size.'
+                    : 'Inspect controller queries, external I/O, serialization, and payload size.',
+            ];
+        }
+        if ($coldMs >= max($slowThresholdMs * 2, $warmAvgMs * 3)) {
+            return ['first_touch', 'First-touch effect inside the shared sweep process; verify with an isolated sequence probe before optimizing.'];
+        }
+        if (count($warm) >= 4 && $p95Ms >= $slowThresholdMs && $spreadMs >= max(100, $p50Ms)) {
+            return ['unstable', 'Inspect nondeterministic database work, external I/O, locks, cache misses, and oversized result sets.'];
+        }
+
+        return ['healthy', 'No performance action indicated.'];
     }
 
     /** @param list<int> $values */
@@ -439,7 +559,7 @@ final readonly class AppUrlAuditService
     private function route(string $name, Route $route): array
     {
         $methods = [] === $route->getMethods() ? ['GET'] : $route->getMethods();
-        $path = (string) preg_replace_callback('/\{([^}]+)\}/', static function (array $match) use ($route): string {
+        $path = (string) preg_replace_callback('/\{([^}]+)\}/', static function (array $match) use ($route, $name): string {
             $token = $match[1];
             $default = $route->getDefault($token);
             if (is_scalar($default) && '' !== (string) $default) {
@@ -447,21 +567,37 @@ final readonly class AppUrlAuditService
             }
             $token = strtolower($token);
 
-            return str_contains($token, 'uuid') ? '00000000-0000-0000-0000-000000000001' : (str_contains($token, 'id') ? '1' : 'audit-sample');
+            $requirement = strtolower((string) $route->getRequirement((string) $match[1]));
+            $looksLikeUuid = str_contains($token, 'uuid')
+                || (str_starts_with($name, 'app_messaging_') && str_contains($token, 'id'))
+                || str_contains($requirement, 'uuid')
+                || (str_contains($requirement, '0-9a-f') && str_contains($requirement, '36'));
+            if ($looksLikeUuid) {
+                return '00000000-0000-0000-0000-000000000001';
+            }
+            if (str_contains($token, 'code') && str_contains($requirement, '{3}')) {
+                return 'USD';
+            }
+
+            return str_contains($token, 'id') ? '1' : 'audit-sample';
         }, $route->getPath());
 
         return ['name' => $name, 'path' => $route->getPath(), 'materializedPath' => $path, 'methods' => $methods, 'controller' => $route->getDefault('_controller')];
     }
 
-    /** @param array<string, mixed> $inventory @return list<array<string, mixed>> */
+    /**
+     * @param array<string, mixed> $inventory
+     *
+     * @return list<array<string, mixed>>
+     */
     private function candidates(array $inventory): array
     {
         $candidates = [];
         foreach ((array) ($inventory['routes'] ?? []) as $route) {
-            if (!is_array($route) || !in_array('GET', (array) ($route['methods'] ?? []), true)) {
+            if (!is_array($route) || !is_string($route['materializedPath'] ?? null) || !is_string($route['name'] ?? null) || !in_array('GET', (array) ($route['methods'] ?? []), true)) {
                 continue;
             }
-            $key = (string) $route['materializedPath'].'|'.(string) $route['name'];
+            $key = $route['materializedPath'].'|'.$route['name'];
             $candidates[$key] = $route + ['source' => 'symfony'];
         }
 
@@ -488,7 +624,10 @@ final readonly class AppUrlAuditService
 
         ksort($candidates);
 
-        return array_values($candidates);
+        /** @var list<array<string, mixed>> $result */
+        $result = array_values($candidates);
+
+        return $result;
     }
 
     /** @return list<string> */
@@ -500,7 +639,8 @@ final readonly class AppUrlAuditService
         }
 
         $config = Yaml::parseFile($configFile);
-        $aliases = is_array($config) ? ($config['cruding']['entity_class_alias_map'] ?? []) : [];
+        $cruding = is_array($config) && is_array($config['cruding'] ?? null) ? $config['cruding'] : [];
+        $aliases = $cruding['entity_class_alias_map'] ?? [];
         if (!is_array($aliases)) {
             return [];
         }
@@ -535,19 +675,22 @@ final readonly class AppUrlAuditService
 
         try {
             foreach ($routes as $route) {
-                $path = (string) $route['materializedPath'];
+                $path = is_string($route['materializedPath'] ?? null) ? $route['materializedPath'] : '/';
                 $request = Request::create($path, 'GET', [], [], [], [
                     'HTTP_ACCEPT' => str_starts_with($path, '/api/') ? 'application/json' : 'text/html,application/json;q=0.8',
                     'HTTP_USER_AGENT' => 'SmartResponsor-Platform-URL-Audit/3.0',
                 ]);
                 $started = microtime(true);
+                $response = null;
                 try {
                     $response = $this->kernel->handle($request, HttpKernelInterface::MAIN_REQUEST, true);
                     $status = $response->getStatusCode();
                     $contentType = strtolower((string) $response->headers->get('content-type', ''));
                     $location = (string) $response->headers->get('location', '');
                     $body = (string) $response->getContent();
-                    $this->kernel->terminate($request, $response);
+                    if ($this->kernel instanceof TerminableInterface) {
+                        $this->kernel->terminate($request, $response);
+                    }
                     $error = '';
                 } catch (\Throwable $exception) {
                     $status = 500;
@@ -557,6 +700,7 @@ final readonly class AppUrlAuditService
                     $error = $exception::class.': '.$exception->getMessage();
                 }
 
+                $headers = $response?->headers;
                 $findings = [];
                 if ($status >= 500) {
                     $findings[] = 'http_'.$status;
@@ -596,32 +740,34 @@ final readonly class AppUrlAuditService
                     'contentType' => $contentType,
                     'location' => $location,
                     'stageTimings' => [
-                        'interfacingRenderMs' => $response->headers->get('X-Interfacing-Render-ms'),
-                        'interfacingShellMs' => $response->headers->get('X-Interfacing-Shell-ms'),
-                        'interfacingSlotsMs' => $response->headers->get('X-Interfacing-Slots-ms'),
-                        'interfacingTwigMs' => $response->headers->get('X-Interfacing-Twig-ms'),
-                        'viewingResolveMs' => $response->headers->get('X-Viewing-Resolve-ms'),
-                        'viewingComposeMs' => $response->headers->get('X-Viewing-Compose-ms'),
-                        'viewingContextMs' => $response->headers->get('X-Viewing-Context-ms'),
-                        'viewingTwigMs' => $response->headers->get('X-Viewing-Twig-ms'),
-                        'crudContractMs' => $response->headers->get('X-App-Crud-Contract-ms'),
-                        'crudNavigationMs' => $response->headers->get('X-App-Crud-Navigation-ms'),
-                        'crudContextMs' => $response->headers->get('X-Crud-Context-ms'),
-                        'crudEntrypointMs' => $response->headers->get('X-Crud-Entrypoint-ms'),
-                        'crudDefinitionMs' => $response->headers->get('X-Crud-Definition-ms'),
-                        'crudContractFactoryMs' => $response->headers->get('X-Crud-Contract-Factory-ms'),
-                        'crudServiceResolutionMs' => $response->headers->get('X-Crud-Service-Resolution-ms'),
-                        'crudServiceInvocationMs' => $response->headers->get('X-Crud-Service-Invocation-ms'),
-                        'crudServiceClass' => $response->headers->get('X-Crud-Service-Class'),
-                        'crudDefaultIndexDefinitionMs' => $response->headers->get('X-Crud-Default-Index-Definition-ms'),
-                        'crudDefaultIndexContractMs' => $response->headers->get('X-Crud-Default-Index-Contract-ms'),
-                        'crudObjectFindAllMs' => $response->headers->get('X-Crud-Object-Find-All-ms'),
-                        'crudCollectionProjectionMs' => $response->headers->get('X-Crud-Collection-Projection-ms'),
+                        'interfacingRenderMs' => $headers?->get('X-Interfacing-Render-ms'),
+                        'interfacingShellMs' => $headers?->get('X-Interfacing-Shell-ms'),
+                        'interfacingSlotsMs' => $headers?->get('X-Interfacing-Slots-ms'),
+                        'interfacingTwigMs' => $headers?->get('X-Interfacing-Twig-ms'),
+                        'viewingResolveMs' => $headers?->get('X-Viewing-Resolve-ms'),
+                        'viewingComposeMs' => $headers?->get('X-Viewing-Compose-ms'),
+                        'viewingContextMs' => $headers?->get('X-Viewing-Context-ms'),
+                        'viewingTwigMs' => $headers?->get('X-Viewing-Twig-ms'),
+                        'crudContractMs' => $headers?->get('X-App-Crud-Contract-ms'),
+                        'crudNavigationMs' => $headers?->get('X-App-Crud-Navigation-ms'),
+                        'crudContextMs' => $headers?->get('X-Crud-Context-ms'),
+                        'crudEntrypointMs' => $headers?->get('X-Crud-Entrypoint-ms'),
+                        'crudDefinitionMs' => $headers?->get('X-Crud-Definition-ms'),
+                        'crudContractFactoryMs' => $headers?->get('X-Crud-Contract-Factory-ms'),
+                        'crudServiceResolutionMs' => $headers?->get('X-Crud-Service-Resolution-ms'),
+                        'crudServiceInvocationMs' => $headers?->get('X-Crud-Service-Invocation-ms'),
+                        'crudServiceClass' => $headers?->get('X-Crud-Service-Class'),
+                        'crudDefaultIndexDefinitionMs' => $headers?->get('X-Crud-Default-Index-Definition-ms'),
+                        'crudDefaultIndexContractMs' => $headers?->get('X-Crud-Default-Index-Contract-ms'),
+                        'crudObjectFindAllMs' => $headers?->get('X-Crud-Object-Find-All-ms'),
+                        'crudCollectionProjectionMs' => $headers?->get('X-Crud-Collection-Projection-ms'),
                     ],
                     'viewLoaderFailures' => $request->attributes->get('_view_loader_failures', []),
                     'viewRenderFailures' => $request->attributes->get('_view_render_failures', []),
                     'durationMs' => (int) round((microtime(true) - $started) * 1000),
                     'responseBytes' => strlen($body),
+                    'memoryBytes' => memory_get_usage(true),
+                    'peakMemoryBytes' => memory_get_peak_usage(true),
                     'error' => $error,
                     'bodyHash' => hash('sha256', $body),
                     'bodyPreview' => mb_substr(trim(strip_tags($body)), 0, 500),
@@ -630,6 +776,10 @@ final readonly class AppUrlAuditService
                 $probes[] = $probe;
                 fwrite($append, json_encode($probe, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR).PHP_EOL);
                 fflush($append);
+                foreach ($this->doctrine->getManagers() as $manager) {
+                    $manager->clear();
+                }
+                gc_collect_cycles();
             }
         } finally {
             fclose($append);
@@ -638,189 +788,21 @@ final readonly class AppUrlAuditService
         return $probes;
     }
 
-    /**
-     * @param list<array<string, mixed>> $routes
-     *
-     * @return list<array<string, mixed>>
-     */
-    private function probeMany(string $baseUrl, array $routes, int $timeout, int $concurrency, string $checkpoint): array
-    {
-        $completed = [];
-        if (is_file($checkpoint)) {
-            foreach (file($checkpoint, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ?: [] as $line) {
-                $probe = json_decode($line, true);
-                if (is_array($probe) && is_string($probe['path'] ?? null)) {
-                    $completed[$probe['path'].'|'.($probe['route'] ?? '')] = $probe;
-                }
-            }
-        }
-
-        $queue = [];
-        foreach ($routes as $route) {
-            $key = (string) $route['materializedPath'].'|'.(string) $route['name'];
-            if (!isset($completed[$key])) {
-                $queue[] = $route;
-            }
-        }
-
-        $multi = curl_multi_init();
-        $active = [];
-        $append = fopen($checkpoint, 'a');
-        if (false === $append) {
-            throw new \RuntimeException('Unable to open URL audit checkpoint.');
-        }
-
-        try {
-            do {
-                while (count($active) < max(1, $concurrency) && [] !== $queue) {
-                    $route = array_shift($queue);
-                    $url = $baseUrl.(string) $route['materializedPath'];
-                    $curl = curl_init($url);
-                    curl_setopt_array($curl, [
-                        CURLOPT_RETURNTRANSFER => true,
-                        CURLOPT_HEADER => true,
-                        CURLOPT_FOLLOWLOCATION => false,
-                        CURLOPT_CONNECTTIMEOUT => min(3, max(1, $timeout)),
-                        CURLOPT_TIMEOUT => max(1, $timeout),
-                        CURLOPT_HTTPHEADER => [
-                            'Accept: '.(str_starts_with((string) $route['materializedPath'], '/api/') ? 'application/json' : 'text/html,application/json;q=0.8'),
-                            'User-Agent: SmartResponsor-Platform-URL-Audit/2.0',
-                        ],
-                    ]);
-                    curl_multi_add_handle($multi, $curl);
-                    $active[(int) $curl] = ['handle' => $curl, 'route' => $route, 'url' => $url];
-                }
-
-                do {
-                    $status = curl_multi_exec($multi, $running);
-                } while (CURLM_CALL_MULTI_PERFORM === $status);
-
-                while (false !== ($info = curl_multi_info_read($multi))) {
-                    $curl = $info['handle'];
-                    $entry = $active[(int) $curl];
-                    $probe = $this->finalizeProbe($curl, $entry['url'], $entry['route']);
-                    $key = $probe['path'].'|'.$probe['route'];
-                    $completed[$key] = $probe;
-                    fwrite($append, json_encode($probe, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR).PHP_EOL);
-                    fflush($append);
-                    curl_multi_remove_handle($multi, $curl);
-                    curl_close($curl);
-                    unset($active[(int) $curl]);
-                }
-
-                if ($running > 0) {
-                    curl_multi_select($multi, 0.25);
-                }
-            } while ([] !== $queue || [] !== $active);
-        } finally {
-            fclose($append);
-            foreach ($active as $entry) {
-                curl_multi_remove_handle($multi, $entry['handle']);
-                curl_close($entry['handle']);
-            }
-            curl_multi_close($multi);
-        }
-
-        return array_values($completed);
-    }
-
-    /** @param array<string, mixed> $route @return array<string, mixed> */
-    private function finalizeProbe(\CurlHandle $curl, string $url, array $route): array
-    {
-        $raw = curl_multi_getcontent($curl);
-        $error = curl_error($curl);
-        $status = (int) curl_getinfo($curl, CURLINFO_RESPONSE_CODE);
-        $headerSize = (int) curl_getinfo($curl, CURLINFO_HEADER_SIZE);
-        $contentType = strtolower((string) curl_getinfo($curl, CURLINFO_CONTENT_TYPE));
-        $durationMs = (int) round(((float) curl_getinfo($curl, CURLINFO_TOTAL_TIME)) * 1000);
-        $body = substr(is_string($raw) ? $raw : '', $headerSize);
-        $findings = [];
-        if ('' !== $error) {
-            $findings[] = str_contains(strtolower($error), 'timed out') ? 'timeout' : 'transport_error';
-        }
-        if (0 === $status || $status >= 500) {
-            $findings[] = 'http_'.$status;
-        } elseif (404 === $status && 'cruding-runtime-entity' === ($route['source'] ?? null)) {
-            $findings[] = 'declared_component_route_404';
-        } elseif ($status >= 300 && $status < 400) {
-            $findings[] = 'redirect_'.$status;
-        }
-        if (str_contains($contentType, 'json')) {
-            json_decode($body, true);
-            if (JSON_ERROR_NONE !== json_last_error()) {
-                $findings[] = 'malformed_json';
-            }
-        }
-        $lower = strtolower($body);
-        foreach (self::BODY_MARKERS as $marker) {
-            if (str_contains($lower, $marker)) {
-                $findings[] = 'body_marker:'.$marker;
-            }
-        }
-
-        return [
-            'route' => $route['name'],
-            'source' => $route['source'] ?? 'symfony',
-            'path' => $route['materializedPath'],
-            'url' => $url,
-            'status' => $status,
-            'contentType' => $contentType,
-            'durationMs' => $durationMs,
-            'error' => $error,
-            'bodyHash' => hash('sha256', $body),
-            'bodyPreview' => mb_substr(trim(strip_tags($body)), 0, 500),
-            'findings' => array_values(array_unique($findings)),
-        ];
-    }
-
-    /** @param array<string, mixed> $route @return array<string, mixed> */
-    private function probe(string $url, array $route, int $timeout): array
-    {
-        $curl = curl_init($url);
-        curl_setopt_array($curl, [CURLOPT_RETURNTRANSFER => true, CURLOPT_HEADER => true, CURLOPT_FOLLOWLOCATION => false, CURLOPT_TIMEOUT => $timeout, CURLOPT_HTTPHEADER => ['Accept: '.(str_starts_with($route['materializedPath'], '/api/') ? 'application/json' : 'text/html,application/json;q=0.8'), 'User-Agent: SmartResponsor-Platform-URL-Audit/1.0']]);
-        $raw = curl_exec($curl);
-        $error = curl_error($curl);
-        $status = (int) curl_getinfo($curl, CURLINFO_RESPONSE_CODE);
-        $headerSize = (int) curl_getinfo($curl, CURLINFO_HEADER_SIZE);
-        $contentType = strtolower((string) curl_getinfo($curl, CURLINFO_CONTENT_TYPE));
-        curl_close($curl);
-        $body = substr(is_string($raw) ? $raw : '', $headerSize);
-        $findings = [];
-        if ('' !== $error) {
-            $findings[] = str_contains(strtolower($error), 'timed out') ? 'timeout' : 'transport_error';
-        }
-        if (0 === $status || $status >= 500) {
-            $findings[] = 'http_'.$status;
-        } elseif ($status >= 300 && $status < 400) {
-            $findings[] = 'redirect_'.$status;
-        }
-        if (str_contains($contentType, 'json')) {
-            json_decode($body, true);
-            if (JSON_ERROR_NONE !== json_last_error()) {
-                $findings[] = 'malformed_json';
-            }
-        }
-        $lower = strtolower($body);
-        foreach (self::BODY_MARKERS as $marker) {
-            if (str_contains($lower, $marker)) {
-                $findings[] = 'body_marker:'.$marker;
-            }
-        }
-
-        return ['route' => $route['name'], 'path' => $route['materializedPath'], 'url' => $url, 'status' => $status, 'contentType' => $contentType, 'error' => $error, 'bodyHash' => hash('sha256', $body), 'bodyPreview' => mb_substr(trim(strip_tags($body)), 0, 500), 'findings' => array_values(array_unique($findings))];
-    }
-
     private function isExpectedRedirect(string $requestPath, string $location): bool
     {
         $targetPath = (string) parse_url($location, PHP_URL_PATH);
         $expectedTargets = [
             '/access/signup' => '/access/register',
             '/access/reset-password/reset' => '/access/reset-password/request',
+            '/access/reset/password/reset' => '/access/reset/password/request',
         ];
         if (isset($expectedTargets[$requestPath]) && $expectedTargets[$requestPath] === $targetPath) {
             return true;
         }
         if (str_starts_with($requestPath, '/access/reset-password/reset/') && '/access/reset-password/reset' === $targetPath) {
+            return true;
+        }
+        if (str_starts_with($requestPath, '/access/reset/password/reset/') && '/access/reset/password/reset' === $targetPath) {
             return true;
         }
         if ('/access/signin' === $targetPath) {
@@ -835,7 +817,7 @@ final readonly class AppUrlAuditService
     {
         $decoded = is_file($file) ? json_decode((string) file_get_contents($file), true) : [];
 
-        return is_array($decoded) ? $decoded : [];
+        return is_array($decoded) ? $this->stringKeyedData($decoded) : [];
     }
 
     /** @return array<string, mixed> */
@@ -843,7 +825,31 @@ final readonly class AppUrlAuditService
     {
         $value = is_file($file) ? require $file : [];
 
-        return is_array($value) ? $value : [];
+        return is_array($value) ? $this->stringKeyedData($value) : [];
+    }
+
+    /**
+     * @param array<mixed> $value
+     *
+     * @return array<string, mixed>
+     */
+    private function stringKeyedData(array $value): array
+    {
+        return array_filter($value, static fn (int|string $key): bool => is_string($key), ARRAY_FILTER_USE_KEY);
+    }
+
+    private function stringValue(mixed $value, string $default = ''): string
+    {
+        return is_string($value) ? $value : $default;
+    }
+
+    private function integerValue(mixed $value, int $default = 0): int
+    {
+        if (is_int($value)) {
+            return $value;
+        }
+
+        return is_numeric($value) ? (int) $value : $default;
     }
 
     /** @param array<string, mixed>|list<mixed> $value */

@@ -26,6 +26,16 @@ final class CloudflareAiGatewayDocsTest extends TestCase
             self::assertStringNotContainsString('/compat', $content);
         }
 
+        self::assertIsString($architecture);
+        self::assertIsString($inventory);
+        self::assertIsString($providers);
+        self::assertIsString($routes);
+        self::assertIsString($security);
+        self::assertIsString($cost);
+        self::assertIsString($gaps);
+        self::assertIsString($roadmap);
+        self::assertIsString($cfAi);
+
         self::assertStringContainsString('current default runtime', $architecture);
         self::assertStringContainsString('configured Cloudflare canary runtime', $architecture);
         self::assertStringContainsString('planned routes', $architecture);

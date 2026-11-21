@@ -29,9 +29,13 @@ final class AppNotificationDispatchCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $limit = max(1, min(500, (int) $input->getOption('limit')));
-        $leaseSeconds = max(10, min(3600, (int) $input->getOption('lease')));
-        $workerId = trim((string) $input->getOption('worker'));
+        $limitOption = $input->getOption('limit');
+        $leaseOption = $input->getOption('lease');
+        $workerOption = $input->getOption('worker');
+
+        $limit = max(1, min(500, is_numeric($limitOption) ? (int) $limitOption : 100));
+        $leaseSeconds = max(10, min(3600, is_numeric($leaseOption) ? (int) $leaseOption : 60));
+        $workerId = is_string($workerOption) ? trim($workerOption) : '';
         if ('' === $workerId) {
             $workerId = sprintf('app-delivering-push:%s:%d', gethostname() ?: 'host', getmypid());
         }

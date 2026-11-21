@@ -1,3 +1,3 @@
 facting_routes:
-  resource: '../../vendor/facting/fact/src/Http/Fact/'
+  resource: '../../vendor/facting/fact/src/Controller/'
   type: attribute

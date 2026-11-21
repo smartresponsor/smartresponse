@@ -4,3 +4,5 @@ parameters:
     - src
     - tests
   inferPrivatePropertyTypeFromConstructor: true
+  scanFiles:
+    - tools/inspection/app-source-structure-guard.php

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Navigating\ServiceInterface\Navigation\Provide\NavigationDatabaseConfigProvideServiceInterface;
+use App\Navigating\ServiceInterface\Provide\NavigationDatabaseConfigProvideServiceInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,8 +22,17 @@ final class WalletingNavigationDebugCommand extends Command
     {
         $config = $this->provider->provideConfig();
 
+        $shellGroups = $config['shell_groups'] ?? null;
+        if (!is_array($shellGroups)) {
+            return Command::SUCCESS;
+        }
+
         foreach (['mobile_bottom_primary', 'left_middle_business', 'right_toolbar_quick'] as $groupKey) {
-            $items = $config['shell_groups'][$groupKey]['items'] ?? [];
+            $group = $shellGroups[$groupKey] ?? null;
+            $items = is_array($group) ? ($group['items'] ?? null) : null;
+            if (!is_array($items)) {
+                continue;
+            }
             $firstKey = array_key_first($items);
             if (null === $firstKey) {
                 continue;

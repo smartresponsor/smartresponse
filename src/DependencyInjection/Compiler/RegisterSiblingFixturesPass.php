@@ -19,7 +19,10 @@ final class RegisterSiblingFixturesPass implements CompilerPassInterface
             return;
         }
 
-        $projectDir = (string) $container->getParameter('kernel.project_dir');
+        $projectDir = $container->getParameter('kernel.project_dir');
+        if (!is_string($projectDir)) {
+            return;
+        }
         $workspaceDir = dirname($projectDir);
         $allowedSiblingFixtures = $this->getAllowedSiblingFixtures($container);
         $fixtures = [];
@@ -53,7 +56,7 @@ final class RegisterSiblingFixturesPass implements CompilerPassInterface
             return [];
         }
 
-        return array_values(array_filter(array_map(static fn ($item): string => strtolower((string) $item), $value), static fn (string $item): bool => '' !== $item));
+        return array_values(array_filter(array_map(static fn ($item): string => is_string($item) ? strtolower($item) : '', $value), static fn (string $item): bool => '' !== $item));
     }
 
     /**
@@ -84,7 +87,7 @@ final class RegisterSiblingFixturesPass implements CompilerPassInterface
         $fixtures = [];
 
         foreach ($iterator as $fileInfo) {
-            if (!$fileInfo->isFile() || 'php' !== strtolower($fileInfo->getExtension())) {
+            if (!$fileInfo instanceof \SplFileInfo || !$fileInfo->isFile() || 'php' !== strtolower($fileInfo->getExtension())) {
                 continue;
             }
 

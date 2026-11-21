@@ -5,7 +5,7 @@ declare(strict_types=1);
 
 namespace App\Service\Vendoring\Runtime\Mobile;
 
-use App\Vendoring\RepositoryInterface\Vendor\VendorPayoutRepositoryInterface;
+use App\Vendoring\RepositoryInterface\VendorPayoutRepositoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 final readonly class VendorMobilePayoutShowService

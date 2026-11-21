@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace App\Service\Placement\Retail;
 
 use App\Retailing\Entity\Retail\RetailEntity;
-use App\Retailing\Service\Pricing\RetailPricingProfileNormalizer;
-use App\Shipping\Service\Placement\ListingFulfillmentProfileNormalizer;
+use App\Retailing\Normalizer\RetailPricingProfileNormalizer;
+use App\Shipping\ServiceInterface\Placement\ShipmentListingFulfillmentProfileNormalizerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 final readonly class RetailPlacementApiService
 {
     public function __construct(
         private ManagerRegistry $managerRegistry,
-        private ListingFulfillmentProfileNormalizer $fulfillmentNormalizer,
+        private ShipmentListingFulfillmentProfileNormalizerInterface $fulfillmentNormalizer,
         private RetailPricingProfileNormalizer $pricingNormalizer,
         private RetailPlacementLocationService $locationPlacement,
     ) {
@@ -108,9 +108,9 @@ final readonly class RetailPlacementApiService
      */
     private function locationInput(array $input): array
     {
-        $line1 = trim((string) ($input['line1'] ?? ''));
-        $city = trim((string) ($input['city'] ?? ''));
-        $countryCode = strtoupper(trim((string) ($input['countryCode'] ?? '')));
+        $line1 = trim(is_string($input['line1'] ?? null) ? $input['line1'] : '');
+        $city = trim(is_string($input['city'] ?? null) ? $input['city'] : '');
+        $countryCode = strtoupper(trim(is_string($input['countryCode'] ?? null) ? $input['countryCode'] : ''));
         if ('' === $line1 || '' === $city || 2 !== strlen($countryCode)) {
             throw new \InvalidArgumentException('Address, city, and two-letter countryCode are required.');
         }
@@ -143,7 +143,7 @@ final readonly class RetailPlacementApiService
             'retailId' => (string) $retail->getId(),
             'kind' => $retail->getKind()->value,
             'catalogCode' => $retail->getCatalogCode(),
-            'typePath' => $retail->getTypePath(),
+            'typePath' => null,
             'title' => $retail->getTitle(),
             'description' => $retail->getDescription(),
             'locationProfile' => $retail->getLocationProfile(),

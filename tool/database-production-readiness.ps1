@@ -3,6 +3,7 @@ param(
     [Parameter(Mandatory = $true)]
     [string] $MigrationClass,
     [string] $ComponentEntityPrefix = '',
+    [ValidateSet('prod','dev','test')][string] $SchemaEnvironment = 'prod',
     [switch] $Apply
 )
 
@@ -12,7 +13,7 @@ $ErrorActionPreference = 'Stop'
 $workspace = Split-Path -Parent $PSScriptRoot
 Push-Location $workspace
 try {
-    $env:APP_ENV = 'prod'
+    $env:APP_ENV = $SchemaEnvironment
     $env:APP_DEBUG = '0'
     $env:APP_BASE_URI = 'https://smartresponsor.com'
     $cacheKey = ($MigrationClass -replace '[^A-Za-z0-9_.-]', '_')
@@ -62,11 +63,12 @@ try {
         Write-Host '=== Component physical schema verification ==='
         $previous = $ErrorActionPreference
         $ErrorActionPreference = 'Continue'
-        $componentState = & $php tool/database-component-schema.php $ComponentEntityPrefix --summary-only 2>&1
+        $componentState = & $php tool/database-component-schema.php $ComponentEntityPrefix --summary-only "--env=$SchemaEnvironment" 2>&1
         $componentExit = $LASTEXITCODE
         $ErrorActionPreference = $previous
         $componentState | Write-Host
-        if ($componentExit -ne 0 -or -not (($componentState -join "`n") -match 'missing in current DB: 0')) {
+        $componentText = ($componentState -join "`n")
+        if ($componentExit -ne 0 -or -not ($componentText -match 'missing in current DB: 0') -or -not ($componentText -match 'Missing columns in current DB: 0')) {
             throw "Component physical schema verification failed for $ComponentEntityPrefix"
         }
     }
