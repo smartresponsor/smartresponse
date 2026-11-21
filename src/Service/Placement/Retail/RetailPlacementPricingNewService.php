@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Service\Placement\Retail;
 
-use App\Cruding\Dto\Entrypoint\CrudServiceContextDTO;
+use App\Cruding\DTO\Entrypoint\CrudServiceContextDTO;
 use App\Cruding\Factory\Resource\CrudResourceContractFactory;
 use App\Cruding\Provider\CrudPageDefinitionProvider;
-use App\Cruding\Value\Resource\CrudResourceContract;
+use App\Cruding\ValueObject\Resource\CrudResourceContract;
 use App\Dto\Placement\Retail\RetailPlacementPricingFormData;
 use App\Form\Placement\Retail\RetailPlacementPricingType;
 use App\Retailing\Entity\Retail\RetailEntity;
@@ -100,7 +100,7 @@ final readonly class RetailPlacementPricingNewService
     {
         return match ($retail->getKind()->value) {
             'service', 'goods' => 'fixed',
-            'task', 'project' => 'budget',
+            'task' => 'budget',
             default => 'fixed',
         };
     }

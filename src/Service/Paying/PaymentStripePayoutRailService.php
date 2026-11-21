@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Service\Paying;
 
-use App\Paying\ServiceInterface\PayoutRailInterface;
-use App\Paying\Value\PayoutDestination;
+use App\Paying\ServiceInterface\PaymentPayoutRailInterface;
+use App\Paying\ValueObject\PaymentPayoutDestination;
 use Stripe\Exception\ApiErrorException;
 use Stripe\StripeClient;
 
-final class PaymentStripePayoutRailService implements PayoutRailInterface
+final class PaymentStripePayoutRailService implements PaymentPayoutRailInterface
 {
     private const string REFERENCE_PREFIX = 'stripe-payout:';
 
@@ -17,14 +17,14 @@ final class PaymentStripePayoutRailService implements PayoutRailInterface
     {
     }
 
-    public function supports(PayoutDestination $destination): bool
+    public function supports(PaymentPayoutDestination $destination): bool
     {
         return 'stripe' === $destination->provider
             && str_starts_with($destination->connectedAccountReference, 'acct_')
             && (str_starts_with($destination->providerReference, 'ba_') || str_starts_with($destination->providerReference, 'card_'));
     }
 
-    public function submit(PayoutDestination $destination, int $amountMinor, string $currency, string $idempotencyKey): string
+    public function submit(PaymentPayoutDestination $destination, int $amountMinor, string $currency, string $idempotencyKey): string
     {
         $this->assertConfigured();
         $currency = strtolower(trim($currency));
@@ -79,7 +79,7 @@ final class PaymentStripePayoutRailService implements PayoutRailInterface
         [$accountReference, $payoutReference] = $this->parseReference($railReference);
         $stripe = new StripeClient($this->secretKey);
         $payout = $stripe->payouts->retrieve($payoutReference, [], ['stripe_account' => $accountReference]);
-        $transferReference = trim((string) ($payout->metadata['platform_transfer_id'] ?? ''));
+        $transferReference = trim(is_string($payout->metadata['platform_transfer_id'] ?? null) ? $payout->metadata['platform_transfer_id'] : '');
         if ('' === $transferReference) {
             throw new \DomainException('Stripe payout is missing its platform transfer reference.');
         }

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Service\Placement\Retail;
 
-use App\Cruding\Dto\Entrypoint\CrudServiceContextDTO;
+use App\Cruding\DTO\Entrypoint\CrudServiceContextDTO;
 use App\Cruding\Factory\Resource\CrudResourceContractFactory;
 use App\Cruding\Provider\CrudPageDefinitionProvider;
-use App\Cruding\Value\Resource\CrudResourceContract;
+use App\Cruding\ValueObject\Resource\CrudResourceContract;
 use App\Dto\Placement\Retail\RetailPlacementReviewFormData;
 use App\Form\Placement\Retail\RetailPlacementReviewType;
 use App\Retailing\Entity\Retail\RetailEntity;
@@ -63,7 +63,7 @@ final readonly class RetailPlacementReviewService
         $data->title = $retail->getTitle();
         $data->kind = $retail->getKind()->label();
         $data->catalog = $retail->getCatalogCode() ?? '';
-        $data->typePath = $retail->getTypePath() ?? '';
+        $data->typePath = '';
         $data->location = null === $retail->getLocationProfile() ? 'Not required' : $this->encoded($retail->getLocationProfile());
         $data->fulfillment = $this->encoded($retail->getFulfillmentProfile());
         $data->pricing = $this->encoded($retail->getPricingProfile());

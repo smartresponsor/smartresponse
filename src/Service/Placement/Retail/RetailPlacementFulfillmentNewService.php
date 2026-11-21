@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Service\Placement\Retail;
 
-use App\Cruding\Dto\Entrypoint\CrudServiceContextDTO;
+use App\Cruding\DTO\Entrypoint\CrudServiceContextDTO;
 use App\Cruding\Factory\Resource\CrudResourceContractFactory;
 use App\Cruding\Provider\CrudPageDefinitionProvider;
-use App\Cruding\Value\Resource\CrudResourceContract;
+use App\Cruding\ValueObject\Resource\CrudResourceContract;
 use App\Dto\Placement\Retail\RetailPlacementFulfillmentFormData;
 use App\Form\Placement\Retail\RetailPlacementFulfillmentType;
 use App\Retailing\Entity\Retail\RetailEntity;

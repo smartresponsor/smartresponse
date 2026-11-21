@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Provider\Cart;
 
+use App\Carting\DTO\CartAvailabilityResultDTO;
 use App\Carting\ServiceInterface\CartAvailabilityCheckerInterface;
 use App\Carting\ServiceInterface\CartOfferProviderInterface;
 use App\Carting\Snapshot\CartOfferSnapshot;
@@ -26,17 +27,17 @@ final readonly class CartCatalogOfferProvider implements CartOfferProviderInterf
         }
 
         $price = $offer['price'] ?? null;
-        if (!is_float($price) && !is_int($price)) {
+        if (!is_float($price)) {
             throw new \LogicException(sprintf('Catalog offer "%s" does not have an authoritative price.', $offerReference));
         }
 
-        if (!$this->isAvailable($offerReference, $quantity)) {
+        if (!$this->checkAvailability($offerReference, $quantity)->available) {
             throw new \LogicException(sprintf('Catalog offer "%s" is unavailable in quantity %d.', $offerReference, $quantity));
         }
 
         $brand = trim((string) ($offer['brand'] ?? ''));
         $title = '' !== $brand ? sprintf('%s — %s', $brand, $offerReference) : $offerReference;
-        $currencyCode = strtoupper(trim((string) ($offer['currencyCode'] ?? $offer['currency'] ?? 'USD')));
+        $currencyCode = strtoupper(trim((string) 'USD'));
         $factor = $this->currencyPrecisionResolver->factorFor($currencyCode);
 
         return new CartOfferSnapshot(
@@ -52,19 +53,26 @@ final readonly class CartCatalogOfferProvider implements CartOfferProviderInterf
         );
     }
 
-    public function isAvailable(string $offerReference, int $quantity): bool
+    public function checkAvailability(string $offerReference, int $quantity): CartAvailabilityResultDTO
     {
         if ($quantity < 1) {
-            return false;
+            return new CartAvailabilityResultDTO(false, null, $offerReference);
         }
 
         $offer = $this->catalogRepository->find($offerReference);
         if (null === $offer || null === ($offer['price'] ?? null)) {
-            return false;
+            return new CartAvailabilityResultDTO(false, null, $offerReference);
         }
 
         $stock = $offer['stock'] ?? null;
+        $availableQuantity = null === $stock ? null : max(0, $stock);
+        $available = null === $stock || $stock >= $quantity;
 
-        return null === $stock || (is_int($stock) && $stock >= $quantity);
+        return new CartAvailabilityResultDTO($available, $availableQuantity, $offerReference);
+    }
+
+    public function isAvailable(string $offerReference, int $quantity): bool
+    {
+        return $this->checkAvailability($offerReference, $quantity)->available;
     }
 }

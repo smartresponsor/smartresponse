@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\Service\Paying;
 
-use App\Paying\ServiceInterface\PayoutRailInterface;
-use App\Paying\Value\PayoutDestination;
+use App\Paying\ServiceInterface\PaymentPayoutRailInterface;
+use App\Paying\ValueObject\PaymentPayoutDestination;
 
-final class PaymentDemoPayoutRailService implements PayoutRailInterface
+final class PaymentDemoPayoutRailService implements PaymentPayoutRailInterface
 {
     private const string REFERENCE_PREFIX = 'demo-payout:';
 
-    public function supports(PayoutDestination $destination): bool
+    public function supports(PaymentPayoutDestination $destination): bool
     {
         return 'demo' === $destination->provider;
     }
 
-    public function submit(PayoutDestination $destination, int $amountMinor, string $currency, string $idempotencyKey): string
+    public function submit(PaymentPayoutDestination $destination, int $amountMinor, string $currency, string $idempotencyKey): string
     {
         $currency = strtoupper(trim($currency));
         $idempotencyKey = trim($idempotencyKey);
