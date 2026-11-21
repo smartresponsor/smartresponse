@@ -19,30 +19,47 @@
     "file": "assets/primeicons-C6QP2o4f.woff2",
     "src": "../../node_modules/primeicons/fonts/primeicons.woff2"
   },
-  "_SwapOutlined-B8x4Xis5.js": {
-    "file": "chunks/SwapOutlined-B8x4Xis5.js",
+  "_SwapOutlined-DEWLNCeg.js": {
+    "file": "chunks/SwapOutlined-DEWLNCeg.js",
     "name": "SwapOutlined",
     "imports": [
-      "_navigation-0yh54Fjz.js",
-      "src/provider/providers/antd-pro.tsx"
+      "_canonical-providers.interfacing-interface-ui--ncl2iwp.js",
+      "_index-SgicUyiM.js"
     ]
   },
-  "_navigation-0yh54Fjz.js": {
-    "file": "chunks/navigation-0yh54Fjz.js",
-    "name": "navigation",
+  "_canonical-providers.interfacing-interface-ui--ncl2iwp.js": {
+    "file": "chunks/canonical-providers.interfacing-interface-ui--ncl2iwp.js",
+    "name": "canonical-providers.interfacing-interface-ui",
     "imports": [
-      "_registry-V5OFkfe5.js"
+      "_registry-DkcD6j1E.js"
+    ],
+    "css": [
+      "assets/canonical-providers.css"
     ]
   },
-  "_registry-V5OFkfe5.js": {
-    "file": "chunks/registry-V5OFkfe5.js",
+  "_index-SgicUyiM.js": {
+    "file": "chunks/index-SgicUyiM.js",
+    "name": "index",
+    "imports": [
+      "_canonical-providers.interfacing-interface-ui--ncl2iwp.js"
+    ]
+  },
+  "_registry-DkcD6j1E.js": {
+    "file": "chunks/registry-DkcD6j1E.js",
     "name": "registry"
   },
-  "_workbench-CCEbgzjT.js": {
-    "file": "chunks/workbench-CCEbgzjT.js",
+  "_timeline.esm-C1OtN0Ii.js": {
+    "file": "chunks/timeline.esm-C1OtN0Ii.js",
+    "name": "timeline.esm",
+    "imports": [
+      "_canonical-providers.interfacing-interface-ui--ncl2iwp.js"
+    ]
+  },
+  "_workbench-C9fJXG-3.js": {
+    "file": "chunks/workbench-C9fJXG-3.js",
     "name": "workbench",
     "imports": [
-      "_registry-V5OFkfe5.js"
+      "_registry-DkcD6j1E.js"
     ]
   },
   "src/provider/canonical-providers.ts": {
@@ -51,31 +68,27 @@
     "src": "src/provider/canonical-providers.ts",
     "isEntry": true,
     "imports": [
-      "src/provider/provider-registry.ts",
-      "src/provider/providers/antd-pro.tsx",
-      "src/provider/providers/primereact.tsx",
-      "_registry-V5OFkfe5.js",
-      "_navigation-0yh54Fjz.js",
-      "_workbench-CCEbgzjT.js"
+      "_registry-DkcD6j1E.js",
+      "_index-SgicUyiM.js",
+      "_canonical-providers.interfacing-interface-ui--ncl2iwp.js",
+      "_timeline.esm-C1OtN0Ii.js",
+      "_workbench-C9fJXG-3.js"
     ],
-    "css": [
-      "assets/canonical-providers.css"
+    "dynamicImports": [
+      "src/provider/component/antd-pro-workbench.tsx"
     ]
   },
   "src/provider/component/antd-pro-workbench.tsx": {
-    "file": "chunks/antd-pro-workbench-Ccq7xu1d.js",
+    "file": "chunks/antd-pro-workbench-CWGKfrhf.js",
     "name": "antd-pro-workbench",
     "src": "src/provider/component/antd-pro-workbench.tsx",
     "isDynamicEntry": true,
     "imports": [
-      "_navigation-0yh54Fjz.js",
-      "_registry-V5OFkfe5.js",
-      "_workbench-CCEbgzjT.js",
-      "src/provider/providers/antd-pro.tsx",
-      "_SwapOutlined-B8x4Xis5.js"
-    ],
-    "css": [
-      "assets/canonical-providers.css"
+      "_canonical-providers.interfacing-interface-ui--ncl2iwp.js",
+      "_registry-DkcD6j1E.js",
+      "_workbench-C9fJXG-3.js",
+      "_index-SgicUyiM.js",
+      "_SwapOutlined-DEWLNCeg.js"
     ]
   },
   "src/provider/provider-registry.ts": {
@@ -84,7 +97,7 @@
     "src": "src/provider/provider-registry.ts",
     "isEntry": true,
     "imports": [
-      "_registry-V5OFkfe5.js"
+      "_registry-DkcD6j1E.js"
     ]
   },
   "src/provider/providers/antd-pro.tsx": {
@@ -93,14 +106,12 @@
     "src": "src/provider/providers/antd-pro.tsx",
     "isEntry": true,
     "imports": [
-      "_navigation-0yh54Fjz.js",
-      "_registry-V5OFkfe5.js"
+      "_index-SgicUyiM.js",
+      "_canonical-providers.interfacing-interface-ui--ncl2iwp.js",
+      "_registry-DkcD6j1E.js"
     ],
     "dynamicImports": [
       "src/provider/component/antd-pro-workbench.tsx"
-    ],
-    "css": [
-      "assets/canonical-providers.css"
     ]
   },
   "src/provider/providers/primereact.tsx": {
@@ -109,12 +120,10 @@
     "src": "src/provider/providers/primereact.tsx",
     "isEntry": true,
     "imports": [
-      "_navigation-0yh54Fjz.js",
-      "_registry-V5OFkfe5.js",
-      "_workbench-CCEbgzjT.js"
-    ],
-    "css": [
-      "assets/canonical-providers.css"
+      "_canonical-providers.interfacing-interface-ui--ncl2iwp.js",
+      "_timeline.esm-C1OtN0Ii.js",
+      "_registry-DkcD6j1E.js",
+      "_workbench-C9fJXG-3.js"
     ]
   },
   "src/provider/runtime.ts": {
@@ -123,17 +132,16 @@
     "src": "src/provider/runtime.ts",
     "isEntry": true,
     "imports": [
-      "src/provider/provider-registry.ts",
-      "src/provider/providers/antd-pro.tsx",
-      "src/provider/providers/primereact.tsx",
-      "_navigation-0yh54Fjz.js",
-      "_SwapOutlined-B8x4Xis5.js",
-      "_registry-V5OFkfe5.js",
-      "_workbench-CCEbgzjT.js"
+      "src/provider/canonical-providers.ts",
+      "_canonical-providers.interfacing-interface-ui--ncl2iwp.js",
+      "_index-SgicUyiM.js",
+      "_SwapOutlined-DEWLNCeg.js",
+      "_registry-DkcD6j1E.js",
+      "_timeline.esm-C1OtN0Ii.js",
+      "_workbench-C9fJXG-3.js"
     ],
     "css": [
-      "assets/runtime.css",
-      "assets/canonical-providers.css"
+      "assets/runtime.css"
     ],
     "assets": [
       "assets/primeicons-DMOk5skT.eot",
