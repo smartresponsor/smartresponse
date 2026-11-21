@@ -1,2 +1,8 @@
-notifying_routes:
-  resource: '../../vendor/smartresponsor/notifying/config/component/routes.yaml'
+notifying_admin_routes:
+  resource: '../../vendor/notifying/notification/config/routes/notification_admin.yaml'
+
+notifying_api_routes:
+  resource: '../../vendor/notifying/notification/config/routes/notification_api.yaml'
+
+notifying_cruding_routes:
+  resource: '../../vendor/notifying/notification/config/routes/notification_cruding.yaml'

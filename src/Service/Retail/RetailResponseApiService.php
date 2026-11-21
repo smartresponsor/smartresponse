@@ -18,7 +18,11 @@ final readonly class RetailResponseApiService
     ) {
     }
 
-    /** @param array<string, mixed> $input */
+    /**
+     * @param array<string, mixed> $input
+     *
+     * @return array<string, mixed>
+     */
     public function saveDraft(string $retailId, string $vendorId, array $input): array
     {
         $retail = $this->customerRequest($retailId);
@@ -41,7 +45,7 @@ final readonly class RetailResponseApiService
             $response->setDescription($this->nullableString($input['description']));
         }
         if (isset($input['pricingProfile']) && is_array($input['pricingProfile'])) {
-            $response->setPricingProfile($this->pricingProfile($input['pricingProfile'], $retail->getCurrency()));
+            $response->setPricingProfile($this->pricingProfile($this->stringKeyedProfile($input['pricingProfile']), $retail->getCurrency()));
         }
         foreach (['fulfillmentProfile', 'availabilityProfile', 'locationProfile'] as $key) {
             if (!array_key_exists($key, $input)) {
@@ -61,6 +65,7 @@ final readonly class RetailResponseApiService
         return $this->data($response);
     }
 
+    /** @return array<string, mixed> */
     public function submit(string $responseId, string $vendorId): array
     {
         $response = $this->response($responseId);
@@ -87,10 +92,11 @@ final readonly class RetailResponseApiService
 
         return array_values(array_map(
             fn (RetailResponseEntity $response): array => $this->data($response),
-            array_filter($responses, static fn (mixed $response): bool => $response instanceof RetailResponseEntity && 'draft' !== $response->getStatus()),
+            array_filter($responses, static fn (RetailResponseEntity $response): bool => 'draft' !== $response->getStatus()),
         ));
     }
 
+    /** @return array<string, mixed> */
     public function accept(string $responseId, string $customerId): array
     {
         $response = $this->response($responseId);
@@ -139,22 +145,26 @@ final readonly class RetailResponseApiService
 
     private function vendorService(mixed $serviceId, string $vendorId, RetailEntity $request): ?RetailEntity
     {
-        if (null === $serviceId || '' === trim((string) $serviceId)) {
+        if (null === $serviceId || '' === trim(is_scalar($serviceId) ? (string) $serviceId : '')) {
             return null;
         }
-        $id = trim((string) $serviceId);
+        $id = trim(is_scalar($serviceId) ? (string) $serviceId : '');
         if (!ctype_digit($id) || (int) $id <= 0) {
             throw new \InvalidArgumentException('serviceId must be a positive numeric identifier.');
         }
         $service = $this->manager()->getRepository(RetailEntity::class)->find((int) $id);
-        if (!$service instanceof RetailEntity || 'service' !== $service->getKind()->value || 'vendor' !== $service->getOwnerType() || $service->getOwner() !== $vendorId || $service->getTypePath() !== $request->getTypePath()) {
+        if (!$service instanceof RetailEntity || 'service' !== $service->getKind()->value || 'vendor' !== $service->getOwnerType() || $service->getOwner() !== $vendorId || $service->getCatalogCode() !== $request->getCatalogCode() || $service->getCategoryId() !== $request->getCategoryId()) {
             throw new \DomainException('Marketplace service was not found in the current vendor and category scope.');
         }
 
         return $service;
     }
 
-    /** @param array<string, mixed> $profile */
+    /**
+     * @param array<string, mixed> $profile
+     *
+     * @return array<string, mixed>
+     */
     private function pricingProfile(array $profile, string $currency): array
     {
         foreach (['amountMinor', 'minimumAmountMinor', 'maximumAmountMinor', 'hourlyAmountMinor', 'depositAmountMinor'] as $key) {
@@ -166,11 +176,12 @@ final readonly class RetailResponseApiService
             }
             $profile[$key] = (int) $profile[$key];
         }
-        $profile['currency'] = strtoupper(trim((string) ($profile['currency'] ?? $currency)));
+        $profile['currency'] = strtoupper(trim(is_string($profile['currency'] ?? null) ? $profile['currency'] : $currency));
 
         return $profile;
     }
 
+    /** @return array<string, mixed>|null */
     private function nullableProfile(mixed $value): ?array
     {
         if (null === $value || [] === $value) {
@@ -180,7 +191,15 @@ final readonly class RetailResponseApiService
             throw new \InvalidArgumentException('Profile value must be a JSON object or null.');
         }
 
-        return $value;
+        return $this->stringKeyedProfile($value);
+    }
+
+    /** @param array<mixed> $profile
+     * @return array<string, mixed>
+     */
+    private function stringKeyedProfile(array $profile): array
+    {
+        return array_filter($profile, static fn (int|string $key): bool => is_string($key), ARRAY_FILTER_USE_KEY);
     }
 
     private function nullableString(mixed $value): ?string
@@ -202,6 +221,7 @@ final readonly class RetailResponseApiService
         return $this->managerRegistry->getManagerForClass(RetailResponseEntity::class) ?? $this->managerRegistry->getManager();
     }
 
+    /** @return array<string, mixed> */
     private function data(RetailResponseEntity $response): array
     {
         return [

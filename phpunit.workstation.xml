@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Opt-in external infrastructure/workstation diagnostics. -->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         colors="true"
+         bootstrap="tests/bootstrap.php"
+         cacheDirectory=".phpunit.cache">
+    <php>
+        <server name="APP_ENV" value="test" force="true"/>
+        <server name="SHELL_VERBOSITY" value="-1"/>
+    </php>
+    <testsuites>
+        <testsuite name="External AI Gateway and workstation diagnostics">
+            <directory>tests/Unit/Ai</directory>
+            <directory>tests/Unit/Mcp</directory>
+            <file>tests/Unit/DoctrineSchemaTablePrefixTest.php</file>
+        </testsuite>
+    </testsuites>
+</phpunit>

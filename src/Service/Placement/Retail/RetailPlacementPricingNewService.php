@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Service\Placement\Retail;
 
-use App\Cruding\Dto\Crud\Entrypoint\CrudServiceContext;
-use App\Cruding\Provider\Crud\CrudPageDefinitionProvider;
-use App\Cruding\Service\Crud\Resource\CrudResourceContractFactory;
-use App\Cruding\Value\Resource\CrudResourceContract;
+use App\Cruding\DTO\Entrypoint\CrudServiceContextDTO;
+use App\Cruding\Factory\Resource\CrudResourceContractFactory;
+use App\Cruding\Provider\CrudPageDefinitionProvider;
+use App\Cruding\ValueObject\Resource\CrudResourceContract;
 use App\Dto\Placement\Retail\RetailPlacementPricingFormData;
 use App\Form\Placement\Retail\RetailPlacementPricingType;
 use App\Retailing\Entity\Retail\RetailEntity;
-use App\Retailing\Service\Pricing\RetailPricingProfileNormalizer;
+use App\Retailing\Normalizer\RetailPricingProfileNormalizer;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -32,17 +32,17 @@ final readonly class RetailPlacementPricingNewService
     ) {
     }
 
-    public function get(CrudServiceContext $context): CrudResourceContract|RedirectResponse
+    public function get(CrudServiceContextDTO $context): CrudResourceContract|RedirectResponse
     {
         return $this->handle($context);
     }
 
-    public function post(CrudServiceContext $context): CrudResourceContract|RedirectResponse
+    public function post(CrudServiceContextDTO $context): CrudResourceContract|RedirectResponse
     {
         return $this->handle($context);
     }
 
-    private function handle(CrudServiceContext $context): CrudResourceContract|RedirectResponse
+    private function handle(CrudServiceContextDTO $context): CrudResourceContract|RedirectResponse
     {
         $placement = $this->placement($context);
         if (null === $placement) {
@@ -100,7 +100,7 @@ final readonly class RetailPlacementPricingNewService
     {
         return match ($retail->getKind()->value) {
             'service', 'goods' => 'fixed',
-            'task', 'project' => 'budget',
+            'task' => 'budget',
             default => 'fixed',
         };
     }
@@ -117,7 +117,7 @@ final readonly class RetailPlacementPricingNewService
     }
 
     /** @return array{retailId: string, vendorId: string}|null */
-    private function placement(CrudServiceContext $context): ?array
+    private function placement(CrudServiceContextDTO $context): ?array
     {
         if (!$context->request->hasSession()) {
             return null;

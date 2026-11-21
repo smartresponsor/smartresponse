@@ -48,7 +48,7 @@ final readonly class WithdrawalSettlementService
         }
 
         $matches = $this->entityManager->getRepository(Withdrawal::class)->findBy(['railReference' => $railReference]);
-        if (1 !== count($matches) || !$matches[0] instanceof Withdrawal) {
+        if (1 !== count($matches)) {
             throw new \DomainException('Withdrawal rail reference must resolve to exactly one withdrawal.');
         }
 

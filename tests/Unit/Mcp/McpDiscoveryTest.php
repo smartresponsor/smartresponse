@@ -19,7 +19,15 @@ final class McpDiscoveryTest extends TestCase
         self::assertIsArray($projectsPayload, $listProjects);
         self::assertIsArray($statusPayload, $indexStatus);
 
-        $projectNames = array_map(static fn (array $project): string => $project['name'] ?? '', $projectsPayload['projects'] ?? []);
+        $projects = $projectsPayload['projects'] ?? null;
+        self::assertIsArray($projects);
+        $projectNames = [];
+        foreach ($projects as $project) {
+            self::assertIsArray($project);
+            $name = $project['name'] ?? null;
+            self::assertIsString($name);
+            $projectNames[] = $name;
+        }
 
         self::assertContains('D-PhpstormProjects-www', $projectNames, $listProjects);
         self::assertSame('D-PhpstormProjects-www', $statusPayload['project'] ?? null, $indexStatus);

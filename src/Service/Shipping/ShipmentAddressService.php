@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Service\Shipping;
 
-use App\Accessing\Entity\AccessEntity;
+use App\Accessing\Entity\Access\AccessEntity;
 use App\Addressing\EntityInterface\Record\AddressInterface;
 use App\Addressing\Service\Application\AddressReadService;
-use App\Shipping\ServiceInterface\Shipping\ShipmentServiceInterface;
+use App\Shipping\ServiceInterface\ShipmentServiceInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 
 final readonly class ShipmentAddressService implements ShipmentServiceInterface
@@ -19,7 +19,7 @@ final readonly class ShipmentAddressService implements ShipmentServiceInterface
     ) {
     }
 
-    public function create(string $tenantId, string $vendorId, string $orderId, array $payload): array
+    public function create(string $vendorId, string $orderId, array $payload): array
     {
         $originAddressId = $this->addressId($payload, 'originAddressId');
         $destinationAddressId = $this->addressId($payload, 'destinationAddressId');
@@ -44,7 +44,7 @@ final readonly class ShipmentAddressService implements ShipmentServiceInterface
             'destination' => $this->immutableSnapshot($destination),
         ];
 
-        return $this->inner->create($tenantId, $vendorId, $orderId, $payload);
+        return $this->inner->create($vendorId, $orderId, $payload);
     }
 
     public function get(string $shipmentId): array

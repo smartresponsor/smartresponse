@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\ObjectMeta;
 
-use App\Cruding\ServiceInterface\Crud\CrudFormHandlerInterface;
+use App\Cruding\ServiceInterface\CrudFormHandlerInterface;
 use App\Manager\ObjectMeta\ObjectVisibilityManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -46,10 +46,12 @@ final class ObjectVisibilityManagerTest extends TestCase
 
         $context = $manager->inspect($object);
 
-        self::assertTrue($context->visible);
-        self::assertTrue($context->published);
-        self::assertFalse($context->archived);
-        self::assertFalse($context->draft);
+        self::assertSame([
+            'visible' => true,
+            'published' => true,
+            'archived' => false,
+            'draft' => false,
+        ], get_object_vars($context));
     }
 
     public function testApplyUsesConfigDrivenTransitionAndFlushes(): void
@@ -102,8 +104,9 @@ final class ObjectVisibilityManagerTest extends TestCase
 
         $context = $manager->apply($object, 'publish');
 
-        self::assertTrue($context->published);
-        self::assertTrue($context->visible);
+        $state = get_object_vars($context);
+        self::assertTrue($state['published']);
+        self::assertTrue($state['visible']);
     }
 
     public function testApplyThrowsForUnsupportedTransition(): void

@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace App\Service\Withdrawing;
 
-use App\Paying\ServiceInterface\PayoutRailInterface;
-use App\Paying\Value\PayoutDestination;
+use App\Paying\ServiceInterface\PaymentPayoutRailInterface;
+use App\Paying\ValueObject\PaymentPayoutDestination;
 use App\Vendoring\Entity\Vendor\VendorPayoutAccountEntity;
-use App\Walleting\Entity\PaymentInstrument;
-use App\Walleting\Enum\PaymentInstrumentStatus;
+use App\Walleting\Entity\WalletPaymentInstrument as PaymentInstrument;
+use App\Walleting\Enum\WalletPaymentInstrumentStatus as PaymentInstrumentStatus;
 use App\Withdrawing\ServiceInterface\WithdrawalRailServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
 final class WithdrawalPaymentRailService implements WithdrawalRailServiceInterface
 {
-    /** @var list<PayoutRailInterface> */
+    /** @var list<PaymentPayoutRailInterface> */
     private array $rails = [];
 
-    /** @param iterable<PayoutRailInterface> $rails */
+    /** @param iterable<PaymentPayoutRailInterface> $rails */
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         iterable $rails,
@@ -70,7 +70,7 @@ final class WithdrawalPaymentRailService implements WithdrawalRailServiceInterfa
         throw new \DomainException('No Paying payout rail supports the withdrawal rail reference.');
     }
 
-    private function destination(string $destinationReference, string $currency): PayoutDestination
+    private function destination(string $destinationReference, string $currency): PaymentPayoutDestination
     {
         $id = substr($destinationReference, strlen('payment-instrument:'));
         if ('' === $id) {
@@ -93,7 +93,7 @@ final class WithdrawalPaymentRailService implements WithdrawalRailServiceInterfa
                 'provider' => $instrument->provider(),
                 'active' => true,
             ]);
-            if (1 !== count($accounts) || !$accounts[0] instanceof VendorPayoutAccountEntity) {
+            if (1 !== count($accounts)) {
                 throw new \DomainException('Vendor must expose exactly one active payout account for the selected provider.');
             }
             $account = $accounts[0];
@@ -103,7 +103,7 @@ final class WithdrawalPaymentRailService implements WithdrawalRailServiceInterfa
             $connectedAccountReference = $account->accountRef;
         }
 
-        return new PayoutDestination(
+        return new PaymentPayoutDestination(
             $instrument->provider(),
             $instrument->type()->value,
             $connectedAccountReference,

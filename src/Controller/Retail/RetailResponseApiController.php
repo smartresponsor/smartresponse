@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller\Retail;
 
-use App\Accessing\Entity\AccessEntity;
+use App\Accessing\Entity\Access\AccessEntity;
 use App\Service\Retail\RetailResponseApiService;
 use App\Vendoring\Entity\Vendor\VendorEntity;
-use App\Vendoring\RepositoryInterface\Vendor\VendorRepositoryInterface;
+use App\Vendoring\RepositoryInterface\VendorRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -69,7 +69,7 @@ final class RetailResponseApiController extends AbstractController
         return $this->execute(fn (): array => $this->responses->accept($responseId, $customerId));
     }
 
-    /** @param callable(): array<string, mixed> $operation */
+    /** @param callable(): array<mixed> $operation */
     private function execute(callable $operation): JsonResponse
     {
         try {
@@ -111,10 +111,11 @@ final class RetailResponseApiController extends AbstractController
     private function payload(Request $request): array
     {
         $payload = json_decode($request->getContent(), true);
-        if (!is_array($payload)) {
+        if (!is_array($payload) || array_is_list($payload)) {
             throw new \InvalidArgumentException('Request body must be a JSON object.');
         }
 
+        /* @var array<string, mixed> $payload */
         return $payload;
     }
 }

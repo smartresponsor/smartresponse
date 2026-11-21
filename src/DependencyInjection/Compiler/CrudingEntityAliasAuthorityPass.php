@@ -16,7 +16,12 @@ final readonly class CrudingEntityAliasAuthorityPass implements CompilerPassInte
             return;
         }
 
-        $configPath = rtrim((string) $container->getParameter('kernel.project_dir'), '/\\').'/config/packages/cruding.yaml';
+        $projectDir = $container->getParameter('kernel.project_dir');
+        if (!is_string($projectDir) || '' === trim($projectDir)) {
+            return;
+        }
+
+        $configPath = rtrim($projectDir, '/\\').'/config/packages/cruding.yaml';
         if (!is_file($configPath)) {
             return;
         }

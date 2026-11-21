@@ -1,0 +1,8 @@
+profiles:
+  default_passthrough:
+    priority: -1000
+    match:
+      token: host
+      operator: exists
+    bootstrap: {}
+    runtime: {}

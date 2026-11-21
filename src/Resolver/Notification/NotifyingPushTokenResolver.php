@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Resolver\Notification;
 
-use App\Delivering\Exception\DeliveringPermanentTransportException;
-use App\Delivering\ServiceInterface\Command\Delivery\DeliveringPushTokenResolverInterface;
+use App\Delivering\Exception\DeliveryPermanentTransportException;
+use App\Delivering\ResolverInterface\Delivery\DeliveryPushTokenResolverInterface;
 use App\Notifying\Service\NotificationSubscriptionService;
 
-final readonly class NotifyingPushTokenResolver implements DeliveringPushTokenResolverInterface
+final readonly class NotifyingPushTokenResolver implements DeliveryPushTokenResolverInterface
 {
     public function __construct(private NotificationSubscriptionService $subscriptionService)
     {
@@ -18,7 +18,7 @@ final readonly class NotifyingPushTokenResolver implements DeliveringPushTokenRe
     {
         $token = $this->subscriptionService->resolveActiveToken($tokenHash, $platform, $appKey);
         if (null === $token) {
-            throw new DeliveringPermanentTransportException('Active push subscription token cannot be resolved.');
+            throw new DeliveryPermanentTransportException('Active push subscription token cannot be resolved.');
         }
 
         return $token;

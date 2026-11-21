@@ -52,21 +52,15 @@ final readonly class CatalogContextTreeProjectionProvider implements AppContextT
             [ArrayParameterType::INTEGER],
         );
 
-        $categoriesByCatalog = [];
-        foreach ($categoryRows as $categoryRow) {
-            $catalogId = (int) $categoryRow['catalog_id'];
-            $categoryId = (int) $categoryRow['id'];
-            $categoriesByCatalog[$catalogId][] = [
-                'label' => (string) $categoryRow['name_entity'],
-                'href' => '/category/show/'.$categoryId,
-                'children' => [],
-            ];
-        }
+        $categoriesByCatalog = $this->categoriesByCatalog($categoryRows);
 
         $tree = [];
         foreach ($catalogRows as $index => $catalogRow) {
-            $catalogId = (int) ($catalogRow['id'] ?? 0);
-            $catalogLabel = (string) ($catalogRow['title'] ?? $catalogRow['name'] ?? $catalogId);
+            $catalogIdValue = filter_var($catalogRow['id'] ?? null, FILTER_VALIDATE_INT);
+            $catalogId = false === $catalogIdValue ? 0 : (int) $catalogIdValue;
+            $title = $catalogRow['title'] ?? null;
+            $name = $catalogRow['name'] ?? null;
+            $catalogLabel = is_string($title) ? $title : (is_string($name) ? $name : (string) $catalogId);
 
             $tree[] = [
                 'label' => $catalogLabel,
@@ -76,5 +70,33 @@ final readonly class CatalogContextTreeProjectionProvider implements AppContextT
         }
 
         return $tree;
+    }
+
+    /**
+     * @param list<array<string, mixed>> $categoryRows
+     *
+     * @return array<int, list<array<string, mixed>>>
+     */
+    private function categoriesByCatalog(array $categoryRows): array
+    {
+        $categoriesByCatalog = [];
+        foreach ($categoryRows as $categoryRow) {
+            $catalogIdValue = filter_var($categoryRow['catalog_id'] ?? null, FILTER_VALIDATE_INT);
+            $categoryIdValue = filter_var($categoryRow['id'] ?? null, FILTER_VALIDATE_INT);
+            $categoryLabel = $categoryRow['name_entity'] ?? null;
+            if (false === $catalogIdValue || false === $categoryIdValue || !is_string($categoryLabel)) {
+                continue;
+            }
+
+            $catalogId = (int) $catalogIdValue;
+            $categoryId = (int) $categoryIdValue;
+            $categoriesByCatalog[$catalogId][] = [
+                'label' => $categoryLabel,
+                'href' => '/category/show/'.$categoryId,
+                'children' => [],
+            ];
+        }
+
+        return $categoriesByCatalog;
     }
 }

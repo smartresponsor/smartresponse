@@ -239,6 +239,9 @@ final class AppSourceStructureTest extends TestCase
             \RecursiveIteratorIterator::CHILD_FIRST,
         );
         foreach ($iterator as $item) {
+            if (!$item instanceof \SplFileInfo) {
+                continue;
+            }
             if ($item->isDir()) {
                 rmdir($item->getPathname());
             } else {

@@ -32,33 +32,71 @@ final class AppUrlAuditRunCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $path = $input->getOption('path');
-        if (is_string($path) && '' !== $path) {
-            $warmupPath = $input->getOption('warmup-path');
-            $result = $this->audit->probePath(
-                $path,
-                max(1, (int) $input->getOption('samples')),
-                max(1, (int) $input->getOption('slow-ms')),
-                is_string($warmupPath) && '' !== $warmupPath ? $warmupPath : null,
-            );
-            $output->writeln(json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR));
+        $samples = $this->positiveInteger($input->getOption('samples'), 1);
+        $slowMs = $this->positiveInteger($input->getOption('slow-ms'), 250);
+        $path = $this->nonEmptyString($input->getOption('path'));
 
-            return [] === ($result['probe']['findings'] ?? []) ? Command::SUCCESS : Command::FAILURE;
+        return null !== $path
+            ? $this->runPathAudit($input, $output, $path, $samples, $slowMs)
+            : $this->runFullAudit($input, $output, $samples, $slowMs);
+    }
+
+    private function runPathAudit(InputInterface $input, OutputInterface $output, string $path, int $samples, int $slowMs): int
+    {
+        $result = $this->audit->probePath(
+            $path,
+            $samples,
+            $slowMs,
+            $this->nonEmptyString($input->getOption('warmup-path')),
+        );
+        $output->writeln(json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR));
+
+        $probe = $result['probe'] ?? null;
+        $findings = is_array($probe) && is_array($probe['findings'] ?? null) ? $probe['findings'] : [];
+
+        return [] === $findings ? Command::SUCCESS : Command::FAILURE;
+    }
+
+    private function runFullAudit(InputInterface $input, OutputInterface $output, int $samples, int $slowMs): int
+    {
+        $report = $this->audit->run(
+            $this->stringOrDefault($input->getOption('base-url'), 'http://127.0.0.1:8000'),
+            $this->positiveInteger($input->getOption('timeout'), 15),
+            $samples,
+            $slowMs,
+        );
+        $runDirectory = $report['runDirectory'] ?? null;
+        $summary = $report['summary'] ?? null;
+        if (!is_string($runDirectory) || !is_array($summary)) {
+            $output->writeln('<error>URL audit returned an invalid report shape.</error>');
+
+            return Command::FAILURE;
         }
 
-        $report = $this->audit->run(
-            (string) $input->getOption('base-url'),
-            (int) $input->getOption('timeout'),
-            max(1, (int) $input->getOption('samples')),
-            max(1, (int) $input->getOption('slow-ms')),
-        );
         $output->writeln(json_encode([
-            'runDirectory' => $report['runDirectory'],
-            'summary' => $report['summary'],
+            'runDirectory' => $runDirectory,
+            'summary' => $summary,
         ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR));
 
-        return $input->getOption('fail-on-findings') && $report['summary']['rootCauses'] > 0
+        $rootCauses = $summary['rootCauses'] ?? 0;
+
+        return true === $input->getOption('fail-on-findings') && is_numeric($rootCauses) && (int) $rootCauses > 0
             ? Command::FAILURE
             : Command::SUCCESS;
+    }
+
+    private function positiveInteger(mixed $value, int $default): int
+    {
+        return is_numeric($value) ? max(1, (int) $value) : $default;
+    }
+
+    private function nonEmptyString(mixed $value): ?string
+    {
+        return is_string($value) && '' !== $value ? $value : null;
+    }
+
+    private function stringOrDefault(mixed $value, string $default): string
+    {
+        return is_string($value) ? $value : $default;
     }
 }

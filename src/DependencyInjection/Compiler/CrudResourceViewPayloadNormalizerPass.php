@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\DependencyInjection\Compiler;
 
 use App\Normalizer\View\CrudResourceViewPayloadNormalizer;
-use App\Viewing\Subscriber\View\ViewKernelViewSubscriber;
+use App\Viewing\EventSubscriber\ViewKernelViewSubscriber;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;

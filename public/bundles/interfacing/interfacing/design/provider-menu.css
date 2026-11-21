@@ -1,3 +1,81 @@
+/* Generic provider-owned context tree contract. */
+.interfacing-context-tree {
+  padding: 8px;
+}
+
+.interfacing-context-tree__list {
+  display: grid;
+  gap: 3px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.interfacing-context-tree__list[data-interfacing-context-tree-level]:not([data-interfacing-context-tree-level="0"]) {
+  margin-left: 14px;
+  padding-left: 8px;
+  border-left: 1px solid var(--interfacing-provider-border, #dfe5ec);
+}
+
+.interfacing-context-tree__node {
+  min-width: 0;
+  margin: 0;
+  border-radius: 8px;
+}
+
+.interfacing-context-tree__summary,
+.interfacing-context-tree__link,
+.interfacing-context-tree__label {
+  width: 100%;
+  min-height: 32px;
+  padding: 6px 9px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 8px;
+  color: var(--interfacing-provider-text-color, #1f2937);
+  font-size: 12px;
+  line-height: 1.35;
+  text-decoration: none;
+}
+
+.interfacing-context-tree__summary {
+  cursor: pointer;
+  font-weight: 600;
+  list-style: none;
+}
+
+.interfacing-context-tree__summary::-webkit-details-marker {
+  display: none;
+}
+
+.interfacing-context-tree__summary:hover,
+.interfacing-context-tree__link:hover {
+  background: rgba(22, 119, 255, 0.08);
+  color: var(--interfacing-provider-accent-color, #1677ff);
+}
+
+.interfacing-context-tree__node.is-active > .interfacing-context-tree__link,
+.interfacing-context-tree__link.is-active {
+  background: rgba(22, 119, 255, 0.12);
+  color: var(--interfacing-provider-accent-color, #1677ff);
+  box-shadow: inset 3px 0 0 var(--interfacing-provider-accent-color, #1677ff);
+}
+
+.interfacing-context-tree__chevron {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 7px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform 120ms ease;
+}
+
+.interfacing-context-tree__branch[open] > .interfacing-context-tree__summary .interfacing-context-tree__chevron {
+  transform: rotate(45deg) translateY(-1px);
+}
+
 /* --------------------------------------------------------------------------
    Provider-owned native menu polish: left/context locations only.
    This layer intentionally stays inside the existing Interfacing baseline

@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace App\DataFixtures;
 
 use App\Vendoring\Entity\Vendor\VendorEntity;
-use App\Walleting\Entity\Account;
-use App\Walleting\Entity\Funding;
-use App\Walleting\Entity\LedgerTransaction;
-use App\Walleting\Entity\PaymentInstrument;
 use App\Walleting\Entity\Wallet;
-use App\Walleting\Enum\AccountCategory;
-use App\Walleting\Enum\PaymentInstrumentType;
-use App\Walleting\Enum\TransactionType;
-use App\Walleting\Ledger\PostingInstruction;
-use App\Walleting\Service\PostingService;
+use App\Walleting\Entity\WalletAccount;
+use App\Walleting\Entity\WalletFunding;
+use App\Walleting\Entity\WalletLedgerTransaction;
+use App\Walleting\Entity\WalletPaymentInstrument;
+use App\Walleting\Enum\WalletAccountCategory;
+use App\Walleting\Enum\WalletPaymentInstrumentType;
+use App\Walleting\Enum\WalletTransactionType;
+use App\Walleting\Service\WalletPostingService;
+use App\Walleting\ValueObject\Ledger\WalletPostingInstruction;
 use App\Withdrawing\Entity\Withdrawal;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
@@ -25,7 +25,7 @@ final class WalletDemoFixtures extends Fixture implements FixtureGroupInterface
     private const int ACTOR_USER_ID = 1;
     private const string CURRENCY = 'USD';
 
-    public function __construct(private readonly PostingService $postingService)
+    public function __construct(private readonly WalletPostingService $postingService)
     {
     }
 
@@ -48,23 +48,23 @@ final class WalletDemoFixtures extends Fixture implements FixtureGroupInterface
             $manager->persist($wallet);
         }
 
-        $available = $this->account($manager, $wallet, 'available', AccountCategory::Asset);
-        $reserved = $this->account($manager, $wallet, 'reserved', AccountCategory::Reserve);
-        $clearing = $this->account($manager, $wallet, 'demo-clearing', AccountCategory::Clearing);
+        $available = $this->account($manager, $wallet, 'available', WalletAccountCategory::Asset);
+        $reserved = $this->account($manager, $wallet, 'reserved', WalletAccountCategory::Reserve);
+        $clearing = $this->account($manager, $wallet, 'demo-clearing', WalletAccountCategory::Clearing);
         $instrument = $this->paymentInstrument($manager, $wallet, $vendorId);
         $manager->flush();
 
-        $funding = $manager->getRepository(Funding::class)->findOneBy(['idempotencyKey' => 'wallet-demo-v1-funding']);
-        if (!$funding instanceof Funding) {
-            $funding = new Funding($wallet, $instrument, 125_000, self::CURRENCY, 'wallet-demo-v1-funding');
+        $funding = $manager->getRepository(WalletFunding::class)->findOneBy(['idempotencyKey' => 'wallet-demo-v1-funding']);
+        if (!$funding instanceof WalletFunding) {
+            $funding = new WalletFunding($wallet, $instrument, 125_000, self::CURRENCY, 'wallet-demo-v1-funding');
             $funding->start();
             $manager->persist($funding);
             $manager->flush();
 
             $transaction = $this->postingService->post(
-                TransactionType::Credit,
+                WalletTransactionType::Credit,
                 'wallet-demo-v1-funding-ledger',
-                [new PostingInstruction($available, 125_000), new PostingInstruction($clearing, -125_000)],
+                [new WalletPostingInstruction($available, 125_000), new WalletPostingInstruction($clearing, -125_000)],
                 ['fixture' => 'wallet-demo', 'operation' => 'funding'],
             );
             $funding->succeed($transaction);
@@ -74,8 +74,8 @@ final class WalletDemoFixtures extends Fixture implements FixtureGroupInterface
         $this->postOnce(
             $manager,
             'wallet-demo-v1-reserve-ledger',
-            TransactionType::Reserve,
-            [new PostingInstruction($available, -15_000), new PostingInstruction($reserved, 15_000)],
+            WalletTransactionType::Reserve,
+            [new WalletPostingInstruction($available, -15_000), new WalletPostingInstruction($reserved, 15_000)],
             ['fixture' => 'wallet-demo', 'operation' => 'reserve'],
         );
 
@@ -101,44 +101,47 @@ final class WalletDemoFixtures extends Fixture implements FixtureGroupInterface
         $this->postOnce(
             $manager,
             'wallet-demo-v1-withdrawal-ledger',
-            TransactionType::Debit,
-            [new PostingInstruction($available, -7_500), new PostingInstruction($clearing, 7_500)],
+            WalletTransactionType::Debit,
+            [new WalletPostingInstruction($available, -7_500), new WalletPostingInstruction($clearing, 7_500)],
             ['fixture' => 'wallet-demo', 'operation' => 'withdrawal'],
         );
     }
 
-    private function account(ObjectManager $manager, Wallet $wallet, string $code, AccountCategory $category): Account
+    private function account(ObjectManager $manager, Wallet $wallet, string $code, WalletAccountCategory $category): WalletAccount
     {
-        $account = $manager->getRepository(Account::class)->findOneBy(['wallet' => $wallet, 'code' => $code, 'currency' => self::CURRENCY]);
-        if ($account instanceof Account) {
+        $account = $manager->getRepository(WalletAccount::class)->findOneBy(['wallet' => $wallet, 'code' => $code, 'currency' => self::CURRENCY]);
+        if ($account instanceof WalletAccount) {
             return $account;
         }
 
-        $account = new Account($wallet, $code, self::CURRENCY, $category);
+        $account = new WalletAccount($wallet, $code, self::CURRENCY, $category);
         $manager->persist($account);
 
         return $account;
     }
 
-    private function paymentInstrument(ObjectManager $manager, Wallet $wallet, int $vendorId): PaymentInstrument
+    private function paymentInstrument(ObjectManager $manager, Wallet $wallet, int $vendorId): WalletPaymentInstrument
     {
         $reference = 'wallet-demo-vendor-'.$vendorId.'-bank';
-        $instrument = $manager->getRepository(PaymentInstrument::class)->findOneBy(['provider' => 'demo', 'providerReference' => $reference]);
-        if ($instrument instanceof PaymentInstrument) {
+        $instrument = $manager->getRepository(WalletPaymentInstrument::class)->findOneBy(['provider' => 'demo', 'providerReference' => $reference]);
+        if ($instrument instanceof WalletPaymentInstrument) {
             return $instrument;
         }
 
-        $instrument = new PaymentInstrument($wallet, PaymentInstrumentType::BankAccount, 'demo', $reference, 'Demo checking •••• 4242');
+        $instrument = new WalletPaymentInstrument($wallet, WalletPaymentInstrumentType::BankAccount, 'demo', $reference, 'Demo checking •••• 4242');
         $manager->persist($instrument);
 
         return $instrument;
     }
 
-    /** @param non-empty-list<PostingInstruction> $instructions */
-    private function postOnce(ObjectManager $manager, string $idempotencyKey, TransactionType $type, array $instructions, array $metadata): LedgerTransaction
+    /**
+     * @param non-empty-list<WalletPostingInstruction> $instructions
+     * @param array<string, mixed>                     $metadata
+     */
+    private function postOnce(ObjectManager $manager, string $idempotencyKey, WalletTransactionType $type, array $instructions, array $metadata): WalletLedgerTransaction
     {
-        $existing = $manager->getRepository(LedgerTransaction::class)->findOneBy(['idempotencyKey' => $idempotencyKey]);
-        if ($existing instanceof LedgerTransaction) {
+        $existing = $manager->getRepository(WalletLedgerTransaction::class)->findOneBy(['idempotencyKey' => $idempotencyKey]);
+        if ($existing instanceof WalletLedgerTransaction) {
             return $existing;
         }
 

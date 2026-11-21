@@ -49,19 +49,21 @@ final class SiblingFixturesRegistrationTest extends TestCase
         (new RegisterSiblingFixturesPass())->process($container);
 
         foreach ([
-            'App\\Analysing\\DataFixtures\\AnalysingDemoFixtures',
+            'App\\Analysing\\DataFixtures\\AnalyticsAnalysingDemoFixtures',
             'App\\Billing\\DataFixtures\\BillingDemoFixtures',
-            'App\\Commissioning\\DataFixtures\\CommissioningDemoFixtures',
-            'App\\Exchanging\\DataFixtures\\ExchangingDemoFixtures',
+            // Commissioning owns a deterministic fixture helper, not a Doctrine FixtureInterface implementation.
+            // Exchanging now owns a deterministic helper outside Doctrine FixturesBundle registration.
             'App\\Localizing\\DataFixtures\\LocaleDemoFixtures',
             'App\\Messaging\\DataFixtures\\MessagingDemoFixtures',
-            'App\\DataFixtures\\OrderDemoFixtures',
+            'App\\Ordering\\DataFixtures\\OrderDemoFixtures',
         ] as $fixtureClass) {
             self::assertTrue($container->hasDefinition($fixtureClass), $fixtureClass);
         }
 
+        self::assertFalse($container->hasDefinition('App\\Commissioning\\DataFixtures\\CommissioningDemoFixtures'));
+        self::assertFalse($container->hasDefinition('App\\Exchanging\\DataFixtures\\ExchangeDemoFixtures'));
         self::assertFalse($container->hasDefinition('App\\Paging\\DataFixtures\\PagingDemoFixtures'));
-        self::assertTrue($container->hasDefinition('App\\Shipping\\DataFixtures\\ShippingDemoFixtures'));
+        self::assertTrue($container->hasDefinition('App\\Shipping\\DataFixtures\\ShipmentShippingFixtures'));
         self::assertFalse($container->hasDefinition('App\\DataFixtures\\GovernanceDemoFixture'));
         self::assertFalse($container->hasDefinition('App\\DataFixtures\\FacetingFixture'));
     }

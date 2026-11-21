@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber\Fact;
 
-use App\Accessing\Entity\AccessEntity;
-use App\Casing\Event\Domain\CaseOpenedEvent;
-use App\Casing\Event\Domain\CaseResolvedEvent;
-use App\Facting\Fact\FactStream;
-use App\ServiceInterface\Fact\FactSubjectCommitterInterface;
+use App\Accessing\Entity\Access\AccessEntity;
+use App\Casing\Event\CaseOpenedEvent;
+use App\Casing\Event\CaseResolvedEvent;
+use App\Facting\ServiceInterface\FactSubjectCommitterInterface;
+use App\Facting\ValueObject\FactStream;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 

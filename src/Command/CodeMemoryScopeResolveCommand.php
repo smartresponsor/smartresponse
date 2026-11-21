@@ -47,7 +47,14 @@ final class CodeMemoryScopeResolveCommand extends Command
 
         $output->writeln($json);
         if (true === $input->getOption('write-cache')) {
-            $cacheFile = $this->writeScopeCache($scope['activeRoot'], $json);
+            $activeRoot = $scope['activeRoot'] ?? null;
+            if (!is_string($activeRoot) || '' === trim($activeRoot)) {
+                $output->writeln('<error>Resolved Code Memory scope does not contain a valid activeRoot.</error>');
+
+                return Command::FAILURE;
+            }
+
+            $cacheFile = $this->writeScopeCache($activeRoot, $json);
             $output->writeln('<info>Wrote generated Code Memory scope cache: '.$cacheFile.'</info>');
         }
 

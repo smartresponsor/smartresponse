@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber\View;
 
-use App\Cruding\Value\Resource\CrudResourceContract;
+use App\Cruding\ValueObject\Resource\CrudResourceContract;
 use App\Normalizer\View\CrudResourceViewPayloadNormalizer;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ViewEvent;

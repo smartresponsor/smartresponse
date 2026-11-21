@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Dto\Runtime;
 
-use App\Domaining\Dto\DomainRuntimeOverlay;
+use App\Domaining\DTO\DomainRuntimeOverlayDTO;
 
 final readonly class AppEffectiveRuntime
 {
@@ -15,10 +15,11 @@ final readonly class AppEffectiveRuntime
         public string $bootstrapOrigin,
         public string $effectiveOrigin,
         public string $fallbackOrigin,
-        public DomainRuntimeOverlay $domainOverlay,
+        public DomainRuntimeOverlayDTO $domainOverlay,
     ) {
     }
 
+    /** @return array<string, mixed> */
     public function toArray(): array
     {
         return [

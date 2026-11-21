@@ -12,9 +12,17 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 $prefix = $argv[1] ?? null;
 $outputPath = null;
 $summaryOnly = false;
+$environment = 'prod';
 foreach (array_slice($argv, 2) as $argument) {
     if ('--summary-only' === $argument) {
         $summaryOnly = true;
+        continue;
+    }
+    if (str_starts_with($argument, '--env=')) {
+        $environment = substr($argument, 6);
+        if (!in_array($environment, ['dev', 'prod', 'test'], true)) {
+            throw new InvalidArgumentException(sprintf('Unsupported environment %s.', $environment));
+        }
         continue;
     }
 
@@ -32,10 +40,10 @@ if (class_exists(Dotenv::class) && is_file($root . '/.env')) {
     (new Dotenv())->usePutenv()->bootEnv($root . '/.env');
 }
 
-$_SERVER['APP_ENV'] = $_ENV['APP_ENV'] = 'prod';
+$_SERVER['APP_ENV'] = $_ENV['APP_ENV'] = $environment;
 $_SERVER['APP_DEBUG'] = $_ENV['APP_DEBUG'] = '0';
 
-$kernel = new Kernel('prod', false);
+$kernel = new Kernel($environment, false);
 $kernel->boot();
 
 try {
@@ -61,11 +69,11 @@ try {
     }
 
     $tool = new SchemaTool($manager);
+    $expectedSchema = $tool->getSchemaFromMetadata($metadata);
     $sql = $tool->getCreateSchemaSql($metadata);
     $projection = implode(";\n", $sql) . ";\n";
 
-    preg_match_all('/CREATE TABLE ([a-zA-Z0-9_]+)/', $projection, $tableMatches);
-    $expectedTables = array_values(array_unique($tableMatches[1] ?? []));
+    $expectedTables = array_values(array_map(static fn ($table): string => $table->getName(), $expectedSchema->getTables()));
     $schemaManager = $manager->getConnection()->createSchemaManager();
     $existingTables = array_map('strtolower', $schemaManager->listTableNames());
     $missingTables = array_values(array_filter($expectedTables, static fn (string $table): bool => !in_array(strtolower($table), $existingTables, true)));
@@ -73,16 +81,28 @@ try {
     if ([] !== $missingTables) {
         fwrite(STDOUT, 'MISSING ' . implode(', ', $missingTables) . "\n");
     }
-    if (!$summaryOnly) {
-        foreach ($expectedTables as $inspectTable) {
-        if (in_array($inspectTable, $existingTables, true)) {
-            $columns = array_map('strtolower', array_keys($schemaManager->listTableColumns($inspectTable)));
-            fwrite(STDOUT, sprintf("COLUMNS %s %s\n", $inspectTable, implode(',', $columns)));
+
+    $missingColumns = [];
+    foreach ($expectedTables as $inspectTable) {
+        if (!in_array(strtolower($inspectTable), $existingTables, true)) {
+            continue;
+        }
+        $actualColumns = array_map(static fn ($column): string => strtolower($column->getName()), $schemaManager->listTableColumns($inspectTable));
+        $expectedColumns = array_map(static fn ($column): string => strtolower($column->getName()), $expectedSchema->getTable($inspectTable)->getColumns());
+        $missingForTable = array_values(array_diff($expectedColumns, $actualColumns));
+        if ([] !== $missingForTable) {
+            $missingColumns[$inspectTable] = $missingForTable;
+        }
+        if (!$summaryOnly) {
+            fwrite(STDOUT, sprintf("COLUMNS %s %s\n", $inspectTable, implode(',', $actualColumns)));
             $indexes = array_map(static fn ($index): string => strtolower($index->getName()), $schemaManager->listTableIndexes($inspectTable));
             fwrite(STDOUT, sprintf("INDEXES %s %s\n", $inspectTable, implode(',', $indexes)));
         }
     }
-
+    $missingColumnCount = array_sum(array_map('count', $missingColumns));
+    fwrite(STDOUT, sprintf("Missing columns in current DB: %d\n", $missingColumnCount));
+    foreach ($missingColumns as $table => $columns) {
+        fwrite(STDOUT, sprintf("MISSING_COLUMNS %s %s\n", $table, implode(',', $columns)));
     }
 
     if (is_string($outputPath) && '' !== trim($outputPath)) {

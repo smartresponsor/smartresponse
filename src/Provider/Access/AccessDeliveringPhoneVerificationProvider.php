@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Provider\Access;
 
 use App\Accessing\ProviderInterface\PhoneVerification\AccessPhoneVerificationProviderInterface;
-use App\Delivering\Message\DeliveringSendSms;
+use App\Delivering\Message\Command\Delivery\DeliverySendSms;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 final readonly class AccessDeliveringPhoneVerificationProvider implements AccessPhoneVerificationProviderInterface
@@ -26,7 +26,7 @@ final readonly class AccessDeliveringPhoneVerificationProvider implements Access
         $normalizedMessage = trim($message);
         $correlationId = $this->correlationId();
 
-        $this->messageBus->dispatch(new DeliveringSendSms(
+        $this->messageBus->dispatch(new DeliverySendSms(
             recipient: $normalizedPhoneNumber,
             body: $normalizedMessage,
             correlationId: $correlationId,

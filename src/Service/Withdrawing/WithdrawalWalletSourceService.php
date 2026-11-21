@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Service\Withdrawing;
 
-use App\Walleting\Entity\Account;
-use App\Walleting\Entity\LedgerTransaction;
-use App\Walleting\Entity\Reservation;
 use App\Walleting\Entity\Wallet;
-use App\Walleting\Enum\AccountCategory;
-use App\Walleting\Ledger\PostingInstruction;
-use App\Walleting\Service\FinancialOperationService;
+use App\Walleting\Entity\WalletAccount as Account;
+use App\Walleting\Entity\WalletLedgerTransaction as LedgerTransaction;
+use App\Walleting\Entity\WalletReservation as Reservation;
+use App\Walleting\Enum\WalletAccountCategory as AccountCategory;
+use App\Walleting\Service\WalletFinancialOperationService as FinancialOperationService;
+use App\Walleting\ValueObject\Ledger\WalletPostingInstruction as PostingInstruction;
 use App\Withdrawing\ServiceInterface\WithdrawalSourceServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -104,6 +104,9 @@ final readonly class WithdrawalWalletSourceService implements WithdrawalSourceSe
         foreach ($original->postings() as $posting) {
             $instructions[] = new PostingInstruction($posting->account(), -$posting->amountMinor());
         }
+        if ([] === $instructions) {
+            throw new \LogicException('Withdrawal capture transaction has no ledger postings to reverse.');
+        }
         $this->financialOperations->reverse($original, $idempotencyKey, $instructions);
     }
 
@@ -134,7 +137,7 @@ final readonly class WithdrawalWalletSourceService implements WithdrawalSourceSe
             'currency' => strtoupper(trim($currency)),
             'category' => $category,
         ]);
-        if (1 !== count($accounts) || !$accounts[0] instanceof Account) {
+        if (1 !== count($accounts)) {
             throw new \DomainException(sprintf('Wallet must expose exactly one %s account for %s withdrawal flow.', $category->value, strtoupper(trim($currency))));
         }
 
