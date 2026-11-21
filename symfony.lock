@@ -49,6 +49,9 @@
     "cataloging/catalog": {
         "version": "dev-master"
     },
+    "collectioning/collection": {
+        "version": "dev-master"
+    },
     "commissioning/commission": {
         "version": "dev-main"
     },
@@ -60,6 +63,9 @@
     },
     "delivering/delivery": {
         "version": "dev-main"
+    },
+    "discovering/discovery": {
+        "version": "dev-master"
     },
     "doctrine/deprecations": {
         "version": "1.1",
@@ -127,6 +133,12 @@
     "exchanging/exchange": {
         "version": "dev-main"
     },
+    "faceting/facet": {
+        "version": "dev-master"
+    },
+    "facting/fact": {
+        "version": "dev-master"
+    },
     "friendsofphp/php-cs-fixer": {
         "version": "3.95",
         "recipe": {
@@ -188,6 +200,12 @@
             "./config/routes/nelmio_api_doc.yaml"
         ]
     },
+    "notifying/notification": {
+        "version": "dev-master"
+    },
+    "observabiliting/observability": {
+        "version": "dev-master"
+    },
     "ordering/order": {
         "version": "dev-master"
     },
@@ -221,8 +239,17 @@
             "./bin/phpunit"
         ]
     },
+    "pricing/price": {
+        "version": "dev-master"
+    },
     "projecting/project": {
         "version": "dev-w48-projecting-app-namespace"
+    },
+    "relating/relation": {
+        "version": "dev-master"
+    },
+    "resolving/resolve": {
+        "version": "dev-master"
     },
     "retailing/retail": {
         "version": "dev-main"
@@ -268,6 +295,12 @@
         "version": "dev-task/walleting-ledger-foundation"
     },
     "smartresponsor/withdrawing": {
+        "version": "dev-master"
+    },
+    "stocking/stock": {
+        "version": "dev-master"
+    },
+    "streaming/stream": {
         "version": "dev-master"
     },
     "stripe/stripe-php": {
@@ -601,6 +634,9 @@
     "symfonycasts/verify-email-bundle": {
         "version": "v1.18.0"
     },
+    "tabling/table": {
+        "version": "dev-master"
+    },
     "tagging/tag": {
         "version": "dev-fix/symfony-native-cutover-defects"
     },
@@ -615,5 +651,8 @@
     },
     "viewing/view": {
         "version": "dev-main"
+    },
+    "walleting/wallet": {
+        "version": "dev-master"
     }
 }

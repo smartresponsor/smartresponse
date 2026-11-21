@@ -13,8 +13,9 @@ imports:
     - { resource: '../vendor/messaging/message/config/services_realtime_qos.yaml' }
     - { resource: '../vendor/messaging/message/config/services_semantic_search_v1.yaml' }
     - { resource: '../vendor/messaging/message/config/services_search_v21.yaml' }
-    - { resource: '../vendor/vendoring/vendor/config/component/optional/attaching_profile_bridge.yaml' }
+    - { resource: '../vendor/vendoring/vendor/config/component/optional/vendor_attaching_profile_bridge.yaml' }
     - { resource: '../vendor/currencing/currency/config/services/currency_services.yaml' }
+    - { resource: '../vendor/stocking/stock/config/services.yaml' }
 
 parameters:
     redis.dsn: 'redis://127.0.0.1:6379/0'
@@ -27,6 +28,12 @@ parameters:
         vendor: vendor
         project: project
         product: product
+    app.crud.attachment_owner_class_by_type:
+        vendor: 'App\Vendoring\Entity\Vendor\VendorEntity'
+        project: 'App\Projecting\Entity\Project\ProjectEntity'
+        message: 'App\Messaging\Entity\Message\MessageEntity'
+        category: 'App\Cataloging\Entity\Catalog\CatalogCategoryEntity'
+        product: 'App\Retailing\Entity\Retail\RetailEntity'
 
     app.object_visibility.transition_map:
         publish:
@@ -74,7 +81,7 @@ services:
     App\Messaging\Service\Moderation\MessageModerationRuleEngineService: ~
     App\Messaging\Service\ACL\MessageAclAuditLoggerService: ~
     App\Messaging\Service\ACL\MessagePermissionEvaluatorService: ~
-    App\Messaging\Service\ACL\MessageScopeResolverService: ~
+    App\Messaging\Resolver\ACL\MessageScopeResolver: ~
     App\Messaging\Service\ACL\MessageRoleAssignerService: ~
     App\Messaging\Service\ACL\MessageAclCacheService: ~
     App\Messaging\Service\Pin\MessagePinService: ~
@@ -83,7 +90,7 @@ services:
         arguments:
             $publishUrl: '%mercure.publish_url%'
             $jwtSecret: '%mercure.jwt_secret%'
-    App\Messaging\Service\Realtime\MessageTopicResolverService: ~
+    App\Messaging\Resolver\Realtime\MessageTopicResolver: ~
     App\Messaging\Service\Realtime\MessagePresenceGatewayService: ~
     App\Messaging\Service\Realtime\MessageRealtimeService: ~
     App\Messaging\Service\Realtime\MessageRetryAckService: ~
@@ -115,7 +122,7 @@ services:
     App\Messaging\Service\Room\MessageModerationService: ~
     App\Messaging\Service\Room\MessageRoomService: ~
     App\Messaging\Service\Room\MessageInviteService: ~
-    App\Messaging\Service\Room\MessageRoomPolicyService: ~
+    App\Messaging\Policy\Room\MessageRoomPolicy: ~
     App\Messaging\Service\Room\MessageUnreadService: ~
     App\Messaging\Service\Thread\MessageReplyService: ~
     App\Messaging\Service\Thread\MessageThreadPermissionService: ~
@@ -130,33 +137,33 @@ services:
     App\Service\Diagnostics\AppRouteAuditService:
         public: true
         tags: ['controller.service_arguments']
-    App\Vendoring\Repository\Vendor\VendorPayoutAccountRepository:
+    App\Vendoring\Repository\VendorPayoutAccountRepository:
         autowire: false
         arguments:
             $registry: '@doctrine'
-    App\Vendoring\Repository\Vendor\VendorPayoutRepository:
+    App\Vendoring\Repository\VendorPayoutRepository:
         autowire: false
         arguments:
             $registry: '@doctrine'
     App\Service\Vendoring\Runtime\Mobile\VendorMobilePayoutShowService:
         public: true
         tags: ['controller.service_arguments']
-    App\Vendoring\Service\Vendor\Profile\VendorProfileHttpService:
+    App\Vendoring\Service\Profile\VendorProfileHttpService:
         public: true
         autowire: true
         autoconfigure: true
         tags: ['controller.service_arguments']
-    App\Vendoring\Service\Vendor\Statement\VendorStatementHttpService:
+    App\Vendoring\Service\Statement\VendorStatementHttpService:
         public: true
         autowire: true
         autoconfigure: true
         tags: ['controller.service_arguments']
-    App\Vendoring\Service\Vendor\Summary\VendorSummaryHttpService:
+    App\Vendoring\Service\Summary\VendorSummaryHttpService:
         public: true
         autowire: true
         autoconfigure: true
         tags: ['controller.service_arguments']
-    App\Vendoring\Service\Vendor\Transaction\VendorTransactionHttpService:
+    App\Vendoring\Service\Transaction\VendorTransactionHttpService:
         public: true
         autowire: true
         autoconfigure: true
@@ -174,6 +181,7 @@ services:
             $fixturesLoader: '@?doctrine.fixtures.loader'
         tags: ['console.command']
     App\Vendoring\DataFixtures\VendorAccessBootstrapFixture: ~
+    App\Ordering\Service\Demo\OrderDemoDataService: ~
     App\Accessing\Service\Http\Api\Access\AccessApiFlowService:
         public: true
         autowire: true
@@ -203,7 +211,7 @@ services:
         autoconfigure: true
     App\Facting\ServiceInterface\FactCurrentSubjectProviderInterface:
         alias: App\Facting\Provider\FactCurrentSubjectProvider
-    App\Delivering\ServiceInterface\Command\Delivery\DeliveryPushTokenResolverInterface:
+    App\Delivering\ResolverInterface\Delivery\DeliveryPushTokenResolverInterface:
         alias: App\Resolver\Notification\NotifyingPushTokenResolver
     App\Cataloging\Controller\Catalog\CatalogCategoryMerchantController:
         public: true
@@ -234,6 +242,12 @@ services:
             $ownerTypeByResourcePath: '%app.crud.attachment_owner_type_by_resource_path%'
         tags: ['cruding.mutation_lifecycle_subscriber']
 
+    App\Provider\Crud\AttachmentLinkOwnershipProvider:
+        arguments:
+            $ownerClassByType: '%app.crud.attachment_owner_class_by_type%'
+        tags:
+            - { name: 'cruding.ownership_provider', priority: 100 }
+
     App\EventSubscriber\Placement\Retail\RetailPlacementOrderLifecycleSubscriber:
         tags: ['cruding.mutation_lifecycle_subscriber']
 
@@ -256,9 +270,9 @@ services:
     App\Locating\Service\Address\Location\AddressParser: ~
     App\Locating\ServiceInterface\Address\Location\AddressParserInterface:
         alias: App\Locating\Service\Address\Location\AddressParser
-    App\Locating\Service\Address\Location\AddressNormalizer: ~
-    App\Locating\ServiceInterface\Address\Location\AddressNormalizerInterface:
-        alias: App\Locating\Service\Address\Location\AddressNormalizer
+    App\Locating\Normalizer\Address\Location\AddressNormalizer: ~
+    App\Locating\NormalizerInterface\Address\Location\AddressNormalizerInterface:
+        alias: App\Locating\Normalizer\Address\Location\AddressNormalizer
     App\Locating\Service\Address\Location\AddressValidator: ~
     App\Locating\ServiceInterface\Address\Location\AddressValidatorInterface:
         alias: App\Locating\Service\Address\Location\AddressValidator
@@ -271,7 +285,7 @@ services:
             $shipmentService: '@App\Service\Shipping\ShipmentAddressService'
 
     navigating.walleting_database_config_debug:
-        alias: App\Navigating\Service\Navigation\Provide\NavigationDatabaseConfigProvideService
+        alias: App\Navigating\Service\Provide\NavigationDatabaseConfigProvideService
         public: true
 
     App\ServiceInterface\Dashboard\AppDashboardBuilderServiceInterface: '@App\Service\Dashboard\AppDashboardBuilderService'
@@ -281,7 +295,7 @@ services:
         alias: App\Provider\Localization\AppLocaleTemplateContextProvider
     App\ServiceInterface\InterfaceLocation\AppInterfaceLocationComposeServiceInterface:
         alias: App\Service\InterfaceLocation\AppInterfaceLocationComposeService
-    App\Viewing\ServiceInterface\View\ViewInterfaceLocationComposeServiceInterface:
+    App\Viewing\ServiceInterface\ViewInterfaceLocationComposeServiceInterface:
         alias: App\Service\InterfaceLocation\AppInterfaceLocationComposeService
 
 
@@ -299,17 +313,17 @@ services:
 
     App\Normalizer\View\CrudResourceViewPayloadNormalizer:
         arguments:
-            $inner: '@App\Viewing\Service\View\ViewPayloadNormalizer'
+            $inner: '@App\Viewing\Normalizer\ViewPayloadNormalizer'
             $requestStack: '@request_stack'
             $contextTreeProjectionResolver: '@App\Resolver\Context\AppContextTreeProjectionResolver'
             $interfaceLocationProjectionProvider: '@?navigating.interface_location_projection_provider'
-            $vendorPublicProfileSummaryProvider: '@App\Vendoring\ServiceInterface\Profile\VendorPublicProfileSummaryProviderServiceInterface'
+            $vendorPublicProfileSummaryProvider: '@App\Vendoring\ProviderInterface\Profile\VendorPublicProfileSummaryProviderInterface'
 
-    App\Viewing\Service\View\ViewPayloadNormalizer: ~
-    App\Viewing\Service\View\ViewTemplateRenderer:
+    App\Viewing\Normalizer\ViewPayloadNormalizer: ~
+    App\Viewing\Renderer\ViewTemplateRenderer:
         arguments:
             $interfaceLocationComposeService: '@App\Service\InterfaceLocation\AppInterfaceLocationComposeService'
-    App\Viewing\Subscriber\View\ViewKernelViewSubscriber:
+    App\Viewing\EventSubscriber\ViewKernelViewSubscriber:
         arguments:
             $payloadNormalizer: '@App\Normalizer\View\CrudResourceViewPayloadNormalizer'
 
@@ -324,7 +338,7 @@ when@dev:
             autowire: true
             autoconfigure: true
             tags: ['app.paying.payout_rail']
-        App\Projecting\Http\Subscriber\VendorSlaRateLimitSubscriber:
+        App\Projecting\EventSubscriber\Http\Projecting\ProjectVendorSlaRateLimitSubscriber:
             autowire: true
             autoconfigure: false
         App\EventSubscriber\Projecting\ProjectingVendorSlaRateLimitSubscriber:
