@@ -47,7 +47,8 @@ final class AppUrlAuditInventoryCommand extends Command
             return true === ($diagnostic['valid'] ?? false) ? Command::SUCCESS : Command::FAILURE;
         }
 
-        $json = json_encode($this->audit->inventory(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR).PHP_EOL;
+        $inventory = $this->audit->inventory();
+        $json = json_encode($inventory, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR).PHP_EOL;
         $outputFile = $input->getOption('output');
         if (is_string($outputFile) && '' !== $outputFile) {
             $directory = dirname($outputFile);
@@ -58,7 +59,7 @@ final class AppUrlAuditInventoryCommand extends Command
         }
         $output->writeln(json_encode([
             'output' => is_string($outputFile) && '' !== $outputFile ? $outputFile : null,
-            'routeCount' => $this->audit->inventory()['routeCount'],
+            'routeCount' => $inventory['routeCount'],
         ], JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR));
 
         return Command::SUCCESS;

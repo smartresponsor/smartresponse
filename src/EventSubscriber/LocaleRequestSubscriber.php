@@ -44,10 +44,6 @@ final class LocaleRequestSubscriber implements EventSubscriberInterface
     private function requestedLocale(Request $request): ?string
     {
         $value = $request->query->get('locale', '');
-        if (!is_string($value)) {
-            return null;
-        }
-
         $locale = trim($value);
         if ('' === $locale || !Locales::exists($locale)) {
             return null;

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Service\Runtime;
 
 use App\Applicating\Enum\ApplicationRuntimeMode;
-use App\Applicating\ServiceInterface\ApplicationRuntimeAssignmentResolverInterface;
+use App\Applicating\ResolverInterface\ApplicationRuntimeAssignmentResolverInterface;
 use App\Domaining\ServiceInterface\Runtime\DomainRuntimeOverlayServiceInterface;
 use App\Dto\Runtime\AppEffectiveRuntime;
 

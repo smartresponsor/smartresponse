@@ -38,7 +38,7 @@ final readonly class ObjectVisibilityManager
         }
 
         foreach ($writes as $method => $value) {
-            if (!is_string($method) || !method_exists($object, $method)) {
+            if (!method_exists($object, $method)) {
                 throw new BadRequestHttpException(sprintf('Unsupported visibility transition: %s', $transition));
             }
 

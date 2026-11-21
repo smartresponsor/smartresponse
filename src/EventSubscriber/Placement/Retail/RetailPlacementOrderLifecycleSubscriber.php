@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber\Placement\Retail;
 
-use App\Cruding\Dto\CrudMutationLifecycleContextDTO;
+use App\Cruding\DTO\CrudMutationLifecycleContextDTO;
 use App\Cruding\ServiceInterface\CrudMutationLifecycleSubscriberInterface;
 
 /**

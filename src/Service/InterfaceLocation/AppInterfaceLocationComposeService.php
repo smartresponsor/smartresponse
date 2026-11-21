@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Service\InterfaceLocation;
 
-use App\Navigating\ServiceInterface\Navigation\Provide\NavigationTemplateDataProvideServiceInterface;
+use App\Navigating\ServiceInterface\Provide\NavigationTemplateDataProvideServiceInterface;
 use App\ServiceInterface\InterfaceLocation\AppInterfaceLocationComposeServiceInterface;
-use App\Viewing\ServiceInterface\View\ViewInterfaceLocationComposeServiceInterface;
+use App\Viewing\Contract\ViewInterfaceLocationComposerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
  * components stay decoupled from each other: Viewing does not know Navigating,
  * Interfacing does not know Navigating, and Navigating does not know Viewing.
  */
-final readonly class AppInterfaceLocationComposeService implements AppInterfaceLocationComposeServiceInterface, ViewInterfaceLocationComposeServiceInterface
+final readonly class AppInterfaceLocationComposeService implements AppInterfaceLocationComposeServiceInterface, ViewInterfaceLocationComposerInterface
 {
     public function __construct(
         private ?NavigationTemplateDataProvideServiceInterface $navigationTemplateDataProvider = null,
@@ -32,10 +32,8 @@ final readonly class AppInterfaceLocationComposeService implements AppInterfaceL
 
         if (null !== $this->navigationTemplateDataProvider) {
             $navigationData = $this->navigationTemplateDataProvider->provide($request);
-            $locations = $this->mergeLocations(
-                $locations,
-                $this->extractLocations($navigationData['interface']['locations'] ?? [])
-            );
+            $interface = is_array($navigationData['interface'] ?? null) ? $navigationData['interface'] : [];
+            $locations = $this->mergeLocations($locations, $this->extractLocations($interface['locations'] ?? []));
         }
 
         $locations = $this->hydrateLocaleNavigationItems($locations, $request);
@@ -53,16 +51,12 @@ final readonly class AppInterfaceLocationComposeService implements AppInterfaceL
         $currentLocale = strtolower(trim($request->getLocale()));
 
         foreach ($locations['shell.footer.main'] ?? [] as $index => $item) {
-            if (!\is_array($item)) {
-                continue;
-            }
-
             $metadata = $item['metadata'] ?? [];
             if (!\is_array($metadata)) {
                 continue;
             }
 
-            $localeCode = strtolower(trim((string) ($metadata['locale_code'] ?? '')));
+            $localeCode = strtolower(trim(is_string($metadata['locale_code'] ?? null) ? $metadata['locale_code'] : ''));
             if ('' === $localeCode || true !== ($metadata['locale_featured'] ?? false)) {
                 continue;
             }
@@ -133,7 +127,7 @@ final readonly class AppInterfaceLocationComposeService implements AppInterfaceL
     private function mergeLocations(array $left, array $right): array
     {
         foreach ($right as $location => $blocks) {
-            $left[$location] = array_values(array_merge($left[$location] ?? [], $blocks));
+            $left[$location] = array_merge($left[$location] ?? [], $blocks);
         }
 
         return $left;

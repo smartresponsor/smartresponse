@@ -6,7 +6,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use Gating\Gate\Service\GatingRunner;
+use App\Gating\Runner\GateRunner;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -37,7 +37,7 @@ final class GatingCheckCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $runner = new GatingRunner($this->kernel->getProjectDir());
+        $runner = new GateRunner($this->kernel->getProjectDir());
 
         return $runner->runCheck($input, $output, 'check');
     }

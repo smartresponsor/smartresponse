@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber\Fact;
 
-use App\Accessing\Entity\AccessEntity;
+use App\Accessing\Entity\Access\AccessEntity;
 use App\Facting\ServiceInterface\FactSubjectCommitterInterface;
 use App\Facting\ValueObject\FactStream;
 use App\Ordering\Entity\Order\OrderEntity;
