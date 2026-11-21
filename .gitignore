@@ -64,6 +64,8 @@ composer.phar
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/*
+!/public/bundles/easyadmin/
+!/public/bundles/easyadmin/**
 !/public/bundles/interfacing/
 !/public/bundles/interfacing/**
 !/public/bundles/interface/
