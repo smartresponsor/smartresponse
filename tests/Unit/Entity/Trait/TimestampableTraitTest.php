@@ -23,7 +23,7 @@ final class TimestampableTraitTest extends TestCase
             }
         };
 
-        self::assertFalse(method_exists($subject, 'normalizeTenantId'));
+        self::assertFalse((new \ReflectionObject($subject))->hasMethod('normalizeTenantId'));
 
         $subject->seed($createdAt, 'vendor_001');
         $subject->touchModified($modifiedAt, 'vendor_002');

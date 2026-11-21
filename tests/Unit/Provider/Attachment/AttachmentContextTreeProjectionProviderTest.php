@@ -22,6 +22,8 @@ final class AttachmentContextTreeProjectionProviderTest extends TestCase
         self::assertSame('Media', $tree[0]['label']);
         self::assertSame('Documents', $tree[1]['label']);
 
+        self::assertIsArray($tree[0]['children']);
+        self::assertIsArray($tree[1]['children']);
         self::assertSame(
             ['Avatars', 'Cover images', 'Images', 'Video', 'Audio', 'Other media'],
             array_column($tree[0]['children'], 'label'),
@@ -31,6 +33,8 @@ final class AttachmentContextTreeProjectionProviderTest extends TestCase
             array_column($tree[1]['children'], 'label'),
         );
 
+        self::assertIsArray($tree[0]['children'][0]);
+        self::assertIsArray($tree[1]['children'][1]);
         self::assertSame(
             '/attachment/index?type=media&mediaKind=image&context=profile&slot=avatar',
             $tree[0]['children'][0]['href'],

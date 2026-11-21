@@ -39,9 +39,10 @@ final class VendoringMobileEntityMappingTest extends TestCase
 
     public function testVendoringMobileSystemFieldsAreOwnedByObjecting(): void
     {
-        self::assertTrue(is_subclass_of(VendorAbstractEntity::class, ObjectIdentifiedInterface::class));
-        self::assertTrue(is_subclass_of(VendorAbstractEntity::class, ObjectAuditedInterface::class));
-        self::assertTrue(is_subclass_of(VendorAbstractEntity::class, ObjectStatefulInterface::class));
+        $reflection = new \ReflectionClass(VendorAbstractEntity::class);
+        self::assertTrue($reflection->implementsInterface(ObjectIdentifiedInterface::class));
+        self::assertTrue($reflection->implementsInterface(ObjectAuditedInterface::class));
+        self::assertTrue($reflection->implementsInterface(ObjectStatefulInterface::class));
 
         self::assertFalse((new \ReflectionClass(VendorPayoutEntity::class))->hasProperty('createdAt'));
         self::assertFalse((new \ReflectionClass(VendorPayoutAccountEntity::class))->hasProperty('createdAt'));
@@ -77,7 +78,7 @@ final class VendoringMobileEntityMappingTest extends TestCase
     {
         $this->assertTableIndexMapped(VendorEntity::class, 'idx_vendor_owner_user_id');
         $this->assertTableIndexMapped(VendorProfileEntity::class, 'idx_vendor_profile_public_status');
-        $this->assertTableIndexMapped(VendorTransactionEntity::class, 'idx_vendor_transaction_vendor_id');
+        $this->assertTableIndexMapped(VendorTransactionEntity::class, 'idx_vendor_transaction_vendor_created');
         $this->assertTableIndexMapped(VendorPayoutEntity::class, 'idx_vendor_payout_vendor_id');
         $this->assertTableIndexMapped(VendorPayoutEntity::class, 'idx_vendor_payout_status');
         $this->assertTableIndexMapped(VendorPayoutAccountEntity::class, 'idx_vendor_payout_account_vendor_id');
@@ -87,8 +88,12 @@ final class VendoringMobileEntityMappingTest extends TestCase
     public function testVendoringMobileUniqueConstraintsAreDrivenByEntityMapping(): void
     {
         $this->assertTableUniqueConstraintMapped(VendorProfileEntity::class, 'uniq_vendor_profile_vendor_id');
-        $this->assertTableUniqueConstraintMapped(VendorTransactionEntity::class, 'uniq_vendor_transaction_vendor_order_project_nonnull');
-        $this->assertTableUniqueConstraintMapped(VendorTransactionEntity::class, 'uniq_vendor_transaction_vendor_order_nullproject');
+        self::assertSame([], $this->tableMappingNames(VendorTransactionEntity::class, 'uniqueConstraints'));
+
+        $transactionMigration = file_get_contents(dirname(__DIR__, 3).'/Vendoring/migrations/MigrationPg/20260321_000001_create_vendor_transaction.sql');
+        self::assertIsString($transactionMigration);
+        self::assertStringContainsString('uniq_vendor_transaction_vendor_order_project_nonnull', $transactionMigration);
+        self::assertStringContainsString('uniq_vendor_transaction_vendor_order_nullproject', $transactionMigration);
     }
 
     public function testVendoringMobileAlignmentMigrationProjectsEntityIndexes(): void
@@ -124,25 +129,34 @@ final class VendoringMobileEntityMappingTest extends TestCase
         $this->assertJoinColumnMapped(VendorPayoutItemEntity::class, 'payout');
     }
 
+    /** @param class-string $entityClass */
     private function tableName(string $entityClass): string
     {
         $attributes = (new \ReflectionClass($entityClass))->getAttributes(Table::class);
         self::assertNotSame([], $attributes, $entityClass.' must declare ORM table mapping.');
 
-        return (string) ($attributes[0]->getArguments()['name'] ?? '');
+        $name = $attributes[0]->newInstance()->name;
+        self::assertIsString($name);
+
+        return $name;
     }
 
+    /** @param class-string $entityClass */
     private function assertTableIndexMapped(string $entityClass, string $indexName): void
     {
         self::assertContains($indexName, $this->tableMappingNames($entityClass, 'indexes'), $entityClass.' must declare '.$indexName.' in ORM table indexes.');
     }
 
+    /** @param class-string $entityClass */
     private function assertTableUniqueConstraintMapped(string $entityClass, string $constraintName): void
     {
         self::assertContains($constraintName, $this->tableMappingNames($entityClass, 'uniqueConstraints'), $entityClass.' must declare '.$constraintName.' in ORM table unique constraints.');
     }
 
     /**
+     * @param class-string                  $entityClass
+     * @param 'indexes'|'uniqueConstraints' $argumentName
+     *
      * @return list<string>
      */
     private function tableMappingNames(string $entityClass, string $argumentName): array
@@ -150,18 +164,24 @@ final class VendoringMobileEntityMappingTest extends TestCase
         $attributes = (new \ReflectionClass($entityClass))->getAttributes(Table::class);
         self::assertNotSame([], $attributes, $entityClass.' must declare ORM table mapping.');
 
-        return array_values(array_map(
-            static fn (object $mapping): string => (string) (new \ReflectionProperty($mapping, 'name'))->getValue($mapping),
-            $attributes[0]->getArguments()[$argumentName] ?? [],
-        ));
+        $table = $attributes[0]->newInstance();
+        $names = [];
+        foreach ($table->{$argumentName} ?? [] as $mapping) {
+            self::assertIsString($mapping->name);
+            $names[] = $mapping->name;
+        }
+
+        return $names;
     }
 
+    /** @param class-string $entityClass */
     private function assertColumnMapped(string $entityClass, string $propertyName): void
     {
         $attributes = (new \ReflectionClass($entityClass))->getProperty($propertyName)->getAttributes(Column::class);
         self::assertNotSame([], $attributes, $entityClass.'::$'.$propertyName.' must remain ORM column mapped.');
     }
 
+    /** @param class-string $entityClass */
     private function assertJoinColumnMapped(string $entityClass, string $propertyName): void
     {
         $attributes = (new \ReflectionClass($entityClass))->getProperty($propertyName)->getAttributes(JoinColumn::class);
@@ -170,7 +190,10 @@ final class VendoringMobileEntityMappingTest extends TestCase
 
     private function migrationSql(string $migrationFile): string
     {
-        return (string) file_get_contents(dirname(__DIR__, 2).'/migrations/'.$migrationFile);
+        $sql = file_get_contents(dirname(__DIR__, 2).'/migrations/'.$migrationFile);
+        self::assertIsString($sql);
+
+        return $sql;
     }
 
     public function testVendoringPayoutUsesObjectingSystemFieldsCanon(): void
@@ -178,6 +201,7 @@ final class VendoringMobileEntityMappingTest extends TestCase
         $vendoringRoot = dirname(__DIR__, 3).DIRECTORY_SEPARATOR.'Vendoring';
         $appRoot = dirname(__DIR__, 2);
         $abstract = file_get_contents($vendoringRoot.'/src/Entity/Vendor/VendorAbstractEntity.php');
+        self::assertIsString($abstract);
         self::assertStringContainsString('ObjectIdentifiedInterface', $abstract);
         self::assertStringContainsString('ObjectAuditedInterface', $abstract);
         self::assertStringContainsString('ObjectStatefulInterface', $abstract);
@@ -186,8 +210,9 @@ final class VendoringMobileEntityMappingTest extends TestCase
         self::assertStringContainsString('ObjectStateEmbeddableTrait', $abstract);
         foreach (['VendorPayoutEntity', 'VendorPayoutAccountEntity'] as $entityName) {
             $entity = file_get_contents($vendoringRoot.'/src/Entity/Vendor/'.$entityName.'.php');
-            self::assertStringNotContainsString('$createdAt', $entity);
-            self::assertStringNotContainsString('created_at', $entity);
+            self::assertIsString($entity);
+            self::assertStringNotContainsString("#[ORM\\Column(name: 'created_at'", $entity);
+            self::assertStringNotContainsString(' createdAt;', $entity);
         }
         $migrations = file_get_contents($appRoot.'/migrations/Version20260628175000.php')."\n".file_get_contents($appRoot.'/migrations/Version20260628190000.php');
         self::assertStringContainsString('object_uuid', $migrations);

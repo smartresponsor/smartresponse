@@ -19,6 +19,7 @@ final class CloudflareAiGatewayScriptTest extends TestCase
         self::assertIsString($preflight);
         self::assertIsString($verify);
         self::assertIsString($smoke);
+        self::assertIsString($shapeSmoke);
 
         self::assertStringContainsString('CLOUDFLARE_ACCOUNT_ID', $preflight);
         self::assertStringContainsString('CLOUDFLARE_API_TOKEN', $preflight);

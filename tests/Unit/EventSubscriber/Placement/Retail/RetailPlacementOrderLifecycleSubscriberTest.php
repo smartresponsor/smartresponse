@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\EventSubscriber\Placement\Retail;
 
-use App\Cruding\Dto\CrudContextDTO;
-use App\Cruding\Dto\CrudMutationLifecycleContextDTO;
+use App\Cruding\DTO\CrudContextDTO;
+use App\Cruding\DTO\CrudMutationLifecycleContextDTO;
 use App\EventSubscriber\Placement\Retail\RetailPlacementOrderLifecycleSubscriber;
 use App\Retailing\Entity\Retail\RetailEntity;
 use PHPUnit\Framework\TestCase;
