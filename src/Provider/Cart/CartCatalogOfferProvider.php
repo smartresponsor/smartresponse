@@ -27,7 +27,7 @@ final readonly class CartCatalogOfferProvider implements CartOfferProviderInterf
         }
 
         $price = $offer['price'] ?? null;
-        if (!is_float($price)) {
+        if (!is_float($price) && !is_int($price)) {
             throw new \LogicException(sprintf('Catalog offer "%s" does not have an authoritative price.', $offerReference));
         }
 
@@ -37,7 +37,7 @@ final readonly class CartCatalogOfferProvider implements CartOfferProviderInterf
 
         $brand = trim((string) ($offer['brand'] ?? ''));
         $title = '' !== $brand ? sprintf('%s — %s', $brand, $offerReference) : $offerReference;
-        $currencyCode = strtoupper(trim((string) 'USD'));
+        $currencyCode = strtoupper(trim((string) ($offer['currencyCode'] ?? $offer['currency'] ?? 'USD')));
         $factor = $this->currencyPrecisionResolver->factorFor($currencyCode);
 
         return new CartOfferSnapshot(
@@ -65,8 +65,8 @@ final readonly class CartCatalogOfferProvider implements CartOfferProviderInterf
         }
 
         $stock = $offer['stock'] ?? null;
-        $availableQuantity = null === $stock ? null : max(0, $stock);
-        $available = null === $stock || $stock >= $quantity;
+        $availableQuantity = is_int($stock) ? max(0, $stock) : null;
+        $available = null === $stock || (is_int($stock) && $stock >= $quantity);
 
         return new CartAvailabilityResultDTO($available, $availableQuantity, $offerReference);
     }
