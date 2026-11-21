@@ -115,7 +115,6 @@ final class RetailResponseApiController extends AbstractController
             throw new \InvalidArgumentException('Request body must be a JSON object.');
         }
 
-        /* @var array<string, mixed> $payload */
-        return $payload;
+        return array_filter($payload, static fn (string|int $key): bool => is_string($key), ARRAY_FILTER_USE_KEY);
     }
 }

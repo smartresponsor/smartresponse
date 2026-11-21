@@ -249,7 +249,7 @@ final readonly class CrudResourceViewPayloadNormalizer implements ViewPayloadNor
             $normalizedBlocks = [];
             foreach ($blocks as $block) {
                 if (\is_array($block)) {
-                    $normalizedBlocks[] = $block;
+                    $normalizedBlocks[] = $this->stringKeyed($block);
                 }
             }
 
@@ -258,7 +258,6 @@ final readonly class CrudResourceViewPayloadNormalizer implements ViewPayloadNor
             }
         }
 
-        /* @var array<string, list<array<string, mixed>>> $normalized */
         return $normalized;
     }
 

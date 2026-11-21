@@ -166,8 +166,7 @@ final class AppUrlAuditPublishGitHubCommand extends Command
         }
         foreach ($failures as $failure) {
             if (is_array($failure) && !array_is_list($failure)) {
-                /* @var array<string, mixed> $failure */
-                $findings[] = $failure;
+                $findings[] = array_filter($failure, static fn (string|int $key): bool => is_string($key), ARRAY_FILTER_USE_KEY);
             }
         }
 
