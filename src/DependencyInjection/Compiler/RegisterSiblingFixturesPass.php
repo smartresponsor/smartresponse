@@ -27,7 +27,11 @@ final class RegisterSiblingFixturesPass implements CompilerPassInterface
         $allowedSiblingFixtures = $this->getAllowedSiblingFixtures($container);
         $fixtures = [];
 
-        foreach (glob($workspaceDir.'/*/src/DataFixtures', GLOB_ONLYDIR) ?: [] as $fixturesDir) {
+        $fixtureDirectories = array_merge(
+            glob($workspaceDir.'/*/src/DataFixtures', GLOB_ONLYDIR) ?: [],
+            glob($projectDir.'/vendor/*/*/src/DataFixtures', GLOB_ONLYDIR) ?: [],
+        );
+        foreach (array_unique($fixtureDirectories) as $fixturesDir) {
             if (!$this->isAllowedSiblingFixturesDirectory($fixturesDir, $allowedSiblingFixtures)) {
                 continue;
             }
@@ -69,6 +73,9 @@ final class RegisterSiblingFixturesPass implements CompilerPassInterface
         }
 
         $componentDir = basename(dirname($fixturesDir, 2));
+        if ('vendor' === basename(dirname($fixturesDir, 4))) {
+            $componentDir = basename(dirname($fixturesDir, 3));
+        }
         if ('' === $componentDir) {
             return false;
         }

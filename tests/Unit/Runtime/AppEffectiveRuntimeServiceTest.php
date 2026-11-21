@@ -6,7 +6,7 @@ namespace App\Tests\Unit\Runtime;
 
 use App\Applicating\Enum\ApplicationRuntimeMode;
 use App\Applicating\ResolverInterface\ApplicationRuntimeAssignmentResolverInterface;
-use App\Domaining\DTO\DomainRuntimeOverlayDTO;
+use App\Domaining\Dto\DomainRuntimeOverlay;
 use App\Domaining\ServiceInterface\Runtime\DomainRuntimeOverlayServiceInterface;
 use App\Service\Runtime\AppEffectiveRuntimeService;
 use PHPUnit\Framework\TestCase;
@@ -65,9 +65,9 @@ final class AppEffectiveRuntimeServiceTest extends TestCase
         self::assertSame('https://host.example.com', $runtime->fallbackOrigin);
     }
 
-    private function overlay(bool $published, ?string $domainName): DomainRuntimeOverlayDTO
+    private function overlay(bool $published, ?string $domainName): DomainRuntimeOverlay
     {
-        return new DomainRuntimeOverlayDTO(
+        return new DomainRuntimeOverlay(
             'one_tasker',
             null,
             'production',

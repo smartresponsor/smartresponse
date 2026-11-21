@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Dto\Runtime;
 
-use App\Domaining\DTO\DomainRuntimeOverlayDTO;
+use App\Domaining\Dto\DomainRuntimeOverlay;
 
 final readonly class AppEffectiveRuntime
 {
@@ -15,7 +15,7 @@ final readonly class AppEffectiveRuntime
         public string $bootstrapOrigin,
         public string $effectiveOrigin,
         public string $fallbackOrigin,
-        public DomainRuntimeOverlayDTO $domainOverlay,
+        public DomainRuntimeOverlay $domainOverlay,
     ) {
     }
 

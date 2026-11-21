@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Service\Placement\Retail;
 
 use App\Addressing\Contract\Message\AddressValidated;
-use App\Addressing\EntityInterface\Record\AddressInterface;
-use App\Addressing\Http\Dto\AddressManageDto;
-use App\Addressing\Http\Factory\AddressInputFactory;
+use App\Addressing\Contract\AddressInterface;
+use App\Addressing\DTO\AddressManageDTO;
+use App\Addressing\Factory\AddressInputFactory;
 use App\Addressing\Service\Application\AddressValidatedApplierService;
 use App\Addressing\Service\Application\AddressWriteService;
 use App\Locating\Model\Location\AddressInput;
@@ -49,7 +49,7 @@ final readonly class RetailPlacementLocationService
 
         $ownerScope = 'task' === $retail->getKind()->value ? $ownerUuid : null;
         $vendorScope = 'goods' === $retail->getKind()->value ? $vendorId : null;
-        $dto = new AddressManageDto();
+        $dto = new AddressManageDTO();
         $dto->line1 = trim($input['line1']);
         $dto->line2 = $this->nullable($input['line2'] ?? null);
         $dto->city = trim($input['city']);
