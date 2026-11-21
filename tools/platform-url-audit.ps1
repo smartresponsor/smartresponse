@@ -4,6 +4,7 @@ param(
     [int]$Timeout = 15,
     [int]$Samples = 1,
     [int]$SlowMs = 250,
+    [ValidateSet('dev','prod')][string]$AppEnv = 'prod',
     [switch]$SkipRuntimePreflight
 )
 
@@ -12,19 +13,31 @@ $root = Split-Path -Parent $PSScriptRoot
 $previousAppEnv = $env:APP_ENV
 $previousAppDebug = $env:APP_DEBUG
 $previousXdebugMode = $env:XDEBUG_MODE
-$env:APP_ENV = 'prod'
+$env:APP_ENV = $AppEnv
 $env:APP_DEBUG = '0'
 $env:XDEBUG_MODE = 'off'
 Push-Location $root
 $runtimeStartedAt = [System.Diagnostics.Stopwatch]::StartNew()
 if (-not $SkipRuntimePreflight) {
     try {
-        $runtimeResponse = Invoke-WebRequest -UseBasicParsing -Uri ($BaseUrl.TrimEnd('/') + '/access/signin') -TimeoutSec ([Math]::Max(1, [Math]::Min($Timeout, 5)))
-        $runtimeStartedAt.Stop()
-        if ($runtimeResponse.StatusCode -ge 500) {
-            throw "HTTP runtime preflight returned status $($runtimeResponse.StatusCode)."
+        $runtimeStatus = $null
+        try {
+            $runtimeResponse = Invoke-WebRequest -UseBasicParsing -Uri ($BaseUrl.TrimEnd('/') + '/access/signin') -TimeoutSec ([Math]::Max(1, [Math]::Min($Timeout, 5)))
+            $runtimeStatus = [int]$runtimeResponse.StatusCode
         }
-        Write-Output ("HTTP runtime preflight: {0} ms ({1})" -f $runtimeStartedAt.ElapsedMilliseconds, $runtimeResponse.StatusCode)
+        catch [System.Net.WebException] {
+            if ($null -ne $_.Exception.Response) {
+                $runtimeStatus = [int]$_.Exception.Response.StatusCode
+            }
+            else {
+                throw
+            }
+        }
+        $runtimeStartedAt.Stop()
+        if ($null -eq $runtimeStatus -or $runtimeStatus -ge 500) {
+            throw "HTTP runtime preflight returned status $runtimeStatus."
+        }
+        Write-Output ("HTTP runtime preflight: {0} ms ({1})" -f $runtimeStartedAt.ElapsedMilliseconds, $runtimeStatus)
     }
     catch {
         $runtimeStartedAt.Stop()
@@ -36,8 +49,9 @@ else {
     Write-Output 'HTTP runtime preflight: skipped (kernel-only audit mode)'
 }
 
-$inventoryErrorFile = Join-Path $root 'var/url-audit/latest-inventory.stderr.log'
-$auditErrorFile = Join-Path $root 'var/url-audit/latest-run.stderr.log'
+$runToken = "$PID-$([Guid]::NewGuid().ToString('N'))"
+$inventoryErrorFile = Join-Path $root ("var/url-audit/inventory-$runToken.stderr.log")
+$auditErrorFile = Join-Path $root ("var/url-audit/run-$runToken.stderr.log")
 try {
     New-Item -ItemType Directory -Force -Path (Split-Path -Parent $inventoryErrorFile) | Out-Null
     $ErrorActionPreference = 'Continue'
@@ -45,16 +59,20 @@ try {
     $inventoryExitCode = $LASTEXITCODE
     $ErrorActionPreference = 'Stop'
     if ($inventoryExitCode -ne 0) {
-        Get-Content -Path $inventoryErrorFile -ErrorAction SilentlyContinue | Write-Error
-        throw "Inventory failed with exit code $inventoryExitCode."
+        $inventoryError = (Get-Content -Path $inventoryErrorFile -ErrorAction SilentlyContinue | Out-String).Trim()
+        if ([string]::IsNullOrWhiteSpace($inventoryError)) { $inventoryError = 'No inventory stderr was produced.' }
+        throw "Inventory failed with exit code $inventoryExitCode. $inventoryError"
     }
 
+    # Keep the audit process stderr attached to the parent process. In production
+    # Monolog writes to php://stderr; redirecting native stderr to a file with
+    # Windows PowerShell can invalidate that handle and mask the real exception
+    # with "Write failed with errno=22 Invalid argument".
     $ErrorActionPreference = 'Continue'
-    php bin/console app:url-audit:run --base-url=$BaseUrl --timeout=$Timeout --samples=$Samples --slow-ms=$SlowMs 2> $auditErrorFile
+    php bin/console app:url-audit:run --base-url=$BaseUrl --timeout=$Timeout --samples=$Samples --slow-ms=$SlowMs
     $auditExitCode = $LASTEXITCODE
     $ErrorActionPreference = 'Stop'
     if ($auditExitCode -ne 0) {
-        Get-Content -Path $auditErrorFile -ErrorAction SilentlyContinue | Write-Error
         throw "URL audit failed with exit code $auditExitCode."
     }
 

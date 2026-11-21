@@ -4,11 +4,15 @@ param(
     [int]$Timeout = 15,
     [int]$ProfileSamples = 1,
     [int]$SlowMs = 250,
+    [ValidateSet('dev','prod')][string]$AppEnv = 'prod',
     [switch]$SkipRuntimePreflight,
     [switch]$CacheClear,
     [switch]$AuditStatus,
+    [switch]$AuditTail,
     [switch]$AuditSummary,
     [switch]$AuditFailures,
+    [switch]$AuditFailureOwners,
+    [switch]$AuditOwnerEnvelopes,
     [switch]$AuditActionable,
     [switch]$AuditGenerated404,
     [switch]$AuditProfile,
@@ -33,6 +37,28 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
+
+function Get-AuditOwner([string]$Route) {
+    if ($Route -like 'generated_cruding_*' -or $Route -like 'cruding_*') { return 'Cruding' }
+    if ($Route -like 'app_messaging_*' -or $Route -eq 'attachment_download') { return 'Messaging' }
+    if ($Route -like 'access.*' -or $Route -like 'access_*') { return 'Accessing' }
+    if ($Route -like 'api.cart.*' -or $Route -like 'carting_*') { return 'Carting' }
+    if ($Route -like 'api_catalog_*' -or $Route -like 'api_category_*' -or $Route -like 'legacy_category_*' -or $Route -like 'cataloging_*') { return 'Cataloging' }
+    if ($Route -like 'localizing_*') { return 'Localizing' }
+    if ($Route -like 'navigation_*' -or $Route -like 'navigating_*') { return 'Navigating' }
+    if ($Route -like 'vendoring_*') { return 'Vendoring' }
+    if ($Route -like 'currencing_*') { return 'Currencing' }
+    if ($Route -like 'admin_*') { return 'App/Admin' }
+    if ($Route -like 'application_runtime_*' -or $Route -like 'app_host_*') { return 'App' }
+    return 'Other'
+}
+
+function Get-AuditDisposition([string]$Type) {
+    if ($Type -eq 'http_500' -or $Type -like 'body_marker:*') { return 'repair' }
+    if ($Type -eq 'http_503' -or $Type -like 'redirect_*') { return 'review' }
+    return 'observe'
+}
+
 Push-Location $root
 try {
     if ($CacheClear) {
@@ -50,6 +76,18 @@ try {
         }
         $count = (Get-Content -Path $checkpoint.FullName | Measure-Object -Line).Lines
         Write-Output (@{ checkpoint = $checkpoint.FullName; probes = $count } | ConvertTo-Json -Compress)
+        exit 0
+    }
+
+    if ($AuditTail) {
+        $checkpoint = Get-ChildItem -Path 'var/url-audit' -Filter probes.jsonl -Recurse |
+            Sort-Object LastWriteTimeUtc -Descending |
+            Select-Object -First 1
+        if ($null -eq $checkpoint) {
+            Write-Output '[]'
+            exit 0
+        }
+        Get-Content -Path $checkpoint.FullName -Tail 12
         exit 0
     }
 
@@ -90,6 +128,96 @@ try {
                 }
             }
         Write-Output ($failures | ConvertTo-Json -Depth 6)
+        exit 0
+    }
+
+    if ($AuditFailureOwners) {
+        $reportFile = Get-ChildItem -Path 'var/url-audit' -Filter report.json -Recurse |
+            Sort-Object LastWriteTimeUtc -Descending |
+            Select-Object -First 1
+        if ($null -eq $reportFile) {
+            throw 'No URL audit report was found.'
+        }
+        $report = Get-Content -Raw -Path $reportFile.FullName | ConvertFrom-Json
+        $groups = $report.failures |
+            ForEach-Object {
+                $route = [string]$_.route
+                $owner = Get-AuditOwner $route
+                $disposition = Get-AuditDisposition ([string]$_.type)
+                [pscustomobject]@{ owner = $owner; disposition = $disposition; type = [string]$_.type; route = $route; path = [string]$_.path }
+            } |
+            Group-Object owner, disposition, type |
+            Sort-Object Count -Descending |
+            ForEach-Object {
+                [pscustomobject]@{
+                    count = $_.Count
+                    owner = $_.Group[0].owner
+                    disposition = $_.Group[0].disposition
+                    type = $_.Group[0].type
+                    sampleRoutes = @($_.Group | Select-Object -First 8 -ExpandProperty route)
+                    samplePaths = @($_.Group | Select-Object -First 8 -ExpandProperty path)
+                }
+            }
+        Write-Output ($groups | ConvertTo-Json -Depth 6)
+        exit 0
+    }
+
+    if ($AuditOwnerEnvelopes) {
+        $reportFile = Get-ChildItem -Path 'var/url-audit' -Filter report.json -Recurse |
+            Sort-Object LastWriteTimeUtc -Descending |
+            Select-Object -First 1
+        if ($null -eq $reportFile) {
+            throw 'No URL audit report was found.'
+        }
+        $report = Get-Content -Raw -Path $reportFile.FullName | ConvertFrom-Json
+        $envelopeRoot = Join-Path $reportFile.Directory.FullName 'owner-envelopes'
+        New-Item -ItemType Directory -Force -Path $envelopeRoot | Out-Null
+        $items = @($report.failures |
+            Where-Object { $_.type -ne 'declared_component_route_404' } |
+            ForEach-Object {
+                [pscustomobject]@{
+                    owner = Get-AuditOwner ([string]$_.route)
+                    disposition = Get-AuditDisposition ([string]$_.type)
+                    type = [string]$_.type
+                    route = [string]$_.route
+                    path = [string]$_.path
+                    status = [int]$_.status
+                    occurrences = [int]$_.occurrences
+                    evidence = [string]$_.evidence
+                    affectedPaths = @($_.affectedPaths)
+                }
+            })
+        $written = @()
+        foreach ($group in @($items | Group-Object owner)) {
+            $owner = [string]$group.Name
+            $repair = @($group.Group | Where-Object { $_.disposition -eq 'repair' })
+            $review = @($group.Group | Where-Object { $_.disposition -eq 'review' })
+            $observe = @($group.Group | Where-Object { $_.disposition -eq 'observe' })
+            $safeOwner = $owner -replace '[^A-Za-z0-9._-]', '_'
+            $path = Join-Path $envelopeRoot ($safeOwner + '.json')
+            [ordered]@{
+                schema = 'app.url-audit.owner-envelope.v1'
+                generatedAt = (Get-Date).ToUniversalTime().ToString('o')
+                owner = $owner
+                sourceReport = $reportFile.FullName
+                repairRequired = $repair.Count -gt 0
+                repairCount = $repair.Count
+                reviewCount = $review.Count
+                observeCount = $observe.Count
+                repairFindings = $repair
+                reviewFindings = $review
+                observeFindings = $observe
+            } | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath $path -Encoding UTF8
+            $written += [pscustomobject]@{
+                owner=$owner
+                path=$path
+                repairRequired=($repair.Count -gt 0)
+                repairCount=$repair.Count
+                reviewCount=$review.Count
+                observeCount=$observe.Count
+            }
+        }
+        Write-Output ($written | Sort-Object owner | ConvertTo-Json -Depth 6)
         exit 0
     }
 
@@ -271,6 +399,7 @@ try {
         Timeout = $Timeout
         Samples = $ProfileSamples
         SlowMs = $SlowMs
+        AppEnv = $AppEnv
     }
     if ($SkipRuntimePreflight) {
         $auditArguments.SkipRuntimePreflight = $true

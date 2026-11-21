@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+/** @return list<string> */
 function inspectAppSourceStructure(string $root): array
 {
     $root = rtrim($root, '/\\');
