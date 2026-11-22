@@ -178,18 +178,20 @@
             "dist": {
                 "type": "path",
                 "url": "../Addressing",
-                "reference": "f4517d8b5457bfacfbe149056725b3d39dc8be89"
+                "reference": "0cf9176b2d263b4aa2167c0383b51a6afe5d17c6"
             },
             "require": {
                 "collectioning/collection": "dev-master",
                 "cruding/crud": "dev-master",
                 "doctrine/doctrine-bundle": "^3.2",
+                "doctrine/doctrine-migrations-bundle": "^4.0",
                 "doctrine/orm": "^2.15 || ^3.0",
                 "easycorp/easyadmin-bundle": "^5.0",
                 "ext-curl": "*",
                 "ext-pdo": "*",
                 "failing/failure": "dev-master",
                 "interfacing/interface": "dev-master",
+                "nelmio/api-doc-bundle": "^5.12",
                 "objecting/object": "dev-master",
                 "php": "^8.4",
                 "symfony/console": "^8.1",
@@ -215,13 +217,15 @@
                 "deptrac/deptrac": "^3.0",
                 "fakerphp/faker": "^1.23",
                 "friendsofphp/php-cs-fixer": "^3.94",
+                "gating/gate": "dev-master",
                 "phpstan/phpstan": "^2.2",
                 "phpstan/phpstan-doctrine": "^2.0",
                 "phpstan/phpstan-symfony": "^2.0",
-                "phpunit/phpunit": "^10.5",
+                "phpunit/phpunit": "^12.5",
                 "rector/rector": "^2.6",
                 "symfony/dotenv": "^8.1",
                 "symfony/panther": "^2.2",
+                "symfony/test-pack": "^1.2",
                 "vimeo/psalm": "^7.0"
             },
             "type": "library",
@@ -240,13 +244,17 @@
                     "@php tools/qa/AddressPhpLint.php"
                 ],
                 "phpstan": [
-                    "vendor/bin/phpstan analyse src --level=max"
+                    "php -d memory_limit=1G vendor/bin/phpstan analyse -c phpstan.neon.dist"
                 ],
                 "psalm": [
                     "vendor/bin/psalm"
                 ],
                 "test": [
                     "@php tools/php/php84.php vendor/bin/phpunit -c phpunit.xml.dist"
+                ],
+                "test:coverage": [
+                    "@php -r \"if (!is_dir('var/coverage')) { mkdir('var/coverage', 0777, true); }\"",
+                    "@php -d xdebug.mode=coverage vendor/bin/phpunit -c phpunit.xml.dist --path-coverage --coverage-text=var/coverage/summary.txt"
                 ],
                 "stan": [
                     "@stan:conservative"
@@ -262,7 +270,8 @@
                 ],
                 "quality": [
                     "@stan",
-                    "@rector:dry"
+                    "@rector:dry",
+                    "@gate"
                 ],
                 "qa:phpstan": [
                     "php -d memory_limit=1G vendor/bin/phpstan analyse -c phpstan.neon.dist"
@@ -274,10 +283,10 @@
                     "php vendor/bin/rector process --dry-run"
                 ],
                 "qa:deptrac": [
-                    "php vendor/bin/deptrac analyse --config-file=config/addressing_deptrac.yaml"
+                    "php vendor/bin/deptrac analyse --config-file=config/address_deptrac.yaml"
                 ],
                 "gating": [
-                    "@php ../Gating/bin/gating check --target=. --profile=../Gating/.gating/profile/component/_template.yaml --rule-set=tools/qa/addressing-platform-canon.yaml --policy-root=../Gating/.gating --severity-config=../Gating/.gating/config/severity.yaml"
+                    "@php vendor/bin/gating check --target=. --rule-set=tools/qa/addressing-platform-canon.yaml"
                 ],
                 "qa:trust-surface": [
                     "@php tools/php/php84.php tools/qa/AddressTrustSurfaceRunner.php"
@@ -295,10 +304,10 @@
                     "@qa:rector"
                 ],
                 "cs:fix": [
-                    "@php tools/php/php84.php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php"
+                    "@php tools/php/php84.php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php"
                 ],
                 "cs:check": [
-                    "@php tools/php/php84.php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --dry-run --diff"
+                    "@php tools/php/php84.php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php --dry-run --diff"
                 ],
                 "cs:check-quiet": [
                     "@php tools/php/php84.php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php --dry-run"
@@ -359,6 +368,17 @@
                 "smoke:doctrine": [
                     "@php tools/php/php84.php tools/smoke/address-doctrine-mapping-smoke.php"
                 ],
+                "doctrine:schema:validate": [
+                    "@php bin/console doctrine:schema:validate --em=parity --env=test --no-interaction"
+                ],
+                "doctrine:migrations:up-to-date": [
+                    "@php bin/console doctrine:migrations:up-to-date --em=parity --fail-on-unregistered --env=test --no-interaction"
+                ],
+                "schema:parity": [
+                    "@php bin/console doctrine:migrations:migrate --em=parity --env=test --no-interaction",
+                    "@doctrine:schema:validate",
+                    "@doctrine:migrations:up-to-date"
+                ],
                 "smoke:fixture-load": [
                     "@php tools/php/php84.php tools/smoke/address-fixture-load-smoke.php"
                 ],
@@ -370,6 +390,9 @@
                 ],
                 "report:route-inventory": [
                     "@php tools/php/php84.php tools/inspection/AddressRouteInventoryReport.php"
+                ],
+                "report:behavioral-ui-coverage": [
+                    "@php tools/php/php84.php tools/coverage/AddressBehavioralUiCoverageReport.php"
                 ],
                 "report:class-alias": [
                     "@php tools/php/php84.php tools/inspection/AddressClassAliasReport.php"
@@ -444,10 +467,13 @@
                 ],
                 "app:server:dry-run": [
                     "@php tools/e2e/dry-run-server.php"
+                ],
+                "gate": [
+                    "@php vendor/bin/gating check --target=."
                 ]
             },
             "license": [
-                "MIT"
+                "PolyForm-Noncommercial-1.0.0"
             ],
             "description": "Addressing process app",
             "transport-options": {
@@ -461,7 +487,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Adjudicating",
-                "reference": "6f4aac0f5d48b57bc3b8ff96cf648f2750bce769"
+                "reference": "c9a434292176cf8e04d9d25e4d247a41f0e33403"
             },
             "require": {
                 "collectioning/collection": "dev-master",
@@ -1012,7 +1038,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Analysing",
-                "reference": "5540769c7a18522accd7ecc677487870d30154d0"
+                "reference": "835479f6b1f7693ea00a8683dd0f2c5149382b45"
             },
             "require": {
                 "administering/administration": "dev-master",
@@ -1142,7 +1168,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Anchoring/sdk/php",
-                "reference": "7962abd38f0464c0b546314c044c99daff0d1fc6"
+                "reference": "45b920d4504f23d8f78e23233464f4cc7c5082db"
             },
             "require": {
                 "ext-json": "*",
@@ -1387,7 +1413,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Applicating",
-                "reference": "1299fd4881921c645cf028be3d814f264c5e7aab"
+                "reference": "e124eed4807229cfcdb0eae06e46a7c66fcdb322"
             },
             "require": {
                 "administering/administration": "dev-master",
@@ -1788,7 +1814,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Billing",
-                "reference": "8afb5c3cc81313f0ce04c14b23c069a7bcf6a102"
+                "reference": "b2b6b522e79fba9e9d188aace2fed5a3dbbc65ad"
             },
             "require": {
                 "administering/administration": "dev-master",
@@ -1998,7 +2024,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Carting",
-                "reference": "a1c04da7465f108a32deb2393767f8108467e8a1"
+                "reference": "f006f4bb73a3fb1e1ab4892d1bad4a03f5f2eb29"
             },
             "require": {
                 "collectioning/collection": "dev-master",
@@ -2109,7 +2135,7 @@
                 ]
             },
             "license": [
-                "PolyForm-Noncommercial-1.0.0"
+                "proprietary"
             ],
             "description": "Carting component for mutable cart and checkout handoff responsibility.",
             "transport-options": {
@@ -2123,7 +2149,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Casing",
-                "reference": "8cda207a3496697c5f7050213bb25aced5118aee"
+                "reference": "d5dd4fe9ed9bcb2c92017ca12e14db8ef26e6572"
             },
             "require": {
                 "attaching/attachment": "dev-master",
@@ -2228,24 +2254,21 @@
             "dist": {
                 "type": "path",
                 "url": "../Cataloging",
-                "reference": "7b237f9033a722be90e1c94981a6290008cb4ad8"
+                "reference": "3108092a8175ab5296c5b835037a7339a43ace79"
             },
             "require": {
                 "administering/administration": "dev-master",
                 "api-platform/doctrine-orm": "^4.3",
                 "api-platform/graphql": "^4.3",
                 "api-platform/symfony": "^4.3",
-                "collectioning/collection": "dev-master",
                 "cruding/crud": "dev-master",
                 "doctrine/dbal": "^4.3",
                 "doctrine/doctrine-bundle": "^3.2",
                 "doctrine/doctrine-migrations-bundle": "^4.0",
                 "doctrine/orm": "^3.3",
-                "easycorp/easyadmin-bundle": "^5.5",
                 "ext-json": "*",
                 "ext-openssl": "*",
                 "ext-pdo": "*",
-                "failing/failure": "dev-master",
                 "interfacing/interface": "dev-master",
                 "nelmio/api-doc-bundle": "^5.0",
                 "objecting/object": "dev-master",
@@ -2265,7 +2288,6 @@
                 "symfony/serializer": "^8.1",
                 "symfony/twig-bundle": "^8.1",
                 "symfony/yaml": "^8.1",
-                "tabling/table": "dev-master",
                 "viewing/view": "dev-master"
             },
             "require-dev": {
@@ -2275,8 +2297,6 @@
                 "phpstan/phpstan": "^2.1",
                 "phpstan/phpstan-doctrine": "^2.0",
                 "phpunit/phpunit": "^11.5",
-                "symfony/browser-kit": "^8.1",
-                "symfony/css-selector": "^8.1",
                 "symfony/panther": "^2.4"
             },
             "type": "symfony-bundle",
@@ -2285,38 +2305,38 @@
                     "App\\Cataloging\\": "src/"
                 },
                 "files": [
-                    "src/EventInterface/CatalogCategoryWorkflowEntityTransitionedInterface.php",
-                    "src/EventInterface/CatalogSyndicationDeliveryRecordedInterface.php",
-                    "src/EventInterface/CatalogSyndicationDestinationGovernanceSummaryBuiltInterface.php",
-                    "src/EventInterface/CatalogSyndicationDestinationHistoryBuiltInterface.php",
-                    "src/EventInterface/CatalogSyndicationDestinationRegisteredInterface.php",
-                    "src/Event/CatalogCategoryWorkflowEntityTransitioned.php",
-                    "src/Event/CatalogSyndicationDeliveryRecorded.php",
-                    "src/Event/CatalogSyndicationDestinationGovernanceSummaryBuilt.php",
-                    "src/Event/CatalogSyndicationDestinationHistoryBuilt.php",
-                    "src/Event/CatalogSyndicationDestinationRegistered.php",
-                    "src/Exception/CatalogCategoryLinkEntityConflict.php",
-                    "src/Exception/CatalogTaxonomyConflict.php",
-                    "src/ValueObject/CatalogCategoryAccessAssignmentEntityRequest.php",
-                    "src/ValueObject/CatalogCategoryAccessAssignmentEntitySelection.php",
-                    "src/ValueObject/CatalogCategoryLinkEntityRequest.php"
+                    "src/EventInterface/CategoryWorkflowTransitionedInterface.php",
+                    "src/EventInterface/SyndicationDeliveryRecordedInterface.php",
+                    "src/EventInterface/SyndicationDestinationGovernanceSummaryBuiltInterface.php",
+                    "src/EventInterface/SyndicationDestinationHistoryBuiltInterface.php",
+                    "src/EventInterface/SyndicationDestinationRegisteredInterface.php",
+                    "src/Event/CategoryWorkflowTransitioned.php",
+                    "src/Event/SyndicationDeliveryRecorded.php",
+                    "src/Event/SyndicationDestinationGovernanceSummaryBuilt.php",
+                    "src/Event/SyndicationDestinationHistoryBuilt.php",
+                    "src/Event/SyndicationDestinationRegistered.php",
+                    "src/Exception/CategoryLinkConflict.php",
+                    "src/Exception/TaxonomyConflict.php",
+                    "src/ValueObject/CategoryAccessAssignmentRequest.php",
+                    "src/ValueObject/CategoryAccessAssignmentSelection.php",
+                    "src/ValueObject/CategoryLinkRequest.php"
                 ],
                 "exclude-from-classmap": [
-                    "src/Event/CatalogCategoryWorkflowEntityTransitioned.php",
-                    "src/Event/CatalogSyndicationDeliveryRecorded.php",
-                    "src/Event/CatalogSyndicationDestinationGovernanceSummaryBuilt.php",
-                    "src/Event/CatalogSyndicationDestinationHistoryBuilt.php",
-                    "src/Event/CatalogSyndicationDestinationRegistered.php",
-                    "src/EventInterface/CatalogCategoryWorkflowEntityTransitionedInterface.php",
-                    "src/EventInterface/CatalogSyndicationDeliveryRecordedInterface.php",
-                    "src/EventInterface/CatalogSyndicationDestinationGovernanceSummaryBuiltInterface.php",
-                    "src/EventInterface/CatalogSyndicationDestinationHistoryBuiltInterface.php",
-                    "src/EventInterface/CatalogSyndicationDestinationRegisteredInterface.php",
-                    "src/Exception/CatalogCategoryLinkEntityConflict.php",
-                    "src/Exception/CatalogTaxonomyConflict.php",
-                    "src/ValueObject/CatalogCategoryAccessAssignmentEntityRequest.php",
-                    "src/ValueObject/CatalogCategoryAccessAssignmentEntitySelection.php",
-                    "src/ValueObject/CatalogCategoryLinkEntityRequest.php"
+                    "src/Event/CategoryWorkflowTransitioned.php",
+                    "src/Event/SyndicationDeliveryRecorded.php",
+                    "src/Event/SyndicationDestinationGovernanceSummaryBuilt.php",
+                    "src/Event/SyndicationDestinationHistoryBuilt.php",
+                    "src/Event/SyndicationDestinationRegistered.php",
+                    "src/EventInterface/CategoryWorkflowTransitionedInterface.php",
+                    "src/EventInterface/SyndicationDeliveryRecordedInterface.php",
+                    "src/EventInterface/SyndicationDestinationGovernanceSummaryBuiltInterface.php",
+                    "src/EventInterface/SyndicationDestinationHistoryBuiltInterface.php",
+                    "src/EventInterface/SyndicationDestinationRegisteredInterface.php",
+                    "src/Exception/CategoryLinkConflict.php",
+                    "src/Exception/TaxonomyConflict.php",
+                    "src/ValueObject/CategoryAccessAssignmentRequest.php",
+                    "src/ValueObject/CategoryAccessAssignmentSelection.php",
+                    "src/ValueObject/CategoryLinkRequest.php"
                 ]
             },
             "autoload-dev": {
@@ -2494,17 +2514,7 @@
                     "@php tools/php/php84.php -d xdebug.mode=coverage vendor/bin/phpunit -c phpunit.xml.dist --path-coverage --coverage-text=var/coverage-summary.txt"
                 ],
                 "gate": [
-                    "@php -d auto_prepend_file=vendor/autoload.php vendor/bin/gating check --target=. --profile=config/gating/catalog_gating.yaml --rule-set=vendor/gating/gate/.gating/profile/rule-set/administering.yaml --severity-config=config/gating/catalog_severity.yaml"
-                ],
-                "doctrine:schema:validate": [
-                    "@php bin/console doctrine:schema:validate --no-interaction"
-                ],
-                "doctrine:migrations:up-to-date": [
-                    "@php bin/console doctrine:migrations:up-to-date --no-interaction"
-                ],
-                "schema:parity": [
-                    "@doctrine:schema:validate",
-                    "@doctrine:migrations:up-to-date"
+                    "@php -d auto_prepend_file=vendor/autoload.php vendor/bin/gating check --target=. --profile=config/gating/cataloging.yaml --severity-config=config/gating/severity.yaml"
                 ],
                 "quality": [
                     "@cs:check",
@@ -2514,7 +2524,7 @@
                 ]
             },
             "license": [
-                "PolyForm-Noncommercial-1.0.0"
+                "proprietary"
             ],
             "authors": [
                 {
@@ -2813,14 +2823,13 @@
             "dist": {
                 "type": "path",
                 "url": "../Configuring",
-                "reference": "524d0792bedb143545e8d7196d52473aa41df3fc"
+                "reference": "d0a1c248e630329de3883028a603945abb895113"
             },
             "require": {
                 "php": "^8.4"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.94",
-                "gating/gate": "dev-master",
                 "phpstan/phpstan": "^2.1",
                 "phpunit/phpunit": "^11.5"
             },
@@ -2844,18 +2853,10 @@
                 ],
                 "stan": [
                     "phpstan analyse src --memory-limit=1G"
-                ],
-                "gate": [
-                    "@php vendor/bin/gating check --target=."
-                ],
-                "quality": [
-                    "@cs:check",
-                    "@stan",
-                    "@gate"
                 ]
             },
             "license": [
-                "PolyForm-Noncommercial-1.0.0"
+                "proprietary"
             ],
             "description": "Neutral Smart Responsor contract package for producer configuration tools and component contracts.",
             "transport-options": {
@@ -2983,7 +2984,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Currencing",
-                "reference": "2cd5c2ee0a3aa96f785cf9f22754448513c680ff"
+                "reference": "0ac2872501cb11d0f5226e9b27d43bfe497c570a"
             },
             "require": {
                 "collectioning/collection": "dev-master",
@@ -3118,7 +3119,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Delivering",
-                "reference": "7a1e3c6065c9fbf16786faf3236f18e0af6701a0"
+                "reference": "ba7b9b73fdd3d4f302d42e27992d0248e356289f"
             },
             "require": {
                 "cruding/crud": "dev-master",
@@ -3201,7 +3202,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Discovering",
-                "reference": "0ff66ca86d6383f285ef11d2e73ecd6b602ae74d"
+                "reference": "ddf73599241c3bca6b594ba4323c9c09dc4fa279"
             },
             "require": {
                 "collectioning/collection": "dev-master",
@@ -4551,7 +4552,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Domaining",
-                "reference": "ead0787cb1f446b01e529ff87851a21b221a7647"
+                "reference": "92abf542d914740368070a6a9dbb650ce9c1f8cd"
             },
             "require": {
                 "administering/administration": "dev-master",
@@ -4892,7 +4893,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Exchanging",
-                "reference": "64e235662a99a280d14b563e48e81ebafc4f6e4b"
+                "reference": "8d7749395fedc45e95b564c024831d68a6e96149"
             },
             "require": {
                 "brick/math": "^0.18 || ^0.20",
@@ -5014,7 +5015,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Faceting",
-                "reference": "a8adc767710b324211808a21005fe0e639b7a0ae"
+                "reference": "67c3191e18d880ad032a7b2f7e2468206c10f5f9"
             },
             "require": {
                 "collectioning/collection": "dev-master",
@@ -5167,7 +5168,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Facting",
-                "reference": "ced1dfe0f775ab7ec63dd9a56adf3adfde8cbbd7"
+                "reference": "768d6090d87c8d4aa29ddcb394e55d5bf048b874"
             },
             "require": {
                 "accessing/access": "dev-master",
@@ -5260,7 +5261,7 @@
                 ]
             },
             "license": [
-                "PolyForm-Noncommercial-1.0.0"
+                "proprietary"
             ],
             "description": "Append-oriented auditable business fact ledger for multi-domain SaaS platform capabilities",
             "transport-options": {
@@ -5976,7 +5977,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Indexing",
-                "reference": "cb651f510767cfd2c7a2c7444df8a743d6d40162"
+                "reference": "e60dabb278b3c6f3acbe0187025eeba7c9856fe5"
             },
             "require": {
                 "collectioning/collection": "dev-master",
@@ -6155,7 +6156,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Interfacing",
-                "reference": "15ced56faf040f6982d33929904a669649ad3d11"
+                "reference": "7968581c1dc9491ec84aaae39cbc397401fe0ae8"
             },
             "require": {
                 "collectioning/collection": "dev-master",
@@ -6562,7 +6563,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Localizing",
-                "reference": "cf7aa262358a28b96a1de40874c618af192c274c"
+                "reference": "0922290374ea5acabecee0e5bd36b88490054993"
             },
             "require": {
                 "collectioning/collection": "dev-master",
@@ -6670,15 +6671,15 @@
             "dist": {
                 "type": "path",
                 "url": "../Locating",
-                "reference": "c5d5c98e8cf8d2d0b2df22922f3507d9dfdad4ea"
+                "reference": "ee83641986902e690440a441397b6afe3033bdad"
             },
             "require": {
                 "collectioning/collection": "dev-master",
                 "cruding/crud": "dev-master",
                 "easycorp/easyadmin-bundle": "^5.0",
                 "ext-json": "*",
-                "failing/failure": "dev-master",
                 "interfacing/interface": "dev-master",
+                "navigating/navigation": "dev-master",
                 "objecting/object": "dev-master",
                 "php": "^8.4",
                 "symfony/config": "^8.1",
@@ -6698,10 +6699,7 @@
                 "gating/gate": "dev-master",
                 "phpstan/phpstan": "^2.1",
                 "phpstan/phpstan-phpunit": "^2.0",
-                "phpunit/phpunit": "^10.5",
-                "symfony/browser-kit": "^8.1",
-                "symfony/css-selector": "^8.1",
-                "symfony/panther": "^2.2"
+                "phpunit/phpunit": "^10.5"
             },
             "type": "project",
             "extra": {
@@ -6867,10 +6865,6 @@
                 "test": [
                     "phpunit -c phpunit.xml.dist"
                 ],
-                "test:coverage": [
-                    "@php -r \"if (!is_dir('var/coverage')) { mkdir('var/coverage', 0777, true); }\"",
-                    "@php -d xdebug.mode=coverage vendor/bin/phpunit -c phpunit.xml.dist --path-coverage --coverage-text=var/coverage/summary.txt"
-                ],
                 "test:security:symfony": [
                     "phpunit -c phpunit.xml.dist --testsuite security"
                 ],
@@ -7009,8 +7003,7 @@
                 "quality": [
                     "@cs:check",
                     "@stan",
-                    "@test",
-                    "@gate"
+                    "@test"
                 ]
             },
             "license": [
@@ -7028,7 +7021,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Managing",
-                "reference": "62853d8e82e999f81c2c81ecf6892aace09b5948"
+                "reference": "40588c16b1a513355204e15fe8652ad1e286a234"
             },
             "require": {
                 "administering/administration": "dev-master",
@@ -7251,7 +7244,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Messaging",
-                "reference": "83077bfe0e72055054db38558cd2a54055725fbf"
+                "reference": "8f12e7b095e1e6ce1c54f7dd54e5dc98c57ef584"
             },
             "require": {
                 "administering/administration": "dev-master",
@@ -7265,7 +7258,6 @@
                 "doctrine/doctrine-migrations-bundle": "^4.0",
                 "doctrine/orm": "^3.3",
                 "doctrine/persistence": "^4.0",
-                "easycorp/easyadmin-bundle": "^5.5.1",
                 "ext-curl": "*",
                 "ext-fileinfo": "*",
                 "ext-gd": "*",
@@ -7273,7 +7265,6 @@
                 "ext-pdo": "*",
                 "ext-zip": "*",
                 "ext-zlib": "*",
-                "failing/failure": "dev-master",
                 "interfacing/interface": "dev-master",
                 "objecting/object": "dev-master",
                 "php": "^8.4",
@@ -7309,7 +7300,6 @@
             "require-dev": {
                 "doctrine/doctrine-fixtures-bundle": "^4.3",
                 "friendsofphp/php-cs-fixer": "^3.65",
-                "gating/gate": "dev-master",
                 "nelmio/api-doc-bundle": "^5.1",
                 "phpstan/phpstan": "^2.1",
                 "phpunit/phpunit": "^11.5",
@@ -7326,7 +7316,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "symfony": {
-                    "require": "8.1.*"
+                    "require": "8.0.*"
                 }
             },
             "autoload": {
@@ -7652,19 +7642,10 @@
                 ],
                 "quality:post-seal-owner-handoff-index": [
                     "@php tools/quality/message_post_seal_owner_handoff_index_audit.php"
-                ],
-                "gate": [
-                    "@php vendor/bin/gating check --target=. --profile=vendor/gating/gate/.gating/profile/component/messaging.yaml --policy-root=vendor/gating/gate/.gating"
-                ],
-                "quality": [
-                    "@cs:check",
-                    "@stan",
-                    "@test",
-                    "@gate"
                 ]
             },
             "license": [
-                "PolyForm-Noncommercial-1.0.0"
+                "proprietary"
             ],
             "description": "Messaging process app",
             "transport-options": {
@@ -7873,7 +7854,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Navigating",
-                "reference": "1f4ce7df60ebb50b017d7d10f132f93fcdb9b126"
+                "reference": "46d02343d46ac8c6ae114b56c821ada73e99b4ff"
             },
             "require": {
                 "collectioning/collection": "dev-master",
@@ -8220,7 +8201,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Notifying",
-                "reference": "3133f02d6e336799d6fff102ea814872ff173139"
+                "reference": "472a570c3659a70068773a6f5f49fa3d8516eef4"
             },
             "require": {
                 "collectioning/collection": "dev-master",
@@ -8331,7 +8312,7 @@
                 ]
             },
             "license": [
-                "PolyForm-Noncommercial-1.0.0"
+                "proprietary"
             ],
             "description": "Notifying platform component: notification center, inbox, preferences, subscriptions, and delivery planning.",
             "transport-options": {
@@ -8698,7 +8679,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Observabiliting",
-                "reference": "03e4fd7681b728dcfbe93add7978ca6de31bf5fc"
+                "reference": "09d0e13d0e74d4b4986f411667fb18a61dc0d37b"
             },
             "require": {
                 "administering/administration": "dev-master",
@@ -9225,7 +9206,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Ordering",
-                "reference": "d985b48a298590684af59b4337bbb72f545b8d7e"
+                "reference": "18d805f2b97420865b4ae933b4228018d33d2ae9"
             },
             "require": {
                 "administering/administration": "dev-master",
@@ -9276,7 +9257,6 @@
                 "doctrine/doctrine-migrations-bundle": "^4.0",
                 "fakerphp/faker": "^1.24",
                 "friendsofphp/php-cs-fixer": "^3.94",
-                "gating/gate": "dev-master",
                 "phpstan/phpstan": "^2.1",
                 "phpunit/phpunit": "^10.5",
                 "symfony/browser-kit": "^8.1",
@@ -9348,18 +9328,10 @@
                 ],
                 "pipeline:local:full": [
                     "php bin/qa-local.php"
-                ],
-                "gate": [
-                    "@php vendor/bin/gating check --target=."
-                ],
-                "quality": [
-                    "@analyse",
-                    "@test",
-                    "@gate"
                 ]
             },
             "license": [
-                "PolyForm-Noncommercial-1.0.0"
+                "proprietary"
             ],
             "description": "Symfony ordering component for order lifecycle, pricing, fulfillment, refunds, and operational processing.",
             "transport-options": {
@@ -9373,7 +9345,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Paging",
-                "reference": "5a207630e4364cc285d158c923336e369d9226ed"
+                "reference": "9bdbce2f844a86d7f60adf2ad6b334b507ec711c"
             },
             "require": {
                 "collectioning/collection": "dev-master",
@@ -10518,7 +10490,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Projecting",
-                "reference": "3b049453c6c99dc3b3b183e6a4e0b39d7aa3281d"
+                "reference": "350313be74c1a642e284df9696305d95fb6d3d18"
             },
             "require": {
                 "collectioning/collection": "dev-master",
@@ -12168,7 +12140,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Rolling",
-                "reference": "27e5f759aff3a740ed0f03ae999a99e05ddc309f"
+                "reference": "aa3edc721a38dbee8605072eb820d239371f3280"
             },
             "require": {
                 "configuring/config": "dev-master",
@@ -12475,7 +12447,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Searching",
-                "reference": "0b34d093bd59a621c2f20cb20109546cfff67182"
+                "reference": "1dfb74855be23529fb731bdefdd0d087f59bb90b"
             },
             "require": {
                 "collectioning/collection": "dev-master",
@@ -12796,7 +12768,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Shipping",
-                "reference": "953210a9e7e71be17d5cf32afcbdea7825c4980b"
+                "reference": "7670da5abb431ce3a0e8003350a3856d066e108c"
             },
             "require": {
                 "administering/administration": "dev-master",
@@ -13665,7 +13637,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Subscripting",
-                "reference": "a4ce962168d24fb3ae79985b09b3141569a9dceb"
+                "reference": "42c706a8ec8c983dda758cee04d902a965ff0300"
             },
             "require": {
                 "collectioning/collection": "dev-master",
@@ -20834,7 +20806,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Tagging",
-                "reference": "4e4493961ecfd205b68e817c5df41276a5833114"
+                "reference": "1df8fbf1a511639bdb42c1703ffd2c48b272c6f4"
             },
             "require": {
                 "administering/administration": "dev-master",
@@ -21124,7 +21096,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Taxating",
-                "reference": "f2600bc752c22c33f1a7ab05ae8550367f51e317"
+                "reference": "3f958c6cd4de18d04caf52c77900dd014f1b7e6a"
             },
             "require": {
                 "collectioning/collection": "dev-master",
@@ -21503,7 +21475,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Vendoring",
-                "reference": "1279300419cc90f4cd53576dbf9f66e0dbd05a8d"
+                "reference": "cc818cea5c200e0c3a7411ec9f7e1f0b404641ae"
             },
             "require": {
                 "collectioning/collection": "dev-master",
@@ -22198,7 +22170,7 @@
             "dist": {
                 "type": "path",
                 "url": "../Walleting",
-                "reference": "98be853e82cad933d3756fe5e6ab5d9d5a35e3aa"
+                "reference": "ca0b19cc7b7170cdf2fb5f4db5c2c5807ab6d4f7"
             },
             "require": {
                 "collectioning/collection": "dev-master",
