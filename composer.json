@@ -686,10 +686,6 @@
   },
   "autoload": {
     "psr-4": {
-      "App\\Facting\\": "../Facting/src/",
-      "App\\Failing\\": "../Failing/src/",
-      "App\\Tabling\\": "../Tabling/src/",
-      "App\\Collectioning\\": "../Collectioning/src/",
       "App\\": "src/"
     }
   },
