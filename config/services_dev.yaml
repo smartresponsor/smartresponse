@@ -1,4 +1,4 @@
 imports:
-    - { resource: '../../Ordering/config/services.yaml' }
+    # Ordering's legacy service graph imports a second, incompatible Vendoring checkout.
+    # Use the canonical Composer-installed Vendoring graph from services.yaml.
     - { resource: '../../Projecting/config/project_services_projecting_workflow.yaml' }
-    - { resource: '../../Vendoring/config/component/services.yaml' }

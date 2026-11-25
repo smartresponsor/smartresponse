@@ -1,20 +1,20 @@
 vendoring_mobile_vendor_profile:
     path: /api/vendor/profile/show/{id}
-    controller: App\Vendoring\Service\Profile\VendorProfileHttpService::show
+    controller: App\Vendoring\Service\Vendor\Profile\VendorProfileHttpService::show
     methods: [GET]
     requirements:
         id: '\d+'
 
 vendoring_mobile_vendor_summary:
     path: /api/vendor/summary/show/{id}
-    controller: App\Vendoring\Service\Summary\VendorSummaryHttpService::summary
+    controller: App\Vendoring\Service\Vendor\Summary\VendorSummaryHttpService::summary
     methods: [GET]
     requirements:
         id: '[A-Za-z0-9][A-Za-z0-9._-]*'
 
 vendoring_mobile_vendor_statement:
     path: /api/vendor/statement/show/{id}
-    controller: App\Vendoring\Service\Statement\VendorStatementHttpService::build
+    controller: App\Vendoring\Service\Vendor\Statement\VendorStatementHttpService::build
     methods: [GET]
     requirements:
         id: '[A-Za-z0-9][A-Za-z0-9._-]*'
@@ -28,7 +28,7 @@ vendoring_mobile_vendor_payout:
 
 vendoring_mobile_vendor_transaction:
     path: /api/vendor/transaction/list/{id}
-    controller: App\Vendoring\Service\Transaction\VendorTransactionHttpService::listByVendor
+    controller: App\Vendoring\Service\Vendor\Transaction\VendorTransactionHttpService::listByVendor
     methods: [GET]
     requirements:
         id: '[A-Za-z0-9][A-Za-z0-9._-]*'

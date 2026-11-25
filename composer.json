@@ -8,7 +8,7 @@
   "repositories": [
     {
       "type": "path",
-      "url": "../Agentizing",
+      "url": "../../Agentizing",
       "options": {
         "symlink": true,
         "versions": {"agentizing/agentic": "dev-master"}
@@ -16,7 +16,7 @@
     },
     {
       "type": "path",
-      "url": "../Gating",
+      "url": "../../Gating",
       "options": {
         "symlink": true,
         "versions": {
@@ -26,7 +26,7 @@
     },
     {
       "type": "path",
-      "url": "../Failing",
+      "url": "../../Failing",
       "options": {
         "symlink": true,
         "versions": {
@@ -36,7 +36,7 @@
     },
     {
       "type": "path",
-      "url": "../Collectioning",
+      "url": "../../Collectioning",
       "options": {
         "symlink": true,
         "versions": {
@@ -46,7 +46,7 @@
     },
     {
       "type": "path",
-      "url": "../Tabling",
+      "url": "../../Tabling",
       "options": {
         "symlink": true,
         "versions": {
@@ -56,7 +56,7 @@
     },
     {
       "type": "path",
-      "url": "../Objecting",
+      "url": "../../Objecting",
       "options": {
         "symlink": true,
         "versions": {
@@ -66,7 +66,7 @@
     },
     {
       "type": "path",
-      "url": "../Indexing",
+      "url": "../../Indexing",
       "options": {
         "symlink": true,
         "versions": {
@@ -76,7 +76,7 @@
     },
     {
       "type": "path",
-      "url": "../Cruding",
+      "url": "../../Cruding",
       "options": {
         "symlink": true,
         "versions": {
@@ -86,7 +86,7 @@
     },
     {
       "type": "path",
-      "url": "../Interfacing",
+      "url": "../../Interfacing",
       "options": {
         "symlink": true,
         "versions": {
@@ -96,7 +96,7 @@
     },
     {
       "type": "path",
-      "url": "../Viewing",
+      "url": "../../Viewing",
       "options": {
         "symlink": true,
         "versions": {
@@ -106,7 +106,7 @@
     },
     {
       "type": "path",
-      "url": "../Administering",
+      "url": "../../Administering",
       "options": {
         "symlink": true,
         "versions": {
@@ -116,7 +116,7 @@
     },
     {
       "type": "path",
-      "url": "../Discovering",
+      "url": "../../Discovering",
       "options": {
         "symlink": true,
         "versions": {
@@ -126,7 +126,7 @@
     },
     {
       "type": "path",
-      "url": "../Addressing",
+      "url": "../../Addressing",
       "options": {
         "symlink": true,
         "versions": {
@@ -136,7 +136,7 @@
     },
     {
       "type": "path",
-      "url": "../Casing",
+      "url": "../../Casing",
       "options": {
         "symlink": true,
         "versions": {
@@ -146,7 +146,7 @@
     },
     {
       "type": "path",
-      "url": "../Carting",
+      "url": "../../Carting",
       "options": {
         "symlink": true,
         "versions": {
@@ -156,7 +156,7 @@
     },
     {
       "type": "path",
-      "url": "../Searching",
+      "url": "../../Searching",
       "options": {
         "symlink": true,
         "versions": {
@@ -166,7 +166,7 @@
     },
     {
       "type": "path",
-      "url": "../Domaining",
+      "url": "../../Domaining",
       "options": {
         "symlink": true,
         "versions": {
@@ -176,7 +176,7 @@
     },
     {
       "type": "path",
-      "url": "../Resolving",
+      "url": "../../Resolving",
       "options": {
         "symlink": true,
         "versions": {
@@ -186,7 +186,7 @@
     },
     {
       "type": "path",
-      "url": "../Merchandising",
+      "url": "../../Merchandising",
       "options": {
         "symlink": true,
         "versions": {
@@ -196,7 +196,7 @@
     },
     {
       "type": "path",
-      "url": "../Tagging",
+      "url": "../../Tagging",
       "options": {
         "symlink": true,
         "versions": {
@@ -206,7 +206,7 @@
     },
     {
       "type": "path",
-      "url": "../Billing",
+      "url": "../../Billing",
       "options": {
         "symlink": true,
         "versions": {
@@ -216,7 +216,7 @@
     },
     {
       "type": "path",
-      "url": "../Vendoring",
+      "url": "../vendoring-windows-release-20261121",
       "options": {
         "symlink": true,
         "versions": {
@@ -226,7 +226,7 @@
     },
     {
       "type": "path",
-      "url": "../Analysing",
+      "url": "../analysing-admin-contract-20261122",
       "options": {
         "symlink": true,
         "versions": {
@@ -236,7 +236,7 @@
     },
     {
       "type": "path",
-      "url": "../Configuring",
+      "url": "../../Configuring",
       "options": {
         "symlink": true,
         "versions": {
@@ -246,7 +246,7 @@
     },
     {
       "type": "path",
-      "url": "../Attaching",
+      "url": "../../Attaching",
       "options": {
         "symlink": true,
         "versions": {
@@ -256,7 +256,7 @@
     },
     {
       "type": "path",
-      "url": "../Messaging",
+      "url": "../messaging-config-contract-20261122",
       "options": {
         "symlink": true,
         "versions": {
@@ -266,7 +266,7 @@
     },
     {
       "type": "path",
-      "url": "../Notifying",
+      "url": "../../Notifying",
       "options": {
         "symlink": true,
         "versions": {
@@ -276,7 +276,7 @@
     },
     {
       "type": "path",
-      "url": "../Streaming",
+      "url": "../../Streaming",
       "options": {
         "symlink": true,
         "versions": {
@@ -286,7 +286,7 @@
     },
     {
       "type": "path",
-      "url": "../Delivering",
+      "url": "../../Delivering",
       "options": {
         "symlink": true,
         "versions": {
@@ -296,7 +296,7 @@
     },
     {
       "type": "path",
-      "url": "../Navigating",
+      "url": "../../Navigating",
       "options": {
         "symlink": true,
         "versions": {
@@ -306,7 +306,7 @@
     },
     {
       "type": "path",
-      "url": "../Cataloging",
+      "url": "../cataloging-autoload-20261122",
       "options": {
         "symlink": true,
         "versions": {
@@ -316,7 +316,7 @@
     },
     {
       "type": "path",
-      "url": "../Accessing",
+      "url": "../../Accessing",
       "options": {
         "symlink": true,
         "versions": {
@@ -326,7 +326,7 @@
     },
     {
       "type": "path",
-      "url": "../Rolling",
+      "url": "../../Rolling",
       "options": {
         "symlink": true,
         "versions": {
@@ -336,7 +336,7 @@
     },
     {
       "type": "path",
-      "url": "../Taxating",
+      "url": "../../Taxating",
       "options": {
         "symlink": true,
         "versions": {
@@ -346,7 +346,7 @@
     },
     {
       "type": "path",
-      "url": "../Shipping",
+      "url": "../../Shipping",
       "options": {
         "symlink": true,
         "versions": {
@@ -356,7 +356,7 @@
     },
     {
       "type": "path",
-      "url": "../Locating",
+      "url": "../../Locating",
       "options": {
         "symlink": true,
         "versions": {
@@ -366,7 +366,7 @@
     },
     {
       "type": "path",
-      "url": "../Ordering",
+      "url": "../../Ordering",
       "options": {
         "symlink": true,
         "versions": {
@@ -376,7 +376,7 @@
     },
     {
       "type": "path",
-      "url": "../Paying",
+      "url": "../paying-canonical-20261122",
       "options": {
         "symlink": true,
         "versions": {
@@ -386,7 +386,7 @@
     },
     {
       "type": "path",
-      "url": "../Walleting",
+      "url": "../../Walleting",
       "options": {
         "symlink": true,
         "versions": {
@@ -396,7 +396,7 @@
     },
     {
       "type": "path",
-      "url": "../Withdrawing",
+      "url": "../../Withdrawing",
       "options": {
         "symlink": true,
         "versions": {
@@ -406,7 +406,7 @@
     },
     {
       "type": "path",
-      "url": "../Applicating",
+      "url": "../../Applicating",
       "options": {
         "symlink": true,
         "versions": {
@@ -416,17 +416,17 @@
     },
     {
       "type": "path",
-      "url": "../Anchoring/sdk/php",
+      "url": "../../Anchoring/sdk/php",
       "options": {
         "symlink": true,
         "versions": {
-          "anchoring/anchor": "dev-master"
+          "smartresponsor/anchoring": "dev-master"
         }
       }
     },
     {
       "type": "path",
-      "url": "../Adjudicating",
+      "url": "../../Adjudicating",
       "options": {
         "symlink": true,
         "versions": {
@@ -436,7 +436,7 @@
     },
     {
       "type": "path",
-      "url": "../Commissioning",
+      "url": "../../Commissioning",
       "options": {
         "symlink": true,
         "versions": {
@@ -446,7 +446,7 @@
     },
     {
       "type": "path",
-      "url": "../Currencing",
+      "url": "../../Currencing",
       "options": {
         "symlink": true,
         "versions": {
@@ -456,7 +456,7 @@
     },
     {
       "type": "path",
-      "url": "../Exchanging",
+      "url": "../../Exchanging",
       "options": {
         "symlink": true,
         "versions": {
@@ -466,7 +466,7 @@
     },
     {
       "type": "path",
-      "url": "../Faceting",
+      "url": "../../Faceting",
       "options": {
         "symlink": true,
         "versions": {
@@ -476,7 +476,7 @@
     },
     {
       "type": "path",
-      "url": "../Facting",
+      "url": "../../Facting",
       "options": {
         "symlink": true,
         "versions": {
@@ -486,7 +486,7 @@
     },
     {
       "type": "path",
-      "url": "../Localizing",
+      "url": "../../Localizing",
       "options": {
         "symlink": true,
         "versions": {
@@ -496,7 +496,7 @@
     },
     {
       "type": "path",
-      "url": "../Managing",
+      "url": "../../Managing",
       "options": {
         "symlink": true,
         "versions": {
@@ -506,7 +506,7 @@
     },
     {
       "type": "path",
-      "url": "../Observabiliting",
+      "url": "../../Observabiliting",
       "options": {
         "symlink": true,
         "versions": {
@@ -516,7 +516,7 @@
     },
     {
       "type": "path",
-      "url": "../Paging",
+      "url": "../../Paging",
       "options": {
         "symlink": true,
         "versions": {
@@ -526,7 +526,7 @@
     },
     {
       "type": "path",
-      "url": "../Projecting",
+      "url": "../../Projecting",
       "options": {
         "symlink": true,
         "versions": {
@@ -536,7 +536,7 @@
     },
     {
       "type": "path",
-      "url": "../Relating",
+      "url": "../relating-canonical-20261122",
       "options": {
         "symlink": true,
         "versions": {
@@ -546,7 +546,7 @@
     },
     {
       "type": "path",
-      "url": "../Retailing",
+      "url": "../../Retailing",
       "options": {
         "symlink": true,
         "versions": {
@@ -556,7 +556,7 @@
     },
     {
       "type": "path",
-      "url": "../Subscripting",
+      "url": "../../Subscripting",
       "options": {
         "symlink": true,
         "versions": {
@@ -566,7 +566,7 @@
     },
     {
       "type": "path",
-      "url": "../Pricing",
+      "url": "../../Pricing",
       "options": {
         "symlink": true,
         "versions": {
@@ -576,7 +576,7 @@
     },
     {
       "type": "path",
-      "url": "../Stocking",
+      "url": "../../Stocking",
       "options": {
         "symlink": true,
         "versions": {
@@ -593,7 +593,7 @@
     "addressing/address": "dev-master",
     "administering/administration": "*",
     "analysing/analytics": "dev-master",
-    "anchoring/anchor": "dev-master",
+    "smartresponsor/anchoring": "dev-master",
     "applicating/application": "dev-master",
     "attaching/attachment": "dev-master",
     "billing/billing": "dev-master",

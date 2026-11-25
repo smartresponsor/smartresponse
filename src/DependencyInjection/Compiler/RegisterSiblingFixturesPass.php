@@ -24,6 +24,11 @@ final class RegisterSiblingFixturesPass implements CompilerPassInterface
             return;
         }
         $workspaceDir = dirname($projectDir);
+        // Integration worktrees must use their Composer-installed fixture services;
+        // scanning sibling worktrees or mutable checkouts creates phantom services.
+        if ('.worktrees' === basename($workspaceDir)) {
+            return;
+        }
         $allowedSiblingFixtures = $this->getAllowedSiblingFixtures($container);
         $fixtures = [];
 

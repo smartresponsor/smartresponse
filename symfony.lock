@@ -5,10 +5,16 @@
     "addressing/address": {
         "version": "dev-master"
     },
+    "adjudicating/adjudication": {
+        "version": "dev-master"
+    },
     "administering/admin": {
         "version": "dev-main"
     },
     "administering/administration": {
+        "version": "dev-master"
+    },
+    "agentizing/agentic": {
         "version": "dev-master"
     },
     "analysing/analytics": {
@@ -137,6 +143,9 @@
         "version": "dev-master"
     },
     "facting/fact": {
+        "version": "dev-master"
+    },
+    "failing/failure": {
         "version": "dev-master"
     },
     "friendsofphp/php-cs-fixer": {
