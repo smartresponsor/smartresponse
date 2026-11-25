@@ -81,7 +81,7 @@ services:
     App\Messaging\Service\Moderation\MessageModerationRuleEngineService: ~
     App\Messaging\Service\ACL\MessageAclAuditLoggerService: ~
     App\Messaging\Service\ACL\MessagePermissionEvaluatorService: ~
-    App\Messaging\Resolver\ACL\MessageScopeResolver: ~
+    App\Messaging\Service\ACL\MessageScopeResolverService: ~
     App\Messaging\Service\ACL\MessageRoleAssignerService: ~
     App\Messaging\Service\ACL\MessageAclCacheService: ~
     App\Messaging\Service\Pin\MessagePinService: ~
@@ -90,7 +90,7 @@ services:
         arguments:
             $publishUrl: '%mercure.publish_url%'
             $jwtSecret: '%mercure.jwt_secret%'
-    App\Messaging\Resolver\Realtime\MessageTopicResolver: ~
+    App\Messaging\Service\Realtime\MessageTopicResolverService: ~
     App\Messaging\Service\Realtime\MessagePresenceGatewayService: ~
     App\Messaging\Service\Realtime\MessageRealtimeService: ~
     App\Messaging\Service\Realtime\MessageRetryAckService: ~
@@ -122,7 +122,9 @@ services:
     App\Messaging\Service\Room\MessageModerationService: ~
     App\Messaging\Service\Room\MessageRoomService: ~
     App\Messaging\Service\Room\MessageInviteService: ~
-    App\Messaging\Policy\Room\MessageRoomPolicy: ~
+    App\Messaging\Service\ACL\Room\MessageRoomPolicyService: ~
+    App\Messaging\Service\ACL\Room\Rules\MessageRoomJoinPolicyRuleService: ~
+    App\Messaging\ServiceInterface\Realtime\MessageRealtimeBusServiceInterface: '@App\Messaging\Service\Realtime\MessageRealtimeBusService'
     App\Messaging\Service\Room\MessageUnreadService: ~
     App\Messaging\Service\Thread\MessageReplyService: ~
     App\Messaging\Service\Thread\MessageThreadPermissionService: ~
@@ -137,33 +139,33 @@ services:
     App\Service\Diagnostics\AppRouteAuditService:
         public: true
         tags: ['controller.service_arguments']
-    App\Vendoring\Repository\VendorPayoutAccountRepository:
+    App\Vendoring\Repository\Vendor\VendorPayoutAccountRepository:
         autowire: false
         arguments:
             $registry: '@doctrine'
-    App\Vendoring\Repository\VendorPayoutRepository:
+    App\Vendoring\Repository\Vendor\VendorPayoutRepository:
         autowire: false
         arguments:
             $registry: '@doctrine'
     App\Service\Vendoring\Runtime\Mobile\VendorMobilePayoutShowService:
         public: true
         tags: ['controller.service_arguments']
-    App\Vendoring\Service\Profile\VendorProfileHttpService:
+    App\Vendoring\Service\Vendor\Profile\VendorProfileHttpService:
         public: true
         autowire: true
         autoconfigure: true
         tags: ['controller.service_arguments']
-    App\Vendoring\Service\Statement\VendorStatementHttpService:
+    App\Vendoring\Service\Vendor\Statement\VendorStatementHttpService:
         public: true
         autowire: true
         autoconfigure: true
         tags: ['controller.service_arguments']
-    App\Vendoring\Service\Summary\VendorSummaryHttpService:
+    App\Vendoring\Service\Vendor\Summary\VendorSummaryHttpService:
         public: true
         autowire: true
         autoconfigure: true
         tags: ['controller.service_arguments']
-    App\Vendoring\Service\Transaction\VendorTransactionHttpService:
+    App\Vendoring\Service\Vendor\Transaction\VendorTransactionHttpService:
         public: true
         autowire: true
         autoconfigure: true

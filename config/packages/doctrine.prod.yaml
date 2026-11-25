@@ -48,6 +48,14 @@ doctrine:
             App\Taxating\EntityInterface\Taxation\RegistrationEntityInterface: App\Taxating\Entity\Taxation\TaxationRegistrationEntity
             App\Cataloging\EntityInterface\CategoryInterface: App\Cataloging\Entity\CatalogCategoryEntity
         entity_managers:
+            default:
+                mappings:
+                    Objecting:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/vendor/objecting/object/src/Embeddable'
+                        prefix: 'App\Objecting\Embeddable'
+
             postgres:
                 connection: postgres
                 auto_mapping: false
