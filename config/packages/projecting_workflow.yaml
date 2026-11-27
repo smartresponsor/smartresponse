@@ -1,7 +1,7 @@
 when@dev:
     imports:
-        - { resource: '../../../Projecting/config/packages/workflows/project_projecting_workflow.yaml' }
+        - { resource: '../../vendor/projecting/project/config/packages/workflows/project_projecting_workflow.yaml' }
 
 when@test:
     imports:
-        - { resource: '../../../Projecting/config/packages/workflows/project_projecting_workflow.yaml' }
+        - { resource: '../../vendor/projecting/project/config/packages/workflows/project_projecting_workflow.yaml' }

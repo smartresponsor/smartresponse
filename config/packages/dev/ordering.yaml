@@ -1,4 +1,4 @@
 imports:
-    - { resource: '../../../../Ordering/config/packages/rate_limiter.yaml' }
-    - { resource: '../../../../Ordering/config/workflow/order.yaml' }
-    - { resource: '../../../../Ordering/config/packages/messenger.yaml' }
+    - { resource: '../../../vendor/ordering/order/config/packages/rate_limiter.yaml' }
+    - { resource: '../../../vendor/ordering/order/config/workflow/order.yaml' }
+    - { resource: '../../../vendor/ordering/order/config/packages/messenger.yaml' }
