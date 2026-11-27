@@ -11,6 +11,30 @@ use Symfony\Component\DependencyInjection\Definition;
 
 final class SiblingFixturesRegistrationTest extends TestCase
 {
+    public function testExcludedFixtureDefinitionsAreNotReferencedByLoader(): void
+    {
+        $container = new ContainerBuilder();
+        $container->setParameter('kernel.project_dir', dirname(__DIR__, 3));
+        $container->setParameter('app.sibling_fixtures_allowlist', ['Cataloging']);
+        $container->setDefinition('doctrine.fixtures.loader', new Definition());
+        $excluded = 'App\\Cataloging\\DataFixtures\\BrokenTreeFixtures';
+        $container->setDefinition($excluded, (new Definition($excluded))->setAbstract(true)->addTag('container.excluded'));
+
+        (new RegisterSiblingFixturesPass())->process($container);
+
+        self::assertTrue($container->getDefinition($excluded)->isAbstract());
+        $registered = [];
+        foreach ($container->getDefinition('doctrine.fixtures.loader')->getMethodCalls() as [$method, $arguments]) {
+            if ('addFixtures' === $method) {
+                foreach ($arguments[0] as $fixture) {
+                    $registered[] = (string) $fixture['fixture'];
+                }
+            }
+        }
+        self::assertNotContains($excluded, $registered);
+        self::assertContains('App\\Cataloging\\DataFixtures\\MultiCatalogFixtures', $registered);
+    }
+
     public function testDoctrineFixturesLoadDryRunSeesSiblingFixtures(): void
     {
         $allowlist = [

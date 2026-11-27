@@ -124,6 +124,14 @@ final class RegisterSiblingFixturesPass implements CompilerPassInterface
                 continue;
             }
 
+            // Respect component-owned exclusions and abstract service definitions.
+            if ($serviceAlreadyRegistered) {
+                $existingDefinition = $container->findDefinition($fqcn);
+                if ($existingDefinition->isAbstract() || $existingDefinition->hasTag('container.excluded')) {
+                    continue;
+                }
+            }
+
             if (!$serviceAlreadyRegistered) {
                 $definition = new Definition($fqcn);
                 $definition->setAutowired(true);

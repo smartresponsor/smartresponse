@@ -81,7 +81,7 @@ services:
     App\Messaging\Service\Moderation\MessageModerationRuleEngineService: ~
     App\Messaging\Service\ACL\MessageAclAuditLoggerService: ~
     App\Messaging\Service\ACL\MessagePermissionEvaluatorService: ~
-    App\Messaging\Service\ACL\MessageScopeResolverService: ~
+    App\Messaging\Resolver\ACL\MessageScopeResolver: ~
     App\Messaging\Service\ACL\MessageRoleAssignerService: ~
     App\Messaging\Service\ACL\MessageAclCacheService: ~
     App\Messaging\Service\Pin\MessagePinService: ~
@@ -90,7 +90,7 @@ services:
         arguments:
             $publishUrl: '%mercure.publish_url%'
             $jwtSecret: '%mercure.jwt_secret%'
-    App\Messaging\Service\Realtime\MessageTopicResolverService: ~
+    App\Messaging\Resolver\Realtime\MessageTopicResolver: ~
     App\Messaging\Service\Realtime\MessagePresenceGatewayService: ~
     App\Messaging\Service\Realtime\MessageRealtimeService: ~
     App\Messaging\Service\Realtime\MessageRetryAckService: ~
@@ -122,7 +122,8 @@ services:
     App\Messaging\Service\Room\MessageModerationService: ~
     App\Messaging\Service\Room\MessageRoomService: ~
     App\Messaging\Service\Room\MessageInviteService: ~
-    App\Messaging\Service\ACL\Room\MessageRoomPolicyService: ~
+    App\Messaging\Policy\ACL\Room\MessageRoomPolicy: ~
+    App\Messaging\Policy\Room\MessageRoomPolicy: ~
     App\Messaging\Service\ACL\Room\Rules\MessageRoomJoinPolicyRuleService: ~
     App\Messaging\ServiceInterface\Realtime\MessageRealtimeBusServiceInterface: '@App\Messaging\Service\Realtime\MessageRealtimeBusService'
     App\Messaging\Service\Room\MessageUnreadService: ~

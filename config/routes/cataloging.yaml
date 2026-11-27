@@ -1,4 +1,4 @@
 cataloging_controllers:
-    resource: '../../vendor/cataloging/catalog/config/routes.yaml'
+    resource: '../../vendor/cataloging/catalog/config/component/routes.yaml'
     type: yaml
     prefix: /
