@@ -11,6 +11,39 @@ use Symfony\Component\DependencyInjection\Definition;
 
 final class SiblingFixturesRegistrationTest extends TestCase
 {
+    public function testFixtureDiscoveryUsesOnlyComposerInstalledComponents(): void
+    {
+        $workspace = sys_get_temp_dir().'/app-fixture-discovery-'.bin2hex(random_bytes(8));
+        $project = $workspace.'/App';
+        $installed = $project.'/vendor/probe/fixture/src/DataFixtures';
+        $sibling = $workspace.'/Sandbox/src/DataFixtures';
+        $filesystem = new \Symfony\Component\Filesystem\Filesystem();
+
+        try {
+            $filesystem->mkdir([$installed, $sibling]);
+            foreach ([$installed => 'InstalledFixture', $sibling => 'SiblingOnlyFixture'] as $directory => $class) {
+                $filesystem->dumpFile($directory.'/'.$class.'.php', '<?php namespace App\Tests\FixtureDiscoveryProbe; final class '.$class.' implements \Doctrine\Common\DataFixtures\FixtureInterface { public function load(\Doctrine\Persistence\ObjectManager $manager): void {} }');
+            }
+
+            $container = new ContainerBuilder();
+            $container->setParameter('kernel.project_dir', $project);
+            $container->setParameter('app.sibling_fixtures_allowlist', []);
+            $container->setDefinition('doctrine.fixtures.loader', new Definition());
+
+            (new RegisterSiblingFixturesPass())->process($container);
+
+            self::assertTrue($container->hasDefinition('App\\Tests\\FixtureDiscoveryProbe\\InstalledFixture'));
+            self::assertFalse($container->hasDefinition('App\\Tests\\FixtureDiscoveryProbe\\SiblingOnlyFixture'));
+            $calls = $container->getDefinition('doctrine.fixtures.loader')->getMethodCalls();
+            self::assertCount(1, $calls);
+            self::assertSame('addFixtures', $calls[0][0]);
+            self::assertCount(1, $calls[0][1][0]);
+            self::assertSame('App\\Tests\\FixtureDiscoveryProbe\\InstalledFixture', (string) $calls[0][1][0][0]['fixture']);
+        } finally {
+            $filesystem->remove($workspace);
+        }
+    }
+
     public function testExcludedFixtureDefinitionsAreNotReferencedByLoader(): void
     {
         $container = new ContainerBuilder();
