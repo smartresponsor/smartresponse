@@ -8,6 +8,7 @@ use App\DependencyInjection\Compiler\RegisterSiblingFixturesPass;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
 
 final class SiblingFixturesRegistrationTest extends TestCase
 {
@@ -36,9 +37,7 @@ final class SiblingFixturesRegistrationTest extends TestCase
             self::assertFalse($container->hasDefinition('App\\Tests\\FixtureDiscoveryProbe\\SiblingOnlyFixture'));
             $calls = $container->getDefinition('doctrine.fixtures.loader')->getMethodCalls();
             self::assertCount(1, $calls);
-            self::assertSame('addFixtures', $calls[0][0]);
-            self::assertCount(1, $calls[0][1][0]);
-            self::assertSame('App\\Tests\\FixtureDiscoveryProbe\\InstalledFixture', (string) $calls[0][1][0][0]['fixture']);
+            self::assertSame(['App\\Tests\\FixtureDiscoveryProbe\\InstalledFixture'], $this->registeredFixtureIds($container));
         } finally {
             $filesystem->remove($workspace);
         }
@@ -56,14 +55,7 @@ final class SiblingFixturesRegistrationTest extends TestCase
         (new RegisterSiblingFixturesPass())->process($container);
 
         self::assertTrue($container->getDefinition($excluded)->isAbstract());
-        $registered = [];
-        foreach ($container->getDefinition('doctrine.fixtures.loader')->getMethodCalls() as [$method, $arguments]) {
-            if ('addFixtures' === $method) {
-                foreach ($arguments[0] as $fixture) {
-                    $registered[] = (string) $fixture['fixture'];
-                }
-            }
-        }
+        $registered = $this->registeredFixtureIds($container);
         self::assertNotContains($excluded, $registered);
         self::assertContains('App\\Cataloging\\DataFixtures\\MultiCatalogFixtures', $registered);
     }
@@ -123,5 +115,32 @@ final class SiblingFixturesRegistrationTest extends TestCase
         self::assertTrue($container->hasDefinition('App\\Shipping\\DataFixtures\\ShipmentShippingFixtures'));
         self::assertFalse($container->hasDefinition('App\\DataFixtures\\GovernanceDemoFixture'));
         self::assertFalse($container->hasDefinition('App\\DataFixtures\\FacetingFixture'));
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function registeredFixtureIds(ContainerBuilder $container): array
+    {
+        $registered = [];
+        foreach ($container->getDefinition('doctrine.fixtures.loader')->getMethodCalls() as $call) {
+            if (!\is_array($call) || 'addFixtures' !== ($call[0] ?? null)) {
+                continue;
+            }
+
+            $arguments = $call[1] ?? null;
+            self::assertIsArray($arguments);
+            $fixtures = $arguments[0] ?? null;
+            self::assertIsArray($fixtures);
+
+            foreach ($fixtures as $fixture) {
+                self::assertIsArray($fixture);
+                $reference = $fixture['fixture'] ?? null;
+                self::assertInstanceOf(Reference::class, $reference);
+                $registered[] = (string) $reference;
+            }
+        }
+
+        return $registered;
     }
 }

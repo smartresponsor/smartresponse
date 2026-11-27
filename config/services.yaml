@@ -298,7 +298,7 @@ services:
         alias: App\Provider\Localization\AppLocaleTemplateContextProvider
     App\ServiceInterface\InterfaceLocation\AppInterfaceLocationComposeServiceInterface:
         alias: App\Service\InterfaceLocation\AppInterfaceLocationComposeService
-    App\Viewing\ServiceInterface\ViewInterfaceLocationComposeServiceInterface:
+    App\Viewing\Contract\ViewInterfaceLocationComposerInterface:
         alias: App\Service\InterfaceLocation\AppInterfaceLocationComposeService
 
 
