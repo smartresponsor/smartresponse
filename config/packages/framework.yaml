@@ -11,6 +11,12 @@ framework:
     #esi: true
     #fragments: true
 
+when@dev:
+    framework:
+        session:
+            handler_id: session.handler.native_file
+            save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+
 when@test:
     framework:
         test: true
