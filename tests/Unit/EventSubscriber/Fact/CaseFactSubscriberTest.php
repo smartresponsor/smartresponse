@@ -7,10 +7,10 @@ namespace App\Tests\Unit\EventSubscriber\Fact;
 use App\Casing\Event\CaseOpenedEvent;
 use App\Casing\Event\CaseResolvedEvent;
 use App\EventSubscriber\Fact\CaseFactSubscriber;
-use App\Facting\ServiceInterface\FactSubjectCommitterInterface;
-use App\Facting\ValueObject\FactEnvelope;
-use App\Facting\ValueObject\FactRecord;
-use App\Facting\ValueObject\FactStream;
+use App\ServiceInterface\Fact\FactSubjectCommitterInterface;
+use App\Facting\Fact\FactEnvelope;
+use App\Facting\Fact\FactRecord;
+use App\Facting\Fact\FactStream;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 

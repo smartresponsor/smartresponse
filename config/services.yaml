@@ -209,11 +209,11 @@ services:
         tags: ['controller.service_arguments']
     App\Accessing\ProviderInterface\PhoneVerification\AccessPhoneVerificationProviderInterface:
         alias: App\Provider\Access\AccessDeliveringPhoneVerificationProvider
-    App\Facting\Provider\FactCurrentSubjectProvider:
+    App\Service\Fact\FactCurrentSubjectProvider:
         autowire: true
         autoconfigure: true
-    App\Facting\ServiceInterface\FactCurrentSubjectProviderInterface:
-        alias: App\Facting\Provider\FactCurrentSubjectProvider
+    App\ServiceInterface\Fact\FactCurrentSubjectProviderInterface:
+        alias: App\Service\Fact\FactCurrentSubjectProvider
     App\Delivering\ResolverInterface\Delivery\DeliveryPushTokenResolverInterface:
         alias: App\Resolver\Notification\NotifyingPushTokenResolver
     App\Cataloging\Controller\Catalog\CatalogCategoryMerchantController:

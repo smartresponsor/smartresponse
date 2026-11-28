@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8024a429b8c8b08c379cac9f9025e8da",
+    "content-hash": "641acad6873d367d815745a2aa4e00c6",
     "packages": [
         {
             "name": "accessing/access",
-            "version": "dev-master",
+            "version": "dev-fix/accessing-linux-psr4-20261128",
             "source": {
                 "type": "git",
                 "url": "git@github.com:smartresponsor/accessing.git",
-                "reference": "23c63df582aad2a82147918541bfcc65bd9886f1"
+                "reference": "317be5a2bf6defb7a27ba6c32b92c95370337a29"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smartresponsor/accessing/zipball/23c63df582aad2a82147918541bfcc65bd9886f1",
-                "reference": "23c63df582aad2a82147918541bfcc65bd9886f1",
+                "url": "https://api.github.com/repos/smartresponsor/accessing/zipball/317be5a2bf6defb7a27ba6c32b92c95370337a29",
+                "reference": "317be5a2bf6defb7a27ba6c32b92c95370337a29",
                 "shasum": ""
             },
             "require": {
@@ -174,7 +174,7 @@
                 "PolyForm-Noncommercial-1.0.0"
             ],
             "description": "Accessing process app",
-            "time": "2026-10-06T13:22:57+00:00"
+            "time": "2026-11-28T06:13:09+00:00"
         },
         {
             "name": "addressing/address",
@@ -1821,16 +1821,16 @@
         },
         {
             "name": "casing/case",
-            "version": "dev-master",
+            "version": "dev-fix/casing-host-contract-20261128",
             "source": {
                 "type": "git",
                 "url": "git@github.com:smartresponsor/casing.git",
-                "reference": "f67c0019bb3e7016af7c4cc60e29c01facae61ac"
+                "reference": "b0769fec7395d26ca654a25a65cba32c55d45b83"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smartresponsor/casing/zipball/f67c0019bb3e7016af7c4cc60e29c01facae61ac",
-                "reference": "f67c0019bb3e7016af7c4cc60e29c01facae61ac",
+                "url": "https://api.github.com/repos/smartresponsor/casing/zipball/b0769fec7395d26ca654a25a65cba32c55d45b83",
+                "reference": "b0769fec7395d26ca654a25a65cba32c55d45b83",
                 "shasum": ""
             },
             "require": {
@@ -1904,7 +1904,7 @@
                 "proprietary"
             ],
             "description": "SmartResponsor case intake and lifecycle component",
-            "time": "2026-09-14T17:35:02+00:00"
+            "time": "2026-11-28T06:31:52+00:00"
         },
         {
             "name": "cataloging/catalog",
@@ -2424,16 +2424,16 @@
         },
         {
             "name": "cruding/crud",
-            "version": "dev-cruding-rc-bulk-mutation-v2",
+            "version": "dev-fix/cruding-tabling-contract-20261128",
             "source": {
                 "type": "git",
                 "url": "git@github.com:smartresponsor/cruding.git",
-                "reference": "1c291877721e7db57be69e5f9577534b023c279c"
+                "reference": "f5145aef98f9a0cb37b14bb7a2f05587f86fc1ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smartresponsor/cruding/zipball/1c291877721e7db57be69e5f9577534b023c279c",
-                "reference": "1c291877721e7db57be69e5f9577534b023c279c",
+                "url": "https://api.github.com/repos/smartresponsor/cruding/zipball/f5145aef98f9a0cb37b14bb7a2f05587f86fc1ee",
+                "reference": "f5145aef98f9a0cb37b14bb7a2f05587f86fc1ee",
                 "shasum": ""
             },
             "require": {
@@ -2551,7 +2551,7 @@
                 "PolyForm-Noncommercial-1.0.0"
             ],
             "description": "Universal CRUD route processor bundle for Symfony host applications.",
-            "time": "2026-09-27T13:59:47-05:00"
+            "time": "2026-11-28T06:34:35+00:00"
         },
         {
             "name": "currencing/currency",
@@ -4781,16 +4781,16 @@
         },
         {
             "name": "facting/fact",
-            "version": "dev-master",
+            "version": "dev-fix/facting-accessing-contract-20261128",
             "source": {
                 "type": "git",
                 "url": "git@github.com:smartresponsor/facting.git",
-                "reference": "9221629966d86f6a72747f9982ec7fcf8e32c064"
+                "reference": "078fc57b41cd8c150320fc664c30a7b6de0b2790"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smartresponsor/facting/zipball/9221629966d86f6a72747f9982ec7fcf8e32c064",
-                "reference": "9221629966d86f6a72747f9982ec7fcf8e32c064",
+                "url": "https://api.github.com/repos/smartresponsor/facting/zipball/078fc57b41cd8c150320fc664c30a7b6de0b2790",
+                "reference": "078fc57b41cd8c150320fc664c30a7b6de0b2790",
                 "shasum": ""
             },
             "require": {
@@ -4852,7 +4852,7 @@
                 "proprietary"
             ],
             "description": "Append-oriented auditable business fact ledger for SmartResponsor platform capabilities",
-            "time": "2026-08-24T15:28:04+00:00"
+            "time": "2026-11-28T06:42:46+00:00"
         },
         {
             "name": "failing/failure",
@@ -6319,16 +6319,16 @@
         },
         {
             "name": "managing/manage",
-            "version": "dev-master",
+            "version": "dev-fix/managing-admin-source-20261128",
             "source": {
                 "type": "git",
                 "url": "git@github.com:smartresponsor/managing.git",
-                "reference": "aea297962718c2786a73be34dd16d8f65fc9f8aa"
+                "reference": "5e03d61aebd7ed91f20a84d5d8e662a312a4c0dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smartresponsor/managing/zipball/aea297962718c2786a73be34dd16d8f65fc9f8aa",
-                "reference": "aea297962718c2786a73be34dd16d8f65fc9f8aa",
+                "url": "https://api.github.com/repos/smartresponsor/managing/zipball/5e03d61aebd7ed91f20a84d5d8e662a312a4c0dc",
+                "reference": "5e03d61aebd7ed91f20a84d5d8e662a312a4c0dc",
                 "shasum": ""
             },
             "require": {
@@ -6419,7 +6419,7 @@
                 "PolyForm-Noncommercial-1.0.0"
             ],
             "description": "Managing process app",
-            "time": "2026-09-30T15:42:40+00:00"
+            "time": "2026-11-28T06:25:06+00:00"
         },
         {
             "name": "messaging/message",
@@ -23293,8 +23293,20 @@
     ],
     "aliases": [
         {
+            "package": "accessing/access",
+            "version": "dev-fix/accessing-linux-psr4-20261128",
+            "alias": "dev-master",
+            "alias_normalized": "dev-master"
+        },
+        {
             "package": "addressing/address",
             "version": "dev-fix/addressing-consolidated-acceptance-20261127",
+            "alias": "dev-master",
+            "alias_normalized": "dev-master"
+        },
+        {
+            "package": "casing/case",
+            "version": "dev-fix/casing-host-contract-20261128",
             "alias": "dev-master",
             "alias_normalized": "dev-master"
         },
@@ -23306,7 +23318,13 @@
         },
         {
             "package": "cruding/crud",
-            "version": "dev-cruding-rc-bulk-mutation-v2",
+            "version": "dev-fix/cruding-tabling-contract-20261128",
+            "alias": "dev-master",
+            "alias_normalized": "dev-master"
+        },
+        {
+            "package": "facting/fact",
+            "version": "dev-fix/facting-accessing-contract-20261128",
             "alias": "dev-master",
             "alias_normalized": "dev-master"
         },
@@ -23319,6 +23337,12 @@
         {
             "package": "locating/location",
             "version": "dev-env/locating-l2",
+            "alias": "dev-master",
+            "alias_normalized": "dev-master"
+        },
+        {
+            "package": "managing/manage",
+            "version": "dev-fix/managing-admin-source-20261128",
             "alias": "dev-master",
             "alias_normalized": "dev-master"
         },
