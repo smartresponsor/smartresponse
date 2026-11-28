@@ -33,6 +33,24 @@ final class VendoringMobileProfileRouteTest extends TestCase
         self::assertSame('vendoring_mobile_vendor_transaction', $parameters['_route'] ?? null);
     }
 
+    public function testMobileRouteTargetsMatchVendoringContract(): void
+    {
+        $root = dirname(__DIR__, 2);
+        $loader = new YamlFileLoader(new FileLocator($root));
+        $routes = $loader->load($root.'/config/routes/00_vendoring_mobile.yaml');
+        $targets = [
+            'vendoring_mobile_vendor_profile' => 'App\Vendoring\Service\Profile\VendorProfileHttpService::show',
+            'vendoring_mobile_vendor_summary' => 'App\Vendoring\Service\Summary\VendorSummaryHttpService::summary',
+            'vendoring_mobile_vendor_statement' => 'App\Vendoring\Service\Statement\VendorStatementHttpService::build',
+            'vendoring_mobile_vendor_payout' => 'App\Vendoring\Service\Payout\VendorPayoutHttpService::getOne',
+            'vendoring_mobile_vendor_transaction' => 'App\Vendoring\Service\Transaction\VendorTransactionHttpService::listByVendor',
+        ];
+
+        foreach ($targets as $name => $target) {
+            self::assertSame($target, $routes->get($name)?->getDefault('_controller'));
+        }
+    }
+
     private function matcher(): UrlMatcher
     {
         return new UrlMatcher($this->routes(), new RequestContext('/'));
