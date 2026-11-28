@@ -200,22 +200,62 @@
       "type": "vcs",
       "url": "https://github.com/smartresponsor/gating.git",
       "no-api": true
+    },
+    {
+      "no-api": true,
+      "url": "git@github.com:smartresponsor/pricing.git",
+      "type": "vcs"
+    },
+    {
+      "no-api": true,
+      "url": "git@github.com:smartresponsor/stocking.git",
+      "type": "vcs"
+    },
+    {
+      "no-api": true,
+      "url": "git@github.com:smartresponsor/streaming.git",
+      "type": "vcs"
+    },
+    {
+      "no-api": true,
+      "url": "git@github.com:smartresponsor/withdrawing.git",
+      "type": "vcs"
+    },
+    {
+      "no-api": true,
+      "url": "git@github.com:smartresponsor/discovering.git",
+      "type": "vcs"
+    },
+    {
+      "no-api": true,
+      "url": "git@github.com:smartresponsor/faceting.git",
+      "type": "vcs"
+    },
+    {
+      "no-api": true,
+      "url": "git@github.com:smartresponsor/observability.git",
+      "type": "vcs"
+    },
+    {
+      "no-api": true,
+      "url": "git@github.com:smartresponsor/agentizing.git",
+      "type": "vcs"
     }
   ],
   "require": {
     "php": "^8.4",
-    "vendoring/vendor": "dev-master#c6a39143fc4a5e46d6fb8872383a01a284b0fabe",
+    "vendoring/vendor": "dev-validation/vendoring-windows-release-20261121#a220b404284bbba227c58e884cfa9177d228154c as dev-master",
     "accessing/access": "dev-master",
-    "addressing/address": "dev-master",
-    "administering/administration": "dev-master",
-    "analysing/analytics": "dev-master",
+    "addressing/address": "dev-fix/addressing-consolidated-acceptance-20261127#21773a3352e9fe73a23d3f12de74434c67e07f93 as dev-master",
+    "administering/administration": "dev-master#da970a83cceebe5c37474e3fe9d97631947af265",
+    "analysing/analytics": "dev-master#7f1dc110fd97b2825016bf201fa05169cef858ad",
     "applicating/application": "dev-master",
-    "attaching/attachment": "dev-master#bfdcc769bb389fa9b2a25cdc91e306925df6fc78",
-    "cataloging/catalog": "dev-feature/cataloging-post-merge-20260921-v2 as dev-master",
+    "attaching/attachment": "dev-master#a273ee52b779f1ee18bd9a278362b2457e3d8b7a",
+    "cataloging/catalog": "dev-feature/cataloging-post-merge-20260921-v2#7b237f9033a722be90e1c94981a6290008cb4ad8 as dev-master",
     "carting/cart": "dev-master",
     "casing/case": "dev-master",
     "configuring/config": "dev-master",
-    "cruding/crud": "dev-master#1c291877721e7db57be69e5f9577534b023c279c",
+    "cruding/crud": "dev-cruding-rc-bulk-mutation-v2#1c291877721e7db57be69e5f9577534b023c279c as dev-master",
     "collectioning/collection": "dev-master",
     "tabling/table": "dev-master",
     "currencing/currency": "dev-master",
@@ -224,11 +264,11 @@
     "resolving/resolve": "dev-master",
     "facting/fact": "dev-master",
     "failing/failure": "dev-master",
-    "interfacing/interface": "dev-master",
+    "interfacing/interface": "dev-fix/interfacing-mobile-layout-20261127#242358809b430e9b2a56c0ed66dc85376850202a as dev-master",
     "localizing/locale": "dev-master",
-    "locating/location": "dev-env/locating-l2 as dev-master",
+    "locating/location": "dev-env/locating-l2#c5d5c98e8cf8d2d0b2df22922f3507d9dfdad4ea as dev-master",
     "managing/manage": "dev-master",
-    "messaging/message": "dev-master",
+    "messaging/message": "dev-integration/messaging-final-20260913#4fce0ef7d08e10134ad0ae2a1b21352b3b19fe32 as dev-master",
     "navigating/navigation": "dev-master",
     "objecting/object": "dev-master",
     "ordering/order": "dev-master",
@@ -237,9 +277,9 @@
     "retailing/retail": "dev-master",
     "rolling/role": "dev-master",
     "searching/search": "dev-master",
-    "shipping/shipment": "dev-checkpoint/shipping-canonical-hardcut-20260818 as dev-master",
+    "shipping/shipment": "dev-checkpoint/shipping-canonical-hardcut-20260818#953210a9e7e71be17d5cf32afcbdea7825c4980b as dev-master",
     "stripe/stripe-php": "^19.3",
-    "paying/payment": "dev-checkpoint/paying-release-audit-20260818 as dev-master",
+    "paying/payment": "dev-checkpoint/paying-release-audit-20260818#69108f94c91961caaead33eff46c9a971db357b7 as dev-master",
     "doctrine/dbal": "^4.3",
     "doctrine/doctrine-bundle": "^3.2",
     "doctrine/doctrine-fixtures-bundle": "^4.3",
@@ -281,9 +321,15 @@
     "symfonycasts/verify-email-bundle": "^1.18",
     "twig/extra-bundle": "^3.0",
     "twig/html-extra": "^3.24",
-    "viewing/view": "dev-master",
-    "notifying/notification": "dev-master",
-    "walleting/wallet": "dev-master"
+    "viewing/view": "dev-master#e671ad8433fefe9169848efb705f9f97302a70e2",
+    "notifying/notification": "dev-release/notifying-20260817#3133f02d6e336799d6fff102ea814872ff173139 as dev-master",
+    "walleting/wallet": "dev-task/walleting-ledger-foundation#98be853e82cad933d3756fe5e6ab5d9d5a35e3aa as dev-master",
+    "streaming/stream": "dev-master#5cbf34483fbdbee629b3fc51ab4ead93a045b6cf",
+    "smartresponsor/withdrawing": "dev-master#f22c02f449b530ae22baab8664e18d0b50fe587c",
+    "discovering/discovery": "dev-master#0ff66ca86d6383f285ef11d2e73ecd6b602ae74d",
+    "faceting/facet": "dev-master#a8adc767710b324211808a21005fe0e639b7a0ae",
+    "observabiliting/observability": "dev-feat/canonical-observability#03e4fd7681b728dcfbe93add7978ca6de31bf5fc as dev-master",
+    "agentizing/agentic": "dev-master#77d0c34785d5abe995bfba1432f408b7ab0e62c1"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": ">=3.95 <4.0",
