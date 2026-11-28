@@ -240,6 +240,11 @@
       "no-api": true,
       "url": "git@github.com:smartresponsor/agentizing.git",
       "type": "vcs"
+    },
+    {
+      "no-api": true,
+      "url": "git@github.com:smartresponsor/projecting.git",
+      "type": "vcs"
     }
   ],
   "require": {
@@ -329,7 +334,8 @@
     "discovering/discovery": "dev-master#0ff66ca86d6383f285ef11d2e73ecd6b602ae74d",
     "faceting/facet": "dev-master#a8adc767710b324211808a21005fe0e639b7a0ae",
     "observabiliting/observability": "dev-feat/canonical-observability#03e4fd7681b728dcfbe93add7978ca6de31bf5fc as dev-master",
-    "agentizing/agentic": "dev-master#77d0c34785d5abe995bfba1432f408b7ab0e62c1"
+    "agentizing/agentic": "dev-master#77d0c34785d5abe995bfba1432f408b7ab0e62c1",
+    "projecting/project": "dev-fix/projecting-host-di-20261127#cd4de712bf6f1216c3b00265f112401d15548851 as dev-master"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": ">=3.95 <4.0",
