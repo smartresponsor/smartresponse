@@ -10,7 +10,7 @@ security:
                 users: { }
         accessing_account_provider:
             entity:
-                class: App\Accessing\Entity\AccessEntity
+                class: App\Accessing\Entity\Access\AccessEntity
                 property: email
 
     role_hierarchy:

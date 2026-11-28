@@ -81,7 +81,7 @@ services:
     App\Messaging\Service\Moderation\MessageModerationRuleEngineService: ~
     App\Messaging\Service\ACL\MessageAclAuditLoggerService: ~
     App\Messaging\Service\ACL\MessagePermissionEvaluatorService: ~
-    App\Messaging\Service\ACL\MessageScopeResolverService: ~
+    App\Messaging\Resolver\ACL\MessageScopeResolver: ~
     App\Messaging\Service\ACL\MessageRoleAssignerService: ~
     App\Messaging\Service\ACL\MessageAclCacheService: ~
     App\Messaging\Service\Pin\MessagePinService: ~
@@ -90,7 +90,7 @@ services:
         arguments:
             $publishUrl: '%mercure.publish_url%'
             $jwtSecret: '%mercure.jwt_secret%'
-    App\Messaging\Service\Realtime\MessageTopicResolverService: ~
+    App\Messaging\Resolver\Realtime\MessageTopicResolver: ~
     App\Messaging\Service\Realtime\MessagePresenceGatewayService: ~
     App\Messaging\Service\Realtime\MessageRealtimeService: ~
     App\Messaging\Service\Realtime\MessageRetryAckService: ~
@@ -122,7 +122,8 @@ services:
     App\Messaging\Service\Room\MessageModerationService: ~
     App\Messaging\Service\Room\MessageRoomService: ~
     App\Messaging\Service\Room\MessageInviteService: ~
-    App\Messaging\Service\ACL\Room\MessageRoomPolicyService: ~
+    App\Messaging\Policy\ACL\Room\MessageRoomPolicy: ~
+    App\Messaging\Policy\Room\MessageRoomPolicy: ~
     App\Messaging\Service\ACL\Room\Rules\MessageRoomJoinPolicyRuleService: ~
     App\Messaging\ServiceInterface\Realtime\MessageRealtimeBusServiceInterface: '@App\Messaging\Service\Realtime\MessageRealtimeBusService'
     App\Messaging\Service\Room\MessageUnreadService: ~
@@ -139,33 +140,33 @@ services:
     App\Service\Diagnostics\AppRouteAuditService:
         public: true
         tags: ['controller.service_arguments']
-    App\Vendoring\Repository\Vendor\VendorPayoutAccountRepository:
+    App\Vendoring\Repository\VendorPayoutAccountRepository:
         autowire: false
         arguments:
             $registry: '@doctrine'
-    App\Vendoring\Repository\Vendor\VendorPayoutRepository:
+    App\Vendoring\Repository\VendorPayoutRepository:
         autowire: false
         arguments:
             $registry: '@doctrine'
     App\Service\Vendoring\Runtime\Mobile\VendorMobilePayoutShowService:
         public: true
         tags: ['controller.service_arguments']
-    App\Vendoring\Service\Vendor\Profile\VendorProfileHttpService:
+    App\Vendoring\Service\Profile\VendorProfileHttpService:
         public: true
         autowire: true
         autoconfigure: true
         tags: ['controller.service_arguments']
-    App\Vendoring\Service\Vendor\Statement\VendorStatementHttpService:
+    App\Vendoring\Service\Statement\VendorStatementHttpService:
         public: true
         autowire: true
         autoconfigure: true
         tags: ['controller.service_arguments']
-    App\Vendoring\Service\Vendor\Summary\VendorSummaryHttpService:
+    App\Vendoring\Service\Summary\VendorSummaryHttpService:
         public: true
         autowire: true
         autoconfigure: true
         tags: ['controller.service_arguments']
-    App\Vendoring\Service\Vendor\Transaction\VendorTransactionHttpService:
+    App\Vendoring\Service\Transaction\VendorTransactionHttpService:
         public: true
         autowire: true
         autoconfigure: true
@@ -208,11 +209,11 @@ services:
         tags: ['controller.service_arguments']
     App\Accessing\ProviderInterface\PhoneVerification\AccessPhoneVerificationProviderInterface:
         alias: App\Provider\Access\AccessDeliveringPhoneVerificationProvider
-    App\Facting\Provider\FactCurrentSubjectProvider:
+    App\Service\Fact\FactCurrentSubjectProvider:
         autowire: true
         autoconfigure: true
-    App\Facting\ServiceInterface\FactCurrentSubjectProviderInterface:
-        alias: App\Facting\Provider\FactCurrentSubjectProvider
+    App\ServiceInterface\Fact\FactCurrentSubjectProviderInterface:
+        alias: App\Service\Fact\FactCurrentSubjectProvider
     App\Delivering\ResolverInterface\Delivery\DeliveryPushTokenResolverInterface:
         alias: App\Resolver\Notification\NotifyingPushTokenResolver
     App\Cataloging\Controller\Catalog\CatalogCategoryMerchantController:
@@ -297,7 +298,7 @@ services:
         alias: App\Provider\Localization\AppLocaleTemplateContextProvider
     App\ServiceInterface\InterfaceLocation\AppInterfaceLocationComposeServiceInterface:
         alias: App\Service\InterfaceLocation\AppInterfaceLocationComposeService
-    App\Viewing\ServiceInterface\ViewInterfaceLocationComposeServiceInterface:
+    App\Viewing\Contract\ViewInterfaceLocationComposerInterface:
         alias: App\Service\InterfaceLocation\AppInterfaceLocationComposeService
 
 

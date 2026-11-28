@@ -1,6 +1,6 @@
 # Interfacing and Viewing are platform layers, not producer route owners.
 interfacing_routes:
-    resource: '../../Interfacing/config/routes/interfacing_attributes.yaml'
+    resource: '../vendor/interfacing/interface/config/routes/interfacing_attributes.yaml'
 
 viewing_routes:
-    resource: '../../Viewing/Resources/config/routes.php'
+    resource: '../vendor/viewing/view/Resources/config/routes.php'

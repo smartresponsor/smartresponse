@@ -7,8 +7,8 @@ namespace App\EventSubscriber\Fact;
 use App\Accessing\Entity\Access\AccessEntity;
 use App\Casing\Event\CaseOpenedEvent;
 use App\Casing\Event\CaseResolvedEvent;
-use App\Facting\ServiceInterface\FactSubjectCommitterInterface;
-use App\Facting\ValueObject\FactStream;
+use App\ServiceInterface\Fact\FactSubjectCommitterInterface;
+use App\Facting\Fact\FactStream;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 

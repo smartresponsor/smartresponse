@@ -23,14 +23,11 @@ final class RegisterSiblingFixturesPass implements CompilerPassInterface
         if (!is_string($projectDir)) {
             return;
         }
-        $workspaceDir = dirname($projectDir);
         $allowedSiblingFixtures = $this->getAllowedSiblingFixtures($container);
         $fixtures = [];
 
-        $fixtureDirectories = array_merge(
-            glob($workspaceDir.'/*/src/DataFixtures', GLOB_ONLYDIR) ?: [],
-            glob($projectDir.'/vendor/*/*/src/DataFixtures', GLOB_ONLYDIR) ?: [],
-        );
+        // Composer owns the installed component graph, including path repository symlinks.
+        $fixtureDirectories = glob($projectDir.'/vendor/*/*/src/DataFixtures', GLOB_ONLYDIR) ?: [];
         foreach (array_unique($fixtureDirectories) as $fixturesDir) {
             if (!$this->isAllowedSiblingFixturesDirectory($fixturesDir, $allowedSiblingFixtures)) {
                 continue;
@@ -122,6 +119,14 @@ final class RegisterSiblingFixturesPass implements CompilerPassInterface
             $isLegacyLocalizingFixture = str_starts_with($fqcn, 'App\\Localizing\\DataFixtures\\') && $reflectionClass->hasMethod('load');
             if (!$isDoctrineFixture && !$isLegacyLocalizingFixture) {
                 continue;
+            }
+
+            // Respect component-owned exclusions and abstract service definitions.
+            if ($serviceAlreadyRegistered) {
+                $existingDefinition = $container->findDefinition($fqcn);
+                if ($existingDefinition->isAbstract() || $existingDefinition->hasTag('container.excluded')) {
+                    continue;
+                }
             }
 
             if (!$serviceAlreadyRegistered) {

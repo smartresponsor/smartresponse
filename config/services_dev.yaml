@@ -1,4 +1,4 @@
 imports:
-    - { resource: '../../Ordering/config/services.yaml' }
-    - { resource: '../../Projecting/config/project_services_projecting_workflow.yaml' }
-    - { resource: '../../Vendoring/config/component/services.yaml' }
+    - { resource: '../vendor/ordering/order/config/services.yaml' }
+    - { resource: '../vendor/projecting/project/config/project_services_projecting_workflow.yaml' }
+    - { resource: '../vendor/vendoring/vendor/config/component/services.yaml' }

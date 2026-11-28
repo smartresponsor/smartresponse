@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\EventSubscriber\Fact;
 
 use App\Accessing\Entity\Access\AccessEntity;
-use App\Facting\ServiceInterface\FactSubjectCommitterInterface;
-use App\Facting\ValueObject\FactStream;
+use App\ServiceInterface\Fact\FactSubjectCommitterInterface;
+use App\Facting\Fact\FactStream;
 use App\Ordering\Entity\Order\OrderEntity;
 use App\Ordering\Event\Domain\Order\OrderCancelledEvent;
 use App\Ordering\Event\Domain\Order\OrderCompletedEvent;

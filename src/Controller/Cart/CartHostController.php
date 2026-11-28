@@ -88,7 +88,7 @@ final class CartHostController extends AbstractController
         return $this->cartResponse($cart, $request, false, $result->changed ? Response::HTTP_OK : Response::HTTP_NOT_FOUND);
     }
 
-    #[Route('/api/cart/checkout-handoff', name: 'api.cart.checkout_handoff', methods: ['POST'])]
+    #[Route('/api/cart/checkout/handoff', name: 'api.cart.checkout_handoff', methods: ['POST'])]
     public function checkoutHandoff(Request $request): JsonResponse
     {
         [$cart] = $this->resolveCart($request);
